@@ -61,6 +61,7 @@ GADGETS_PATH="${MODULES_PATH}/usb/gadget"
 
 if [ -e "${MODULES_PATH}/g_mass_storage.ko" ] ; then
 	PARAMS="idVendor=${USB_VENDOR_ID} idProduct=${USB_PRODUCT_ID} iManufacturer=Kobo iProduct=eReader-${FW_VERSION} iSerialNumber=${SERIAL_NUMBER}"
+	# shellcheck disable=SC2086
 	insmod "${MODULES_PATH}/g_mass_storage.ko" file="${PARTITIONS}" stall=1 removable=1 ${PARAMS}
 
 else
@@ -78,6 +79,7 @@ else
 		fi
 	fi
 
+	# shellcheck disable=SC2086
 	insmod "${GADGETS_PATH}/g_file_storage.ko" file="${PARTITIONS}" stall=1 removable=1 ${PARAMS}
 fi
 
