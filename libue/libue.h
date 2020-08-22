@@ -27,6 +27,7 @@
 
 #include <linux/netlink.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/poll.h>
 #include <sys/socket.h>
@@ -160,7 +161,7 @@ int
 		return ERR_LISTENER_BIND;
 	}
 
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 int
@@ -179,6 +180,12 @@ int
 		}
 	}
 	return ERR_LISTENER_POLL;
+}
+
+int
+    ue_destroy_listener(struct uevent_listener* l)
+{
+	return close(l->pfd.fd);
 }
 
 #endif
