@@ -117,7 +117,7 @@ $(OUT_DIR)/%.o: %.c
 	$(CC) $(CPPFLAGS) $(EXTRA_CPPFLAGS) $(CFLAGS) $(EXTRA_CFLAGS) $(QUIET_CFLAGS) -o $@ -c $<
 
 outdir:
-	mkdir -p $(OUT_DIR)/inih $(OUT_DIR)/str5 $(OUT_DIR)/openssh $(OUT_DIR)/utils
+	mkdir -p $(OUT_DIR)
 
 # Make absolutely sure we create our output directories first, even with unfortunate // timings!
 # c.f., https://www.gnu.org/software/make/manual/html_node/Prerequisite-Types.html#Prerequisite-Types
