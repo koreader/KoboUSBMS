@@ -254,7 +254,24 @@ int
 	// Display a minimal status bar on screen
 	print_status(fbfd, &fbink_cfg, ntxfd);
 
+	// And now, on to the fun stuff!
+	// If we're in USBNet mode, abort!
+	// (tearing it down properly is out of our scope, since we can't really know how the user enabled it in the first place).
+	rc = system("lsmod | grep -q g_ether");
+	if (rc == 0) {
+		LOG(LOG_ERR, "Device is in USBNet mode, aborting");
+
+		// TODO: Switch to a fancy centered/scaled USBNet image & a /!\ OT icon in front of the message
+		fbink_cfg.row = 5;
+		fbink_print(fbfd, "Disable USBNet manually first!", &fbink_cfg);
+
+		// TODO: Hold it for 30s/power button press, whichever comes first
+		rv = EXIT_FAILURE;
+		goto cleanup;
+	}
+
 cleanup:
+	LOG(LOG_INFO, "Bye!");
 	closelog();
 
 	fbink_close(fbfd);
