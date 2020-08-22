@@ -2,8 +2,11 @@
 Release/
 Debug/
 Kobo/
+# Same, for our vendored libevdev
+libevdev-build/
+libevdev.built
 # As well as FBInk
 fbink.built
 # KDevelop
-USBMS.kdev4
+KoboUSBMS.kdev4
 .kdev4/
