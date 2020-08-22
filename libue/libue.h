@@ -198,7 +198,11 @@ static int
 static int
     ue_destroy_listener(struct uevent_listener* l)
 {
-	return close(l->pfd.fd);
+	if (l->pfd.fd != -1) {
+		return close(l->pfd.fd);
+	} else {
+		return EXIT_SUCCESS;
+	}
 }
 
 #endif

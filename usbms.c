@@ -23,9 +23,11 @@ int
     main(void)
 {
 	// So far, so good ;).
-	int rv   = EXIT_SUCCESS;
-	int pwd  = -1;
-	int fbfd = -1;
+	int                    rv       = EXIT_SUCCESS;
+	int                    pwd      = -1;
+	int                    fbfd     = -1;
+	struct uevent_listener listener = { 0 };
+	listener.pfd.fd                 = -1;
 
 	// We'll be chatting exclusively over syslog, because duh.
 	openlog("usbms", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_DAEMON);
@@ -75,10 +77,21 @@ int
 		goto cleanup;
 	}
 
+	// Setup libue
+	int rc = -1;
+	rc     = ue_init_listener(&listener);
+	if (rc < 0) {
+		LOG(LOG_CRIT, "Failed to initilize libue listener, err: %d", rc);
+		rv = EXIT_FAILURE;
+		goto cleanup;
+	}
+
 cleanup:
 	closelog();
 
 	fbink_close(fbfd);
+
+	ue_destroy_listener(&listener);
 
 	if (pwd != -1) {
 		if (fchdir(pwd) == -1) {

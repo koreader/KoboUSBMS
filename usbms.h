@@ -55,3 +55,7 @@
 
 // FBInk always returns negative error codes
 #define ERRCODE(e) (-(e))
+
+// c.f., https://github.com/koreader/koreader-base/blob/master/input/input-kobo.h
+#define KOBO_USB_DEVPATH_PLUG "/devices/platform/usb_plug"
+#define KOBO_USB_DEVPATH_HOST "/devices/platform/usb_host"
