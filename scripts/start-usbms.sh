@@ -14,8 +14,8 @@ fi
 SCRIPT_NAME="$(basename "${0}")"
 
 # If we're already in the middle of an USBMS session, something went wrong...
-if lsmod | grep -q "g_file_storage" ; then
-	logger -p "DAEMON.ERR" -t "${SCRIPT_NAME}[$$]" "Already in USBMS session?!"
+if lsmod | grep -q -e "g_file_storage" -e "g_mass_storage" ; then
+	logger -p "DAEMON.ERR" -t "${SCRIPT_NAME}[$$]" "Already in an USBMS session?!"
 	exit 1
 fi
 
