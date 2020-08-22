@@ -1,0 +1,6 @@
+This project makes use of a number of third-party libraries, which we'll acknowledge here:
+
+	* FBInk (FrameBuffer eInker), Copyright (C) 2018-2020 NiLuJe <ninuje@gmail.com>,
+		Released under the GNU General Public License version 3+ (https://www.gnu.org/licenses/gpl.html)
+		(https://github.com/NiLuJe/FBInk)
+

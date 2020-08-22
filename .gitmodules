@@ -1,0 +1,7 @@
+[submodule "FBInk"]
+	path = FBInk
+	url = https://github.com/NiLuJe/FBInk.git
+	fetchRecurseSubmodules = true
+[submodule "libevdev"]
+	path = libevdev
+	url = https://gitlab.freedesktop.org/libevdev/libevdev.git
