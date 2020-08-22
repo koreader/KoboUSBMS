@@ -19,6 +19,92 @@
 
 #include "usbms.h"
 
+static void
+    setup_usb_ids(const FBInkConfig* fbink_cfg)
+{
+	// Map device IDs to USB produc IDs, as we're going to need that in the scripts
+	// c.f., https://github.com/kovidgoyal/calibre/blob/9d881ed2fcff219887579571f1bb48bdf41437d4/src/calibre/devices/kobo/driver.py#L1402-L1416
+	// c.f., https://github.com/baskerville/plato/blob/d96e40737060b569ae875f37d6d741fd5ccc802c/contrib/plato.sh#L38-L56
+	// NOTE: Keep 'em in FBInk order to make my life easier
+	FBInkState state = { 0 };
+	fbink_get_state(fbink_cfg, &state);
+
+	uint32_t pid = 0xDEAD;
+	switch (state.device_id) {
+		case 310U:    // Touch A/B (trilogy)
+			pid = 0x4163;
+			break;
+		case 320U:    // Touch C (trilogy)
+			pid = 0x4163;
+			break;
+		case 340U:    // Mini (pixie)
+			pid = 0x4183;
+			break;
+		case 330U:    // Glo (kraken)
+			pid = 0x4173;
+			break;
+		case 371U:    // Glo HD (alyssum)
+			pid = 0x4223;
+			break;
+		case 372U:    // Touch 2.0 (pika)
+			pid = 0x4224;
+			break;
+		case 360U:    // Aura (phoenix)
+			pid = 0x4203;
+			break;
+		case 350U:    // Aura HD (dragon)
+			pid = 0x4193;
+			break;
+		case 370U:    // Aura H2O (dahlia)
+			pid = 0x4213;
+			break;
+		case 374U:    // Aura H2O² (snow)
+			pid = 0x4227;
+			break;
+		case 378U:    // Aura H2O² r2 (snow)
+			pid = 0x4227;
+			break;
+		case 373U:    // Aura ONE (daylight)
+			pid = 0x4225;
+			break;
+		case 381U:    // Aura ONE LE (daylight)
+			pid = 0x4225;
+			break;
+		case 375U:    // Aura SE (star)
+			pid = 0x4226;
+			break;
+		case 379U:    // Aura SE r2 (star)
+			pid = 0x4226;
+			break;
+		case 376U:    // Clara HD (nova)
+			pid = 0x4228;
+			break;
+		case 377U:    // Forma (frost)
+			pid = 0x4229;
+			break;
+		case 380U:    // Forma 32GB (frost)
+			pid = 0x4229;
+			break;
+		case 384U:    // Libra H2O (storm)
+			pid = 0x4232;
+			break;
+		case 382U:    // Nia (luna)
+			pid = 0x4230;
+			break;
+		case 0U:
+			pid = 0x4163;
+			break;
+		default:
+			PFLOG(LOG_WARNING, "Can't match device code (%hu) to an USB Product ID!", state.device_id);
+			break;
+	}
+
+	// Push it to the env...
+	char pid_str[7] = { 0 };
+	snprintf(pid_str, sizeof(pid_str) - 1, "0x%X", pid);
+	setenv("PRODUCT_ID", pid_str, 1);
+}
+
 int
     main(void)
 {
@@ -101,6 +187,9 @@ int
 	    "Initialized evdev version: %x for device '%s'",
 	    libevdev_get_driver_version(dev),
 	    libevdev_get_name(dev));
+
+	// Now that FBInk has been initialized, setup the USB product ID for the current device
+	setup_usb_ids(&fbink_cfg);
 
 cleanup:
 	closelog();
