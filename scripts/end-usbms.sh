@@ -42,8 +42,10 @@ DISK="/dev/mmcblk"
 PARTITION="${DISK}0p3"
 MOUNT_ARGS="noatime,nodiratime,shortname=mixed,utf8"
 
-if ! dosfsck -a -w "${PARTITION}" || dosfsck -a -w "${PARTITION}" ; then
-	# NOTE: Be a tad less heavy-handed than the stock script with the amount of fscks, but do abort if it's not recoverable...
+FS_CORRUPT=0
+# NOTE: Be a tad less heavy-handed than the stock script with the amount of fscks, but do abort if it's not recoverable...
+dosfsck -a -w "${PARTITION}" || dosfsck -a -w "${PARTITION}" || FS_CORRUPT=1
+if [ "${FS_CORRUPT}" -eq 1 ] ; then
 	logger -p "DAEMON.CRIT" -t "${SCRIPT_NAME}[$$]" "Unrecoverable filesystem corruption on ${PARTITION}, aborting!"
 	exit 1
 fi
