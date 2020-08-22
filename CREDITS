@@ -4,3 +4,11 @@ This project makes use of a number of third-party libraries, which we'll acknowl
 		Released under the GNU General Public License version 3+ (https://www.gnu.org/licenses/gpl.html)
 		(https://github.com/NiLuJe/FBInk)
 
+	* libevdev (Wrapper library for evdev devices), Copyright © 2013 Red Hat, Inc., Copyright © 2013 David Herrmann <dh.herrmann@gmail.com>,
+		Released under the MIT license (https://opensource.org/licenses/mit-license.php)
+		(https://gitlab.freedesktop.org/libevdev/libevdev)
+
+	* libue (minimal library for interacting with Linux hot-plug events), Copyright (c) <2016> <Qingping Hou>,
+		Released under the MIT license (https://opensource.org/licenses/mit-license.php)
+		(https://github.com/houqp/libue)
+
