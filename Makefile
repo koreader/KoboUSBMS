@@ -139,6 +139,8 @@ ifeq (,$(findstring arm-,$(CC)))
 	$(error You forgot to setup a cross TC, you dummy!)
 endif
 
+# FIXME: Fix this
+# FIXME: Also enforce LTO for DCE
 kobo: armcheck release
 	mkdir -p Kobo/usr/local/kfmon/bin Kobo/usr/bin Kobo/etc/udev/rules.d Kobo/etc/init.d
 	ln -sf $(CURDIR)/scripts/99-kfmon.rules Kobo/etc/udev/rules.d/99-kfmon.rules

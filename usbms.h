@@ -17,5 +17,18 @@
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#include "usbms.h"
+// Because we're pretty much Linux-bound ;).
+#ifndef _GNU_SOURCE
+#	define _GNU_SOURCE
+#endif
 
+#include <errno.h>
+#include <linux/limits.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
+
+#include "FBInk/fbink.h"
+#include "libue/libue.h"
