@@ -28,24 +28,19 @@ int
 	int                    fbfd     = -1;
 	struct uevent_listener listener = { 0 };
 	listener.pfd.fd                 = -1;
+	struct libevdev* dev            = NULL;
+	int              evfd           = -1;
 
 	// We'll be chatting exclusively over syslog, because duh.
 	openlog("usbms", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_DAEMON);
 
 	// Say hello
-	LOG(LOG_INFO,
-	    "[PID: %ld] Initializing USBMS %s (%s) | FBInk %s | libue %s",
-	    (long) getpid(),
-	    USBMS_VERSION,
-	    USBMS_TIMESTAMP,
-	    fbink_version(),
-	    LIBUE_VERSION);
-	// TODO: libevdev_get_driver_version after init...
+	LOG(LOG_INFO, "[PID: %ld] Initializing USBMS %s (%s)", (long) getpid(), USBMS_VERSION, USBMS_TIMESTAMP);
 
 	// We'll want to jump to /, and only get back to our original PWD on exit...
 	// c.f., man getcwd for the fchdir trick, as we can certainly spare the fd ;).
 	// NOTE: O_PATH is Linux 2.6.39+ :(
-	pwd = open(".", O_DIRECTORY | O_PATH | O_CLOEXEC, O_RDONLY);
+	pwd = open(".", O_RDONLY | O_DIRECTORY | O_PATH | O_CLOEXEC);
 	if (pwd == -1) {
 		PFLOG(LOG_CRIT, "open: %m");
 		rv = EXIT_FAILURE;
@@ -76,15 +71,36 @@ int
 		rv = EXIT_FAILURE;
 		goto cleanup;
 	}
+	LOG(LOG_INFO, "Initialized FBInk %s", fbink_version());
 
 	// Setup libue
 	int rc = -1;
 	rc     = ue_init_listener(&listener);
 	if (rc < 0) {
-		LOG(LOG_CRIT, "Failed to initilize libue listener, err: %d", rc);
+		LOG(LOG_CRIT, "Failed to initialize libue listener (%d)", rc);
 		rv = EXIT_FAILURE;
 		goto cleanup;
 	}
+	LOG(LOG_INFO, "Initialized libue %s", LIBUE_VERSION);
+
+	// Setup libevdev
+	evfd = open(NTX_KEYS_EVDEV, O_RDONLY | O_CLOEXEC | O_NONBLOCK);
+	if (evfd == -1) {
+		PFLOG(LOG_CRIT, "open: %m");
+		rv = EXIT_FAILURE;
+		goto cleanup;
+	}
+
+	rc = libevdev_new_from_fd(evfd, &dev);
+	if (rc < 0) {
+		LOG(LOG_CRIT, "Failed to initialize libevdev (%s)", strerror(-rc));
+		rv = EXIT_FAILURE;
+		goto cleanup;
+	}
+	LOG(LOG_INFO,
+	    "Initialized evdev version: %x for device '%s'",
+	    libevdev_get_driver_version(dev),
+	    libevdev_get_name(dev));
 
 cleanup:
 	closelog();
@@ -92,6 +108,11 @@ cleanup:
 	fbink_close(fbfd);
 
 	ue_destroy_listener(&listener);
+
+	libevdev_free(dev);
+	if (evfd != -1) {
+		close(evfd);
+	}
 
 	if (pwd != -1) {
 		if (fchdir(pwd) == -1) {
