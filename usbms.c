@@ -270,6 +270,8 @@ int
 		goto cleanup;
 	}
 
+	// TODO: See if we can use pipefail, like we do in KOReader...
+
 cleanup:
 	LOG(LOG_INFO, "Bye!");
 	closelog();
