@@ -157,10 +157,12 @@ int
 	l->pfd.events = POLLIN;
 	l->pfd.fd     = socket(PF_NETLINK, SOCK_DGRAM, NETLINK_KOBJECT_UEVENT);
 	if (l->pfd.fd == -1) {
+		UE_DEBUG("socket: %m");
 		return ERR_LISTENER_NOT_ROOT;
 	}
 
 	if (bind(l->pfd.fd, (struct sockaddr*) &(l->nls), sizeof(struct sockaddr_nl))) {
+		UE_DEBUG("bind: %m");
 		return ERR_LISTENER_BIND;
 	}
 
@@ -174,6 +176,7 @@ int
 	while (poll(&(l->pfd), 1, -1) != -1) {
 		ssize_t len = recv(l->pfd.fd, uevp->buf, sizeof(uevp->buf), MSG_DONTWAIT);
 		if (len == -1) {
+			UE_DEBUG("recv: %m");
 			return ERR_LISTENER_RECV;
 		}
 		if (ue_parse_event_msg(uevp, (size_t) len) == 0) {
@@ -183,6 +186,7 @@ int
 			UE_DEBUG("skipped unsupported uevent:\n%s\n", uevp->buf);
 		}
 	}
+	UE_DEBUG("poll: %m");
 	return ERR_LISTENER_POLL;
 }
 
