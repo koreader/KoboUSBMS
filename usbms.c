@@ -18,3 +18,51 @@
 */
 
 #include "usbms.h"
+
+int
+    main(void)
+{
+	// So far, so good ;).
+	int rv = EXIT_SUCCESS;
+
+	// We'll be chatting exclusively over syslog, because duh.
+	openlog("usbms", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_DAEMON);
+
+	// Say hello
+	LOG(LOG_INFO,
+	    "[PID: %ld] Initializing USBMS %s (%s) | FBInk %s | libue %s",
+	    (long) getpid(),
+	    USBMS_VERSION,
+	    USBMS_TIMESTAMP,
+	    fbink_version(),
+	    LIBUE_VERSION);
+	// TODO: libevdev_get_driver_version after init...
+
+	// We'll want to jump to /, and only get back to our original PWD on exit...
+	// c.f., man getcwd for the fchdir trick, as we can certainly spare the fd ;).
+	// NOTE: O_PATH is Linux 2.6.39+ :(
+	int pwd = open(".", O_DIRECTORY | O_PATH | O_CLOEXEC, O_RDONLY);
+	if (pwd == -1) {
+		PFLOG(LOG_CRIT, "open: %m");
+		rv = EXIT_FAILURE;
+		goto cleanup;
+	}
+	if (chdir("/") == -1) {
+		PFLOG(LOG_CRIT, "chdir: %m");
+		rv = EXIT_FAILURE;
+		goto cleanup;
+	}
+
+cleanup:
+	closelog();
+
+	if (pwd != -1) {
+		if (fchdir(pwd) == -1) {
+			PFLOG(LOG_CRIT, "fchdir: %m");
+			rv = EXIT_FAILURE;
+		}
+		close(pwd);
+	}
+
+	return rv;
+}

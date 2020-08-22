@@ -23,12 +23,31 @@
 #endif
 
 #include <errno.h>
+#include <fcntl.h>
 #include <linux/limits.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/ioctl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <syslog.h>
 #include <unistd.h>
 
 #include "FBInk/fbink.h"
 #include "libue/libue.h"
+
+// Fallback version tag...
+#ifndef USBMS_VERSION
+#	define USBMS_VERSION "v0.9.0"
+#endif
+// Fallback timestamp...
+#ifndef USBMS_TIMESTAMP
+#	define USBMS_TIMESTAMP __TIMESTAMP__
+#endif
+
+// Logging helpers
+#define LOG(prio, fmt, ...) ({ syslog(prio, fmt, ##__VA_ARGS__); })
+
+// Same, but with __PRETTY_FUNCTION__:__LINE__ right before fmt
+#define PFLOG(prio, fmt, ...) ({ LOG(prio, "[%s:%d] " fmt, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__); })

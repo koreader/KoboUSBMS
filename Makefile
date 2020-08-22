@@ -141,6 +141,7 @@ endif
 
 # FIXME: Fix this
 # FIXME: Also enforce LTO for DCE
+# FIXME: Reproducible tarball via --mtime set to commit's epoch
 kobo: armcheck release
 	mkdir -p Kobo/usr/local/kfmon/bin Kobo/usr/bin Kobo/etc/udev/rules.d Kobo/etc/init.d
 	ln -sf $(CURDIR)/scripts/99-kfmon.rules Kobo/etc/udev/rules.d/99-kfmon.rules
