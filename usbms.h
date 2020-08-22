@@ -63,3 +63,8 @@
 // So far, those have thankfully been set in stone
 #define NTX_KEYS_EVDEV "/dev/input/event0"
 #define TOUCHPAD_EVDEV "/dev/input/event1"
+
+// c.f., arch/arm/mach-imx/imx_ntx_io.c in a Kobo kernel
+#define CM_USB_Plug_IN        108
+#define CM_CHARGE_STATUS      204    // Mapped to CM_USB_Plug_IN on the Forma...
+#define CM_GET_BATTERY_STATUS 206

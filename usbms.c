@@ -104,11 +104,28 @@ static void
 }
 
 static void
-    print_status(int fbfd, const FBInkConfig* fbink_cfg)
+    print_status(int fbfd, const FBInkConfig* fbink_cfg, int ntxfd)
 {
 	// We'll want to display the plug/charge status, and whether Wi-Fi is on or not
 
-	// First, check for Wi-Fi (c.f., https://github.com/koreader/koreader/blob/b5d33058761625111d176123121bcc881864a64e/frontend/device/kobo/device.lua#L451-L471)
+	// Check if we're plugged in...
+	unsigned long ptr = 0U;
+	int           rc  = -1;
+	rc                = ioctl(ntxfd, CM_USB_Plug_IN, &ptr);
+	if (rc == -1) {
+		PFLOG(LOG_WARNING, "Failed to query USB status (ioctl: %m)");
+	}
+	bool usb_plugged = !!ptr;
+
+	// Get the battery charge % (FIXME: Not a % -_-").
+	ptr = 0U;
+	rc  = ioctl(ntxfd, CM_GET_BATTERY_STATUS, &ptr);
+	if (rc == -1) {
+		PFLOG(LOG_WARNING, "Failed to query battery charge status (ioctl: %m)");
+	}
+	uint8_t batt_charge = (uint8_t) ptr;
+
+	// Check for Wi-Fi (c.f., https://github.com/koreader/koreader/blob/b5d33058761625111d176123121bcc881864a64e/frontend/device/kobo/device.lua#L451-L471)
 	bool wifi_up            = false;
 	char if_sysfs[PATH_MAX] = { 0 };
 	snprintf(if_sysfs, sizeof(if_sysfs) - 1, "/sys/class/net/%s/carrier", getenv("INTERFACE"));
@@ -129,7 +146,7 @@ static void
 	}
 
 	// TODO: Switch to fancy icons (i.e., OT, NerdFont).
-	fbink_printf(fbfd, NULL, fbink_cfg, "WiFi: %d", wifi_up);
+	fbink_printf(fbfd, NULL, fbink_cfg, "Plugged: %d (Charge: %hhu%%) WiFi: %d", usb_plugged, batt_charge, wifi_up);
 }
 
 int
@@ -143,6 +160,7 @@ int
 	listener.pfd.fd                 = -1;
 	struct libevdev* dev            = NULL;
 	int              evfd           = -1;
+	int              ntxfd          = -1;
 
 	// We'll be chatting exclusively over syslog, because duh.
 	openlog("usbms", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_DAEMON);
@@ -220,8 +238,16 @@ int
 	fbink_get_state(&fbink_cfg, &fbink_state);
 	setup_usb_ids(fbink_state.device_id);
 
+	// Setup the fd for ntx_io ioctls
+	ntxfd = open("/dev/ntx_io", O_RDONLY | O_NONBLOCK | O_CLOEXEC);
+	if (ntxfd == -1) {
+		PFLOG(LOG_CRIT, "open: %m");
+		rv = EXIT_FAILURE;
+		goto cleanup;
+	}
+
 	// Display a minimal status bar on screen
-	print_status(fbfd, &fbink_cfg);
+	print_status(fbfd, &fbink_cfg, ntxfd);
 
 cleanup:
 	closelog();
@@ -233,6 +259,10 @@ cleanup:
 	libevdev_free(dev);
 	if (evfd != -1) {
 		close(evfd);
+	}
+
+	if (ntxfd != -1) {
+		close(ntxfd);
 	}
 
 	if (pwd != -1) {
