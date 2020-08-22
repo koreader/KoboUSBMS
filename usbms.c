@@ -243,6 +243,15 @@ int
 	fbink_get_state(&fbink_cfg, &fbink_state);
 	setup_usb_ids(fbink_state.device_id);
 
+	// Much like in KOReader's otamanager, check if we can use pipefail in a roundabout way,
+	// because old busybox ash versions will *abort* on set failures...
+	rc = system("set -o pipefail 2>/dev/null");
+	if (rc == 0) {
+		setenv("WITH_PIPEFAIL", "true", 1);
+	} else {
+		setenv("WITH_PIPEFAIL", "false", 1);
+	}
+
 	// Setup the fd for ntx_io ioctls
 	ntxfd = open("/dev/ntx_io", O_RDONLY | O_NONBLOCK | O_CLOEXEC);
 	if (ntxfd == -1) {
@@ -269,8 +278,6 @@ int
 		rv = EXIT_FAILURE;
 		goto cleanup;
 	}
-
-	// TODO: See if we can use pipefail, like we do in KOReader...
 
 cleanup:
 	LOG(LOG_INFO, "Bye!");

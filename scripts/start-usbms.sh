@@ -2,6 +2,10 @@
 
 # Failures are bad. Catch 'em.
 set -e
+if [ "${WITH_PIPEFAIL}" = "true" ]; then
+    # shellcheck disable=SC2039
+    set -o pipefail
+fi
 
 # Export the internal (and external) storage over USBMS
 # c.f., /usr/local/Kobo/udev/usb
