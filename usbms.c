@@ -58,6 +58,7 @@ cleanup:
 
 	if (pwd != -1) {
 		if (fchdir(pwd) == -1) {
+			// NOTE: That would be bad, probably failed to remount onboard?
 			PFLOG(LOG_CRIT, "fchdir: %m");
 			rv = EXIT_FAILURE;
 		}

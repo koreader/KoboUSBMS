@@ -86,8 +86,8 @@ EXTRA_CFLAGS+=-DUSBMS_TIMESTAMP='"$(USBMS_TIMESTAMP)"'
 LDFLAGS?=-Wl,--as-needed
 
 # Pick up our vendored build of libevdev
-EXTRA_CPPFLAGS:=-Ilibevdev-build
-EXTRA_LDFLAGS:=-Llibevdev-build/.libs
+EXTRA_CPPFLAGS:=-Ilibevdev-staged/include/libevdev-1.0
+EXTRA_LDFLAGS:=-Llibevdev-staged/lib
 
 # And pick up FBInk, too.
 ifdef DEBUG
@@ -184,14 +184,14 @@ clean:
 	rm -rf Kobo
 
 libevdev.built:
-	mkdir -p libevdev-build
+	mkdir -p libevdev-staged
 	cd libevdev && \
 	autoreconf -fi && \
-	cd ../libevdev-build && \
-	../libevdev/configure $(if $(CROSS_TC),--host=$(CROSS_TC),) \
+	./configure $(if $(CROSS_TC),--host=$(CROSS_TC),) \
+	--prefix="$(CURDIR)/libevdev-staged" \
 	--enable-static \
 	--disable-shared && \
-	$(MAKE)
+	$(MAKE) install
 	touch libevdev.built
 
 fbink.built:
@@ -218,8 +218,8 @@ libevdevclean:
 	git clean -fxdq
 
 distclean: clean libevdevclean fbinkclean
-	rm -rf libevdev-build
-	rm -rf sqlite.built
+	rm -rf libevdev-staged
+	rm -rf libevdev.built
 	rm -rf fbink.built
 
 .PHONY: default outdir all vendored usbms strip armcheck kobo debug clean release fbinkclean libevdevclean distclean

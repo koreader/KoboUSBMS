@@ -36,6 +36,7 @@
 
 #include "FBInk/fbink.h"
 #include "libue/libue.h"
+#include <libevdev/libevdev.h>
 
 // Fallback version tag...
 #ifndef USBMS_VERSION

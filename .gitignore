@@ -3,7 +3,7 @@ Release/
 Debug/
 Kobo/
 # Same, for our vendored libevdev
-libevdev-build/
+libevdev-staged/
 libevdev.built
 # As well as FBInk
 fbink.built
