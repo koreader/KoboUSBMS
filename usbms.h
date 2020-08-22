@@ -52,3 +52,6 @@
 
 // Same, but with __PRETTY_FUNCTION__:__LINE__ right before fmt
 #define PFLOG(prio, fmt, ...) ({ LOG(prio, "[%s:%d] " fmt, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__); })
+
+// FBInk always returns negative error codes
+#define ERRCODE(e) (-(e))
