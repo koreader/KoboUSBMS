@@ -42,10 +42,11 @@
 #	define DEBUG 0
 #endif
 #define UE_DEBUG(...)                                                                                                    \
-	do {                                                                                                             \
-		if (DEBUG)                                                                                               \
+	({                                                                                                               \
+		if (DEBUG) {                                                                                             \
 			fprintf(stderr, __VA_ARGS__);                                                                    \
-	} while (0)
+		}                                                                                                        \
+	})
 
 struct uevent_listener
 {
@@ -72,15 +73,15 @@ enum uevent_action
 	UEVENT_ACTION_OFFLINE,
 };
 
+static const char* uev_action_str[] = { "invalid", "add", "remove", "change", "move", "online", "offline" };
+
 struct uevent
 {
 	enum uevent_action action;
 	char*              devpath;
-	char               buf[4096];
+	char               buf[PIPE_BUF];
 	size_t             buflen;
 };
-
-const char* uev_action_str[] = { "invalid", "add", "remove", "change", "move", "online", "offline" };
 
 /*
  * Reference for uevent format:
@@ -90,17 +91,18 @@ int
     ue_parse_event_msg(struct uevent* uevp, size_t buflen)
 {
 	/* skip udev events */
-	if (memcmp(uevp->buf, "libudev", 8) == 0)
+	if (memcmp(uevp->buf, "libudev", 8) == 0) {
 		return ERR_PARSE_UDEV;
+	}
 
 	/* validate message header */
-	size_t body_start = strlen(uevp->buf) + 1;
+	size_t body_start = strlen(uevp->buf) + 1U;
 	if (body_start < sizeof("a@/d") || body_start >= buflen || (strstr(uevp->buf, "@/") == NULL)) {
 		return ERR_PARSE_INVALID_HDR;
 	}
 
-	int   i = body_start;
-	char* cur_line;
+	size_t i = body_start;
+	char*  cur_line;
 	uevp->buflen = buflen;
 
 	while (i < buflen) {
@@ -125,9 +127,9 @@ int
 			uevp->devpath = cur_line + sizeof("DEVPATH");
 		}
 		/* proceed to next line */
-		i += strlen(cur_line) + 1;
+		i += strlen(cur_line) + 1U;
 	}
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 static inline void
@@ -154,8 +156,9 @@ int
 
 	l->pfd.events = POLLIN;
 	l->pfd.fd     = socket(PF_NETLINK, SOCK_DGRAM, NETLINK_KOBJECT_UEVENT);
-	if (l->pfd.fd == -1)
+	if (l->pfd.fd == -1) {
 		return ERR_LISTENER_NOT_ROOT;
+	}
 
 	if (bind(l->pfd.fd, (struct sockaddr*) &(l->nls), sizeof(struct sockaddr_nl))) {
 		return ERR_LISTENER_BIND;
@@ -169,12 +172,13 @@ int
 {
 	ue_reset_event(uevp);
 	while (poll(&(l->pfd), 1, -1) != -1) {
-		int i, len = recv(l->pfd.fd, uevp->buf, sizeof(uevp->buf), MSG_DONTWAIT);
-		if (len == -1)
+		ssize_t len = recv(l->pfd.fd, uevp->buf, sizeof(uevp->buf), MSG_DONTWAIT);
+		if (len == -1) {
 			return ERR_LISTENER_RECV;
-		if (ue_parse_event_msg(uevp, len) == 0) {
+		}
+		if (ue_parse_event_msg(uevp, (size_t) len) == 0) {
 			UE_DEBUG("uevent successfully parsed\n");
-			return 0;
+			return EXIT_SUCCESS;
 		} else {
 			UE_DEBUG("skipped unsupported uevent:\n%s\n", uevp->buf);
 		}
