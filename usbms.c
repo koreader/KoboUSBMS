@@ -166,7 +166,7 @@ int
 	openlog("usbms", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_DAEMON);
 
 	// Say hello
-	LOG(LOG_INFO, "[PID: %ld] Initializing USBMS %s (%s)", (long) getpid(), USBMS_VERSION, USBMS_TIMESTAMP);
+	LOG(LOG_INFO, "Initializing USBMS %s (%s)", USBMS_VERSION, USBMS_TIMESTAMP);
 
 	// We'll want to jump to /, and only get back to our original PWD on exit...
 	// c.f., man getcwd for the fchdir trick, as we can certainly spare the fd ;).
