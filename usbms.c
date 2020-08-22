@@ -100,7 +100,7 @@ static void
 	// Push it to the env...
 	char pid_str[7] = { 0 };
 	snprintf(pid_str, sizeof(pid_str) - 1, "0x%X", pid);
-	setenv("PRODUCT_ID", pid_str, 1);
+	setenv("USB_PRODUCT_ID", pid_str, 1);
 }
 
 int
