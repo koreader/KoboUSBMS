@@ -220,7 +220,7 @@ int
 		rv = EXIT_FAILURE;
 		goto cleanup;
 	}
-	LOG(LOG_INFO, "Initialized libue %s", LIBUE_VERSION);
+	LOG(LOG_INFO, "Initialized libue v%s", LIBUE_VERSION);
 
 	// Setup libevdev
 	evfd = open(NTX_KEYS_EVDEV, O_RDONLY | O_CLOEXEC | O_NONBLOCK);
@@ -236,10 +236,7 @@ int
 		rv = EXIT_FAILURE;
 		goto cleanup;
 	}
-	LOG(LOG_INFO,
-	    "Initialized evdev version: %#x for device '%s'",
-	    (unsigned int) libevdev_get_driver_version(dev),
-	    libevdev_get_name(dev));
+	LOG(LOG_INFO, "Initialized libevdev v%s for device '%s'", LIBEVDEV_VERSION, libevdev_get_name(dev));
 
 	// Now that FBInk has been initialized, setup the USB product ID for the current device
 	FBInkState fbink_state = { 0 };

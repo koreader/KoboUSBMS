@@ -47,6 +47,9 @@
 #	define USBMS_TIMESTAMP __TIMESTAMP__
 #endif
 
+// Apparently the libevdev version string isn't available anywhere, so, fake it
+#define LIBEVDEV_VERSION "1.9.1"
+
 // Logging helpers
 #define LOG(prio, fmt, ...) ({ syslog(prio, fmt, ##__VA_ARGS__); })
 
