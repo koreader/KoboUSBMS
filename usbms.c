@@ -111,9 +111,21 @@ static void
 	// First, check for Wi-Fi (c.f., https://github.com/koreader/koreader/blob/b5d33058761625111d176123121bcc881864a64e/frontend/device/kobo/device.lua#L451-L471)
 	bool wifi_up            = false;
 	char if_sysfs[PATH_MAX] = { 0 };
-	snprintf(if_sysfs, sizeof(if_sysfs) - 1, "/proc/sys/net/ipv4/conf/%s", getenv("INTERFACE"));
-	if (access(if_sysfs, F_OK) == 0) {
-		wifi_up = true;
+	snprintf(if_sysfs, sizeof(if_sysfs) - 1, "/sys/class/net/%s/carrier", getenv("INTERFACE"));
+	FILE* f = fopen(if_sysfs, "re");
+	if (f) {
+		char   carrier[8];
+		size_t size = fread(carrier, sizeof(*carrier), sizeof(carrier), f);
+		if (size > 0) {
+			// NUL terminate
+			carrier[size - 1U] = '\0';
+		}
+		fclose(f);
+
+		// If there's a carrier, Wi-Fi is up.
+		if (carrier[0] == '1') {
+			wifi_up = true;
+		}
 	}
 
 	// TODO: Switch to fancy icons (i.e., OT, NerdFont).
