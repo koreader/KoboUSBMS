@@ -93,7 +93,7 @@ static void
 			pid = 0x4163;
 			break;
 		default:
-			PFLOG(LOG_WARNING, "Can't match device code (%hu) to an USB Product ID!", state.device_id);
+			PFLOG(LOG_WARNING, "Can't match device code (%hu) to an USB Product ID!", device_code);
 			break;
 	}
 
@@ -229,8 +229,8 @@ int
 		goto cleanup;
 	}
 	LOG(LOG_INFO,
-	    "Initialized evdev version: %x for device '%s'",
-	    libevdev_get_driver_version(dev),
+	    "Initialized evdev version: %#x for device '%s'",
+	    (unsigned int) libevdev_get_driver_version(dev),
 	    libevdev_get_name(dev));
 
 	// Now that FBInk has been initialized, setup the USB product ID for the current device
