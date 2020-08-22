@@ -25,7 +25,6 @@
 #ifndef _LIBUE_H
 #define _LIBUE_H
 
-#include <linux/netlink.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -33,6 +32,8 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
+
+#include <linux/netlink.h>
 
 #define LIBUE_VERSION_MAJOR  "0"
 #define LIBUE_VERSION_MINOR  "2.0"
@@ -87,7 +88,7 @@ struct uevent
  * Reference for uevent format:
  * https://www.kernel.org/doc/pending/hotplug.txt
  */
-int
+static int
     ue_parse_event_msg(struct uevent* uevp, size_t buflen)
 {
 	/* skip udev events */
@@ -146,13 +147,13 @@ static inline void
 	uevp->devpath = NULL;
 }
 
-int
+static int
     ue_init_listener(struct uevent_listener* l)
 {
 	memset(&l->nls, 0, sizeof(struct sockaddr_nl));
 	l->nls.nl_family = AF_NETLINK;
-	l->nls.nl_pid    = getpid();
-	l->nls.nl_groups = -1;
+	l->nls.nl_pid    = getpid();    // NOTE: It's actually a pid_t in non-braindead kernels
+	l->nls.nl_groups = -1U;
 
 	l->pfd.events = POLLIN;
 	l->pfd.fd     = socket(PF_NETLINK, SOCK_DGRAM, NETLINK_KOBJECT_UEVENT);
@@ -169,7 +170,7 @@ int
 	return EXIT_SUCCESS;
 }
 
-int
+static int
     ue_wait_for_event(struct uevent_listener* l, struct uevent* uevp)
 {
 	ue_reset_event(uevp);
@@ -190,7 +191,7 @@ int
 	return ERR_LISTENER_POLL;
 }
 
-int
+static int
     ue_destroy_listener(struct uevent_listener* l)
 {
 	return close(l->pfd.fd);
