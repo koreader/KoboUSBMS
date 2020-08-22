@@ -117,19 +117,27 @@ static void
 	}
 	bool usb_plugged = !!ptr;
 
-	// Get the battery charge % (FIXME: Not a % -_-").
-	ptr = 0U;
-	rc  = ioctl(ntxfd, CM_GET_BATTERY_STATUS, &ptr);
-	if (rc == -1) {
-		PFLOG(LOG_WARNING, "Failed to query battery charge status (ioctl: %m)");
+	// Get the battery charge %
+	char  batt_charge[8] = { 0 };
+	FILE* f              = fopen("/sys/devices/platform/pmic_battery.1/power_supply/mc13892_bat/capacity", "re");
+	if (f) {
+		size_t size = fread(batt_charge, sizeof(*batt_charge), sizeof(batt_charge), f);
+		if (size > 0) {
+			// NUL terminate
+			batt_charge[size - 1U] = '\0';
+			// Strip trailing LF
+			if (batt_charge[size - 2U] == '\n') {
+				batt_charge[size - 2U] = '\0';
+			}
+		}
+		fclose(f);
 	}
-	uint8_t batt_charge = (uint8_t) ptr;
 
 	// Check for Wi-Fi (c.f., https://github.com/koreader/koreader/blob/b5d33058761625111d176123121bcc881864a64e/frontend/device/kobo/device.lua#L451-L471)
 	bool wifi_up            = false;
 	char if_sysfs[PATH_MAX] = { 0 };
 	snprintf(if_sysfs, sizeof(if_sysfs) - 1, "/sys/class/net/%s/carrier", getenv("INTERFACE"));
-	FILE* f = fopen(if_sysfs, "re");
+	f = fopen(if_sysfs, "re");
 	if (f) {
 		char   carrier[8];
 		size_t size = fread(carrier, sizeof(*carrier), sizeof(carrier), f);
@@ -146,7 +154,7 @@ static void
 	}
 
 	// TODO: Switch to fancy icons (i.e., OT, NerdFont).
-	fbink_printf(fbfd, NULL, fbink_cfg, "Plugged: %d (Charge: %hhu%%) WiFi: %d", usb_plugged, batt_charge, wifi_up);
+	fbink_printf(fbfd, NULL, fbink_cfg, "Plugged: %d (Charge: %s%%) WiFi: %d", usb_plugged, batt_charge, wifi_up);
 }
 
 int
