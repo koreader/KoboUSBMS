@@ -152,7 +152,11 @@ static int
 {
 	memset(&l->nls, 0, sizeof(struct sockaddr_nl));
 	l->nls.nl_family = AF_NETLINK;
-	l->nls.nl_pid    = getpid();    // NOTE: It's actually a pid_t in non-braindead kernels
+	// NOTE: It's actually a pid_t in non-braindead kernels...
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-conversion"
+	l->nls.nl_pid = getpid();
+#pragma GCC diagnostic pop
 	l->nls.nl_groups = -1U;
 
 	l->pfd.events = POLLIN;
