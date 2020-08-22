@@ -103,6 +103,23 @@ static void
 	setenv("USB_PRODUCT_ID", pid_str, 1);
 }
 
+static void
+    print_status(int fbfd, const FBInkConfig* fbink_cfg)
+{
+	// We'll want to display the plug/charge status, and whether Wi-Fi is on or not
+
+	// First, check for Wi-Fi (c.f., https://github.com/koreader/koreader/blob/b5d33058761625111d176123121bcc881864a64e/frontend/device/kobo/device.lua#L451-L471)
+	bool wifi_up            = false;
+	char if_sysfs[PATH_MAX] = { 0 };
+	snprintf(if_sysfs, sizeof(if_sysfs) - 1, "/proc/sys/net/ipv4/conf/%s", getenv("INTERFACE"));
+	if (access(if_sysfs, F_OK) == 0) {
+		wifi_up = true;
+	}
+
+	// TODO: Switch to fancy icons (i.e., OT, NerdFont).
+	fbink_printf(fbfd, NULL, fbink_cfg, "WiFi: %d", wifi_up);
+}
+
 int
     main(void)
 {
@@ -190,6 +207,9 @@ int
 	FBInkState fbink_state = { 0 };
 	fbink_get_state(&fbink_cfg, &fbink_state);
 	setup_usb_ids(fbink_state.device_id);
+
+	// Display a minimal status bar on screen
+	print_status(fbfd, &fbink_cfg);
 
 cleanup:
 	closelog();
