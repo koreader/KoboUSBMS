@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Failures are bad. Catch 'em.
-set -ex
+set -e
 if [ "${WITH_PIPEFAIL}" = "true" ]; then
     # shellcheck disable=SC2039
     set -o pipefail
