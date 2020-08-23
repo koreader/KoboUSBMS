@@ -22,8 +22,8 @@
     SOFTWARE.
 */
 
-#ifndef _LIBUE_H
-#define _LIBUE_H
+#ifndef __LIBUE_H
+#define __LIBUE_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,15 +39,12 @@
 #define LIBUE_VERSION_MINOR  "2.0"
 #define LIBUE_VERSION        LIBUE_VERSION_MAJOR "." LIBUE_VERSION_MINOR
 #define LIBUE_VERSION_NUMBER 10000
-#ifndef DEBUG
-#	define DEBUG 0
-#endif
-#define UE_DEBUG(...)                                                                                                    \
-	({                                                                                                               \
-		if (DEBUG) {                                                                                             \
-			fprintf(stderr, __VA_ARGS__);                                                                    \
-		}                                                                                                        \
-	})
+
+// Logging helpers
+#define LOG(prio, fmt, ...) ({ syslog(prio, fmt, ##__VA_ARGS__); })
+
+// Same, but with __PRETTY_FUNCTION__:__LINE__ right before fmt
+#define PFLOG(prio, fmt, ...) ({ LOG(prio, "[%s:%d] " fmt, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__); })
 
 struct uevent_listener
 {
@@ -108,7 +105,7 @@ static int
 
 	while (i < buflen) {
 		cur_line = uevp->buf + i;
-		UE_DEBUG("line: '%s'\n", cur_line);
+		PFLOG(LOG_DEBUG, "line: `%s`", cur_line);
 		if (UE_STR_EQ(cur_line, "ACTION")) {
 			cur_line += sizeof("ACTION");
 			if (UE_STR_EQ(cur_line, "add")) {
@@ -162,12 +159,12 @@ static int
 	l->pfd.events = POLLIN;
 	l->pfd.fd     = socket(PF_NETLINK, SOCK_DGRAM, NETLINK_KOBJECT_UEVENT);
 	if (l->pfd.fd == -1) {
-		UE_DEBUG("socket: %m");
+		PFLOG(LOG_CRIT, "socket: %m");
 		return ERR_LISTENER_NOT_ROOT;
 	}
 
 	if (bind(l->pfd.fd, (struct sockaddr*) &(l->nls), sizeof(struct sockaddr_nl))) {
-		UE_DEBUG("bind: %m");
+		PFLOG(LOG_CRIT, "bind: %m");
 		return ERR_LISTENER_BIND;
 	}
 
@@ -181,17 +178,17 @@ static int
 	while (poll(&(l->pfd), 1, -1) != -1) {
 		ssize_t len = recv(l->pfd.fd, uevp->buf, sizeof(uevp->buf), MSG_DONTWAIT);
 		if (len == -1) {
-			UE_DEBUG("recv: %m");
+			PFLOG(LOG_CRIT, "recv: %m");
 			return ERR_LISTENER_RECV;
 		}
 		if (ue_parse_event_msg(uevp, (size_t) len) == 0) {
-			UE_DEBUG("uevent successfully parsed\n");
+			PFLOG(LOG_DEBUG, "uevent successfully parsed");
 			return EXIT_SUCCESS;
 		} else {
-			UE_DEBUG("skipped unsupported uevent:\n%s\n", uevp->buf);
+			PFLOG(LOG_DEBUG, "skipped unsupported uevent: `%s`", uevp->buf);
 		}
 	}
-	UE_DEBUG("poll: %m");
+	PFLOG(LOG_CRIT, "poll: %m");
 	return ERR_LISTENER_POLL;
 }
 
@@ -205,4 +202,4 @@ static int
 	}
 }
 
-#endif
+#endif    // __LIBUE_H
