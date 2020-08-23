@@ -533,6 +533,10 @@ int
 		size_t retry = 0U;
 		while (true) {
 			int poll_num = poll(&pfd, 1, 5 * 1000);
+
+			// Refresh the status bar
+			print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+
 			if (poll_num == -1) {
 				if (errno == EINTR) {
 					continue;
@@ -555,9 +559,6 @@ int
 				// Timed out, increase the retry counter
 				retry++;
 			}
-
-			// Refresh the status bar
-			print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 
 			// Give up afer 30s
 			if (retry >= 6) {
@@ -589,6 +590,10 @@ int
 		size_t        retry = 0U;
 		while (true) {
 			int poll_num = poll(pfds, nfds, 5 * 1000);
+
+			// Refresh the status bar
+			print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+
 			if (poll_num == -1) {
 				if (errno == EINTR) {
 					continue;
@@ -624,9 +629,6 @@ int
 				// Timed out, increase the retry counter
 				retry++;
 			}
-
-			// Refresh the status bar
-			print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 
 			// Give up afer 90s
 			if (retry >= 18) {
