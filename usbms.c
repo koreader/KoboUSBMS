@@ -236,7 +236,7 @@ static void
 	}
 	uint8_t batt_perc = 0U;
 	if (strtoul_hhu(batt_charge, &batt_perc) < 0) {
-		LOG(LOG_WARNING, "Failed to convert battery charge value '%s' to an uint8_t!", batt_charge);
+		PFLOG(LOG_WARNING, "Failed to convert battery charge value '%s' to an uint8_t!", batt_charge);
 	}
 
 	// Check for Wi-Fi (c.f., https://github.com/koreader/koreader/blob/b5d33058761625111d176123121bcc881864a64e/frontend/device/kobo/device.lua#L451-L471)
@@ -661,7 +661,7 @@ int
 	rc = system(resource_path);
 	if (rc != 0) {
 		// Hu oh... Print a giant warning, and abort. KOReader will shutdown the device after a while.
-		PFLOG(LOG_CRIT, "Failed to start the USBMS session!");
+		LOG(LOG_CRIT, "Failed to start the USBMS session!");
 		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
 			       "\uf071 Failed to start the USBMS session!\nThe device will be shutdown.",
