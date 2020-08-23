@@ -247,7 +247,7 @@ static void
 	fbink_printf(fbfd,
 		     ot_cfg,
 		     fbink_cfg,
-		     "%s | %s (%hhu%%) | %s",
+		     "%s • %s (%hhu%%) • %s",
 		     usb_plugged ? "\ufba3" : "\ufba4",
 		     get_battery_icon(batt_perc),
 		     batt_perc,
