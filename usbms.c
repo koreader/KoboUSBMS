@@ -103,19 +103,106 @@ static void
 	setenv("USB_PRODUCT_ID", pid_str, 1);
 }
 
+static bool
+    is_usb_plugged(int ntxfd)
+{
+	// Check if we're plugged in...
+	unsigned long ptr = 0U;
+	int           rc  = ioctl(ntxfd, CM_USB_Plug_IN, &ptr);
+	if (rc == -1) {
+		PFLOG(LOG_WARNING, "Failed to query USB status (ioctl: %m)");
+	}
+	return !!ptr;
+}
+
+// Return a fancy battery icon given the charge percentage...
+static const char*
+    get_battery_icon(uint8_t charge)
+{
+	if (charge >= 100) {
+		return "\uf578";
+	} else if (charge >= 90) {
+		return "\uf581";
+	} else if (charge >= 80) {
+		return "\uf580";
+	} else if (charge >= 70) {
+		return "\uf57f";
+	} else if (charge >= 60) {
+		return "\uf57e";
+	} else if (charge >= 50) {
+		return "\uf57d";
+	} else if (charge >= 40) {
+		return "\uf57c";
+	} else if (charge >= 30) {
+		return "\uf57b";
+	} else if (charge >= 20) {
+		return "\uf57a";
+	} else if (charge >= 10) {
+		return "\uf579";
+	} else {
+		return "\uf582";
+	}
+}
+
+// NOTE: Inspired from git's strtoul_ui @ git-compat-util.h
+static int
+    strtoul_hhu(const char* str, uint8_t* restrict result)
+{
+	// NOTE: We want to *reject* negative values (which strtoul does not)!
+	if (strchr(str, '-')) {
+		LOG(LOG_WARNING, "Passed a negative value (%s) to strtoul_hhu", str);
+		return -EINVAL;
+	}
+
+	// Now that we know it's positive, we can go on with strtoul...
+	char* endptr;
+	errno                 = 0;    // To distinguish success/failure after call
+	unsigned long int val = strtoul(str, &endptr, 10);
+
+	if ((errno == ERANGE && val == ULONG_MAX) || (errno != 0 && val == 0)) {
+		PFLOG(LOG_WARNING, "strtoul: %m");
+		return -EINVAL;
+	}
+
+	// NOTE: It fact, always clamp to CHAR_MAX, since we may need to cast to a signed representation later.
+	if (val > CHAR_MAX) {
+		LOG(LOG_WARNING, "Passed a value larger than CHAR_MAX to strtoul_hhu, clamping it down to CHAR_MAX");
+		val = CHAR_MAX;
+	}
+
+	if (endptr == str) {
+		LOG(LOG_WARNING, "No digits were found in value '%s' assigned to a variable expecting an uint8_t", str);
+		return -EINVAL;
+	}
+
+	// If we got here, strtoul() successfully parsed at least part of a number.
+	// But we do want to enforce the fact that the input really was *only* an integer value.
+	if (*endptr != '\0') {
+		LOG(LOG_WARNING,
+		    "Found trailing characters (%s) behind value '%lu' assigned from string '%s' to a variable expecting an uint8_t",
+		    endptr,
+		    val,
+		    str);
+		return -EINVAL;
+	}
+
+	// Make sure there isn't a loss of precision on this arch when casting explicitly
+	if ((uint8_t) val != val) {
+		LOG(LOG_WARNING, "Loss of precision when casting value '%lu' to an uint8_t.", val);
+		return -EINVAL;
+	}
+
+	*result = (uint8_t) val;
+	return EXIT_SUCCESS;
+}
+
 static void
-    print_status(int fbfd, const FBInkConfig* fbink_cfg, int ntxfd)
+    print_status(int fbfd, const FBInkConfig* fbink_cfg, const FBInkOTConfig* ot_cfg, int ntxfd)
 {
 	// We'll want to display the plug/charge status, and whether Wi-Fi is on or not
 
 	// Check if we're plugged in...
-	unsigned long ptr = 0U;
-	int           rc  = -1;
-	rc                = ioctl(ntxfd, CM_USB_Plug_IN, &ptr);
-	if (rc == -1) {
-		PFLOG(LOG_WARNING, "Failed to query USB status (ioctl: %m)");
-	}
-	bool usb_plugged = !!ptr;
+	bool usb_plugged = is_usb_plugged(ntxfd);
 
 	// Get the battery charge %
 	char  batt_charge[8] = { 0 };
@@ -131,6 +218,10 @@ static void
 			}
 		}
 		fclose(f);
+	}
+	uint8_t batt_perc = 0U;
+	if (strtoul_hhu(batt_charge, &batt_perc) < 0) {
+		LOG(LOG_WARNING, "Failed to convert battery charge value '%s' to an uint8_t!", batt_charge);
 	}
 
 	// Check for Wi-Fi (c.f., https://github.com/koreader/koreader/blob/b5d33058761625111d176123121bcc881864a64e/frontend/device/kobo/device.lua#L451-L471)
@@ -153,8 +244,14 @@ static void
 		}
 	}
 
-	// TODO: Switch to fancy icons (i.e., OT, NerdFont).
-	fbink_printf(fbfd, NULL, fbink_cfg, "Plugged: %d (Charge: %s%%) WiFi: %d", usb_plugged, batt_charge, wifi_up);
+	fbink_printf(fbfd,
+		     ot_cfg,
+		     fbink_cfg,
+		     "%s | %s (%hhu%%) | %s",
+		     usb_plugged ? "\ufba3" : "\ufba4",
+		     get_battery_icon(batt_perc),
+		     batt_perc,
+		     wifi_up ? "\ufaa8" : "\ufaa9");
 }
 
 int
@@ -266,9 +363,9 @@ int
 	// Display our header
 	fbink_cfg.no_refresh = true;
 	fbink_cls(fbfd, &fbink_cfg, NULL);
-	FBInkOTConfig ot_header      = { 0 };
-	ot_header.margins.top        = fbink_state.font_h;
-	ot_header.size_px            = fbink_state.font_h * 2U;
+	FBInkOTConfig ot_cfg         = { 0 };
+	ot_cfg.margins.top           = fbink_state.font_h;
+	ot_cfg.size_px               = fbink_state.font_h * 2U;
 	char resource_path[PATH_MAX] = { 0 };
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/CaskaydiaCove_NF.ttf", abs_pwd);
 	if (fbink_add_ot_font(resource_path, FNT_REGULAR) != EXIT_SUCCESS) {
@@ -276,7 +373,7 @@ int
 		rv = EXIT_FAILURE;
 		goto cleanup;
 	}
-	fbink_print_ot(fbfd, "USB Mass Storage", &ot_header, &fbink_cfg, NULL);
+	fbink_print_ot(fbfd, "USB Mass Storage", &ot_cfg, &fbink_cfg, NULL);
 	fbink_cfg.ignore_alpha  = true;
 	fbink_cfg.halign        = CENTER;
 	fbink_cfg.scaled_height = fbink_state.screen_height / 10U;
@@ -289,8 +386,10 @@ int
 	fbink_cfg.is_flashing = false;
 
 	// Display a minimal status bar on screen
+	fbink_cfg.row      = -3;
+	ot_cfg.margins.top = -(fbink_state.font_h * 3U);
+	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 	fbink_cfg.row = -5;
-	print_status(fbfd, &fbink_cfg, ntxfd);
 
 	// And now, on to the fun stuff!
 	// If we're in USBNet mode, abort!
