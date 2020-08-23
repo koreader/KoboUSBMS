@@ -675,13 +675,76 @@ int
 
 	// Now we're cooking with gas!
 	LOG(LOG_INFO, "USBMS session in progress");
+	// Switch to nightmode for the duration of the session, as a nod to the stock behavior ;).
 	fbink_cfg.is_nightmode = true;
 	fbink_print_ot(fbfd,
 		       "USBMS session in progress.\nPlease eject your device safely before unplug.",
 		       &msg_cfg,
 		       &fbink_cfg,
 		       NULL);
+	// Refresh the status bar
+	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
+
+	// And now we just have to wait until an unplug...
+	LOG(LOG_INFO, "Waiting for an unplug event . . .");
+	struct uevent uev;
+	while ((rc = ue_wait_for_event(&listener, &uev)) == EXIT_SUCCESS) {
+		// Refresh the status bar
+		print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+
+		if (uev.action == UEVENT_ACTION_REMOVE && uev.devpath &&
+		    (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_PLUG) || UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_HOST))) {
+			LOG(LOG_NOTICE, "Got an unplug event");
+			break;
+		} else {
+			continue;
+		}
+	}
+	fbink_cfg.is_nightmode = false;
+
+	// If ue_wait_for_event failed for some reason, abort with extreme prejudice...
+	if (rc != EXIT_SUCCESS) {
+		LOG(LOG_CRIT, "Failed to detect an unlug event!");
+		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
+		fbink_print_ot(fbfd,
+			       "\uf071 Failed to detect an unplug event!\nThe device will be shutdown.",
+			       &msg_cfg,
+			       &fbink_cfg,
+			       NULL);
+
+		rv = EXIT_FAILURE;
+		goto cleanup;
+	}
+
+	// And now remount all the things!
+	print_icon(fbfd, "\ufa52", &fbink_cfg, &icon_cfg);
+	fbink_print_ot(fbfd, "Ending USBMS session...", &msg_cfg, &fbink_cfg, NULL);
+	// Refresh the status bar
+	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+
+	// Nearly there...
+	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/scripts/end-usbms.sh", abs_pwd);
+	rc = system(resource_path);
+	if (rc != 0) {
+		// Hu oh... Print a giant warning, and abort. KOReader will shutdown the device after a while.
+		LOG(LOG_CRIT, "Failed to end the USBMS session!");
+		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
+		fbink_print_ot(fbfd,
+			       "\uf071 Failed to end the USBMS session!\nThe device will be shutdown.",
+			       &msg_cfg,
+			       &fbink_cfg,
+			       NULL);
+
+		rv = EXIT_FAILURE;
+		goto cleanup;
+	}
+
+	// Whee!
+	print_icon(fbfd, "\uf058", &fbink_cfg, &icon_cfg);
+	fbink_print_ot(fbfd, "Done!\nKOReader will now restart...", &msg_cfg, &fbink_cfg, NULL);
+	// Refresh the status bar
+	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 
 cleanup:
 	LOG(LOG_INFO, "Bye!");
