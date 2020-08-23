@@ -53,4 +53,4 @@ mount -t vfat -o "${MOUNT_ARGS}" "${PARTITION}" "/mnt/onboard"
 
 # Handle the SD card now (again, not dealing with the dynamic detection nonsense).
 PARTITION="${DISK}1p1"
-[ -e "$PARTITION" ] && mount -t vfat -o "${MOUNT_ARGS}" "${PARTITION}" "/mnt/sd"
+[ -e "${PARTITION}" ] && mount -t vfat -o "${MOUNT_ARGS}" "${PARTITION}" "/mnt/sd"

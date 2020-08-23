@@ -704,6 +704,7 @@ int
 		}
 	}
 	fbink_cfg.is_nightmode = false;
+	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
 
 	// If ue_wait_for_event failed for some reason, abort with extreme prejudice...
 	if (rc != EXIT_SUCCESS) {
