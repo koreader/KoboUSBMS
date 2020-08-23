@@ -23,7 +23,7 @@ USB_VENDOR_ID="0x2237"
 # NOTE: USB_PRODUCT_ID has already been taken care of by the C tool.
 # Grab what we need from Nickel's version tag before we unmount onboard...
 VERSION_TAG="/mnt/onboard/.kobo/version"
-if [ -f "$KOBO_TAG" ] ; then
+if [ -f "${VERSION_TAG}" ] ; then
 	# NOTE: The one baked into the block device *may* be longer on some devices, so use the same as Nickel to avoid issues with stuff that uses it to discriminate devices (i.e., Calibre)
 	#       (c.f., http://trac.ak-team.com/trac/browser/niluje/Configs/trunk/Kindle/Kobo_Hacks/KoboStuff/src/usr/local/stuff/bin/usbnet-toggle.sh#L57)
 	SERIAL_NUMBER="$(cut -f1 -d',' "${VERSION_TAG}")"
