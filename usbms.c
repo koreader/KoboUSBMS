@@ -322,6 +322,24 @@ static bool
 	return false;
 }
 
+// Parse an uevent
+static int
+    handle_uevent(struct uevent_listener* l, struct uevent* uevp)
+{
+	ssize_t len = recv(l->pfd.fd, uevp->buf, sizeof(uevp->buf), MSG_DONTWAIT);
+	if (len == -1) {
+		PFLOG(LOG_CRIT, "recv: %m");
+		return ERR_LISTENER_RECV;
+	}
+	if (ue_parse_event_msg(uevp, (size_t) len) == 0) {
+		PFLOG(LOG_DEBUG, "uevent successfully parsed");
+		return EXIT_SUCCESS;
+	} else {
+		PFLOG(LOG_DEBUG, "skipped unsupported uevent: `%s`", uevp->buf);
+		return EXIT_FAILURE;
+	}
+}
+
 int
     main(void)
 {
@@ -552,6 +570,80 @@ int
 		rv = EXIT_SUCCESS;
 		goto cleanup;
 	}
+
+	LOG(LOG_INFO, "Starting USBMS shenanigans");
+	// If we're not plugged in, wait for it (or abort early)
+	usb_plugged = is_usb_plugged(ntxfd);
+	if (!usb_plugged) {
+		LOG(LOG_INFO, "Waiting for a plug-in event or a power button press . . .");
+		struct pollfd pfds[2] = { 0 };
+		nfds_t        nfds    = 2;
+		// Input device
+		pfds[0].fd     = evfd;
+		pfds[0].events = POLLIN;
+		// Uevent socket
+		pfds[1].fd     = listener.pfd.fd;
+		pfds[1].events = listener.pfd.events;
+
+		struct uevent uev;
+		size_t        retry = 0U;
+		while (true) {
+			int poll_num = poll(pfds, nfds, 5 * 1000);
+			if (poll_num == -1) {
+				if (errno == EINTR) {
+					continue;
+				}
+				PFLOG(LOG_WARNING, "poll: %m");
+				rv = EXIT_FAILURE;
+				goto cleanup;
+			}
+
+			if (poll_num > 0) {
+				if (pfds[0].revents & POLLIN) {
+					if (handle_evdev(dev)) {
+						LOG(LOG_NOTICE, "Got a power button release");
+						need_early_abort = true;
+						break;
+					}
+				}
+
+				if (pfds[1].revents & POLLIN) {
+					if (handle_uevent(&listener, &uev) == EXIT_SUCCESS) {
+						// Now check if it's a plug-in...
+						if (uev.action == UEVENT_ACTION_ADD && uev.devpath &&
+						    (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_PLUG) ||
+						     UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_HOST))) {
+							LOG(LOG_NOTICE, "Got a plug-in event");
+							break;
+						}
+					}
+				}
+			}
+
+			if (poll_num == 0) {
+				// Timed out, increase the retry counter
+				retry++;
+			}
+
+			// Refresh the status bar
+			print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+
+			// Give up afer 90s
+			if (retry >= 18) {
+				LOG(LOG_NOTICE, "It's been 90s, giving up");
+				need_early_abort = true;
+				break;
+			}
+		}
+	}
+
+	// If we aborted before plug-in, we can still exit safely...
+	if (need_early_abort) {
+		rv = EXIT_SUCCESS;
+		goto cleanup;
+	}
+
+	// We're plugged in, here comes the fun...
 
 cleanup:
 	LOG(LOG_INFO, "Bye!");
