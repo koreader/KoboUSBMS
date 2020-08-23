@@ -99,7 +99,7 @@ static void
 
 	// Push it to the env...
 	char pid_str[7] = { 0 };
-	snprintf(pid_str, sizeof(pid_str) - 1, "0x%X", pid);
+	snprintf(pid_str, sizeof(pid_str) - 1U, "0x%X", pid);
 	setenv("USB_PRODUCT_ID", pid_str, 1);
 }
 
@@ -136,7 +136,7 @@ static void
 	// Check for Wi-Fi (c.f., https://github.com/koreader/koreader/blob/b5d33058761625111d176123121bcc881864a64e/frontend/device/kobo/device.lua#L451-L471)
 	bool wifi_up            = false;
 	char if_sysfs[PATH_MAX] = { 0 };
-	snprintf(if_sysfs, sizeof(if_sysfs) - 1, "/sys/class/net/%s/carrier", getenv("INTERFACE"));
+	snprintf(if_sysfs, sizeof(if_sysfs) - 1U, "/sys/class/net/%s/carrier", getenv("INTERFACE"));
 	f = fopen(if_sysfs, "re");
 	if (f) {
 		char   carrier[8];
@@ -163,6 +163,7 @@ int
 	// So far, so good ;).
 	int                    rv       = EXIT_SUCCESS;
 	int                    pwd      = -1;
+	char*                  abs_pwd  = NULL;
 	int                    fbfd     = -1;
 	struct uevent_listener listener = { 0 };
 	listener.pfd.fd                 = -1;
@@ -185,6 +186,8 @@ int
 		rv = EXIT_FAILURE;
 		goto cleanup;
 	}
+	// We do need the pathname to load resources, though...
+	abs_pwd = get_current_dir_name();
 	if (chdir("/") == -1) {
 		PFLOG(LOG_CRIT, "chdir: %m");
 		rv = EXIT_FAILURE;
@@ -263,10 +266,12 @@ int
 	// Display our header
 	fbink_cfg.no_refresh = true;
 	fbink_cls(fbfd, &fbink_cfg, NULL);
-	FBInkOTConfig ot_header = { 0 };
-	ot_header.margins.top   = fbink_state.font_h;
-	ot_header.size_px       = fbink_state.font_h * 2U;
-	if (fbink_add_ot_font("./resources/fonts/CaskaydiaCove_NF.ttf", FNT_REGULAR) != EXIT_SUCCESS) {
+	FBInkOTConfig ot_header      = { 0 };
+	ot_header.margins.top        = fbink_state.font_h;
+	ot_header.size_px            = fbink_state.font_h * 2U;
+	char resource_path[PATH_MAX] = { 0 };
+	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/CaskaydiaCove_NF.ttf", abs_pwd);
+	if (fbink_add_ot_font(resource_path, FNT_REGULAR) != EXIT_SUCCESS) {
 		PFLOG(LOG_CRIT, "Failed to load TTF font!");
 		rv = EXIT_FAILURE;
 		goto cleanup;
@@ -276,7 +281,8 @@ int
 	fbink_cfg.halign        = CENTER;
 	fbink_cfg.scaled_height = fbink_state.screen_height / 10U;
 	fbink_cfg.row           = 3;
-	fbink_print_image(fbfd, "./resources/img/koreader.png", 0, 0, &fbink_cfg);
+	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/img/koreader.png", abs_pwd);
+	fbink_print_image(fbfd, resource_path, 0, 0, &fbink_cfg);
 	fbink_cfg.no_refresh  = false;
 	fbink_cfg.is_flashing = true;
 	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
@@ -328,6 +334,7 @@ cleanup:
 		}
 		close(pwd);
 	}
+	free(abs_pwd);
 
 	return rv;
 }
