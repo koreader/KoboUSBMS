@@ -277,6 +277,25 @@ static void
 	fbink_cfg->is_halfway = false;
 }
 
+// Poor man's grep in /proc/modules
+static bool
+    is_module_loaded(const char* needle)
+{
+	FILE* f = fopen("/proc/modules", "re");
+	if (f) {
+		char line[PIPE_BUF] = { 0 };
+		while (fgets(line, sizeof(line) - 1U, f)) {
+			if (strstr(line, needle)) {
+				fclose(f);
+				return true;
+			}
+		}
+		fclose(f);
+	}
+
+	return false;
+}
+
 int
     main(void)
 {
@@ -433,8 +452,7 @@ int
 	// And now, on to the fun stuff!
 	// If we're in USBNet mode, abort!
 	// (tearing it down properly is out of our scope, since we can't really know how the user enabled it in the first place).
-	rc = system("lsmod | grep -q g_ether");
-	if (rc == 0) {
+	if (is_module_loaded("g_ether")) {
 		LOG(LOG_ERR, "Device is in USBNet mode, aborting");
 
 		print_icon(fbfd, "\uf6ff", &fbink_cfg, &icon_cfg);
@@ -451,8 +469,7 @@ int
 	}
 
 	// Same deal for USBSerial...
-	rc = system("lsmod | grep -q g_serial");
-	if (rc == 0) {
+	if (is_module_loaded("g_serial")) {
 		LOG(LOG_ERR, "Device is in USBSerial mode, aborting");
 
 		// NOTE: There's also U+fb5b for a serial cable icon
