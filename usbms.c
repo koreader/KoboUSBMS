@@ -656,7 +656,7 @@ int
 	// We're plugged in, here comes the fun...
 	// NOTE: Vertical USB logo: \ufa52; Hard-drive icon: \uf7c9
 	print_icon(fbfd, "\uf287", &fbink_cfg, &icon_cfg);
-	fbink_print_ot(fbfd, "Starting USBMS session...\n\u00a0", &msg_cfg, &fbink_cfg, NULL);
+	fbink_print_ot(fbfd, "Starting USBMS session...\n\u00a0\n\u00a0", &msg_cfg, &fbink_cfg, NULL);
 
 	// Here goes nothing...
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/scripts/start-usbms.sh", abs_pwd);
@@ -728,7 +728,7 @@ int
 
 	// And now remount all the things!
 	print_icon(fbfd, "\ufa52", &fbink_cfg, &icon_cfg);
-	fbink_print_ot(fbfd, "Ending USBMS session...\n\u00a0", &msg_cfg, &fbink_cfg, NULL);
+	fbink_print_ot(fbfd, "Ending USBMS session...\n\u00a0\n\u00a0", &msg_cfg, &fbink_cfg, NULL);
 	// Refresh the status bar
 	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 
