@@ -689,14 +689,20 @@ int
 	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
 
 	// And now we just have to wait until an unplug...
-	LOG(LOG_INFO, "Waiting for an unplug event . . .");
+	LOG(LOG_INFO, "Waiting for an eject or unplug event . . .");
 	struct uevent uev;
 	while ((rc = ue_wait_for_event(&listener, &uev)) == EXIT_SUCCESS) {
 		// Refresh the status bar
 		print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 
-		if (uev.action == UEVENT_ACTION_REMOVE && uev.devpath &&
-		    (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_PLUG) || UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_HOST))) {
+		if (uev.action == UEVENT_ACTION_OFFLINE && uev.devpath &&
+		    (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_FSL) || UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_CI) ||
+		     UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_UDC))) {
+			LOG(LOG_NOTICE, "Got an eject event");
+			break;
+		} else if (uev.action == UEVENT_ACTION_REMOVE && uev.devpath &&
+			   (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_PLUG) ||
+			    UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_HOST))) {
 			LOG(LOG_NOTICE, "Got an unplug event");
 			break;
 		} else {

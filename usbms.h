@@ -66,6 +66,10 @@
 // c.f., https://github.com/koreader/koreader-base/blob/master/input/input-kobo.h
 #define KOBO_USB_DEVPATH_PLUG "/devices/platform/usb_plug"
 #define KOBO_USB_DEVPATH_HOST "/devices/platform/usb_host"
+// c.f., /lib/udev/rules.d/kobo.rules
+#define KOBO_USB_DEVPATH_FSL "/devices/platform/fsl-usb2-udc"
+#define KOBO_USB_DEVPATH_CI  "/devices/platform/ci_hdrc.0"
+#define KOBO_USB_DEVPATH_UDC "/devices/platform/5100000.udc-controller"
 
 // So far, those have thankfully been set in stone
 #define NTX_KEYS_EVDEV "/dev/input/event0"
