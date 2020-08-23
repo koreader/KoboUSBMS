@@ -20,26 +20,21 @@
 #include "usbms.h"
 
 // Wrapper function to use syslog as a libevdev log handler
-static void libevdev_to_syslog(const struct libevdev*     dev,
-			       enum libevdev_log_priority priority,
-			       void*                      data,
-			       const char*                file,
-			       int                        line,
-			       const char*                func,
-			       const char*                format,
-			       va_list                    args) __attribute__((format(printf, 7, 0)));
-static void
-    libevdev_to_syslog(const struct libevdev*     dev,
+__attribute__((format(printf, 7, 0))) static void
+    libevdev_to_syslog(const struct libevdev*     dev __attribute__((unused)),
 		       enum libevdev_log_priority priority,
-		       void*                      data,
+		       void*                      data __attribute__((unused)),
 		       const char*                file,
 		       int                        line,
 		       const char*                func,
 		       const char*                format,
 		       va_list                    args)
 {
-	syslog(LOG_INFO, "libdevdev: %s @ %s:%d (prio: %d)", func, file, line, priority);
+	syslog(LOG_INFO, "libdevdev: %s @ %s:%d (prio: %u)", func, file, line, priority);
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
 	syslog(LOG_INFO, format, args);
+#pragma GCC diagnostic pop
 }
 
 static void
@@ -389,8 +384,8 @@ int
 	fbink_cfg.no_refresh = true;
 	fbink_cls(fbfd, &fbink_cfg, NULL);
 	FBInkOTConfig ot_cfg         = { 0 };
-	ot_cfg.margins.top           = fbink_state.font_h;
-	ot_cfg.size_px               = fbink_state.font_h * 2U;
+	ot_cfg.margins.top           = (short int) fbink_state.font_h;
+	ot_cfg.size_px               = (unsigned short int) (fbink_state.font_h * 2U);
 	char resource_path[PATH_MAX] = { 0 };
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/CaskaydiaCove_NF.ttf", abs_pwd);
 	if (fbink_add_ot_font(resource_path, FNT_REGULAR) != EXIT_SUCCESS) {
@@ -401,7 +396,7 @@ int
 	fbink_print_ot(fbfd, "USB Mass Storage", &ot_cfg, &fbink_cfg, NULL);
 	fbink_cfg.ignore_alpha  = true;
 	fbink_cfg.halign        = CENTER;
-	fbink_cfg.scaled_height = fbink_state.screen_height / 10U;
+	fbink_cfg.scaled_height = (short int) (fbink_state.screen_height / 10U);
 	fbink_cfg.row           = 3;
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/img/koreader.png", abs_pwd);
 	fbink_print_image(fbfd, resource_path, 0, 0, &fbink_cfg);
@@ -412,7 +407,7 @@ int
 
 	// Display a minimal status bar on screen
 	fbink_cfg.row      = -3;
-	ot_cfg.margins.top = -(fbink_state.font_h * 3U);
+	ot_cfg.margins.top = (short int) -(fbink_state.font_h * 3U);
 	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 	fbink_cfg.row = -5;
 
