@@ -272,6 +272,14 @@ static void
 		     wifi_up ? "\ufaa8" : "\ufaa9");
 }
 
+static void
+    print_icon(int fbfd, const char* string, FBInkConfig* fbink_cfg, const FBInkOTConfig* ot_cfg)
+{
+	fbink_cfg->is_halfway = true;
+	fbink_print_ot(fbfd, string, ot_cfg, fbink_cfg, NULL);
+	fbink_cfg->is_halfway = false;
+}
+
 int
     main(void)
 {
@@ -411,6 +419,11 @@ int
 	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 	fbink_cfg.row = -5;
 
+	// Setup the center icon display
+	FBInkOTConfig icon_cfg = { 0 };
+	icon_cfg.size_px       = (unsigned short int) (fbink_state.font_h * 20U);
+	icon_cfg.padding       = HORI_PADDING;
+
 	// And now, on to the fun stuff!
 	// If we're in USBNet mode, abort!
 	// (tearing it down properly is out of our scope, since we can't really know how the user enabled it in the first place).
@@ -419,12 +432,19 @@ int
 		LOG(LOG_ERR, "Device is in USBNet mode, aborting");
 
 		// TODO: Switch to a fancy centered/scaled USBNet image & a /!\ OT icon in front of the message
-		fbink_cfg.row = 5;
+		fbink_cfg.row = -5;
 		fbink_print(fbfd, "Disable USBNet manually first!", &fbink_cfg);
+		print_icon(fbfd, "\uf6ff", &fbink_cfg, &icon_cfg);
+		// TODO: Print warning message w/ a /!\ icon
 
 		// TODO: Hold it for 30s/power button press, whichever comes first
 		rv = EXIT_FAILURE;
 		goto cleanup;
+	}
+
+	bool usb_plugged = is_usb_plugged(ntxfd);
+	if (! usb_plugged) {
+		print_icon(fbfd, "\uf701", &fbink_cfg, &icon_cfg);
 	}
 
 cleanup:
