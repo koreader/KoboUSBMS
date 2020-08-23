@@ -448,7 +448,8 @@ int
 			       NULL);
 
 		// TODO: Hold it for 30s/power button press, whichever comes first
-		rv = EXIT_FAILURE;
+		// NOTE: Not a hard failure, we can safely go back to whatever we were doing before.
+		rv = EXIT_SUCCESS;
 		goto cleanup;
 	}
 
@@ -466,7 +467,8 @@ int
 			       NULL);
 
 		// TODO: Hold it for 30s/power button press, whichever comes first
-		rv = EXIT_FAILURE;
+		// NOTE: Not a hard failure, we can safely go back to whatever we were doing before.
+		rv = EXIT_SUCCESS;
 		goto cleanup;
 	}
 
