@@ -19,6 +19,29 @@
 
 #include "usbms.h"
 
+// Wrapper function to use syslog as a libevdev log handler
+static void libevdev_to_syslog(const struct libevdev*     dev,
+			       enum libevdev_log_priority priority,
+			       void*                      data,
+			       const char*                file,
+			       int                        line,
+			       const char*                func,
+			       const char*                format,
+			       va_list                    args) __attribute__((format(printf, 7, 0)));
+static void
+    libevdev_to_syslog(const struct libevdev*     dev,
+		       enum libevdev_log_priority priority,
+		       void*                      data,
+		       const char*                file,
+		       int                        line,
+		       const char*                func,
+		       const char*                format,
+		       va_list                    args)
+{
+	syslog(LOG_INFO, "libdevdev: %s @ %s:%d (prio: %d)", func, file, line, priority);
+	syslog(LOG_INFO, format, args);
+}
+
 static void
     setup_usb_ids(unsigned short int device_code)
 {
@@ -330,7 +353,9 @@ int
 		goto cleanup;
 	}
 
-	rc = libevdev_new_from_fd(evfd, &dev);
+	dev = libevdev_new();
+	libevdev_set_device_log_function(dev, &libevdev_to_syslog, LIBEVDEV_LOG_INFO, NULL);
+	rc = libevdev_set_fd(dev, evfd);
 	if (rc < 0) {
 		LOG(LOG_CRIT, "Failed to initialize libevdev (%s)", strerror(-rc));
 		rv = EXIT_FAILURE;
