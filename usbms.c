@@ -296,6 +296,32 @@ static bool
 	return false;
 }
 
+// Parse an evdev event, looking for a power button press
+static bool
+    handle_evdev(struct libevdev* dev)
+{
+	int rc = 1;
+	do {
+		struct input_event ev;
+		rc = libevdev_next_event(dev, LIBEVDEV_READ_FLAG_NORMAL, &ev);
+		if (rc == LIBEVDEV_READ_STATUS_SYNC) {
+			while (rc == LIBEVDEV_READ_STATUS_SYNC) {
+				rc = libevdev_next_event(dev, LIBEVDEV_READ_FLAG_SYNC, &ev);
+			}
+		} else if (rc == LIBEVDEV_READ_STATUS_SUCCESS) {
+			// Check if it's a power button press (well, release, actually)
+			if (libevdev_event_is_code(&ev, EV_KEY, KEY_POWER) == 1 && ev.value == 0) {
+				return true;
+			}
+		}
+	} while (rc == LIBEVDEV_READ_STATUS_SYNC || rc == LIBEVDEV_READ_STATUS_SUCCESS);
+	if (rc != LIBEVDEV_READ_STATUS_SUCCESS && rc != -EAGAIN) {
+		PFLOG(LOG_ERR, "Failed to handle input events: %s", strerror(-rc));
+	}
+
+	return false;
+}
+
 int
     main(void)
 {
@@ -462,7 +488,48 @@ int
 			       &fbink_cfg,
 			       NULL);
 
-		// TODO: Hold it for 30s/power button press, whichever comes first
+		// TODO: Don't dupe that for g_serial, set a flag and branch it later
+		LOG(LOG_INFO, "Waiting for power button press . . .");
+		struct pollfd pfd = { 0 };
+		pfd.fd            = evfd;
+		pfd.events        = POLLIN;
+
+		size_t retry = 0U;
+		while (true) {
+			int poll_num = poll(&pfd, 1, 5 * 1000);
+			if (poll_num == -1) {
+				if (errno == EINTR) {
+					continue;
+				}
+				PFLOG(LOG_WARNING, "poll: %m");
+				rv = EXIT_FAILURE;
+				goto cleanup;
+			}
+
+			if (poll_num > 0) {
+				if (pfd.revents & POLLIN) {
+					if (handle_evdev(dev)) {
+						LOG(LOG_NOTICE, "Got a power button release");
+						break;
+					}
+				}
+			}
+
+			if (poll_num == 0) {
+				// Timed out, increase the retry counter
+				retry++;
+			}
+
+			// Refresh the status bar
+			print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+
+			// Give up afer 30s
+			if (retry >= 6) {
+				LOG(LOG_NOTICE, "It's been 30s, giving up");
+				break;
+			}
+		}
+
 		// NOTE: Not a hard failure, we can safely go back to whatever we were doing before.
 		rv = EXIT_SUCCESS;
 		goto cleanup;
