@@ -666,7 +666,7 @@ int
 		LOG(LOG_CRIT, "Failed to start the USBMS session!");
 		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
-			       "\uf071 Failed to start the USBMS session!\nThe device will be shutdown.",
+			       "\uf071 Failed to start the USBMS session!\nThe device will be shutdown in 90s.",
 			       &msg_cfg,
 			       &fbink_cfg,
 			       NULL);
@@ -717,7 +717,7 @@ int
 		LOG(LOG_CRIT, "Failed to detect an unlug event!");
 		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
-			       "\uf071 Failed to detect an unplug event!\nThe device will be shutdown.",
+			       "\uf071 Failed to detect an unplug event!\nThe device will be shutdown in 90s.",
 			       &msg_cfg,
 			       &fbink_cfg,
 			       NULL);
@@ -740,7 +740,7 @@ int
 		LOG(LOG_CRIT, "Failed to end the USBMS session!");
 		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
-			       "\uf071 Failed to end the USBMS session!\nThe device will be shutdown.",
+			       "\uf071 Failed to end the USBMS session!\nThe device will be shutdown in 90s.",
 			       &msg_cfg,
 			       &fbink_cfg,
 			       NULL);
