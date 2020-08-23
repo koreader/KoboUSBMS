@@ -476,10 +476,12 @@ int
 	msg_cfg.margins.top   = (short int) -(fbink_state.font_h * 14U);
 
 	// And now, on to the fun stuff!
+	bool need_early_abort = false;
 	// If we're in USBNet mode, abort!
 	// (tearing it down properly is out of our scope, since we can't really know how the user enabled it in the first place).
 	if (is_module_loaded("g_ether")) {
 		LOG(LOG_ERR, "Device is in USBNet mode, aborting");
+		need_early_abort = true;
 
 		print_icon(fbfd, "\uf6ff", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
@@ -487,8 +489,24 @@ int
 			       &msg_cfg,
 			       &fbink_cfg,
 			       NULL);
+	}
 
-		// TODO: Don't dupe that for g_serial, set a flag and branch it later
+	// Same deal for USBSerial...
+	if (is_module_loaded("g_serial")) {
+		LOG(LOG_ERR, "Device is in USBSerial mode, aborting");
+		need_early_abort = true;
+
+		// NOTE: There's also U+fb5b for a serial cable icon
+		print_icon(fbfd, "\ue795", &fbink_cfg, &icon_cfg);
+		fbink_print_ot(fbfd,
+			       "\uf071 Please disable USBSerial manually!\nPress the power button to exit.",
+			       &msg_cfg,
+			       &fbink_cfg,
+			       NULL);
+	}
+
+	// If we need an early abort because of USBNet/USBSerial, do it now...
+	if (need_early_abort) {
 		LOG(LOG_INFO, "Waiting for power button press . . .");
 		struct pollfd pfd = { 0 };
 		pfd.fd            = evfd;
@@ -530,24 +548,6 @@ int
 			}
 		}
 
-		// NOTE: Not a hard failure, we can safely go back to whatever we were doing before.
-		rv = EXIT_SUCCESS;
-		goto cleanup;
-	}
-
-	// Same deal for USBSerial...
-	if (is_module_loaded("g_serial")) {
-		LOG(LOG_ERR, "Device is in USBSerial mode, aborting");
-
-		// NOTE: There's also U+fb5b for a serial cable icon
-		print_icon(fbfd, "\ue795", &fbink_cfg, &icon_cfg);
-		fbink_print_ot(fbfd,
-			       "\uf071 Please disable USBSerial manually!\nPress the power button to exit.",
-			       &msg_cfg,
-			       &fbink_cfg,
-			       NULL);
-
-		// TODO: Hold it for 30s/power button press, whichever comes first
 		// NOTE: Not a hard failure, we can safely go back to whatever we were doing before.
 		rv = EXIT_SUCCESS;
 		goto cleanup;
