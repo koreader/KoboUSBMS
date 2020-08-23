@@ -652,6 +652,9 @@ int
 	}
 
 	// We're plugged in, here comes the fun...
+	// NOTE: Vertical USB logo: \ufa52; Hard-drive icon: \uf7c9
+	print_icon(fbfd, "\uf287", &fbink_cfg, &icon_cfg);
+	fbink_print_ot(fbfd, "Starting USBMS session...", &msg_cfg, &fbink_cfg, NULL);
 
 cleanup:
 	LOG(LOG_INFO, "Bye!");
