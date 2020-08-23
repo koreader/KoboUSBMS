@@ -31,10 +31,7 @@ __attribute__((format(printf, 7, 0))) static void
 		       va_list                    args)
 {
 	syslog(LOG_INFO, "libdevdev: %s @ %s:%d (prio: %u)", func, file, line, priority);
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wformat-nonliteral"
-	syslog(LOG_INFO, format, args);
-#pragma GCC diagnostic pop
+	vsyslog(LOG_INFO, format, args);
 }
 
 static void
