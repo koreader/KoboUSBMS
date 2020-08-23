@@ -30,7 +30,7 @@ __attribute__((format(printf, 7, 0))) static void
 		       const char*                format,
 		       va_list                    args)
 {
-	syslog(LOG_INFO, "libdevdev: %s @ %s:%d (prio: %u)", func, file, line, priority);
+	syslog(LOG_INFO, "libevdev: %s @ %s:%d (prio: %u)", func, file, line, priority);
 	vsyslog(LOG_INFO, format, args);
 }
 
