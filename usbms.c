@@ -541,7 +541,7 @@ int
 				if (errno == EINTR) {
 					continue;
 				}
-				PFLOG(LOG_WARNING, "poll: %m");
+				PFLOG(LOG_CRIT, "poll: %m");
 				rv = EXIT_FAILURE;
 				goto cleanup;
 			}
@@ -604,7 +604,7 @@ int
 				if (errno == EINTR) {
 					continue;
 				}
-				PFLOG(LOG_WARNING, "poll: %m");
+				PFLOG(LOG_CRIT, "poll: %m");
 				rv = EXIT_FAILURE;
 				goto cleanup;
 			}
@@ -655,6 +655,33 @@ int
 	// NOTE: Vertical USB logo: \ufa52; Hard-drive icon: \uf7c9
 	print_icon(fbfd, "\uf287", &fbink_cfg, &icon_cfg);
 	fbink_print_ot(fbfd, "Starting USBMS session...", &msg_cfg, &fbink_cfg, NULL);
+
+	// Here goes nothing...
+	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/scripts/start-usbms.sh", abs_pwd);
+	rc = system(resource_path);
+	if (rc != 0) {
+		// Hu oh... Print a giant warning, and abort. KOReader will shutdown the device after a while.
+		PFLOG(LOG_CRIT, "Failed to start the USBMS session!");
+		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
+		fbink_print_ot(fbfd,
+			       "\uf071 Failed to start the USBMS session!\nThe device will be shutdown.",
+			       &msg_cfg,
+			       &fbink_cfg,
+			       NULL);
+
+		rv = EXIT_FAILURE;
+		goto cleanup;
+	}
+
+	// Now we're cooking with gas!
+	LOG(LOG_INFO, "USBMS session in progress");
+	fbink_cfg.is_nightmode = true;
+	fbink_print_ot(fbfd,
+		       "USBMS session in progress.\nPlease eject your device safely before unplug.",
+		       &msg_cfg,
+		       &fbink_cfg,
+		       NULL);
+	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
 
 cleanup:
 	LOG(LOG_INFO, "Bye!");
