@@ -576,6 +576,12 @@ int
 	// If we're not plugged in, wait for it (or abort early)
 	usb_plugged = is_usb_plugged(ntxfd);
 	if (!usb_plugged) {
+		fbink_print_ot(fbfd,
+			       "Waiting to be plugged to a computer...\nOr, press the power button to exit.",
+			       &msg_cfg,
+			       &fbink_cfg,
+			       NULL);
+
 		LOG(LOG_INFO, "Waiting for a plug-in event or a power button press . . .");
 		struct pollfd pfds[2] = { 0 };
 		nfds_t        nfds    = 2;
