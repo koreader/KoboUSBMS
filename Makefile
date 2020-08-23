@@ -106,6 +106,11 @@ LIBS+=-lrt
 # We already enforce that in FBInk & USBMS, so, follow suit everywhere
 EXTRA_CPPFLAGS+=-D_GNU_SOURCE
 
+# Enforce LTO to enjoy more efficient DCE, since we link everything statically
+ifeq (,$(findstring flto,$(CFLAGS)))
+	LTO_JOBS:=$(shell getconf _NPROCESSORS_ONLN 2> /dev/null || sysctl -n hw.ncpu 2> /dev/null || echo 1)
+	EXTRA_CFLAGS+=-flto=$(LTO_JOBS) -fuse-linker-plugin
+endif
 
 ##
 # Now that we're done fiddling with flags, let's build stuff!
@@ -141,7 +146,6 @@ ifeq (,$(findstring arm-,$(CC)))
 	$(error You forgot to setup a cross TC, you dummy!)
 endif
 
-# FIXME: Also enforce LTO for DCE
 kobo: armcheck release
 	mkdir -p Kobo/scripts Kobo/resources/img Kobo/resources/fonts
 	ln -sf $(CURDIR)/scripts/start-usbms.sh Kobo/scripts/start-usbms.sh
