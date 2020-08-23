@@ -260,7 +260,30 @@ int
 		goto cleanup;
 	}
 
+	// Display our header
+	fbink_cfg.no_refresh = true;
+	fbink_cls(fbfd, &fbink_cfg, NULL);
+	FBInkOTConfig ot_header = { 0 };
+	ot_header.margins.top   = fbink_state.font_h;
+	ot_header.size_px       = fbink_state.font_h * 2U;
+	if (fbink_add_ot_font("./resources/fonts/CaskaydiaCove_NF.ttf", FNT_REGULAR) != EXIT_SUCCESS) {
+		PFLOG(LOG_CRIT, "Failed to load TTF font!");
+		rv = EXIT_FAILURE;
+		goto cleanup;
+	}
+	fbink_print_ot(fbfd, "USB Mass Storage", &ot_header, &fbink_cfg, NULL);
+	fbink_cfg.ignore_alpha  = true;
+	fbink_cfg.halign        = CENTER;
+	fbink_cfg.scaled_height = fbink_state.screen_height / 10U;
+	fbink_cfg.row           = 3;
+	fbink_print_image(fbfd, "./resources/img/koreader.png", 0, 0, &fbink_cfg);
+	fbink_cfg.no_refresh  = false;
+	fbink_cfg.is_flashing = true;
+	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
+	fbink_cfg.is_flashing = false;
+
 	// Display a minimal status bar on screen
+	fbink_cfg.row = -5;
 	print_status(fbfd, &fbink_cfg, ntxfd);
 
 	// And now, on to the fun stuff!
@@ -283,6 +306,7 @@ cleanup:
 	LOG(LOG_INFO, "Bye!");
 	closelog();
 
+	fbink_free_ot_fonts();
 	fbink_close(fbfd);
 
 	ue_destroy_listener(&listener);
