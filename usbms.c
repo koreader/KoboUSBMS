@@ -417,12 +417,21 @@ int
 	fbink_cfg.row      = -3;
 	ot_cfg.margins.top = (short int) -(fbink_state.font_h * 3U);
 	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
-	fbink_cfg.row = -5;
 
 	// Setup the center icon display
 	FBInkOTConfig icon_cfg = { 0 };
-	icon_cfg.size_px       = (unsigned short int) (fbink_state.font_h * 20U);
+	icon_cfg.size_px       = (unsigned short int) (fbink_state.font_h * 30U);
 	icon_cfg.padding       = HORI_PADDING;
+
+	// The various lsmod checks will take a while, so, start with the initial cable status...
+	bool usb_plugged = is_usb_plugged(ntxfd);
+	print_icon(fbfd, usb_plugged ? "\uf700" : "\uf701", &fbink_cfg, &icon_cfg);
+
+	// Setup the message area
+	FBInkOTConfig msg_cfg = { 0 };
+	msg_cfg.size_px       = ot_cfg.size_px;
+	fbink_cfg.row         = -14;
+	msg_cfg.margins.top   = (short int) -(fbink_state.font_h * 14U);
 
 	// And now, on to the fun stuff!
 	// If we're in USBNet mode, abort!
@@ -431,20 +440,34 @@ int
 	if (rc == 0) {
 		LOG(LOG_ERR, "Device is in USBNet mode, aborting");
 
-		// TODO: Switch to a fancy centered/scaled USBNet image & a /!\ OT icon in front of the message
-		fbink_cfg.row = -5;
-		fbink_print(fbfd, "Disable USBNet manually first!", &fbink_cfg);
 		print_icon(fbfd, "\uf6ff", &fbink_cfg, &icon_cfg);
-		// TODO: Print warning message w/ a /!\ icon
+		fbink_print_ot(fbfd,
+			       "\uf071 Please disable USBNet manually!\nPress the power button to exit.",
+			       &msg_cfg,
+			       &fbink_cfg,
+			       NULL);
 
 		// TODO: Hold it for 30s/power button press, whichever comes first
 		rv = EXIT_FAILURE;
 		goto cleanup;
 	}
 
-	bool usb_plugged = is_usb_plugged(ntxfd);
-	if (! usb_plugged) {
-		print_icon(fbfd, "\uf701", &fbink_cfg, &icon_cfg);
+	// Same deal for USBSerial...
+	rc = system("lsmod | grep -q g_serial");
+	if (rc == 0) {
+		LOG(LOG_ERR, "Device is in USBSerial mode, aborting");
+
+		// NOTE: There's also U+fb5b for a serial cable icon
+		print_icon(fbfd, "\ue795", &fbink_cfg, &icon_cfg);
+		fbink_print_ot(fbfd,
+			       "\uf071 Please disable USBSerial manually!\nPress the power button to exit.",
+			       &msg_cfg,
+			       &fbink_cfg,
+			       NULL);
+
+		// TODO: Hold it for 30s/power button press, whichever comes first
+		rv = EXIT_FAILURE;
+		goto cleanup;
 	}
 
 cleanup:
