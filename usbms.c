@@ -113,8 +113,8 @@ static void
 	}
 
 	// Push it to the env...
-	char pid_str[7] = { 0 };
-	snprintf(pid_str, sizeof(pid_str) - 1U, "0x%X", pid);
+	char pid_str[8] = { 0 };
+	snprintf(pid_str, sizeof(pid_str) - 1U, "0x%04X", pid);
 	PFLOG(LOG_NOTICE, "USB product ID: %s", pid_str);
 	setenv("USB_PRODUCT_ID", pid_str, 1);
 }
