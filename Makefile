@@ -152,8 +152,8 @@ kobo: armcheck release
 	ln -sf $(CURDIR)/scripts/end-usbms.sh Kobo/scripts/end-usbms.sh
 	ln -sf $(CURDIR)/resources/img/koreader.png Kobo/resources/img/koreader.png
 	ln -sf $(CURDIR)/resources/fonts/CaskaydiaCove_NF.ttf Kobo/resources/fonts/CaskaydiaCove_NF.ttf
-	ln -sf $(CURDIR)/Release/usbms Kobo/usbms
-	tar --mtime=@$(USBMS_EPOCH) --owner=root --group=root -cvzhf Release/KoboUSBMS.tar.gz -C Kobo .
+	ln -sf $(CURDIR)/$(OUT_DIR)/usbms Kobo/usbms
+	tar --mtime=@$(USBMS_EPOCH) --owner=root --group=root -cvzhf $(OUT_DIR)/KoboUSBMS.tar.gz -C Kobo .
 
 clean:
 	rm -rf Release/*.o
