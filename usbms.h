@@ -17,6 +17,9 @@
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+#ifndef __USBMS_H
+#define __USBMS_H
+
 // Because we're pretty much Linux-bound ;).
 #ifndef _GNU_SOURCE
 #	define _GNU_SOURCE
@@ -72,3 +75,5 @@
 #define CM_USB_Plug_IN        108
 #define CM_CHARGE_STATUS      204    // Mapped to CM_USB_Plug_IN on the Forma...
 #define CM_GET_BATTERY_STATUS 206
+
+#endif    // __USBMS_H
