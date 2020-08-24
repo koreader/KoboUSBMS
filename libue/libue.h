@@ -31,6 +31,7 @@
 #include <sys/poll.h>
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <syslog.h>
 #include <unistd.h>
 
 #include <linux/netlink.h>
@@ -40,11 +41,24 @@
 #define LIBUE_VERSION        LIBUE_VERSION_MAJOR "." LIBUE_VERSION_MINOR
 #define LIBUE_VERSION_NUMBER 10000
 
+// Enable debug logging in Debug builds
+#ifdef DEBUG
+#	define LIBUE_DEBUG 1
+#else
+// NOTE: Right now, we want debug logging even in release builds.
+#	define LIBUE_DEBUG 1
+#endif
+
 // Logging helpers
 #define LOG(prio, fmt, ...) ({ syslog(prio, fmt, ##__VA_ARGS__); })
 
 // Same, but with __PRETTY_FUNCTION__:__LINE__ right before fmt
-#define PFLOG(prio, fmt, ...) ({ LOG(prio, "[%s:%d] " fmt, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__); })
+#define PFLOG(prio, fmt, ...)                                                                                            \
+	({                                                                                                               \
+		if ((prio != LOG_DEBUG) || (prio == LOG_DEBUG && LIBUE_DEBUG)) {                                         \
+			LOG(prio, "[%s:%d] " fmt, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);                         \
+		}                                                                                                        \
+	})
 
 struct uevent_listener
 {
