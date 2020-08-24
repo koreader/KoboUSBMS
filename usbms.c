@@ -333,7 +333,7 @@ static int
 		PFLOG(LOG_CRIT, "recv: %m");
 		return ERR_LISTENER_RECV;
 	}
-	if (ue_parse_event_msg(uevp, (size_t) len) == 0) {
+	if (ue_parse_event_msg(uevp, (size_t) len) == EXIT_SUCCESS) {
 		PFLOG(LOG_DEBUG, "uevent successfully parsed");
 		return EXIT_SUCCESS;
 	} else {
@@ -436,7 +436,7 @@ int
 	// Much like in KOReader's otamanager, check if we can use pipefail in a roundabout way,
 	// because old busybox ash versions will *abort* on set failures...
 	rc = system("set -o pipefail 2>/dev/null");
-	if (rc == 0) {
+	if (rc == EXIT_SUCCESS) {
 		setenv("WITH_PIPEFAIL", "true", 1);
 	} else {
 		setenv("WITH_PIPEFAIL", "false", 1);
@@ -666,7 +666,7 @@ int
 	// Here goes nothing...
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/scripts/start-usbms.sh", abs_pwd);
 	rc = system(resource_path);
-	if (rc != 0) {
+	if (rc != EXIT_SUCCESS) {
 		// Hu oh... Print a giant warning, and abort. KOReader will shutdown the device after a while.
 		LOG(LOG_CRIT, "Failed to start the USBMS session!");
 		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
@@ -738,7 +738,7 @@ int
 	// Nearly there...
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/scripts/end-usbms.sh", abs_pwd);
 	rc = system(resource_path);
-	if (rc != 0) {
+	if (rc != EXIT_SUCCESS) {
 		// Hu oh... Print a giant warning, and abort. KOReader will shutdown the device after a while.
 		LOG(LOG_CRIT, "Failed to end the USBMS session!");
 		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);

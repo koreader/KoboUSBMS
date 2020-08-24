@@ -58,7 +58,7 @@ struct uevent_listener
 #define ERR_LISTENER_RECV         -4
 #define ERR_PARSE_UDEV            -1
 #define ERR_PARSE_INVALID_HDR     -2
-#define UE_STR_EQ(str, const_str) (strncmp((str), (const_str), sizeof(const_str) - 1) == 0)
+#define UE_STR_EQ(str, const_str) (strncmp((str), (const_str), sizeof(const_str) - 1U) == 0)
 
 enum uevent_action
 {
@@ -181,7 +181,7 @@ static int
 			PFLOG(LOG_CRIT, "recv: %m");
 			return ERR_LISTENER_RECV;
 		}
-		if (ue_parse_event_msg(uevp, (size_t) len) == 0) {
+		if (ue_parse_event_msg(uevp, (size_t) len) == EXIT_SUCCESS) {
 			PFLOG(LOG_DEBUG, "uevent successfully parsed");
 			return EXIT_SUCCESS;
 		} else {
