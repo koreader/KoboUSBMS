@@ -10,6 +10,8 @@ fi
 # Do something a wee bit more user-friendly with what fuser spits out...
 for pid in $(fuser -m "/mnt/onboard") ; do
 	if [ -e "/proc/${pid}" ] ; then
-		echo "${pid} -> $(cat "/proc/${pid}/comm")"
+		pretty_msg="${pid} -> $(cat "/proc/${pid}/comm")"
+		echo "${pretty_msg}"
+		logger -p "DAEMON.NOTICE" -t "${SCRIPT_NAME}[$$]" "${pretty_msg}"
 	fi
 done

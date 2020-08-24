@@ -564,6 +564,7 @@ int
 			// Drop the bottom margin to allow stomping over the status bar...
 			msg_cfg.margins.bottom = 0;
 
+			LOG(LOG_WARNING, "Listing offending processes...");
 			snprintf(resource_path, sizeof(resource_path) - 1U, "%s/scripts/fuser-check.sh", abs_pwd);
 			FILE* f = popen(resource_path, "re");
 			if (f) {
@@ -576,11 +577,11 @@ int
 				rc = pclose(f);
 				if (rc != EXIT_SUCCESS) {
 					// Hu oh... Print a giant warning, and abort. KOReader will shutdown the device after a while.
-					LOG(LOG_CRIT, "Failed to parse fuser output!");
+					LOG(LOG_CRIT, "The fuser script failed!");
 					print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 					fbink_print_ot(
 					    fbfd,
-					    "\uf071 Failed to parse fuser output!\nThe device will shutdown in 90 sec.",
+					    "\uf071 The fuser script failed!\nThe device will shutdown in 90 sec.",
 					    &msg_cfg,
 					    &fbink_cfg,
 					    NULL);
