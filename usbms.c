@@ -563,7 +563,7 @@ int
 			if (poll_num > 0) {
 				if (pfd.revents & POLLIN) {
 					if (handle_evdev(dev)) {
-						LOG(LOG_NOTICE, "Got a power button release");
+						LOG(LOG_NOTICE, "Caught a power button release");
 						break;
 					}
 				}
@@ -574,9 +574,9 @@ int
 				retry++;
 			}
 
-			// Give up afer 30s
+			// Give up afer 30 sec
 			if (retry >= 6) {
-				LOG(LOG_NOTICE, "It's been 30s, giving up");
+				LOG(LOG_NOTICE, "It's been 30 sec, giving up");
 				break;
 			}
 		}
@@ -590,11 +590,8 @@ int
 	// If we're not plugged in, wait for it (or abort early)
 	usb_plugged = is_usb_plugged(ntxfd);
 	if (!usb_plugged) {
-		fbink_print_ot(fbfd,
-			       "Waiting to be plugged to a computer...\nOr, press the power button to exit.",
-			       &msg_cfg,
-			       &fbink_cfg,
-			       NULL);
+		fbink_print_ot(
+		    fbfd, "Waiting to be plugged in...\nOr, press the power button to exit.", &msg_cfg, &fbink_cfg, NULL);
 
 		LOG(LOG_INFO, "Waiting for a plug in event or a power button press . . .");
 		struct pollfd pfds[2] = { 0 };
@@ -626,7 +623,7 @@ int
 			if (poll_num > 0) {
 				if (pfds[0].revents & POLLIN) {
 					if (handle_evdev(dev)) {
-						LOG(LOG_NOTICE, "Got a power button release");
+						LOG(LOG_NOTICE, "Caught a power button release");
 						need_early_abort = true;
 						break;
 					}
@@ -638,7 +635,7 @@ int
 						if (uev.action == UEVENT_ACTION_ADD && uev.devpath &&
 						    (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_PLUG) ||
 						     UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_HOST))) {
-							LOG(LOG_NOTICE, "Got a plug in event");
+							LOG(LOG_NOTICE, "Caught a plug in event");
 							break;
 						}
 					}
@@ -650,9 +647,9 @@ int
 				retry++;
 			}
 
-			// Give up afer 90s
+			// Give up afer 90 sec
 			if (retry >= 18) {
-				LOG(LOG_NOTICE, "It's been 90s, giving up");
+				LOG(LOG_NOTICE, "It's been 90 sec, giving up");
 				need_early_abort = true;
 				break;
 			}
@@ -679,7 +676,7 @@ int
 		LOG(LOG_CRIT, "Failed to start the USBMS session!");
 		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
-			       "\uf071 Failed to start the USBMS session!\nThe device will shutdown in 90s.",
+			       "\uf071 Failed to start the USBMS session!\nThe device will shutdown in 90 sec.",
 			       &msg_cfg,
 			       &fbink_cfg,
 			       NULL);
@@ -694,7 +691,7 @@ int
 	fbink_cfg.is_nightmode = true;
 	fbink_cfg.no_refresh   = true;
 	fbink_print_ot(fbfd,
-		       "USBMS session in progress.\nPlease eject your device safely before unplug.",
+		       "USBMS session in progress.\nPlease eject your device safely before unplugging it.",
 		       &msg_cfg,
 		       &fbink_cfg,
 		       NULL);
@@ -714,12 +711,12 @@ int
 		    (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_FSL) ||
 		     (uev.modalias && UE_STR_EQ(uev.modalias, KOBO_USB_MODALIAS_CI)) ||
 		     UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_UDC))) {
-			LOG(LOG_NOTICE, "Got an eject event");
+			LOG(LOG_NOTICE, "Caught an eject event");
 			break;
 		} else if (uev.action == UEVENT_ACTION_REMOVE && uev.devpath &&
 			   (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_PLUG) ||
 			    UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_HOST))) {
-			LOG(LOG_NOTICE, "Got an unplug event");
+			LOG(LOG_NOTICE, "Caught an unplug event");
 			break;
 		}
 	}
@@ -731,7 +728,7 @@ int
 		LOG(LOG_CRIT, "Failed to detect an unlug event!");
 		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
-			       "\uf071 Failed to detect an unplug event!\nThe device will shutdown in 90s.",
+			       "\uf071 Failed to detect an unplug event!\nThe device will shutdown in 90 sec.",
 			       &msg_cfg,
 			       &fbink_cfg,
 			       NULL);
@@ -755,7 +752,7 @@ int
 		LOG(LOG_CRIT, "Failed to end the USBMS session!");
 		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
-			       "\uf071 Failed to end the USBMS session!\nThe device will shutdown in 90s.",
+			       "\uf071 Failed to end the USBMS session!\nThe device will shutdown in 90 sec.",
 			       &msg_cfg,
 			       &fbink_cfg,
 			       NULL);
