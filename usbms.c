@@ -551,11 +551,8 @@ int
 			// Start a little bit higher than usual to leave us some room...
 			fbink_cfg.row       = -16;
 			msg_cfg.margins.top = (short int) -(fbink_state.font_h * 16U);
-			rc                  = fbink_print_ot(fbfd,
-                                            "\uf071 Filesystem is busy!\nPress the power button to exit.",
-                                            &msg_cfg,
-                                            &fbink_cfg,
-                                            NULL);
+			rc                  = fbink_print_ot(
+                            fbfd, "\uf071 Filesystem is busy! Offending processes:", &msg_cfg, &fbink_cfg, NULL);
 
 			// And now, switch to a smaller font size when consuming the script's output...
 			msg_cfg.padding     = HORI_PADDING;
@@ -574,6 +571,9 @@ int
 					msg_cfg.margins.top = (short int) rc;
 				}
 
+				// Back to normal :)
+				msg_cfg.size_px = ot_cfg.size_px;
+
 				rc = pclose(f);
 				if (rc != EXIT_SUCCESS) {
 					// Hu oh... Print a giant warning, and abort. KOReader will shutdown the device after a while.
@@ -589,6 +589,8 @@ int
 					rv = EXIT_FAILURE;
 					goto cleanup;
 				}
+
+				fbink_print_ot(fbfd, "Press the power button to exit.", &msg_cfg, &fbink_cfg, NULL);
 			} else {
 				// Hu oh... Print a giant warning, and abort. KOReader will shutdown the device after a while.
 				LOG(LOG_CRIT, "Failed to run fuser script!");
