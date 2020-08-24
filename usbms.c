@@ -577,7 +577,7 @@ int
 				rc = pclose(f);
 				if (rc != EXIT_SUCCESS) {
 					// Hu oh... Print a giant warning, and abort. KOReader will shutdown the device after a while.
-					LOG(LOG_CRIT, "The fuser script failed!");
+					LOG(LOG_CRIT, "The fuser script failed (%d)!", rc);
 					print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 					fbink_print_ot(
 					    fbfd,
@@ -752,7 +752,7 @@ int
 	rc = system(resource_path);
 	if (rc != EXIT_SUCCESS) {
 		// Hu oh... Print a giant warning, and abort. KOReader will shutdown the device after a while.
-		LOG(LOG_CRIT, "Failed to start the USBMS session!");
+		LOG(LOG_CRIT, "Failed to start the USBMS session (%d)!", rc);
 		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
 			       "\uf071 Failed to start the USBMS session!\nThe device will shutdown in 90 sec.",
@@ -828,7 +828,7 @@ int
 	rc = system(resource_path);
 	if (rc != EXIT_SUCCESS) {
 		// Hu oh... Print a giant warning, and abort. KOReader will shutdown the device after a while.
-		LOG(LOG_CRIT, "Failed to end the USBMS session!");
+		LOG(LOG_CRIT, "Failed to end the USBMS session (%d)!", rc);
 		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
 			       "\uf071 Failed to end the USBMS session!\nThe device will shutdown in 90 sec.",
