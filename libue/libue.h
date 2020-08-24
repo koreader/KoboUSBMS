@@ -130,23 +130,24 @@ static int
 	while (i < buflen) {
 		cur_line = uevp->buf + i;
 		UE_PFLOG(LOG_DEBUG, "line: `%s`", cur_line);
-		if (UE_STR_EQ(cur_line, "ACTION")) {
-			cur_line += sizeof("ACTION");
-			if (UE_STR_EQ(cur_line, "add")) {
+		char* p = cur_line;
+		if (UE_STR_EQ(p, "ACTION")) {
+			p += sizeof("ACTION");
+			if (UE_STR_EQ(p, "add")) {
 				uevp->action = UEVENT_ACTION_ADD;
-			} else if (UE_STR_EQ(cur_line, "change")) {
+			} else if (UE_STR_EQ(p, "change")) {
 				uevp->action = UEVENT_ACTION_CHANGE;
-			} else if (UE_STR_EQ(cur_line, "remove")) {
+			} else if (UE_STR_EQ(p, "remove")) {
 				uevp->action = UEVENT_ACTION_REMOVE;
-			} else if (UE_STR_EQ(cur_line, "move")) {
+			} else if (UE_STR_EQ(p, "move")) {
 				uevp->action = UEVENT_ACTION_MOVE;
-			} else if (UE_STR_EQ(cur_line, "online")) {
+			} else if (UE_STR_EQ(p, "online")) {
 				uevp->action = UEVENT_ACTION_ONLINE;
-			} else if (UE_STR_EQ(cur_line, "offline")) {
+			} else if (UE_STR_EQ(p, "offline")) {
 				uevp->action = UEVENT_ACTION_OFFLINE;
 			}
-		} else if (UE_STR_EQ(cur_line, "DEVPATH")) {
-			uevp->devpath = cur_line + sizeof("DEVPATH");
+		} else if (UE_STR_EQ(p, "DEVPATH")) {
+			uevp->devpath = p + sizeof("DEVPATH");
 		}
 		/* proceed to next line */
 		i += strlen(cur_line) + 1U;
