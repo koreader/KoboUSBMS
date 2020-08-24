@@ -656,6 +656,29 @@ int
 		}
 	}
 
+	// Wee bit of trickery with an obscure umount2 feature, to see if the mountpoint is still busy...
+	rc = umount2("/mnt/onboard", MNT_EXPIRE);
+	if (rc != EXIT_SUCCESS) {
+		if (errno == EAGAIN) {
+			// That means we're good to go ;).
+			LOG(LOG_INFO, "Mountpoint onboard wasn't busy, it's been successfully marked as expired.");
+		} else if (errno == EBUSY) {
+			LOG(LOG_WARNING, "Mountpoint onboard is busy, can't export it!");
+			print_icon(fbfd, "\uf7c9", &fbink_cfg, &icon_cfg);
+
+			// TODO: Do some ugly popen magic w/ fuser, and print it @ half-size in msg
+			fbink_print_ot(fbfd, "Filesystem is busy, aborting.", &msg_cfg, &fbink_cfg, NULL);
+
+			// TODO: Do the power button dance?
+
+			need_early_abort = true;
+		} else {
+			PFLOG(LOG_CRIT, "umount2: %m");
+			rv = EXIT_FAILURE;
+			goto cleanup;
+		}
+	}
+
 	// If we aborted before plug in, we can still exit safely...
 	if (need_early_abort) {
 		rv = EXIT_SUCCESS;
