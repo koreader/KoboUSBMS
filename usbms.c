@@ -709,8 +709,6 @@ int
 			    UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_HOST))) {
 			LOG(LOG_NOTICE, "Got an unplug event");
 			break;
-		} else {
-			continue;
 		}
 	}
 	fbink_cfg.is_nightmode = false;
