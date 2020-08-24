@@ -477,6 +477,7 @@ int
 	// Display a minimal status bar on screen
 	fbink_cfg.row      = -3;
 	ot_cfg.margins.top = (short int) -(fbink_state.font_h * 3U);
+	ot_cfg.padding     = HORI_PADDING;
 	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 
 	// Setup the center icon display
