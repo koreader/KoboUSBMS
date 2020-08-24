@@ -98,11 +98,6 @@ else
 	EXTRA_CPPFLAGS+=-DNDEBUG
 endif
 
-# FIXME: Might not end up using clock_gettime ^^
-# And we need -lrt for clock_gettime, as our TC is targeting glibc 2.15, and it was in there before glibc 2.17...
-# Yes, Kobo FW have since moved to glibc 2.19, but that's recent (-ish), and we want binaries that will work on earlier FW than that.
-LIBS+=-lrt
-
 # We already enforce that in FBInk & USBMS, so, follow suit everywhere
 EXTRA_CPPFLAGS+=-D_GNU_SOURCE
 
