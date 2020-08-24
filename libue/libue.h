@@ -49,8 +49,18 @@
 #	define LIBUE_DEBUG 1
 #endif
 
+// We log to syslog
+#define LIBUE_SYSLOG 1
+
 // Logging helpers
-#define LOG(prio, fmt, ...) ({ syslog(prio, fmt, ##__VA_ARGS__); })
+#define LOG(prio, fmt, ...)                                                                                              \
+	({                                                                                                               \
+		if (LIBUE_SYSLOG) {                                                                                      \
+			syslog(prio, fmt, ##__VA_ARGS__);                                                                \
+		} else {                                                                                                 \
+			fprintf(stderr, fmt "\n", ##__VA_ARGS__);                                                        \
+		}                                                                                                        \
+	})
 
 // Same, but with __PRETTY_FUNCTION__:__LINE__ right before fmt
 #define PFLOG(prio, fmt, ...)                                                                                            \
