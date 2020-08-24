@@ -584,7 +584,7 @@ int
 			       &fbink_cfg,
 			       NULL);
 
-		LOG(LOG_INFO, "Waiting for a plug-in event or a power button press . . .");
+		LOG(LOG_INFO, "Waiting for a plug in event or a power button press . . .");
 		struct pollfd pfds[2] = { 0 };
 		nfds_t        nfds    = 2;
 		// Input device
@@ -622,11 +622,11 @@ int
 
 				if (pfds[1].revents & POLLIN) {
 					if (handle_uevent(&listener, &uev) == EXIT_SUCCESS) {
-						// Now check if it's a plug-in...
+						// Now check if it's a plug in...
 						if (uev.action == UEVENT_ACTION_ADD && uev.devpath &&
 						    (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_PLUG) ||
 						     UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_HOST))) {
-							LOG(LOG_NOTICE, "Got a plug-in event");
+							LOG(LOG_NOTICE, "Got a plug in event");
 							break;
 						}
 					}
@@ -647,7 +647,7 @@ int
 		}
 	}
 
-	// If we aborted before plug-in, we can still exit safely...
+	// If we aborted before plug in, we can still exit safely...
 	if (need_early_abort) {
 		rv = EXIT_SUCCESS;
 		goto cleanup;
