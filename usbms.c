@@ -613,8 +613,11 @@ int
 			rv = EXIT_FAILURE;
 			goto cleanup;
 		}
+	} else {
+		// NOTE: This should never really happen...
+		LOG(LOG_WARNING,
+		    "Mountpoint onboard has been unmounted early: it wasn't busy, and it was already marked as expired?!");
 	}
-	// NOTE: umount2 should never return EXIT_SUCCESS w/ MNT_EXPIRE ;).
 
 	// If we need an early abort because of USBNet/USBSerial or a busy mountpoint, do it now...
 	if (need_early_abort) {
