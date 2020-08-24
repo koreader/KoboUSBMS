@@ -43,19 +43,19 @@
 
 // Enable debug logging in Debug builds
 #ifdef DEBUG
-#	define LIBUE_DEBUG 1
+#	define UE_DEBUG 1
 #else
 // NOTE: Right now, we want debug logging even in release builds.
-#	define LIBUE_DEBUG 1
+#	define UE_DEBUG 1
 #endif
 
 // We log to syslog
-#define LIBUE_SYSLOG 1
+#define UE_SYSLOG 1
 
 // Logging helpers
-#define LOG(prio, fmt, ...)                                                                                              \
+#define UE_LOG(prio, fmt, ...)                                                                                           \
 	({                                                                                                               \
-		if (LIBUE_SYSLOG) {                                                                                      \
+		if (UE_SYSLOG) {                                                                                         \
 			syslog(prio, fmt, ##__VA_ARGS__);                                                                \
 		} else {                                                                                                 \
 			fprintf(stderr, fmt "\n", ##__VA_ARGS__);                                                        \
@@ -63,10 +63,10 @@
 	})
 
 // Same, but with __PRETTY_FUNCTION__:__LINE__ right before fmt
-#define PFLOG(prio, fmt, ...)                                                                                            \
+#define UE_PFLOG(prio, fmt, ...)                                                                                         \
 	({                                                                                                               \
-		if ((prio != LOG_DEBUG) || (prio == LOG_DEBUG && LIBUE_DEBUG)) {                                         \
-			LOG(prio, "[%s:%d] " fmt, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);                         \
+		if ((prio != LOG_DEBUG) || (prio == LOG_DEBUG && UE_DEBUG)) {                                            \
+			UE_LOG(prio, "[%s:%d] " fmt, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);                      \
 		}                                                                                                        \
 	})
 
@@ -129,7 +129,7 @@ static int
 
 	while (i < buflen) {
 		cur_line = uevp->buf + i;
-		PFLOG(LOG_DEBUG, "line: `%s`", cur_line);
+		UE_PFLOG(LOG_DEBUG, "line: `%s`", cur_line);
 		if (UE_STR_EQ(cur_line, "ACTION")) {
 			cur_line += sizeof("ACTION");
 			if (UE_STR_EQ(cur_line, "add")) {
@@ -183,12 +183,12 @@ static int
 	l->pfd.events = POLLIN;
 	l->pfd.fd     = socket(PF_NETLINK, SOCK_DGRAM, NETLINK_KOBJECT_UEVENT);
 	if (l->pfd.fd == -1) {
-		PFLOG(LOG_CRIT, "socket: %m");
+		UE_PFLOG(LOG_CRIT, "socket: %m");
 		return ERR_LISTENER_NOT_ROOT;
 	}
 
 	if (bind(l->pfd.fd, (struct sockaddr*) &(l->nls), sizeof(struct sockaddr_nl))) {
-		PFLOG(LOG_CRIT, "bind: %m");
+		UE_PFLOG(LOG_CRIT, "bind: %m");
 		return ERR_LISTENER_BIND;
 	}
 
@@ -202,22 +202,22 @@ static int
 		ue_reset_event(uevp);
 		ssize_t len = recv(l->pfd.fd, uevp->buf, sizeof(uevp->buf), MSG_DONTWAIT);
 		if (len == -1) {
-			PFLOG(LOG_CRIT, "recv: %m");
+			UE_PFLOG(LOG_CRIT, "recv: %m");
 			return ERR_LISTENER_RECV;
 		}
 		int rc = ue_parse_event_msg(uevp, (size_t) len);
 		if (rc == EXIT_SUCCESS) {
-			PFLOG(LOG_DEBUG, "uevent successfully parsed");
+			UE_PFLOG(LOG_DEBUG, "uevent successfully parsed");
 			return EXIT_SUCCESS;
 		} else if (rc == ERR_PARSE_UDEV) {
-			PFLOG(LOG_DEBUG, "skipped udev uevent: `%s`", uevp->buf);
+			UE_PFLOG(LOG_DEBUG, "skipped udev uevent: `%s`", uevp->buf);
 		} else if (rc == ERR_PARSE_INVALID_HDR) {
-			PFLOG(LOG_DEBUG, "skipped malformed uevent: `%s`", uevp->buf);
+			UE_PFLOG(LOG_DEBUG, "skipped malformed uevent: `%s`", uevp->buf);
 		} else {
-			PFLOG(LOG_DEBUG, "skipped unsupported uevent: `%s`", uevp->buf);
+			UE_PFLOG(LOG_DEBUG, "skipped unsupported uevent: `%s`", uevp->buf);
 		}
 	}
-	PFLOG(LOG_CRIT, "poll: %m");
+	UE_PFLOG(LOG_CRIT, "poll: %m");
 	return ERR_LISTENER_POLL;
 }
 
