@@ -595,16 +595,18 @@ int
 				// Hu oh... Print a giant warning, and abort. KOReader will shutdown the device after a while.
 				LOG(LOG_CRIT, "Failed to run fuser script!");
 				print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
-				fbink_print_ot(fbfd,
-					       "\uf071 Failed to run fuser script!\nThe device will shutdown in 90 sec.",
-					       &msg_cfg,
-					       &fbink_cfg,
-					       NULL);
+				fbink_print_ot(
+				    fbfd,
+				    "\uf071 Failed to run the fuser script!\nThe device will shutdown in 90 sec.",
+				    &msg_cfg,
+				    &fbink_cfg,
+				    NULL);
 
 				rv = EXIT_FAILURE;
 				goto cleanup;
 			}
 
+			// We can still exit safely at that point
 			need_early_abort = true;
 		} else {
 			PFLOG(LOG_CRIT, "umount2: %m");
