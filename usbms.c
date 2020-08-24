@@ -548,14 +548,59 @@ int
 			LOG(LOG_WARNING, "Mountpoint onboard is busy, can't export it!");
 			print_icon(fbfd, "\uf7c9", &fbink_cfg, &icon_cfg);
 
-			// TODO: Do some ugly popen magic w/ fuser, and print it @ half-size in msg
-			fbink_print_ot(fbfd,
-				       "\uf071 Filesystem is busy!\nPress the power button to exit.",
-				       &msg_cfg,
-				       &fbink_cfg,
-				       NULL);
-			// Switch to hori_padding, size_px = font_h, and use new-top for eahc fgets
-			// No need to reset it, we exit right after ;).
+			// Start a little bit higher than usual to leave us some room...
+			fbink_cfg.row       = -16;
+			msg_cfg.margins.top = (short int) -(fbink_state.font_h * 16U);
+			rc                  = fbink_print_ot(fbfd,
+                                            "\uf071 Filesystem is busy!\nPress the power button to exit.",
+                                            &msg_cfg,
+                                            &fbink_cfg,
+                                            NULL);
+
+			// And now, switch to a smaller font size when consuming the script's output...
+			msg_cfg.padding     = HORI_PADDING;
+			msg_cfg.size_px     = fbink_state.font_h;
+			msg_cfg.margins.top = (short int) rc;
+			// Drop the bottom margin to allow stomping over the status bar...
+			msg_cfg.margins.bottom = 0;
+
+			snprintf(resource_path, sizeof(resource_path) - 1U, "%s/scripts/fuser-check.sh", abs_pwd);
+			FILE* f = popen(resource_path, "re");
+			if (f) {
+				char line[PIPE_BUF];
+				while (fgets(line, sizeof(line), f)) {
+					rc                  = fbink_print_ot(fbfd, line, &msg_cfg, &fbink_cfg, NULL);
+					msg_cfg.margins.top = (short int) rc;
+				}
+
+				rc = pclose(f);
+				if (rc != EXIT_SUCCESS) {
+					// Hu oh... Print a giant warning, and abort. KOReader will shutdown the device after a while.
+					LOG(LOG_CRIT, "Failed to parse fuser output!");
+					print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
+					fbink_print_ot(
+					    fbfd,
+					    "\uf071 Failed to parse fuser output!\nThe device will shutdown in 90 sec.",
+					    &msg_cfg,
+					    &fbink_cfg,
+					    NULL);
+
+					rv = EXIT_FAILURE;
+					goto cleanup;
+				}
+			} else {
+				// Hu oh... Print a giant warning, and abort. KOReader will shutdown the device after a while.
+				LOG(LOG_CRIT, "Failed to run fuser script!");
+				print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
+				fbink_print_ot(fbfd,
+					       "\uf071 Failed to run fuser script!\nThe device will shutdown in 90 sec.",
+					       &msg_cfg,
+					       &fbink_cfg,
+					       NULL);
+
+				rv = EXIT_FAILURE;
+				goto cleanup;
+			}
 
 			need_early_abort = true;
 		} else {
@@ -564,6 +609,7 @@ int
 			goto cleanup;
 		}
 	}
+	// NOTE: umount2 should never return EXIT_SUCCESS w/ MNT_EXPIRE ;).
 
 	// If we need an early abort because of USBNet/USBSerial or a busy mountpoint, do it now...
 	if (need_early_abort) {
