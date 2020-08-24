@@ -692,6 +692,7 @@ int
 	LOG(LOG_INFO, "USBMS session in progress");
 	// Switch to nightmode for the duration of the session, as a nod to the stock behavior ;).
 	fbink_cfg.is_nightmode = true;
+	fbink_cfg.no_refresh   = true;
 	fbink_print_ot(fbfd,
 		       "USBMS session in progress.\nPlease eject your device safely before unplug.",
 		       &msg_cfg,
@@ -699,6 +700,7 @@ int
 		       NULL);
 	// Refresh the status bar
 	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+	fbink_cfg.no_refresh = false;
 	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
 
 	// And now we just have to wait until an unplug...
