@@ -69,7 +69,7 @@
 // c.f., /lib/udev/rules.d/kobo.rules
 #define KOBO_USB_DEVPATH_FSL "/devices/platform/fsl-usb2-udc"    // OK
 #define KOBO_USB_MODALIAS_CI "platform:ci_hdrc"                  // OK
-// TODO: TBC, no idea which devices it applies to...
+// TODO: TBC, no idea which devices it applies to (Trilogy?)...
 #define KOBO_USB_DEVPATH_UDC "/devices/platform/5100000.udc-controller"
 
 // So far, those have thankfully been set in stone
