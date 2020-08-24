@@ -89,7 +89,7 @@ static int
     ue_parse_event_msg(struct uevent* uevp, size_t buflen)
 {
 	/* skip udev events */
-	if (memcmp(uevp->buf, "libudev", 8) == 0) {
+	if (memcmp(uevp->buf, "libudev", 7) == 0 || memcmp(uevp->buf, "udev", 4)) {
 		return ERR_PARSE_UDEV;
 	}
 
