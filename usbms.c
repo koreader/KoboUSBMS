@@ -537,7 +537,35 @@ int
 			       NULL);
 	}
 
-	// If we need an early abort because of USBNet/USBSerial, do it now...
+	// Wee bit of trickery with an obscure umount2 feature, to see if the mountpoint is currently busy,
+	// without actually unmounting it for real...
+	rc = umount2("/mnt/onboard", MNT_EXPIRE);
+	if (rc != EXIT_SUCCESS) {
+		if (errno == EAGAIN) {
+			// That means we're good to go ;).
+			LOG(LOG_INFO, "Mountpoint onboard wasn't busy, it's been successfully marked as expired.");
+		} else if (errno == EBUSY) {
+			LOG(LOG_WARNING, "Mountpoint onboard is busy, can't export it!");
+			print_icon(fbfd, "\uf7c9", &fbink_cfg, &icon_cfg);
+
+			// TODO: Do some ugly popen magic w/ fuser, and print it @ half-size in msg
+			fbink_print_ot(fbfd,
+				       "\uf071 Filesystem is busy!\nPress the power button to exit.",
+				       &msg_cfg,
+				       &fbink_cfg,
+				       NULL);
+			// Switch to hori_padding, size_px = font_h, and use new-top for eahc fgets
+			// No need to reset it, we exit right after ;).
+
+			need_early_abort = true;
+		} else {
+			PFLOG(LOG_CRIT, "umount2: %m");
+			rv = EXIT_FAILURE;
+			goto cleanup;
+		}
+	}
+
+	// If we need an early abort because of USBNet/USBSerial or a busy mountpoint, do it now...
 	if (need_early_abort) {
 		LOG(LOG_INFO, "Waiting for a power button press . . .");
 		struct pollfd pfd = { 0 };
@@ -653,31 +681,6 @@ int
 				need_early_abort = true;
 				break;
 			}
-		}
-	}
-
-	// Wee bit of trickery with an obscure umount2 feature, to see if the mountpoint is still busy...
-	rc = umount2("/mnt/onboard", MNT_EXPIRE);
-	if (rc != EXIT_SUCCESS) {
-		if (errno == EAGAIN) {
-			// That means we're good to go ;).
-			LOG(LOG_INFO, "Mountpoint onboard wasn't busy, it's been successfully marked as expired.");
-		} else if (errno == EBUSY) {
-			LOG(LOG_WARNING, "Mountpoint onboard is busy, can't export it!");
-			print_icon(fbfd, "\uf7c9", &fbink_cfg, &icon_cfg);
-
-			// TODO: Do some ugly popen magic w/ fuser, and print it @ half-size in msg
-			fbink_print_ot(fbfd, "Filesystem is busy, aborting.", &msg_cfg, &fbink_cfg, NULL);
-			// Add a /!\ to the first msg, then switch to hori_padding, size_px = font_h, and use new-top for eahc fgets
-			// No need to reset it, we exit right after ;).
-
-			// TODO: Do the power button dance?
-
-			need_early_abort = true;
-		} else {
-			PFLOG(LOG_CRIT, "umount2: %m");
-			rv = EXIT_FAILURE;
-			goto cleanup;
 		}
 	}
 
