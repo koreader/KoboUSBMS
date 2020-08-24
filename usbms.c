@@ -284,9 +284,10 @@ static bool
 {
 	FILE* f = fopen("/proc/modules", "re");
 	if (f) {
-		char line[PIPE_BUF];
+		char   line[PIPE_BUF];
+		size_t len = strlen(needle);
 		while (fgets(line, sizeof(line), f)) {
-			if (strstr(line, needle)) {
+			if (strncmp(line, needle, len) == 0) {
 				fclose(f);
 				return true;
 			}
