@@ -37,7 +37,7 @@
 #include <linux/netlink.h>
 
 #define LIBUE_VERSION_MAJOR  "0"
-#define LIBUE_VERSION_MINOR  "2.0"
+#define LIBUE_VERSION_MINOR  "3.0"
 #define LIBUE_VERSION        LIBUE_VERSION_MAJOR "." LIBUE_VERSION_MINOR
 #define LIBUE_VERSION_NUMBER 10000
 
