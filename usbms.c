@@ -668,6 +668,8 @@ int
 
 			// TODO: Do some ugly popen magic w/ fuser, and print it @ half-size in msg
 			fbink_print_ot(fbfd, "Filesystem is busy, aborting.", &msg_cfg, &fbink_cfg, NULL);
+			// Add a /!\ to the first msg, then switch to hori_padding, size_px = font_h, and use new-top for eahc fgets
+			// No need to reset it, we exit right after ;).
 
 			// TODO: Do the power button dance?
 
