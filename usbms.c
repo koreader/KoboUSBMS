@@ -708,7 +708,7 @@ int
 		print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 
 		if (uev.action == UEVENT_ACTION_OFFLINE && uev.devpath &&
-		    (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_FSL) || UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_CI) ||
+		    (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_FSL) || UE_STR_EQ(uev.modalias, KOBO_USB_MODALIAS_CI) ||
 		     UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_UDC))) {
 			LOG(LOG_NOTICE, "Got an eject event");
 			break;
