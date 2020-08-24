@@ -659,6 +659,7 @@ int
 	}
 
 	// We're plugged in, here comes the fun...
+	LOG(LOG_INFO, "Starting USBMS session...");
 	// NOTE: Vertical USB logo: \ufa52; Hard-drive icon: \uf7c9
 	print_icon(fbfd, "\uf287", &fbink_cfg, &icon_cfg);
 	fbink_print_ot(fbfd, "Starting USBMS session...", &msg_cfg, &fbink_cfg, NULL);
@@ -730,6 +731,7 @@ int
 	}
 
 	// And now remount all the things!
+	LOG(LOG_INFO, "Ending USBMS session...");
 	print_icon(fbfd, "\ufa52", &fbink_cfg, &icon_cfg);
 	fbink_print_ot(fbfd, "Ending USBMS session...", &msg_cfg, &fbink_cfg, NULL);
 	// Refresh the status bar
@@ -753,6 +755,7 @@ int
 	}
 
 	// Whee!
+	LOG(LOG_INFO, "Done :)");
 	print_icon(fbfd, "\uf058", &fbink_cfg, &icon_cfg);
 	fbink_print_ot(fbfd, "Done!\nKOReader will now restart...", &msg_cfg, &fbink_cfg, NULL);
 	// Refresh the status bar
