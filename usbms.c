@@ -440,7 +440,7 @@ int
 	fbink_get_state(&fbink_cfg, &fbink_state);
 	setup_usb_ids(fbink_state.device_id);
 
-	// Much like in KOReader's otamanager, check if we can use pipefail in a roundabout way,
+	// Much like in KOReader's OTAManager, check if we can use pipefail in a roundabout way,
 	// because old busybox ash versions will *abort* on set failures...
 	rc = system("set -o pipefail 2>/dev/null");
 	if (rc == EXIT_SUCCESS) {
@@ -539,7 +539,7 @@ int
 
 	// If we need an early abort because of USBNet/USBSerial, do it now...
 	if (need_early_abort) {
-		LOG(LOG_INFO, "Waiting for power button press . . .");
+		LOG(LOG_INFO, "Waiting for a power button press . . .");
 		struct pollfd pfd = { 0 };
 		pfd.fd            = evfd;
 		pfd.events        = POLLIN;
@@ -679,7 +679,7 @@ int
 		LOG(LOG_CRIT, "Failed to start the USBMS session!");
 		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
-			       "\uf071 Failed to start the USBMS session!\nThe device will be shutdown in 90s.",
+			       "\uf071 Failed to start the USBMS session!\nThe device will shutdown in 90s.",
 			       &msg_cfg,
 			       &fbink_cfg,
 			       NULL);
@@ -709,7 +709,8 @@ int
 		print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 
 		if (uev.action == UEVENT_ACTION_OFFLINE && uev.devpath &&
-		    (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_FSL) || UE_STR_EQ(uev.modalias, KOBO_USB_MODALIAS_CI) ||
+		    (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_FSL) ||
+		     (uev.modalias && UE_STR_EQ(uev.modalias, KOBO_USB_MODALIAS_CI)) ||
 		     UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_UDC))) {
 			LOG(LOG_NOTICE, "Got an eject event");
 			break;
@@ -728,7 +729,7 @@ int
 		LOG(LOG_CRIT, "Failed to detect an unlug event!");
 		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
-			       "\uf071 Failed to detect an unplug event!\nThe device will be shutdown in 90s.",
+			       "\uf071 Failed to detect an unplug event!\nThe device will shutdown in 90s.",
 			       &msg_cfg,
 			       &fbink_cfg,
 			       NULL);
@@ -752,7 +753,7 @@ int
 		LOG(LOG_CRIT, "Failed to end the USBMS session!");
 		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
-			       "\uf071 Failed to end the USBMS session!\nThe device will be shutdown in 90s.",
+			       "\uf071 Failed to end the USBMS session!\nThe device will shutdown in 90s.",
 			       &msg_cfg,
 			       &fbink_cfg,
 			       NULL);
