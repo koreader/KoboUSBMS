@@ -222,7 +222,7 @@ static void
 
 	// Get the battery charge %
 	char  batt_charge[8] = { 0 };
-	FILE* f              = fopen("/sys/devices/platform/pmic_battery.1/power_supply/mc13892_bat/capacity", "re");
+	FILE* f              = fopen(BATT_CAP_SYSFS, "re");
 	if (f) {
 		size_t size = fread(batt_charge, sizeof(*batt_charge), sizeof(batt_charge), f);
 		if (size > 0) {
@@ -240,7 +240,8 @@ static void
 		PFLOG(LOG_WARNING, "Failed to convert battery charge value '%s' to an uint8_t!", batt_charge);
 	}
 
-	// Check for Wi-Fi (c.f., https://github.com/koreader/koreader/blob/b5d33058761625111d176123121bcc881864a64e/frontend/device/kobo/device.lua#L451-L471)
+	// Check for Wi-Fi status
+	// (c.f., https://github.com/koreader/koreader/blob/b5d33058761625111d176123121bcc881864a64e/frontend/device/kobo/device.lua#L451-L471)
 	bool wifi_up            = false;
 	char if_sysfs[PATH_MAX] = { 0 };
 	snprintf(if_sysfs, sizeof(if_sysfs) - 1U, "/sys/class/net/%s/carrier", getenv("INTERFACE"));
@@ -279,7 +280,7 @@ static void
 }
 
 // Poor man's grep in /proc/modules
-static bool
+__attribute((nonnull(1))) static bool
     is_module_loaded(const char* needle)
 {
 	FILE* f = fopen("/proc/modules", "re");

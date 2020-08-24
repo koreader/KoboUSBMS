@@ -75,6 +75,7 @@
 // So far, those have thankfully been set in stone
 #define NTX_KEYS_EVDEV "/dev/input/event0"
 #define TOUCHPAD_EVDEV "/dev/input/event1"
+#define BATT_CAP_SYSFS "/sys/devices/platform/pmic_battery.1/power_supply/mc13892_bat/capacity"
 
 // c.f., arch/arm/mach-imx/imx_ntx_io.c in a Kobo kernel
 #define CM_USB_Plug_IN        108
