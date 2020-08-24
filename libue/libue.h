@@ -174,16 +174,21 @@ static int
 static int
     ue_wait_for_event(struct uevent_listener* l, struct uevent* uevp)
 {
-	ue_reset_event(uevp);
 	while (poll(&(l->pfd), 1, -1) != -1) {
+		ue_reset_event(uevp);
 		ssize_t len = recv(l->pfd.fd, uevp->buf, sizeof(uevp->buf), MSG_DONTWAIT);
 		if (len == -1) {
 			PFLOG(LOG_CRIT, "recv: %m");
 			return ERR_LISTENER_RECV;
 		}
-		if (ue_parse_event_msg(uevp, (size_t) len) == EXIT_SUCCESS) {
+		int rc = ue_parse_event_msg(uevp, (size_t) len);
+		if (rc == EXIT_SUCCESS) {
 			PFLOG(LOG_DEBUG, "uevent successfully parsed");
 			return EXIT_SUCCESS;
+		} else if (rc == ERR_PARSE_UDEV) {
+			PFLOG(LOG_DEBUG, "skipped udev uevent: `%s`", uevp->buf);
+		} else if (rc == ERR_PARSE_INVALID_HDR) {
+			PFLOG(LOG_DEBUG, "skipped malformed uevent: `%s`", uevp->buf);
 		} else {
 			PFLOG(LOG_DEBUG, "skipped unsupported uevent: `%s`", uevp->buf);
 		}
