@@ -89,7 +89,7 @@ static int
     ue_parse_event_msg(struct uevent* uevp, size_t buflen)
 {
 	/* skip udev events */
-	if (memcmp(uevp->buf, "libudev", 7) == 0 || memcmp(uevp->buf, "udev", 4)) {
+	if (memcmp(uevp->buf, "libudev", 7) == 0 || memcmp(uevp->buf, "udev", 4) == 0) {
 		return ERR_PARSE_UDEV;
 	}
 
@@ -140,8 +140,8 @@ static inline void
     ue_reset_event(struct uevent* uevp)
 {
 	uevp->action  = UEVENT_ACTION_INVALID;
-	uevp->buflen  = 0;
 	uevp->devpath = NULL;
+	uevp->buflen  = 0U;
 }
 
 static int
