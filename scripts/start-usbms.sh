@@ -54,6 +54,7 @@ for mountpoint in sd onboard ; do
 		#       we're extremely paranoid and will only try a proper umount.
 		#       If it fails, we're done. We'll log the error, the usbms tool will print a warning for a bit, and KOReader will then shutdown the device.
 		if ! umount "${DIR}" ; then
+			# NOTE: Given our earlier umount2 check in C, this should never happen for onboard :).
 			logger -p "DAEMON.CRIT" -t "${SCRIPT_NAME}[$$]" "Failed to unmount ${mountpoint}, aborting!"
 			exit 1
 		fi
