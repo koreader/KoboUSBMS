@@ -7,6 +7,8 @@ if [ "${WITH_PIPEFAIL}" = "true" ]; then
     set -o pipefail
 fi
 
+SCRIPT_NAME="$(basename "${0}")"
+
 # Do something a wee bit more user-friendly with what fuser spits out...
 for pid in $(fuser -m "/mnt/onboard") ; do
 	if [ -e "/proc/${pid}" ] ; then
