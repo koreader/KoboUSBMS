@@ -108,6 +108,7 @@ struct uevent
 /*
  * Reference for uevent format:
  * https://www.kernel.org/doc/pending/hotplug.txt
+ * https://stackoverflow.com/a/22813783
  */
 static int
     ue_parse_event_msg(struct uevent* uevp, size_t buflen)
