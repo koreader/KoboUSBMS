@@ -152,6 +152,14 @@ kobo: armcheck release
 	ln -sf $(CURDIR)/l10n Kobo/l10n
 	tar --mtime=@$(USBMS_EPOCH) --owner=root --group=root -cvzhf $(OUT_DIR)/KoboUSBMS.tar.gz -C Kobo .
 
+pot:
+	mkdir -p po/templates
+	xgettext --from-code=utf-8 usbms.c -d usbms -p po -o templates/usbms.pot --keyword=_ --add-comments=@translators
+	# Workflow example:
+	#mkdir -p po/fr_FR l10n/fr_FR/LC_MESSAGES
+	#msginit -i po/templates/usbms.pot -l fr_FR.UTF-8 -o po/fr_FR/usbms.po
+	#msgfmt po/fr_FR/usbms.po -o l10n/fr_FR/LC_MESSAGES/usbms.mo
+
 clean:
 	rm -rf Release/*.o
 	rm -rf Release/usbms
@@ -199,4 +207,4 @@ distclean: clean libevdevclean fbinkclean
 	rm -rf libevdev.built
 	rm -rf fbink.built
 
-.PHONY: default outdir all vendored usbms strip armcheck kobo debug clean release fbinkclean libevdevclean distclean
+.PHONY: default outdir all vendored usbms strip armcheck kobo pot debug clean release fbinkclean libevdevclean distclean
