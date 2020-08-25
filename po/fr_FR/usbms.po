@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-25 19:15+0200\n"
-"PO-Revision-Date: 2020-08-25 19:16+0200\n"
+"POT-Creation-Date: 2020-08-25 20:43+0200\n"
+"PO-Revision-Date: 2020-08-25 20:54+0200\n"
 "Last-Translator: NiLuJe <ninuje@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr\n"
@@ -19,15 +19,110 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Lokalize 20.08.0\n"
 
-#: usbms.c:484
+#: usbms.c:508
 msgid "USB Mass Storage"
 msgstr "Stockage de Masse USB"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:532
+#: usbms.c:556
 msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
 msgstr ""
 " Veuillez désactiver USBNet manuellement!\n"
 "Appuyez sur le bouton d'alimentation pour quitter."
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:571
+msgid ""
+" Please disable USBSerial manually!\n"
+"Press the power button to exit."
+msgstr ""
+" Veuillez désactiver USBSerial manuellement!\n"
+"Appuyez sur le bouton d'alimentation pour quitter."
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:594
+msgid " Filesystem is busy! Offending processes:"
+msgstr " Le système de fichier est occupé! Processus responsables:"
+
+#. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
+#: usbms.c:627
+msgid ""
+" The fuser script failed!\n"
+"The device will shutdown in 90 sec."
+msgstr ""
+" Le script fuser a échoué!\n"
+"L'appareil va s'éteindre dans 90 sec."
+
+#: usbms.c:636
+msgid "Press the power button to exit."
+msgstr "Appuyez sur le bouton d'alimentation pour quitter."
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:644
+msgid ""
+" Failed to run the fuser script!\n"
+"The device will shutdown in 90 sec."
+msgstr ""
+" Impossible de lancer le script fuser!\n"
+"L'appareil va s'éteindre dans 90 sec."
+
+#: usbms.c:720
+msgid ""
+"Waiting to be plugged in...\n"
+"Or, press the power button to exit."
+msgstr ""
+"En attente de branchement...\n"
+"Ou alors, appuyez sur le bouton d'alimentation pour quitter."
+
+#: usbms.c:797
+msgid "Starting USBMS session..."
+msgstr "Lancement de la session USBMS..."
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:808
+msgid ""
+" Failed to start the USBMS session!\n"
+"The device will shutdown in 90 sec."
+msgstr ""
+" Échec du lancement de la session USBMS!\n"
+"L'appareil va s'éteindre dans 90 sec."
+
+#: usbms.c:823
+msgid ""
+"USBMS session in progress.\n"
+"Please eject your device safely before unplugging it."
+msgstr ""
+"Session USBMS en cours.\n"
+"Veuillez éjecter votre appareil proprement avant de le débrancher."
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:861
+msgid ""
+" Failed to detect an unplug event!\n"
+"The device will shutdown in 90 sec."
+msgstr ""
+" Échec de la détection du débranchement!\n"
+"L'appareil va s'éteindre dans 90 sec."
+
+#: usbms.c:873
+msgid "Ending USBMS session..."
+msgstr "Clôture de la session USBMS..."
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:886
+msgid ""
+" Failed to end the USBMS session!\n"
+"The device will shutdown in 90 sec."
+msgstr ""
+" Échec de la clôture de session USBMS!\n"
+"L'appareil va s'éteindre dans 90 sec."
+
+#: usbms.c:898
+msgid ""
+"Done!\n"
+"KOReader will now restart..."
+msgstr ""
+"C'est fini!\n"
+"KOReader va maintenant redémarrer..."
