@@ -40,8 +40,8 @@
 #include <unistd.h>
 
 // I18n
-#include <locale.h>
 #include <libintl.h>
+#include <locale.h>
 
 #include "FBInk/fbink.h"
 #include "libue/libue.h"

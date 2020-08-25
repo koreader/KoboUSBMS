@@ -398,8 +398,13 @@ int
 	//       c.f., https://stackoverflow.com/q/36857863
 	char resource_path[PATH_MAX] = { 0 };
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/l10n", abs_pwd);
+	// We can't touch the rootfs, so, teach the glibc about our awful workaround...
+	// (c.f., https://www.gnu.org/software/libc/manual/html_node/Locale-Names.html)
 	setenv("LOCPATH", resource_path, 1);
+	// Then, because gettext wants a setlocale call, let's give it one that's enough to get us translations,
+	// and minimal enough that we don't have to ship a crazy amount of useless locale stuff...
 	setlocale(LC_MESSAGES, "kobo");
+	// And now stuff can more or less start looking like a classic gettext setup...
 	bindtextdomain("usbms", resource_path);
 	textdomain("usbms");
 	// The whole locale shenanigan means more hand-holding is needed to enforce UTF-8...
@@ -479,9 +484,9 @@ int
 	// Display our header
 	fbink_cfg.no_refresh = true;
 	fbink_cls(fbfd, &fbink_cfg, NULL);
-	FBInkOTConfig ot_cfg         = { 0 };
-	ot_cfg.margins.top           = (short int) fbink_state.font_h;
-	ot_cfg.size_px               = (unsigned short int) (fbink_state.font_h * 2U);
+	FBInkOTConfig ot_cfg = { 0 };
+	ot_cfg.margins.top   = (short int) fbink_state.font_h;
+	ot_cfg.size_px       = (unsigned short int) (fbink_state.font_h * 2U);
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/CaskaydiaCove_NF.ttf", abs_pwd);
 	if (fbink_add_ot_font(resource_path, FNT_REGULAR) != EXIT_SUCCESS) {
 		PFLOG(LOG_CRIT, "Failed to load TTF font!");
