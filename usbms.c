@@ -386,6 +386,24 @@ int
 		goto cleanup;
 	}
 
+	// NOTE: Setup gettext, with a rather nasty twist, because of Kobo's utter lack of sane locales setup:
+	//       In order to translate stuff, gettext needs a valid setlocale call to a locale that *isn't* C or POSIX.
+	//       Unfortunately, Kobo doesn't compile *any* locales...
+	//       The minimal LC_* category we need for our translation is LC_MESSAGES.
+	//       It requires SYS_LC_MESSAGES from the glibc (usually shipped in archive form on sane systems).
+	//       So, we build one manually (localedef) from the en_US definitions, and set-it up in a bogus custom locale,
+	//       we ship it, and we enforce our custom l10n directory as the global locale search path...
+	//       Then, we can *finally* choose our translation language via the LANGUAGE env var...
+	//       c.f., https://stackoverflow.com/q/36857863
+	char resource_path[PATH_MAX] = { 0 };
+	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/l10n", abs_pwd);
+	setenv("LOCPATH", resource_path, 1);
+	setlocale(LC_MESSAGES, "kobo");
+	bindtextdomain("usbms", resource_path);
+	textdomain("usbms");
+	// The whole locale shenanigan means more hand-holding is needed to enforce UTF-8...
+	bind_textdomain_codeset("usbms", "UTF-8");
+
 	// Setup FBInk
 	FBInkConfig fbink_cfg = { 0 };
 	fbink_cfg.row         = -5;
@@ -463,14 +481,13 @@ int
 	FBInkOTConfig ot_cfg         = { 0 };
 	ot_cfg.margins.top           = (short int) fbink_state.font_h;
 	ot_cfg.size_px               = (unsigned short int) (fbink_state.font_h * 2U);
-	char resource_path[PATH_MAX] = { 0 };
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/CaskaydiaCove_NF.ttf", abs_pwd);
 	if (fbink_add_ot_font(resource_path, FNT_REGULAR) != EXIT_SUCCESS) {
 		PFLOG(LOG_CRIT, "Failed to load TTF font!");
 		rv = EXIT_FAILURE;
 		goto cleanup;
 	}
-	fbink_print_ot(fbfd, "USB Mass Storage", &ot_cfg, &fbink_cfg, NULL);
+	fbink_print_ot(fbfd, _("USB Mass Storage"), &ot_cfg, &fbink_cfg, NULL);
 	fbink_cfg.ignore_alpha  = true;
 	fbink_cfg.halign        = CENTER;
 	fbink_cfg.scaled_height = (short int) (fbink_state.screen_height / 10U);
@@ -517,7 +534,8 @@ int
 
 		print_icon(fbfd, "\uf6ff", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
-			       "\uf071 Please disable USBNet manually!\nPress the power button to exit.",
+			       // @translators: First unicode codepoint is an icon, leave it as-is.
+			       _("\uf071 Please disable USBNet manually!\nPress the power button to exit."),
 			       &msg_cfg,
 			       &fbink_cfg,
 			       NULL);

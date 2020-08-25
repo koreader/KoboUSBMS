@@ -39,6 +39,10 @@
 #include <syslog.h>
 #include <unistd.h>
 
+// I18n
+#include <locale.h>
+#include <libintl.h>
+
 #include "FBInk/fbink.h"
 #include "libue/libue.h"
 #include <libevdev/libevdev.h>
@@ -54,6 +58,9 @@
 
 // Apparently the libevdev version string isn't available anywhere, so, fake it
 #define LIBEVDEV_VERSION "1.9.1"
+
+// Gettext
+#define _(String) gettext(String)
 
 // Logging helpers
 #define LOG(prio, fmt, ...) ({ syslog(prio, fmt, ##__VA_ARGS__); })
