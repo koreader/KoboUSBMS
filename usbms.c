@@ -386,6 +386,18 @@ int
 		goto cleanup;
 	}
 
+	// NOTE: The font we ship only covers LGC scripts. Blacklist a few languages where we know it won't work,
+	//       based on KOReader's own language list (c.f., frontend/ui/language.lua).
+	//       because english is better thanthe replacement character ;p.
+	const char* lang = getenv("LANGUAGE");
+	if (lang) {
+		if (strncmp(lang, "he", 2U) == 0 || strncmp(lang, "ar", 2U) == 0 || strncmp(lang, "bn", 2U) == 0 ||
+		    strncmp(lang, "fa", 2U) == 0 || strncmp(lang, "ja", 2U) == 0 || strncmp(lang, "ko", 2U) == 0 ||
+		    strncmp(lang, "zh", 2U) == 0) {
+			setenv("LANGUAGE", "C", 1);
+		}
+	}
+
 	// NOTE: Setup gettext, with a rather nasty twist, because of Kobo's utter lack of sane locales setup:
 	//       In order to translate stuff, gettext needs a valid setlocale call to a locale that *isn't* C or POSIX.
 	//       Unfortunately, Kobo doesn't compile *any* locales...
