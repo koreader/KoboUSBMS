@@ -392,7 +392,8 @@ int
 	//       The minimal LC_* category we need for our translation is LC_MESSAGES.
 	//       It requires SYS_LC_MESSAGES from the glibc (usually shipped in archive form on sane systems).
 	//       So, we build one manually (localedef) from the en_US definitions, and set-it up in a bogus custom locale,
-	//       we ship it, and we enforce our custom l10n directory as the global locale search path...
+	//       which we use for out LC_MESSAGES setlocale call, we ship it,
+	//       and we enforce our own l10n directory as the global locale search path...
 	//       Then, we can *finally* choose our translation language via the LANGUAGE env var...
 	//       c.f., https://stackoverflow.com/q/36857863
 	char resource_path[PATH_MAX] = { 0 };
