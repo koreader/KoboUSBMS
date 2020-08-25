@@ -159,6 +159,10 @@ pot:
 	#mkdir -p po/fr l10n/fr/LC_MESSAGES
 	#msginit -i po/templates/usbms.pot -l fr_FR.UTF-8 -o po/fr/usbms.po
 	#msgfmt po/fr/usbms.po -o l10n/fr/LC_MESSAGES/usbms.mo
+	#
+	#msgmerge -U po/fr/usbms.po po/templates/usbms.pot
+	#rm -f po/fr/usbms.po~
+	#msgfmt po/fr/usbms.po -o l10n/fr/LC_MESSAGES/usbms.mo
 
 clean:
 	rm -rf Release/*.o
