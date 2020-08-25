@@ -156,9 +156,9 @@ pot:
 	mkdir -p po/templates
 	xgettext --from-code=utf-8 usbms.c -d usbms -p po -o templates/usbms.pot --keyword=_ --add-comments=@translators
 	# Workflow example:
-	#mkdir -p po/fr_FR l10n/fr_FR/LC_MESSAGES
-	#msginit -i po/templates/usbms.pot -l fr_FR.UTF-8 -o po/fr_FR/usbms.po
-	#msgfmt po/fr_FR/usbms.po -o l10n/fr_FR/LC_MESSAGES/usbms.mo
+	#mkdir -p po/fr l10n/fr/LC_MESSAGES
+	#msginit -i po/templates/usbms.pot -l fr_FR.UTF-8 -o po/fr/usbms.po
+	#msgfmt po/fr/usbms.po -o l10n/fr/LC_MESSAGES/usbms.mo
 
 clean:
 	rm -rf Release/*.o
