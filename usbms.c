@@ -567,7 +567,8 @@ int
 		// NOTE: There's also U+fb5b for a serial cable icon
 		print_icon(fbfd, "\ue795", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
-			       "\uf071 Please disable USBSerial manually!\nPress the power button to exit.",
+			       // @translators: First unicode codepoint is an icon, leave it as-is.
+			       _("\uf071 Please disable USBSerial manually!\nPress the power button to exit."),
 			       &msg_cfg,
 			       &fbink_cfg,
 			       NULL);
@@ -588,8 +589,12 @@ int
 			// Start a little bit higher than usual to leave us some room...
 			fbink_cfg.row       = -16;
 			msg_cfg.margins.top = (short int) -(fbink_state.font_h * 16U);
-			rc                  = fbink_print_ot(
-                            fbfd, "\uf071 Filesystem is busy! Offending processes:", &msg_cfg, &fbink_cfg, NULL);
+			rc                  = fbink_print_ot(fbfd,
+                                            // @translators: First unicode codepoint is an icon, leave it as-is.
+                                            _("\uf071 Filesystem is busy! Offending processes:"),
+                                            &msg_cfg,
+                                            &fbink_cfg,
+                                            NULL);
 
 			// And now, switch to a smaller font size when consuming the script's output...
 			msg_cfg.padding     = HORI_PADDING;
@@ -618,7 +623,8 @@ int
 					print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 					fbink_print_ot(
 					    fbfd,
-					    "\uf071 The fuser script failed!\nThe device will shutdown in 90 sec.",
+					    // @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
+					    _("\uf071 The fuser script failed!\nThe device will shutdown in 90 sec."),
 					    &msg_cfg,
 					    &fbink_cfg,
 					    NULL);
@@ -627,14 +633,15 @@ int
 					goto cleanup;
 				}
 
-				fbink_print_ot(fbfd, "Press the power button to exit.", &msg_cfg, &fbink_cfg, NULL);
+				fbink_print_ot(fbfd, _("Press the power button to exit."), &msg_cfg, &fbink_cfg, NULL);
 			} else {
 				// Hu oh... Print a giant warning, and abort. KOReader will shutdown the device after a while.
 				LOG(LOG_CRIT, "Failed to run fuser script!");
 				print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 				fbink_print_ot(
 				    fbfd,
-				    "\uf071 Failed to run the fuser script!\nThe device will shutdown in 90 sec.",
+				    // @translators: First unicode codepoint is an icon, leave it as-is.
+				    _("\uf071 Failed to run the fuser script!\nThe device will shutdown in 90 sec."),
 				    &msg_cfg,
 				    &fbink_cfg,
 				    NULL);
@@ -709,8 +716,11 @@ int
 	// If we're not plugged in, wait for it (or abort early)
 	usb_plugged = is_usb_plugged(ntxfd);
 	if (!usb_plugged) {
-		fbink_print_ot(
-		    fbfd, "Waiting to be plugged in...\nOr, press the power button to exit.", &msg_cfg, &fbink_cfg, NULL);
+		fbink_print_ot(fbfd,
+			       _("Waiting to be plugged in...\nOr, press the power button to exit."),
+			       &msg_cfg,
+			       &fbink_cfg,
+			       NULL);
 
 		LOG(LOG_INFO, "Waiting for a plug in event or a power button press . . .");
 		struct pollfd pfds[2] = { 0 };
@@ -784,7 +794,7 @@ int
 	// We're plugged in, here comes the fun...
 	LOG(LOG_INFO, "Starting USBMS session...");
 	print_icon(fbfd, "\uf287", &fbink_cfg, &icon_cfg);
-	fbink_print_ot(fbfd, "Starting USBMS session...", &msg_cfg, &fbink_cfg, NULL);
+	fbink_print_ot(fbfd, _("Starting USBMS session..."), &msg_cfg, &fbink_cfg, NULL);
 
 	// Here goes nothing...
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/scripts/start-usbms.sh", abs_pwd);
@@ -794,7 +804,8 @@ int
 		LOG(LOG_CRIT, "Failed to start the USBMS session (%d)!", rc);
 		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
-			       "\uf071 Failed to start the USBMS session!\nThe device will shutdown in 90 sec.",
+			       // @translators: First unicode codepoint is an icon, leave it as-is.
+			       _("\uf071 Failed to start the USBMS session!\nThe device will shutdown in 90 sec."),
 			       &msg_cfg,
 			       &fbink_cfg,
 			       NULL);
@@ -809,7 +820,7 @@ int
 	fbink_cfg.is_nightmode = true;
 	fbink_cfg.no_refresh   = true;
 	fbink_print_ot(fbfd,
-		       "USBMS session in progress.\nPlease eject your device safely before unplugging it.",
+		       _("USBMS session in progress.\nPlease eject your device safely before unplugging it."),
 		       &msg_cfg,
 		       &fbink_cfg,
 		       NULL);
@@ -846,7 +857,8 @@ int
 		LOG(LOG_CRIT, "Failed to detect an unlug event!");
 		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
-			       "\uf071 Failed to detect an unplug event!\nThe device will shutdown in 90 sec.",
+			       // @translators: First unicode codepoint is an icon, leave it as-is.
+			       _("\uf071 Failed to detect an unplug event!\nThe device will shutdown in 90 sec."),
 			       &msg_cfg,
 			       &fbink_cfg,
 			       NULL);
@@ -858,7 +870,7 @@ int
 	// And now remount all the things!
 	LOG(LOG_INFO, "Ending USBMS session...");
 	print_icon(fbfd, "\ufa52", &fbink_cfg, &icon_cfg);
-	fbink_print_ot(fbfd, "Ending USBMS session...", &msg_cfg, &fbink_cfg, NULL);
+	fbink_print_ot(fbfd, _("Ending USBMS session..."), &msg_cfg, &fbink_cfg, NULL);
 	// Refresh the status bar
 	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 
@@ -870,7 +882,8 @@ int
 		LOG(LOG_CRIT, "Failed to end the USBMS session (%d)!", rc);
 		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
-			       "\uf071 Failed to end the USBMS session!\nThe device will shutdown in 90 sec.",
+			       // @translators: First unicode codepoint is an icon, leave it as-is.
+			       _("\uf071 Failed to end the USBMS session!\nThe device will shutdown in 90 sec."),
 			       &msg_cfg,
 			       &fbink_cfg,
 			       NULL);
@@ -882,7 +895,7 @@ int
 	// Whee!
 	LOG(LOG_INFO, "Done :)");
 	print_icon(fbfd, "\uf058", &fbink_cfg, &icon_cfg);
-	fbink_print_ot(fbfd, "Done!\nKOReader will now restart...", &msg_cfg, &fbink_cfg, NULL);
+	fbink_print_ot(fbfd, _("Done!\nKOReader will now restart..."), &msg_cfg, &fbink_cfg, NULL);
 	// Refresh the status bar
 	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 
