@@ -394,6 +394,7 @@ int
 		if (strncmp(lang, "he", 2U) == 0 || strncmp(lang, "ar", 2U) == 0 || strncmp(lang, "bn", 2U) == 0 ||
 		    strncmp(lang, "fa", 2U) == 0 || strncmp(lang, "ja", 2U) == 0 || strncmp(lang, "ko", 2U) == 0 ||
 		    strncmp(lang, "zh", 2U) == 0) {
+			LOG(LOG_NOTICE, "Your language (%s) is unsupported, falling back to English", lang);
 			setenv("LANGUAGE", "C", 1);
 		}
 	}
