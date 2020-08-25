@@ -539,13 +539,14 @@ int
 
 	// Wee bit of trickery with an obscure umount2 feature, to see if the mountpoint is currently busy,
 	// without actually unmounting it for real...
-	rc = umount2("/mnt/onboard", MNT_EXPIRE);
+	rc = umount2(KOBO_MOUNTPOINT, MNT_EXPIRE);
 	if (rc != EXIT_SUCCESS) {
 		if (errno == EAGAIN) {
 			// That means we're good to go ;).
-			LOG(LOG_INFO, "Mountpoint onboard wasn't busy, it's been successfully marked as expired.");
+			LOG(LOG_INFO,
+			    "Internal storage partition wasn't busy, it's been successfully marked as expired.");
 		} else if (errno == EBUSY) {
-			LOG(LOG_WARNING, "Mountpoint onboard is busy, can't export it!");
+			LOG(LOG_WARNING, "Internal storage partition is busy, can't export it!");
 			print_icon(fbfd, "\uf7c9", &fbink_cfg, &icon_cfg);
 
 			// Start a little bit higher than usual to leave us some room...
@@ -616,7 +617,7 @@ int
 	} else {
 		// NOTE: This should never really happen...
 		LOG(LOG_WARNING,
-		    "Mountpoint onboard has been unmounted early: it wasn't busy, and it was already marked as expired?!");
+		    "Internal storage partition has been unmounted early: it wasn't busy, and it was already marked as expired?!");
 	}
 
 	// If we need an early abort because of USBNet/USBSerial or a busy mountpoint, do it now...
@@ -746,7 +747,6 @@ int
 
 	// We're plugged in, here comes the fun...
 	LOG(LOG_INFO, "Starting USBMS session...");
-	// NOTE: Vertical USB logo: \ufa52; Hard-drive icon: \uf7c9
 	print_icon(fbfd, "\uf287", &fbink_cfg, &icon_cfg);
 	fbink_print_ot(fbfd, "Starting USBMS session...", &msg_cfg, &fbink_cfg, NULL);
 
@@ -870,7 +870,7 @@ cleanup:
 
 	if (pwd != -1) {
 		if (fchdir(pwd) == -1) {
-			// NOTE: That would be bad, probably failed to remount onboard?
+			// NOTE: That would be bad, probably failed to remount internal storage?
 			PFLOG(LOG_CRIT, "fchdir: %m");
 			rv = EXIT_FAILURE;
 		}
