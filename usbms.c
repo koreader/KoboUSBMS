@@ -388,7 +388,7 @@ int
 
 	// NOTE: The font we ship only covers LGC scripts. Blacklist a few languages where we know it won't work,
 	//       based on KOReader's own language list (c.f., frontend/ui/language.lua).
-	//       because english is better thanthe replacement character ;p.
+	//       Because English is better than the replacement character ;p.
 	const char* lang = getenv("LANGUAGE");
 	if (lang) {
 		if (strncmp(lang, "he", 2U) == 0 || strncmp(lang, "ar", 2U) == 0 || strncmp(lang, "bn", 2U) == 0 ||
@@ -403,9 +403,9 @@ int
 	//       Unfortunately, Kobo doesn't compile *any* locales...
 	//       The minimal LC_* category we need for our translation is LC_MESSAGES.
 	//       It requires SYS_LC_MESSAGES from the glibc (usually shipped in archive form on sane systems).
-	//       So, we build one manually (localedef) from the en_US definitions, and set-it up in a bogus custom locale,
-	//       which we use for out LC_MESSAGES setlocale call, we ship it,
-	//       and we enforce our own l10n directory as the global locale search path...
+	//       So, we build one manually (via localedef) from the en_US definitions, and set-it up in a bogus custom locale,
+	//       which we use for our LC_MESSAGES setlocale call.
+	//       We of course ship it, and we enforce our own l10n directory as the global locale search path...
 	//       Then, we can *finally* choose our translation language via the LANGUAGE env var...
 	//       c.f., https://stackoverflow.com/q/36857863
 	char resource_path[PATH_MAX] = { 0 };
