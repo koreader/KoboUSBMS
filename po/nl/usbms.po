@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-25 21:28+0200\n"
-"PO-Revision-Date: 2020-08-26 18:03+0000\n"
+"PO-Revision-Date: 2020-08-26 18:21+0000\n"
 "Last-Translator: Frans de Jonge <fransdejonge@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/koreader/kobousbms/"
 "nl/>\n"
@@ -52,10 +52,12 @@ msgid ""
 " The fuser script failed!\n"
 "The device will shutdown in 90 sec."
 msgstr ""
+" Het fuserscript is mislukt!\n"
+"Het apparaat wordt over 90 seconden uitgeschakeld."
 
 #: usbms.c:637
 msgid "Press the power button to exit."
-msgstr ""
+msgstr "Druk op de aan/uit-knop om af te sluiten."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:645
@@ -63,6 +65,8 @@ msgid ""
 " Failed to run the fuser script!\n"
 "The device will shutdown in 90 sec."
 msgstr ""
+" Het fuserscript kan niet worden uitgevoerd!\n"
+"Het apparaat wordt binnen 90 seconden uitgeschakeld."
 
 #: usbms.c:721
 msgid ""
