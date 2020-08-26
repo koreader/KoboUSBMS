@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-26 20:37+0200\n"
-"PO-Revision-Date: 2020-08-26 18:03+0000\n"
-"Last-Translator: hombretranquilo <hombretranquilo.mbp@gmail.com>\n"
+"PO-Revision-Date: 2020-08-26 18:48+0000\n"
+"Last-Translator: NiLuJe <ninuje@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/ca/>\n"
 "Language: ca\n"
@@ -69,22 +69,16 @@ msgstr ""
 "El dispositiu s’apagarà en 90 segons."
 
 #: usbms.c:721
-#, fuzzy
-#| msgid ""
-#| "Waiting to be plugged in...\n"
-#| "Or, press the power button to exit."
 msgid ""
 "Waiting to be plugged in…\n"
 "Or, press the power button to exit."
 msgstr ""
-"Esperar que es realitze la connexió...\n"
+"Esperar que es realitze la connexió…\n"
 "O pressionar el botó d'engegada per a eixir."
 
 #: usbms.c:798
-#, fuzzy
-#| msgid "Starting USBMS session..."
 msgid "Starting USBMS session…"
-msgstr "Iniciant sessió USBMS..."
+msgstr "Iniciant sessió USBMS…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:809
@@ -114,10 +108,8 @@ msgstr ""
 "El dispositiu s'apagarà en 90 segons."
 
 #: usbms.c:874
-#, fuzzy
-#| msgid "Ending USBMS session..."
 msgid "Ending USBMS session…"
-msgstr "Finalitzant sessió USBMS..."
+msgstr "Finalitzant sessió USBMS…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:887
@@ -129,13 +121,9 @@ msgstr ""
 "El dispositiu s'apagarà en 90 segons."
 
 #: usbms.c:899
-#, fuzzy
-#| msgid ""
-#| "Done!\n"
-#| "KOReader will now restart..."
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
 msgstr ""
 "Fet!\n"
-"KOReader es reiniciarà ara..."
+"KOReader es reiniciarà ara…"
