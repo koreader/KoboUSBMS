@@ -8,17 +8,20 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-25 21:28+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2020-08-26 18:03+0000\n"
+"Last-Translator: Frans de Jonge <fransdejonge@gmail.com>\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/koreader/kobousbms/"
+"nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.2.1-dev\n"
 
 #: usbms.c:509
 msgid "USB Mass Storage"
-msgstr ""
+msgstr "USB-opslag"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:557
@@ -26,6 +29,8 @@ msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
 msgstr ""
+" Schakel USBNet handmatig uit!\n"
+"Druk op de aan/uit-knop om af te sluiten."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:572
@@ -33,11 +38,13 @@ msgid ""
 " Please disable USBSerial manually!\n"
 "Press the power button to exit."
 msgstr ""
+" Schakel USBSerial handmatig uit!\n"
+"Druk op de aan/uit-knop om af te sluiten."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:595
 msgid " Filesystem is busy! Offending processes:"
-msgstr ""
+msgstr " Bestandssysteem is bezig! Verantwoordelijke processen:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
 #: usbms.c:628
