@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-25 21:28+0200\n"
+"POT-Creation-Date: 2020-08-26 20:37+0200\n"
 "PO-Revision-Date: 2020-08-26 18:03+0000\n"
 "Last-Translator: hombretranquilo <hombretranquilo.mbp@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/koreader/"
@@ -69,15 +69,21 @@ msgstr ""
 "El dispositivo se apagará en 90 s."
 
 #: usbms.c:721
+#, fuzzy
+#| msgid ""
+#| "Waiting to be plugged in...\n"
+#| "Or, press the power button to exit."
 msgid ""
-"Waiting to be plugged in...\n"
+"Waiting to be plugged in…\n"
 "Or, press the power button to exit."
 msgstr ""
 "Esperar a que se realice la conexión...\n"
 "O presionar el botón de encendido para salir."
 
 #: usbms.c:798
-msgid "Starting USBMS session..."
+#, fuzzy
+#| msgid "Starting USBMS session..."
+msgid "Starting USBMS session…"
 msgstr "Iniciando sesión USBMS..."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -107,7 +113,9 @@ msgstr ""
 "El dispositivo se apagará en 90 segundos."
 
 #: usbms.c:874
-msgid "Ending USBMS session..."
+#, fuzzy
+#| msgid "Ending USBMS session..."
+msgid "Ending USBMS session…"
 msgstr "Finalizando sesión USBMS..."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -120,9 +128,13 @@ msgstr ""
 "El dispositivo se apagará en 90 segundos."
 
 #: usbms.c:899
+#, fuzzy
+#| msgid ""
+#| "Done!\n"
+#| "KOReader will now restart..."
 msgid ""
 "Done!\n"
-"KOReader will now restart..."
+"KOReader will now restart…"
 msgstr ""
 "¡Hecho!\n"
 "KOReader se reiniciará ahora..."

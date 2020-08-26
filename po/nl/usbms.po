@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-25 21:28+0200\n"
+"POT-Creation-Date: 2020-08-26 20:37+0200\n"
 "PO-Revision-Date: 2020-08-26 18:35+0000\n"
 "Last-Translator: Frans de Jonge <fransdejonge@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/koreader/kobousbms/"
@@ -69,15 +69,21 @@ msgstr ""
 "Het apparaat wordt binnen 90 seconden uitgeschakeld."
 
 #: usbms.c:721
+#, fuzzy
+#| msgid ""
+#| "Waiting to be plugged in...\n"
+#| "Or, press the power button to exit."
 msgid ""
-"Waiting to be plugged in...\n"
+"Waiting to be plugged in…\n"
 "Or, press the power button to exit."
 msgstr ""
 "Wachten om te worden aangesloten...\n"
 "Of druk op de aan/uit-knop om af te sluiten."
 
 #: usbms.c:798
-msgid "Starting USBMS session..."
+#, fuzzy
+#| msgid "Starting USBMS session..."
+msgid "Starting USBMS session…"
 msgstr "USBMS-sessie starten..."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -107,7 +113,9 @@ msgstr ""
 "Het apparaat zal over 90 seconden worden uitgeschakeld."
 
 #: usbms.c:874
-msgid "Ending USBMS session..."
+#, fuzzy
+#| msgid "Ending USBMS session..."
+msgid "Ending USBMS session…"
 msgstr "Afsluiten van USBMS-sessie..."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -120,9 +128,13 @@ msgstr ""
 "Het apparaat wordt over 90 seconden uitgeschakeld."
 
 #: usbms.c:899
+#, fuzzy
+#| msgid ""
+#| "Done!\n"
+#| "KOReader will now restart..."
 msgid ""
 "Done!\n"
-"KOReader will now restart..."
+"KOReader will now restart…"
 msgstr ""
 "Klaar!\n"
 "KOReader zal nu opnieuw opstarten..."

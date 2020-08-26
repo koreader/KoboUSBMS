@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-25 21:28+0200\n"
+"POT-Creation-Date: 2020-08-26 20:37+0200\n"
 "PO-Revision-Date: 2020-08-26 18:03+0000\n"
 "Last-Translator: NiLuJe <ninuje@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/koreader/"
@@ -70,15 +70,21 @@ msgstr ""
 "L'appareil va s'éteindre dans 90 sec."
 
 #: usbms.c:721
+#, fuzzy
+#| msgid ""
+#| "Waiting to be plugged in...\n"
+#| "Or, press the power button to exit."
 msgid ""
-"Waiting to be plugged in...\n"
+"Waiting to be plugged in…\n"
 "Or, press the power button to exit."
 msgstr ""
 "En attente de branchement...\n"
 "Ou alors, appuyez sur le bouton d'alimentation pour quitter."
 
 #: usbms.c:798
-msgid "Starting USBMS session..."
+#, fuzzy
+#| msgid "Starting USBMS session..."
+msgid "Starting USBMS session…"
 msgstr "Lancement de la session USBMS..."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -108,7 +114,9 @@ msgstr ""
 "L'appareil va s'éteindre dans 90 sec."
 
 #: usbms.c:874
-msgid "Ending USBMS session..."
+#, fuzzy
+#| msgid "Ending USBMS session..."
+msgid "Ending USBMS session…"
 msgstr "Clôture de la session USBMS..."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -121,9 +129,13 @@ msgstr ""
 "L'appareil va s'éteindre dans 90 sec."
 
 #: usbms.c:899
+#, fuzzy
+#| msgid ""
+#| "Done!\n"
+#| "KOReader will now restart..."
 msgid ""
 "Done!\n"
-"KOReader will now restart..."
+"KOReader will now restart…"
 msgstr ""
 "C'est fini !\n"
 "KOReader va maintenant redémarrer..."
