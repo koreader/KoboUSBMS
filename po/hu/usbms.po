@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-26 20:37+0200\n"
-"PO-Revision-Date: 2020-08-26 18:03+0000\n"
-"Last-Translator: Sari Gabor <sari.gabor@gmail.com>\n"
+"PO-Revision-Date: 2020-08-26 18:48+0000\n"
+"Last-Translator: NiLuJe <ninuje@gmail.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/hu/>\n"
 "Language: hu\n"
@@ -69,22 +69,16 @@ msgstr ""
 "Az eszköz 90mp múlva kikapcsol."
 
 #: usbms.c:721
-#, fuzzy
-#| msgid ""
-#| "Waiting to be plugged in...\n"
-#| "Or, press the power button to exit."
 msgid ""
 "Waiting to be plugged in…\n"
 "Or, press the power button to exit."
 msgstr ""
-"Várakozás a csatlakoztatásra...\n"
+"Várakozás a csatlakoztatásra…\n"
 "Vagy, kilépéshez nyomja meg a Power gombot."
 
 #: usbms.c:798
-#, fuzzy
-#| msgid "Starting USBMS session..."
 msgid "Starting USBMS session…"
-msgstr "USBMS üzemmód indítása..."
+msgstr "USBMS üzemmód indítása…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:809
@@ -113,10 +107,8 @@ msgstr ""
 "Az eszköz 90mp múlva kikapcsol."
 
 #: usbms.c:874
-#, fuzzy
-#| msgid "Ending USBMS session..."
 msgid "Ending USBMS session…"
-msgstr "USBMS üzemmód befejezése..."
+msgstr "USBMS üzemmód befejezése…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:887
@@ -128,13 +120,9 @@ msgstr ""
 "Az eszköz 90mp múlva kikapcsol."
 
 #: usbms.c:899
-#, fuzzy
-#| msgid ""
-#| "Done!\n"
-#| "KOReader will now restart..."
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
 msgstr ""
 "Kész!\n"
-"A KOReader újraindul..."
+"A KOReader újraindul…"
