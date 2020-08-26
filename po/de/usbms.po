@@ -8,17 +8,20 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-25 21:28+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2020-08-26 18:03+0000\n"
+"Last-Translator: elvvis <elvvis@hotmail.de>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/koreader/"
+"kobousbms/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.2.1-dev\n"
 
 #: usbms.c:509
 msgid "USB Mass Storage"
-msgstr ""
+msgstr "USB-Massenspeicher"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:557
@@ -26,6 +29,8 @@ msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
 msgstr ""
+" Bitte deaktivieren Sie USBNet manuell!\n"
+"Drücken Sie zum Beenden den Netzschalter."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:572
@@ -33,11 +38,13 @@ msgid ""
 " Please disable USBSerial manually!\n"
 "Press the power button to exit."
 msgstr ""
+" Bitte deaktivieren Sie USBSerial manuell!\n"
+"Zum Beenden drücken Sie den Netzschalter."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:595
 msgid " Filesystem is busy! Offending processes:"
-msgstr ""
+msgstr " Das Dateisystem ist beschäftigt! Angreifende Prozesse:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
 #: usbms.c:628
@@ -45,10 +52,12 @@ msgid ""
 " The fuser script failed!\n"
 "The device will shutdown in 90 sec."
 msgstr ""
+" Das Fuser-Skript ist fehlgeschlagen!\n"
+"Das Gerät schaltet sich in 90 Sekunden ab."
 
 #: usbms.c:637
 msgid "Press the power button to exit."
-msgstr ""
+msgstr "Drücken Sie zum Beenden den Netzschalter."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:645
@@ -56,16 +65,20 @@ msgid ""
 " Failed to run the fuser script!\n"
 "The device will shutdown in 90 sec."
 msgstr ""
+" Das Fuser-Skript konnte nicht ausgeführt werden!\n"
+"Das Gerät schaltet sich in 90 Sekunden ab."
 
 #: usbms.c:721
 msgid ""
 "Waiting to be plugged in...\n"
 "Or, press the power button to exit."
 msgstr ""
+"Warten darauf, eingesteckt zu werden...\n"
+"Oder drücken Sie die Einschalttaste zum Beenden."
 
 #: usbms.c:798
 msgid "Starting USBMS session..."
-msgstr ""
+msgstr "USBMS-Sitzung starten..."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:809
@@ -73,12 +86,16 @@ msgid ""
 " Failed to start the USBMS session!\n"
 "The device will shutdown in 90 sec."
 msgstr ""
+" Die USBMS-Sitzung konnte nicht gestartet werden!\n"
+"Das Gerät schaltet sich in 90 Sekunden ab."
 
 #: usbms.c:824
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
 msgstr ""
+"USBMS-Sitzung läuft.\n"
+"Bitte werfen Sie Ihr Gerät sicher aus, bevor Sie es trennen."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:862
@@ -86,10 +103,12 @@ msgid ""
 " Failed to detect an unplug event!\n"
 "The device will shutdown in 90 sec."
 msgstr ""
+" Es ist fehlgeschlagen, ein Unplug-Ereignis zu entdecken!\n"
+"Das Gerät schaltet sich in 90 Sekunden ab."
 
 #: usbms.c:874
 msgid "Ending USBMS session..."
-msgstr ""
+msgstr "Beenden der USBMS-Sitzung..."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:887
@@ -97,9 +116,13 @@ msgid ""
 " Failed to end the USBMS session!\n"
 "The device will shutdown in 90 sec."
 msgstr ""
+" Die USBMS-Sitzung konnte nicht beendet werden!\n"
+"Das Gerät schaltet sich in 90 Sekunden ab."
 
 #: usbms.c:899
 msgid ""
 "Done!\n"
 "KOReader will now restart..."
 msgstr ""
+"Erledigt!\n"
+"KOReader wird jetzt neu starten..."
