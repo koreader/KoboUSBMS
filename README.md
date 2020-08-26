@@ -7,3 +7,11 @@ Small helper to handle USBMS on Kobo in KOReader.
 KOReader implementation: [backend](https://github.com/koreader/koreader-base/pull/1165) & [frontend](https://github.com/koreader/koreader/pull/6552)
 
 ![In action on a Forma](https://raw.githubusercontent.com/NiLuJe/KoboUSBMS/master/resources/usbms.png)
+
+# Translation status
+
+<a href="https://hosted.weblate.org/engage/koreader/?utm_source=widget">
+<img src="https://hosted.weblate.org/widgets/koreader/-/kobousbms/multi-auto.svg" alt="Translation status" />
+</a>
+
+[koreader-weblate]:https://hosted.weblate.org/engage/koreader/
