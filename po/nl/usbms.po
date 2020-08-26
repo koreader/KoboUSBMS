@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-25 21:28+0200\n"
-"PO-Revision-Date: 2020-08-26 18:24+0000\n"
+"PO-Revision-Date: 2020-08-26 18:35+0000\n"
 "Last-Translator: Frans de Jonge <fransdejonge@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/koreader/kobousbms/"
 "nl/>\n"
@@ -86,12 +86,16 @@ msgid ""
 " Failed to start the USBMS session!\n"
 "The device will shutdown in 90 sec."
 msgstr ""
+" De USBMS-sessie kon niet worden gestart!\n"
+"Het apparaat wordt over 90 seconden uitgeschakeld."
 
 #: usbms.c:824
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
 msgstr ""
+"USBMS-sessie aan de gang.\n"
+"Werp het apparaat veilig uit voordat u de kabel eruit haalt."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:862
@@ -99,10 +103,12 @@ msgid ""
 " Failed to detect an unplug event!\n"
 "The device will shutdown in 90 sec."
 msgstr ""
+" Loskoppeling kon niet worden gedetecteerd!\n"
+"Het apparaat zal over 90 seconden worden uitgeschakeld."
 
 #: usbms.c:874
 msgid "Ending USBMS session..."
-msgstr ""
+msgstr "Afsluiten van USBMS-sessie..."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:887
@@ -110,9 +116,13 @@ msgid ""
 " Failed to end the USBMS session!\n"
 "The device will shutdown in 90 sec."
 msgstr ""
+" De USBMS-sessie kon niet wroden beëindigd!\n"
+"Het apparaat wordt over 90 seconden uitgeschakeld."
 
 #: usbms.c:899
 msgid ""
 "Done!\n"
 "KOReader will now restart..."
 msgstr ""
+"Klaar!\n"
+"KOReader zal nu opnieuw opstarten..."
