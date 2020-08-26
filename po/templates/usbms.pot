@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-25 21:28+0200\n"
+"POT-Creation-Date: 2020-08-26 20:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,12 +60,12 @@ msgstr ""
 
 #: usbms.c:721
 msgid ""
-"Waiting to be plugged in...\n"
+"Waiting to be plugged in…\n"
 "Or, press the power button to exit."
 msgstr ""
 
 #: usbms.c:798
-msgid "Starting USBMS session..."
+msgid "Starting USBMS session…"
 msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -89,7 +89,7 @@ msgid ""
 msgstr ""
 
 #: usbms.c:874
-msgid "Ending USBMS session..."
+msgid "Ending USBMS session…"
 msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -102,5 +102,5 @@ msgstr ""
 #: usbms.c:899
 msgid ""
 "Done!\n"
-"KOReader will now restart..."
+"KOReader will now restart…"
 msgstr ""

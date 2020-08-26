@@ -718,7 +718,7 @@ int
 	usb_plugged = is_usb_plugged(ntxfd);
 	if (!usb_plugged) {
 		fbink_print_ot(fbfd,
-			       _("Waiting to be plugged in...\nOr, press the power button to exit."),
+			       _("Waiting to be plugged in…\nOr, press the power button to exit."),
 			       &msg_cfg,
 			       &fbink_cfg,
 			       NULL);
@@ -795,7 +795,7 @@ int
 	// We're plugged in, here comes the fun...
 	LOG(LOG_INFO, "Starting USBMS session...");
 	print_icon(fbfd, "\uf287", &fbink_cfg, &icon_cfg);
-	fbink_print_ot(fbfd, _("Starting USBMS session..."), &msg_cfg, &fbink_cfg, NULL);
+	fbink_print_ot(fbfd, _("Starting USBMS session…"), &msg_cfg, &fbink_cfg, NULL);
 
 	// Here goes nothing...
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/scripts/start-usbms.sh", abs_pwd);
@@ -871,7 +871,7 @@ int
 	// And now remount all the things!
 	LOG(LOG_INFO, "Ending USBMS session...");
 	print_icon(fbfd, "\ufa52", &fbink_cfg, &icon_cfg);
-	fbink_print_ot(fbfd, _("Ending USBMS session..."), &msg_cfg, &fbink_cfg, NULL);
+	fbink_print_ot(fbfd, _("Ending USBMS session…"), &msg_cfg, &fbink_cfg, NULL);
 	// Refresh the status bar
 	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 
@@ -896,7 +896,7 @@ int
 	// Whee!
 	LOG(LOG_INFO, "Done :)");
 	print_icon(fbfd, "\uf058", &fbink_cfg, &icon_cfg);
-	fbink_print_ot(fbfd, _("Done!\nKOReader will now restart..."), &msg_cfg, &fbink_cfg, NULL);
+	fbink_print_ot(fbfd, _("Done!\nKOReader will now restart…"), &msg_cfg, &fbink_cfg, NULL);
 	// Refresh the status bar
 	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 
