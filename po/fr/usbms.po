@@ -30,7 +30,7 @@ msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
 msgstr ""
-" Veuillez désactiver USBNet manuellement !\n"
+" Veuillez désactiver USBNet manuellement!\n"
 "Appuyez sur le bouton d'alimentation pour quitter."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -39,13 +39,13 @@ msgid ""
 " Please disable USBSerial manually!\n"
 "Press the power button to exit."
 msgstr ""
-" Veuillez désactiver USBSerial manuellement !\n"
+" Veuillez désactiver USBSerial manuellement!\n"
 "Appuyez sur le bouton d'alimentation pour quitter."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:595
 msgid " Filesystem is busy! Offending processes:"
-msgstr " Le système de fichier est occupé ! Processus responsables :"
+msgstr " Le système de fichier est occupé! Processus responsables:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
 #: usbms.c:628
@@ -53,7 +53,7 @@ msgid ""
 " The fuser script failed!\n"
 "The device will shutdown in 90 sec."
 msgstr ""
-" Le script fuser a échoué !\n"
+" Le script fuser a échoué!\n"
 "L'appareil va s'éteindre dans 90 sec."
 
 #: usbms.c:637
@@ -66,7 +66,7 @@ msgid ""
 " Failed to run the fuser script!\n"
 "The device will shutdown in 90 sec."
 msgstr ""
-" Impossible de lancer le script fuser !\n"
+" Impossible de lancer le script fuser!\n"
 "L'appareil va s'éteindre dans 90 sec."
 
 #: usbms.c:721
@@ -87,7 +87,7 @@ msgid ""
 " Failed to start the USBMS session!\n"
 "The device will shutdown in 90 sec."
 msgstr ""
-" Échec du lancement de la session USBMS !\n"
+" Échec du lancement de la session USBMS!\n"
 "L'appareil va s'éteindre dans 90 sec."
 
 #: usbms.c:824
@@ -104,7 +104,7 @@ msgid ""
 " Failed to detect an unplug event!\n"
 "The device will shutdown in 90 sec."
 msgstr ""
-" Échec de la détection du débranchement !\n"
+" Échec de la détection du débranchement!\n"
 "L'appareil va s'éteindre dans 90 sec."
 
 #: usbms.c:874
@@ -117,7 +117,7 @@ msgid ""
 " Failed to end the USBMS session!\n"
 "The device will shutdown in 90 sec."
 msgstr ""
-" Échec de la clôture de session USBMS !\n"
+" Échec de la clôture de session USBMS!\n"
 "L'appareil va s'éteindre dans 90 sec."
 
 #: usbms.c:899
@@ -125,5 +125,5 @@ msgid ""
 "Done!\n"
 "KOReader will now restart…"
 msgstr ""
-"C'est fini !\n"
+"C'est fini!\n"
 "KOReader va maintenant redémarrer…"
