@@ -212,11 +212,10 @@ static int
 	return EXIT_SUCCESS;
 }
 
+// We'll want to regularly update a display of the plug/charge status, and whether Wi-Fi is on or not
 static void
     print_status(int fbfd, const FBInkConfig* fbink_cfg, const FBInkOTConfig* ot_cfg, int ntxfd)
 {
-	// We'll want to display the plug/charge status, and whether Wi-Fi is on or not
-
 	// Check if we're plugged in...
 	bool usb_plugged = is_usb_plugged(ntxfd);
 
@@ -842,9 +841,6 @@ int
 	while (true) {
 		int poll_num = poll(&pfd, 1, 60 * 1000);
 
-		// Refresh the status bar
-		print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
-
 		if (poll_num == -1) {
 			if (errno == EINTR) {
 				continue;
@@ -872,6 +868,11 @@ int
 					}
 				}
 			}
+		}
+
+		if (poll_num == 0) {
+			// Refresh the status bar on every timeout
+			print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 		}
 	}
 	fbink_cfg.is_nightmode = false;
