@@ -216,11 +216,11 @@ __attribute__((unused)) static int
 			UE_PFLOG(LOG_DEBUG, "uevent successfully parsed");
 			return EXIT_SUCCESS;
 		} else if (rc == ERR_PARSE_UDEV) {
-			UE_PFLOG(LOG_DEBUG, "skipped udev uevent: `%s`", uevp->buf);
+			UE_PFLOG(LOG_DEBUG, "skipped %zd bytes udev uevent: `%.*s`", len, (int) len, uevp->buf);
 		} else if (rc == ERR_PARSE_INVALID_HDR) {
-			UE_PFLOG(LOG_DEBUG, "skipped malformed uevent: `%s`", uevp->buf);
+			UE_PFLOG(LOG_DEBUG, "skipped %zd bytes malformed uevent: `%.*s`", len, (int) len, uevp->buf);
 		} else {
-			UE_PFLOG(LOG_DEBUG, "skipped unsupported uevent: `%s`", uevp->buf);
+			UE_PFLOG(LOG_DEBUG, "skipped %zd bytes unsupported uevent: `%.*s`", len, (int) len, uevp->buf);
 		}
 	}
 	UE_PFLOG(LOG_CRIT, "poll: %m");

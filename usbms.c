@@ -340,11 +340,11 @@ static int
 		PFLOG(LOG_DEBUG, "uevent successfully parsed");
 		return EXIT_SUCCESS;
 	} else if (rc == ERR_PARSE_UDEV) {
-		PFLOG(LOG_DEBUG, "skipped udev uevent: `%s`", uevp->buf);
+		PFLOG(LOG_DEBUG, "skipped %zd bytes udev uevent: `%.*s`", len, (int) len, uevp->buf);
 	} else if (rc == ERR_PARSE_INVALID_HDR) {
-		PFLOG(LOG_DEBUG, "skipped malformed uevent: `%s`", uevp->buf);
+		PFLOG(LOG_DEBUG, "skipped %zd bytes malformed uevent: `%.*s`", len, (int) len, uevp->buf);
 	} else {
-		PFLOG(LOG_DEBUG, "skipped unsupported uevent: `%s`", uevp->buf);
+		PFLOG(LOG_DEBUG, "skipped %zd bytes unsupported uevent: `%.*s`", len, (int) len, uevp->buf);
 	}
 	return EXIT_FAILURE;
 }
@@ -833,8 +833,8 @@ int
 	// And now we just have to wait until an unplug...
 	LOG(LOG_INFO, "Waiting for an eject or unplug event . . .");
 	struct pollfd pfd = { 0 };
-	pfd.fd     = listener.pfd.fd;
-	pfd.events = listener.pfd.events;
+	pfd.fd            = listener.pfd.fd;
+	pfd.events        = listener.pfd.events;
 
 	struct uevent uev;
 	// NOTE: This is basically ue_wait_for_event, but with a 60s timeout,
