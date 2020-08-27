@@ -836,10 +836,10 @@ int
 	pfd.events        = listener.pfd.events;
 
 	struct uevent uev;
-	// NOTE: This is basically ue_wait_for_event, but with a 60s timeout,
-	//       solely for the purpose of refreshing the status bar every minute...
+	// NOTE: This is basically ue_wait_for_event, but with a 90s timeout,
+	//       solely for the purpose of refreshing the status bar...
 	while (true) {
-		int poll_num = poll(&pfd, 1, 60 * 1000);
+		int poll_num = poll(&pfd, 1, 90 * 1000);
 
 		if (poll_num == -1) {
 			if (errno == EINTR) {
