@@ -201,7 +201,7 @@ static int
 	return EXIT_SUCCESS;
 }
 
-static int
+__attribute__((unused)) static int
     ue_wait_for_event(struct uevent_listener* l, struct uevent* uevp)
 {
 	while (poll(&(l->pfd), 1, -1) != -1) {
