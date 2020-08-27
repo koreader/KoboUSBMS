@@ -832,22 +832,46 @@ int
 
 	// And now we just have to wait until an unplug...
 	LOG(LOG_INFO, "Waiting for an eject or unplug event . . .");
+	struct pollfd pfd = { 0 };
+	pfd.fd     = listener.pfd.fd;
+	pfd.events = listener.pfd.events;
+
 	struct uevent uev;
-	while ((rc = ue_wait_for_event(&listener, &uev)) == EXIT_SUCCESS) {
+	// NOTE: This is basically ue_wait_for_event, but with a 60s timeout,
+	//       solely for the purpose of refreshing the status bar every minute...
+	while (true) {
+		int poll_num = poll(&pfd, 1, 60 * 1000);
+
 		// Refresh the status bar
 		print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 
-		if (uev.action == UEVENT_ACTION_OFFLINE && uev.devpath &&
-		    (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_FSL) ||
-		     (uev.modalias && UE_STR_EQ(uev.modalias, KOBO_USB_MODALIAS_CI)) ||
-		     UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_UDC))) {
-			LOG(LOG_NOTICE, "Caught an eject event");
-			break;
-		} else if (uev.action == UEVENT_ACTION_REMOVE && uev.devpath &&
-			   (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_PLUG) ||
-			    UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_HOST))) {
-			LOG(LOG_NOTICE, "Caught an unplug event");
-			break;
+		if (poll_num == -1) {
+			if (errno == EINTR) {
+				continue;
+			}
+			PFLOG(LOG_CRIT, "poll: %m");
+			rv = EXIT_FAILURE;
+			goto cleanup;
+		}
+
+		if (poll_num > 0) {
+			if (pfd.revents & POLLIN) {
+				if (handle_uevent(&listener, &uev) == EXIT_SUCCESS) {
+					// Now check if it's an eject or an unplug...
+					if (uev.action == UEVENT_ACTION_OFFLINE && uev.devpath &&
+					    (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_FSL) ||
+					     (uev.modalias && UE_STR_EQ(uev.modalias, KOBO_USB_MODALIAS_CI)) ||
+					     UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_UDC))) {
+						LOG(LOG_NOTICE, "Caught an eject event");
+						break;
+					} else if (uev.action == UEVENT_ACTION_REMOVE && uev.devpath &&
+						   (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_PLUG) ||
+						    UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_HOST))) {
+						LOG(LOG_NOTICE, "Caught an unplug event");
+						break;
+					}
+				}
+			}
 		}
 	}
 	fbink_cfg.is_nightmode = false;
