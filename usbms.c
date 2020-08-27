@@ -260,11 +260,18 @@ static void
 		}
 	}
 
+	// Display the time
+	time_t     t          = time(NULL);
+	struct tm* lt         = localtime(&t);
+	char       sz_time[6] = { 0 };
+	strftime(sz_time, sizeof(sz_time), "%H:%M", lt);
+
 	fbink_printf(fbfd,
 		     ot_cfg,
 		     fbink_cfg,
-		     "%s • %s (%hhu%%) • %s",
+		     "%s • \uf017 %s • %s (%hhu%%) • %s",
 		     usb_plugged ? "\ufba3" : "\ufba4",
+		     sz_time,
 		     get_battery_icon(batt_perc),
 		     batt_perc,
 		     wifi_up ? "\ufaa8" : "\ufaa9");
