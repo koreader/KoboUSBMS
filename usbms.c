@@ -928,7 +928,8 @@ int
 	// Whee!
 	LOG(LOG_INFO, "Done :)");
 	// NOTE: We batch the final screen, make it flash, and wait for completion of the refresh,
-	//       all in order to make sure we won't lose a race with KOReader's restart...
+	//       all in order to make sure we won't lose a race with the refresh induced by KOReader's restart...
+	//       (i.e., don't let it get optimized out by the EPDC).
 	fbink_cfg.no_refresh = true;
 	print_icon(fbfd, "\uf058", &fbink_cfg, &icon_cfg);
 	fbink_print_ot(fbfd, _("Done!\nKOReader will now restart…"), &msg_cfg, &fbink_cfg, NULL);
