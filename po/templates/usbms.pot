@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-28 00:18+0200\n"
+"POT-Creation-Date: 2020-08-28 23:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -99,7 +99,7 @@ msgid ""
 "The device will shutdown in 90 sec."
 msgstr ""
 
-#: usbms.c:931
+#: usbms.c:934
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
