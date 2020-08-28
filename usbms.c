@@ -927,10 +927,18 @@ int
 
 	// Whee!
 	LOG(LOG_INFO, "Done :)");
+	// NOTE: We batch the final screen, make it flash, and wait for completion of the refresh,
+	//       all in order to make sure we won't lose a race with KOReader's restart...
+	fbink_cfg.no_refresh = true;
 	print_icon(fbfd, "\uf058", &fbink_cfg, &icon_cfg);
 	fbink_print_ot(fbfd, _("Done!\nKOReader will now restart…"), &msg_cfg, &fbink_cfg, NULL);
 	// Refresh the status bar
 	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+	fbink_cfg.no_refresh  = false;
+	fbink_cfg.is_flashing = true;
+	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
+	fbink_cfg.is_flashing = false;
+	fbink_wait_for_complete(fbfd, LAST_MARKER);
 
 cleanup:
 	LOG(LOG_INFO, "Bye!");
