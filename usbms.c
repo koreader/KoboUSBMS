@@ -261,8 +261,9 @@ static void
 	}
 
 	// Display the time
-	time_t     t          = time(NULL);
-	struct tm* lt         = localtime(&t);
+	time_t     t = time(NULL);
+	struct tm  local_tm;
+	struct tm* lt         = localtime_r(&t, &local_tm);
 	char       sz_time[6] = { 0 };
 	strftime(sz_time, sizeof(sz_time), "%H:%M", lt);
 
@@ -525,6 +526,7 @@ int
 	fbink_cfg.is_flashing = false;
 
 	// Display a minimal status bar on screen
+	tzset();
 	fbink_cfg.row      = -3;
 	ot_cfg.margins.top = (short int) -(fbink_state.font_h * 3U);
 	ot_cfg.padding     = HORI_PADDING;
