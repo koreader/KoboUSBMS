@@ -382,14 +382,14 @@ int
 	pwd = open(".", O_RDONLY | O_DIRECTORY | O_PATH | O_CLOEXEC);
 	if (pwd == -1) {
 		PFLOG(LOG_CRIT, "open: %m");
-		rv = EXIT_FAILURE;
+		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
 	// We do need the pathname to load resources, though...
 	abs_pwd = get_current_dir_name();
 	if (chdir("/") == -1) {
 		PFLOG(LOG_CRIT, "chdir: %m");
-		rv = EXIT_FAILURE;
+		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
 
@@ -441,12 +441,12 @@ int
 
 	if ((fbfd = fbink_open()) == ERRCODE(EXIT_FAILURE)) {
 		LOG(LOG_CRIT, "Failed to open the framebuffer, aborting . . .");
-		rv = EXIT_FAILURE;
+		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
 	if (fbink_init(fbfd, &fbink_cfg) == ERRCODE(EXIT_FAILURE)) {
 		LOG(LOG_CRIT, "Failed to initialize FBInk, aborting . . .");
-		rv = EXIT_FAILURE;
+		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
 	LOG(LOG_INFO, "Initialized FBInk %s", fbink_version());
@@ -456,7 +456,7 @@ int
 	rc     = ue_init_listener(&listener);
 	if (rc < 0) {
 		LOG(LOG_CRIT, "Failed to initialize libue listener (%d)", rc);
-		rv = EXIT_FAILURE;
+		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
 	LOG(LOG_INFO, "Initialized libue v%s", LIBUE_VERSION);
@@ -465,7 +465,7 @@ int
 	evfd = open(NTX_KEYS_EVDEV, O_RDONLY | O_CLOEXEC | O_NONBLOCK);
 	if (evfd == -1) {
 		PFLOG(LOG_CRIT, "open: %m");
-		rv = EXIT_FAILURE;
+		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
 
@@ -474,14 +474,14 @@ int
 	rc = libevdev_set_fd(dev, evfd);
 	if (rc < 0) {
 		LOG(LOG_CRIT, "Failed to initialize libevdev (%s)", strerror(-rc));
-		rv = EXIT_FAILURE;
+		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
 	// Check that nothing else has grabbed the input device, because that would prevent us from using it...
 	if (libevdev_grab(dev, LIBEVDEV_GRAB) != 0) {
 		LOG(LOG_CRIT,
 		    "Cannot read input events because the input device is currently grabbed by something else!");
-		rv = EXIT_FAILURE;
+		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
 	// And we ourselves don't need to grab it, so, don't ;).
@@ -506,7 +506,7 @@ int
 	ntxfd = open("/dev/ntx_io", O_RDONLY | O_NONBLOCK | O_CLOEXEC);
 	if (ntxfd == -1) {
 		PFLOG(LOG_CRIT, "open: %m");
-		rv = EXIT_FAILURE;
+		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
 
@@ -519,7 +519,7 @@ int
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/CaskaydiaCove_NF.ttf", abs_pwd);
 	if (fbink_add_ot_font(resource_path, FNT_REGULAR) != EXIT_SUCCESS) {
 		PFLOG(LOG_CRIT, "Failed to load TTF font!");
-		rv = EXIT_FAILURE;
+		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
 	fbink_print_ot(fbfd, _("USB Mass Storage"), &ot_cfg, &fbink_cfg, NULL);
@@ -562,6 +562,7 @@ int
 
 	// And now, on to the fun stuff!
 	bool need_early_abort = false;
+	bool early_unmount    = false;
 	// If we're in USBNet mode, abort!
 	// (tearing it down properly is out of our scope, since we can't really know how the user enabled it in the first place).
 	if (is_module_loaded("g_ether")) {
@@ -636,35 +637,34 @@ int
 
 				rc = pclose(f);
 				if (rc != EXIT_SUCCESS) {
-					// Hu oh... Print a giant warning, and abort. KOReader will shutdown the device after a while.
+					// Hu oh... Print a giant warning, and abort.
 					LOG(LOG_CRIT, "The fuser script failed (%d)!", rc);
 					print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 					fbink_print_ot(
 					    fbfd,
 					    // @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
-					    _("\uf071 The fuser script failed!\nThe device will shutdown in 90 sec."),
+					    _("\uf071 The fuser script failed!"),
 					    &msg_cfg,
 					    &fbink_cfg,
 					    NULL);
 
-					rv = EXIT_FAILURE;
+					rv = USBMS_EARLY_EXIT;
 					goto cleanup;
 				}
 
 				fbink_print_ot(fbfd, _("Press the power button to exit."), &msg_cfg, &fbink_cfg, NULL);
 			} else {
-				// Hu oh... Print a giant warning, and abort. KOReader will shutdown the device after a while.
+				// Hu oh... Print a giant warning, and abort.
 				LOG(LOG_CRIT, "Failed to run fuser script!");
 				print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
-				fbink_print_ot(
-				    fbfd,
-				    // @translators: First unicode codepoint is an icon, leave it as-is.
-				    _("\uf071 Failed to run the fuser script!\nThe device will shutdown in 90 sec."),
-				    &msg_cfg,
-				    &fbink_cfg,
-				    NULL);
+				fbink_print_ot(fbfd,
+					       // @translators: First unicode codepoint is an icon, leave it as-is.
+					       _("\uf071 Failed to run the fuser script!"),
+					       &msg_cfg,
+					       &fbink_cfg,
+					       NULL);
 
-				rv = EXIT_FAILURE;
+				rv = USBMS_EARLY_EXIT;
 				goto cleanup;
 			}
 
@@ -672,13 +672,14 @@ int
 			need_early_abort = true;
 		} else {
 			PFLOG(LOG_CRIT, "umount2: %m");
-			rv = EXIT_FAILURE;
+			rv = USBMS_EARLY_EXIT;
 			goto cleanup;
 		}
 	} else {
 		// NOTE: This should never really happen...
 		LOG(LOG_WARNING,
 		    "Internal storage partition has been unmounted early: it wasn't busy, and it was already marked as expired?!");
+		early_unmount = true;
 	}
 
 	// If we need an early abort because of USBNet/USBSerial or a busy mountpoint, do it now...
@@ -700,7 +701,7 @@ int
 					continue;
 				}
 				PFLOG(LOG_CRIT, "poll: %m");
-				rv = EXIT_FAILURE;
+				rv = early_unmount ? EXIT_FAILURE : USBMS_EARLY_EXIT;
 				goto cleanup;
 			}
 
@@ -725,8 +726,8 @@ int
 			}
 		}
 
-		// NOTE: Not a hard failure, we can safely go back to whatever we were doing before.
-		rv = EXIT_SUCCESS;
+		// NOTE: Not a hard failure, we can (usually) safely go back to whatever we were doing before.
+		rv = early_unmount ? EXIT_FAILURE : USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
 
@@ -763,7 +764,7 @@ int
 					continue;
 				}
 				PFLOG(LOG_CRIT, "poll: %m");
-				rv = EXIT_FAILURE;
+				rv = early_unmount ? EXIT_FAILURE : USBMS_EARLY_EXIT;
 				goto cleanup;
 			}
 
@@ -805,7 +806,7 @@ int
 
 	// If we aborted before plug in, we can still exit safely...
 	if (need_early_abort) {
-		rv = EXIT_SUCCESS;
+		rv = early_unmount ? EXIT_FAILURE : USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
 

@@ -72,6 +72,9 @@
 // FBInk always returns negative error codes
 #define ERRCODE(e) (-(e))
 
+// We use a specific exit code for early aborts, in order to be able to know whether onboard is usable or not after a failure...
+#define USBMS_EARLY_EXIT 86
+
 // c.f., https://github.com/koreader/koreader-base/blob/master/input/input-kobo.h
 #define KOBO_USB_DEVPATH_PLUG "/devices/platform/usb_plug"
 #define KOBO_USB_DEVPATH_HOST "/devices/platform/usb_host"
