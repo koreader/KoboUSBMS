@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-26 20:58+0200\n"
+"POT-Creation-Date: 2020-08-29 22:20+0200\n"
 "PO-Revision-Date: 2020-08-26 18:48+0000\n"
 "Last-Translator: NiLuJe <ninuje@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/koreader/"
@@ -19,12 +19,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.2.1-dev\n"
 
-#: usbms.c:509
+#: usbms.c:525
 msgid "USB Mass Storage"
 msgstr "Emmagatzematge massiu USB"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:557
+#: usbms.c:575
 msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
@@ -33,7 +33,7 @@ msgstr ""
 "Pressionar el botó d'engegada per a eixir."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:572
+#: usbms.c:590
 msgid ""
 " Please disable USBSerial manually!\n"
 "Press the power button to exit."
@@ -42,33 +42,37 @@ msgstr ""
 "Prèmer el botó d'engegada per a eixir."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:595
+#: usbms.c:613
 msgid " Filesystem is busy! Offending processes:"
 msgstr " El sistema d'arxius està ocupat. Processos infractors:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
-#: usbms.c:628
-msgid ""
-" The fuser script failed!\n"
-"The device will shutdown in 90 sec."
+#: usbms.c:646
+#, fuzzy
+#| msgid ""
+#| " The fuser script failed!\n"
+#| "The device will shutdown in 90 sec."
+msgid " The fuser script failed!"
 msgstr ""
 " L'script fuser ha fallat!\n"
 "El dispositiu s’apagarà en 90 segons."
 
-#: usbms.c:637
+#: usbms.c:655
 msgid "Press the power button to exit."
 msgstr "Prèmer el botó d'engegada per a eixir."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:645
-msgid ""
-" Failed to run the fuser script!\n"
-"The device will shutdown in 90 sec."
+#: usbms.c:662
+#, fuzzy
+#| msgid ""
+#| " Failed to run the fuser script!\n"
+#| "The device will shutdown in 90 sec."
+msgid " Failed to run the fuser script!"
 msgstr ""
 " No s'ha pogut executar l'script fuser!\n"
 "El dispositiu s’apagarà en 90 segons."
 
-#: usbms.c:721
+#: usbms.c:739
 msgid ""
 "Waiting to be plugged in…\n"
 "Or, press the power button to exit."
@@ -76,12 +80,12 @@ msgstr ""
 "Esperar que es realitze la connexió…\n"
 "O pressionar el botó d'engegada per a eixir."
 
-#: usbms.c:798
+#: usbms.c:816
 msgid "Starting USBMS session…"
 msgstr "Iniciant sessió USBMS…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:809
+#: usbms.c:827
 msgid ""
 " Failed to start the USBMS session!\n"
 "The device will shutdown in 90 sec."
@@ -89,7 +93,7 @@ msgstr ""
 " No s'ha pogut iniciar la sessió USBMS!\n"
 "El dispositiu s'apagarà en 90 segons."
 
-#: usbms.c:824
+#: usbms.c:842
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
@@ -99,7 +103,7 @@ msgstr ""
 "lo."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:862
+#: usbms.c:906
 msgid ""
 " Failed to detect an unplug event!\n"
 "The device will shutdown in 90 sec."
@@ -107,12 +111,12 @@ msgstr ""
 " No s'ha pogut detectar un event de desconnexió!\n"
 "El dispositiu s'apagarà en 90 segons."
 
-#: usbms.c:874
+#: usbms.c:918
 msgid "Ending USBMS session…"
 msgstr "Finalitzant sessió USBMS…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:887
+#: usbms.c:931
 msgid ""
 " Failed to end the USBMS session!\n"
 "The device will shutdown in 90 sec."
@@ -120,7 +124,7 @@ msgstr ""
 " No s'ha pogut finalitzar la sessió USBMS!\n"
 "El dispositiu s'apagarà en 90 segons."
 
-#: usbms.c:899
+#: usbms.c:947
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
