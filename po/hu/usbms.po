@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-29 22:20+0200\n"
-"PO-Revision-Date: 2020-08-26 18:48+0000\n"
+"PO-Revision-Date: 2020-08-30 03:27+0000\n"
 "Last-Translator: NiLuJe <ninuje@gmail.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/hu/>\n"
@@ -48,14 +48,8 @@ msgstr " A fájlrendszer foglalt! Kapcsolódó folyamatok:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
 #: usbms.c:646
-#, fuzzy
-#| msgid ""
-#| " The fuser script failed!\n"
-#| "The device will shutdown in 90 sec."
 msgid " The fuser script failed!"
-msgstr ""
-" Az fuser szkript hibára futott!\n"
-"Az eszköz 90mp múlva kikapcsol."
+msgstr " Az fuser szkript hibára futott!"
 
 #: usbms.c:655
 msgid "Press the power button to exit."
@@ -63,14 +57,8 @@ msgstr "Kilépéshez nyomja meg a Power gombot."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:662
-#, fuzzy
-#| msgid ""
-#| " Failed to run the fuser script!\n"
-#| "The device will shutdown in 90 sec."
 msgid " Failed to run the fuser script!"
-msgstr ""
-" Az fuser szkript futtatása nem sikerült!\n"
-"Az eszköz 90mp múlva kikapcsol."
+msgstr " Az fuser szkript futtatása nem sikerült!"
 
 #: usbms.c:739
 msgid ""
