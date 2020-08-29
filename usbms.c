@@ -477,6 +477,15 @@ int
 		rv = EXIT_FAILURE;
 		goto cleanup;
 	}
+	// Check that nothing else has grabbed the input device, because that would prevent us from using it...
+	if (libevdev_grab(dev, LIBEVDEV_GRAB) != 0) {
+		LOG(LOG_CRIT,
+		    "Cannot read input events because the input device is currently grabbed by something else!");
+		rv = EXIT_FAILURE;
+		goto cleanup;
+	}
+	// And we ourselves don't need to grab it, so, don't ;).
+	libevdev_grab(dev, LIBEVDEV_UNGRAB);
 	LOG(LOG_INFO, "Initialized libevdev v%s for device '%s'", LIBEVDEV_VERSION, libevdev_get_name(dev));
 
 	// Now that FBInk has been initialized, setup the USB product ID for the current device
