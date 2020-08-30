@@ -647,12 +647,7 @@ int
 					    &msg_cfg,
 					    &fbink_cfg,
 					    NULL);
-
-					rv = USBMS_EARLY_EXIT;
-					goto cleanup;
 				}
-
-				fbink_print_ot(fbfd, _("Press the power button to exit."), &msg_cfg, &fbink_cfg, NULL);
 			} else {
 				// Hu oh... Print a giant warning, and abort.
 				LOG(LOG_CRIT, "Failed to run fuser script!");
@@ -663,12 +658,10 @@ int
 					       &msg_cfg,
 					       &fbink_cfg,
 					       NULL);
-
-				rv = USBMS_EARLY_EXIT;
-				goto cleanup;
 			}
 
 			// We can still exit safely at that point
+			fbink_print_ot(fbfd, _("Press the power button to exit."), &msg_cfg, &fbink_cfg, NULL);
 			need_early_abort = true;
 		} else {
 			PFLOG(LOG_CRIT, "umount2: %m");
