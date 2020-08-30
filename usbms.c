@@ -640,24 +640,26 @@ int
 					// Hu oh... Print a giant warning, and abort.
 					LOG(LOG_CRIT, "The fuser script failed (%d)!", rc);
 					print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
-					fbink_print_ot(
+					rc = fbink_print_ot(
 					    fbfd,
 					    // @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
 					    _("\uf071 The fuser script failed!"),
 					    &msg_cfg,
 					    &fbink_cfg,
 					    NULL);
+					msg_cfg.margins.top = (short int) rc;
 				}
 			} else {
 				// Hu oh... Print a giant warning, and abort.
 				LOG(LOG_CRIT, "Failed to run fuser script!");
 				print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
-				fbink_print_ot(fbfd,
-					       // @translators: First unicode codepoint is an icon, leave it as-is.
-					       _("\uf071 Failed to run the fuser script!"),
-					       &msg_cfg,
-					       &fbink_cfg,
-					       NULL);
+				rc                  = fbink_print_ot(fbfd,
+                                                    // @translators: First unicode codepoint is an icon, leave it as-is.
+                                                    _("\uf071 Failed to run the fuser script!"),
+                                                    &msg_cfg,
+                                                    &fbink_cfg,
+                                                    NULL);
+				msg_cfg.margins.top = (short int) rc;
 			}
 
 			// We can still exit safely at that point
