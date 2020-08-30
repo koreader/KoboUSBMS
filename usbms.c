@@ -799,7 +799,7 @@ int
 		}
 	}
 
-	// If we aborted before plug in, we can still exit safely...
+	// If we aborted before plug in, we can (usually) still exit safely...
 	if (need_early_abort) {
 		rv = early_unmount ? EXIT_FAILURE : USBMS_EARLY_EXIT;
 		goto cleanup;
@@ -968,7 +968,9 @@ cleanup:
 
 	if (pwd != -1) {
 		if (fchdir(pwd) == -1) {
-			// NOTE: That would be bad, probably failed to remount internal storage?
+			// NOTE: That would be bad if we were launched from within the internal storage
+			//       (i.e., that'd be a hint that it probably failed to remount properly).
+			//       Which is why you should start this from within a tmpfs, like KOReader ;).
 			PFLOG(LOG_CRIT, "fchdir: %m");
 			rv = EXIT_FAILURE;
 		}
