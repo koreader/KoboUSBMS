@@ -364,7 +364,6 @@ int
 	int                    pwd      = -1;
 	char*                  abs_pwd  = NULL;
 	int                    fbfd     = -1;
-	FBInkOTConfig msg_cfg           = { 0 };
 	struct uevent_listener listener = { 0 };
 	listener.pfd.fd                 = -1;
 	struct libevdev* dev            = NULL;
@@ -399,13 +398,18 @@ int
 	//       Because English is better than the replacement character ;p.
 	const char* lang = getenv("LANGUAGE");
 	bool is_CJK = false;
-	bool is_RTL = false;
 	if (lang) {
+		// KOReader -> Weblate mappings, because everything is terrible...
+		if (strncmp(lang, "zh_CN", 5U) == 0) {
+			setenv("LANGUAGE", "zh_Hans", 1);
+		} else if (strncmp(lang, "ar_AA", 5U) == 0) {
+			setenv("LANGUAGE", "ar", 1);
+		}
+
 		if (strncmp(lang, "he", 2U) == 0 || strncmp(lang, "ar", 2U) == 0 ||
 		    strncmp(lang, "fa", 2U) == 0) {
-			is_RTL = true;
 			LOG(LOG_NOTICE, "Your language (%s) is unsupported (and RTL), falling back to English", lang);
-			//setenv("LANGUAGE", "C", 1);
+			setenv("LANGUAGE", "C", 1);
 		} else if (strncmp(lang, "bn", 2U) == 0) {
 			LOG(LOG_NOTICE, "Your language (%s) is unsupported, falling back to English", lang);
 			setenv("LANGUAGE", "C", 1);
@@ -413,14 +417,6 @@ int
 		    strncmp(lang, "zh", 2U) == 0) {
 			is_CJK = true;
 			LOG(LOG_NOTICE, "Your language (%s) is unsupported (and CJK), falling back to English", lang);
-			//setenv("LANGUAGE", "C", 1);
-		}
-
-		// KOReader -> Weblate mappings, because everything is terrible...
-		if (strncmp(lang, "zh_CN", 5U) == 0) {
-			setenv("LANGUAGE", "zh_Hans", 1);
-		} else if (strncmp(lang, "ar_AA", 5U) == 0) {
-			setenv("LANGUAGE", "ar", 1);
 		}
 	}
 
@@ -541,7 +537,24 @@ int
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
+	// NOTE: Minor hackery: instead of the custom LGC Nerdfont we ship, for CJK, use KOReader's own CJK font...
+	//       (The only remotely CJK-ish NerdFont available is M+, and it's more J than CJK ;)).
+	if (is_CJK) {
+		snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/NotoSansCJKsc-Regular.otf", abs_pwd);
+		if (fbink_add_ot_font(resource_path, FNT_BOLD_ITALIC) != EXIT_SUCCESS) {
+			PFLOG(LOG_CRIT, "Failed to load CJK font!");
+			rv = USBMS_EARLY_EXIT;
+			goto cleanup;
+		}
+		// We stick it in the BoldItalic style slot, because we have no use for it,
+		// and it's slightly less unwieldy than using the per-FBInkOTConfig API given the zigzags we're doing ;).
+		ot_cfg.style = FNT_BOLD_ITALIC;
+	}
 	fbink_print_ot(fbfd, _("USB Mass Storage"), &ot_cfg, &fbink_cfg, NULL);
+	if (is_CJK) {
+		// Back to the main font, as this will only be used for the status bar from now on
+		ot_cfg.style = FNT_REGULAR;
+	}
 	fbink_cfg.ignore_alpha  = true;
 	fbink_cfg.halign        = CENTER;
 	fbink_cfg.scaled_height = (short int) (fbink_state.screen_height / 10U);
@@ -570,6 +583,7 @@ int
 	print_icon(fbfd, usb_plugged ? "\uf700" : "\uf701", &fbink_cfg, &icon_cfg);
 
 	// Setup the message area
+	FBInkOTConfig msg_cfg = { 0 };
 	msg_cfg.size_px       = ot_cfg.size_px;
 	msg_cfg.padding       = icon_cfg.padding;
 	fbink_cfg.row         = -14;
@@ -577,21 +591,9 @@ int
 	// We want enough space for 4 lines (+/- metrics shenanigans)
 	msg_cfg.margins.bottom = (short int) (fbink_state.font_h * (14U - (4U * 2U) - 1U));
 	msg_cfg.padding        = FULL_PADDING;
-	// NOTE: Minor hackery: instead of the custom LGC Nerdfont we ship, for CJK, use KOReader's own CJK font...
+	// Don't forget to use the CJK font...
 	if (is_CJK) {
-		snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/NotoSansCJKsc-Regular.otf", abs_pwd);
-		if (fbink_add_ot_font_v2(resource_path, FNT_REGULAR, &msg_cfg) != EXIT_SUCCESS) {
-			PFLOG(LOG_CRIT, "Failed to load CJK font!");
-			rv = USBMS_EARLY_EXIT;
-			goto cleanup;
-		}
-	} else if (is_RTL) {
-		snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/NotoSansArabicUI-Regular.ttf", abs_pwd);
-		if (fbink_add_ot_font_v2(resource_path, FNT_REGULAR, &msg_cfg) != EXIT_SUCCESS) {
-			PFLOG(LOG_CRIT, "Failed to load RTL font!");
-			rv = USBMS_EARLY_EXIT;
-			goto cleanup;
-		}
+		msg_cfg.style = FNT_BOLD_ITALIC;
 	}
 
 	// And now, on to the fun stuff!
@@ -987,7 +989,6 @@ cleanup:
 	closelog();
 
 	fbink_free_ot_fonts();
-	fbink_free_ot_fonts_v2(&msg_cfg);
 	fbink_close(fbfd);
 
 	ue_destroy_listener(&listener);
