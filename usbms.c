@@ -392,6 +392,7 @@ int
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
+	char resource_path[PATH_MAX] = { 0 };
 
 	// NOTE: The font we ship only covers LGC scripts. Blacklist a few languages where we know it won't work,
 	//       based on KOReader's own language list (c.f., frontend/ui/language.lua).
@@ -403,8 +404,10 @@ int
 		// KOReader -> Weblate mappings, because everything is terrible...
 		if (strncmp(lang, "zh_CN", 5U) == 0) {
 			setenv("LANGUAGE", "zh_Hans", 1);
+			lang = getenv("LANGUAGE");
 		} else if (strncmp(lang, "ar_AA", 5U) == 0) {
 			setenv("LANGUAGE", "ar", 1);
+			lang = getenv("LANGUAGE");
 		}
 
 		if (strncmp(lang, "he", 2U) == 0 || strncmp(lang, "ar", 2U) == 0 || strncmp(lang, "fa", 2U) == 0) {
@@ -414,8 +417,19 @@ int
 			LOG(LOG_NOTICE, "Your language (%s) is unsupported (!LGC), falling back to English", lang);
 			setenv("LANGUAGE", "C", 1);
 		} else if (strncmp(lang, "ja", 2U) == 0 || strncmp(lang, "ko", 2U) == 0 || strncmp(lang, "zh", 2U) == 0) {
-			is_CJK = true;
 			LOG(LOG_NOTICE, "Your language (%s) may be badly handled (CJK)!", lang);
+
+			// If we don't actually have a translation ready, don't set the CJK flag, and fallback to English.
+			snprintf(
+			    resource_path, sizeof(resource_path) - 1U, "%s/l10n/%s/LC_MESSAGES/usbms.mo", abs_pwd, lang);
+			if (access(resource_path, F_OK) == 0) {
+				is_CJK = true;
+			} else {
+				LOG(LOG_NOTICE,
+				    "Your CJK language (%s) hasn't been translated yet, falling back to English",
+				    lang);
+				setenv("LANGUAGE", "C", 1);
+			}
 		}
 	}
 
@@ -429,7 +443,6 @@ int
 	//       We of course ship it, and we enforce our own l10n directory as the global locale search path...
 	//       Then, we can *finally* choose our translation language via the LANGUAGE env var...
 	//       c.f., https://stackoverflow.com/q/36857863
-	char resource_path[PATH_MAX] = { 0 };
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/l10n", abs_pwd);
 	// We can't touch the rootfs, so, teach the glibc about our awful workaround...
 	// (c.f., https://www.gnu.org/software/libc/manual/html_node/Locale-Names.html)
