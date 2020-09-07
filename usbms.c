@@ -364,6 +364,7 @@ int
 	int                    pwd      = -1;
 	char*                  abs_pwd  = NULL;
 	int                    fbfd     = -1;
+	FBInkOTConfig msg_cfg           = { 0 };
 	struct uevent_listener listener = { 0 };
 	listener.pfd.fd                 = -1;
 	struct libevdev* dev            = NULL;
@@ -397,12 +398,29 @@ int
 	//       based on KOReader's own language list (c.f., frontend/ui/language.lua).
 	//       Because English is better than the replacement character ;p.
 	const char* lang = getenv("LANGUAGE");
+	bool is_CJK = false;
+	bool is_RTL = false;
 	if (lang) {
-		if (strncmp(lang, "he", 2U) == 0 || strncmp(lang, "ar", 2U) == 0 || strncmp(lang, "bn", 2U) == 0 ||
-		    strncmp(lang, "fa", 2U) == 0 || strncmp(lang, "ja", 2U) == 0 || strncmp(lang, "ko", 2U) == 0 ||
-		    strncmp(lang, "zh", 2U) == 0) {
+		if (strncmp(lang, "he", 2U) == 0 || strncmp(lang, "ar", 2U) == 0 ||
+		    strncmp(lang, "fa", 2U) == 0) {
+			is_RTL = true;
+			LOG(LOG_NOTICE, "Your language (%s) is unsupported (and RTL), falling back to English", lang);
+			setenv("LANGUAGE", "C", 1);
+		} else if (strncmp(lang, "bn", 2U) == 0) {
 			LOG(LOG_NOTICE, "Your language (%s) is unsupported, falling back to English", lang);
 			setenv("LANGUAGE", "C", 1);
+		} else if (strncmp(lang, "ja", 2U) == 0 || strncmp(lang, "ko", 2U) == 0 ||
+		    strncmp(lang, "zh", 2U) == 0) {
+			LOG(LOG_NOTICE, "Your language (%s) is unsupported (and CJK), falling back to English", lang);
+			//setenv("LANGUAGE", "C", 1);
+			is_CJK = true;
+		}
+
+		// KOReader -> Weblate mappings, because everything is terrible...
+		if (strncmp(lang, "zh_CN", 5U) == 0) {
+			setenv("LANGUAGE", "zh_Hans", 1);
+		} else if (strncmp(lang, "ar_AA", 5U) == 0) {
+			setenv("LANGUAGE", "aa", 1);
 		}
 	}
 
@@ -481,8 +499,8 @@ int
 	if (libevdev_grab(dev, LIBEVDEV_GRAB) != 0) {
 		LOG(LOG_CRIT,
 		    "Cannot read input events because the input device is currently grabbed by something else!");
-		rv = USBMS_EARLY_EXIT;
-		goto cleanup;
+		//rv = USBMS_EARLY_EXIT;
+		//goto cleanup;
 	}
 	// And we ourselves don't need to grab it, so, don't ;).
 	libevdev_grab(dev, LIBEVDEV_UNGRAB);
@@ -518,7 +536,7 @@ int
 	ot_cfg.size_px       = (unsigned short int) (fbink_state.font_h * 2U);
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/CaskaydiaCove_NF.ttf", abs_pwd);
 	if (fbink_add_ot_font(resource_path, FNT_REGULAR) != EXIT_SUCCESS) {
-		PFLOG(LOG_CRIT, "Failed to load TTF font!");
+		PFLOG(LOG_CRIT, "Failed to load main font!");
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
@@ -551,7 +569,6 @@ int
 	print_icon(fbfd, usb_plugged ? "\uf700" : "\uf701", &fbink_cfg, &icon_cfg);
 
 	// Setup the message area
-	FBInkOTConfig msg_cfg = { 0 };
 	msg_cfg.size_px       = ot_cfg.size_px;
 	msg_cfg.padding       = icon_cfg.padding;
 	fbink_cfg.row         = -14;
@@ -559,6 +576,15 @@ int
 	// We want enough space for 4 lines (+/- metrics shenanigans)
 	msg_cfg.margins.bottom = (short int) (fbink_state.font_h * (14U - (4U * 2U) - 1U));
 	msg_cfg.padding        = FULL_PADDING;
+	// NOTE: Minor hackery: instead of the custom LGC Nerdfont we ship, for CJK, use KOReader's own CJK font...
+	if (is_CJK) {
+		snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/NotoSansCJKsc-Regular.otf", abs_pwd);
+		if (fbink_add_ot_font_v2(resource_path, FNT_REGULAR, &msg_cfg) != EXIT_SUCCESS) {
+			PFLOG(LOG_CRIT, "Failed to load CJK font!");
+			rv = USBMS_EARLY_EXIT;
+			goto cleanup;
+		}
+	}
 
 	// And now, on to the fun stuff!
 	bool need_early_abort = false;
@@ -953,6 +979,7 @@ cleanup:
 	closelog();
 
 	fbink_free_ot_fonts();
+	fbink_free_ot_fonts_v2(&msg_cfg);
 	fbink_close(fbfd);
 
 	ue_destroy_listener(&listener);
