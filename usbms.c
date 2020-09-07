@@ -408,10 +408,10 @@ int
 		}
 
 		if (strncmp(lang, "he", 2U) == 0 || strncmp(lang, "ar", 2U) == 0 || strncmp(lang, "fa", 2U) == 0) {
-			LOG(LOG_NOTICE, "Your language (%s) is unsupported (and RTL), falling back to English", lang);
+			LOG(LOG_NOTICE, "Your language (%s) is unsupported (RTL), falling back to English", lang);
 			setenv("LANGUAGE", "C", 1);
 		} else if (strncmp(lang, "bn", 2U) == 0) {
-			LOG(LOG_NOTICE, "Your language (%s) is unsupported, falling back to English", lang);
+			LOG(LOG_NOTICE, "Your language (%s) is unsupported (!LGC), falling back to English", lang);
 			setenv("LANGUAGE", "C", 1);
 		} else if (strncmp(lang, "ja", 2U) == 0 || strncmp(lang, "ko", 2U) == 0 || strncmp(lang, "zh", 2U) == 0) {
 			is_CJK = true;
