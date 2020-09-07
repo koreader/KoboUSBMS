@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-30 14:45+0200\n"
+"POT-Creation-Date: 2020-09-07 18:11+0200\n"
 "PO-Revision-Date: 2020-09-01 18:42+0000\n"
 "Last-Translator: Mihai Vasiliu <mihai.vasiliu.93@gmail.com>\n"
 "Language-Team: Moldavian <https://hosted.weblate.org/projects/koreader/"
@@ -20,12 +20,12 @@ msgstr ""
 "n % 100 <= 19) ? 1 : 2);\n"
 "X-Generator: Weblate 4.2.1-dev\n"
 
-#: usbms.c:525
+#: usbms.c:552
 msgid "USB Mass Storage"
 msgstr "Dispozitiv de stocare în masă USB"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:575
+#: usbms.c:610
 msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
@@ -34,7 +34,7 @@ msgstr ""
 "Apasă butonul de pornire pentru a ieși."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:590
+#: usbms.c:625
 msgid ""
 " Please disable USBSerial manually!\n"
 "Press the power button to exit."
@@ -43,25 +43,25 @@ msgstr ""
 "Apasă butonul de pornire pentru a ieși."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:613
+#: usbms.c:648
 msgid " Filesystem is busy! Offending processes:"
 msgstr " Sistemul de fișiere este ocupat! Procesele care îl țin ocupat sînt:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
-#: usbms.c:646
+#: usbms.c:681
 msgid " The fuser script failed!"
 msgstr " Scriptul fuser a eșuat!"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:658
+#: usbms.c:693
 msgid " Failed to run the fuser script!"
 msgstr " Nu s-a putut rula scriptul fuser!"
 
-#: usbms.c:666
+#: usbms.c:701
 msgid "Press the power button to exit."
 msgstr "Apasă butonul de pornire pentru a ieși."
 
-#: usbms.c:734
+#: usbms.c:769
 msgid ""
 "Waiting to be plugged in…\n"
 "Or, press the power button to exit."
@@ -69,12 +69,12 @@ msgstr ""
 "Se așteaptă conectarea cablului…\n"
 "Apasă butonul de pornire pentru a ieși."
 
-#: usbms.c:811
+#: usbms.c:846
 msgid "Starting USBMS session…"
 msgstr "Se pornește sesiunea USBMS…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:822
+#: usbms.c:857
 msgid ""
 " Failed to start the USBMS session!\n"
 "The device will shutdown in 90 sec."
@@ -82,7 +82,7 @@ msgstr ""
 " A eșuat pornirea sesiunii USBMS!\n"
 "Dispozitivul se va închide în 90 sec."
 
-#: usbms.c:837
+#: usbms.c:872
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
@@ -91,7 +91,7 @@ msgstr ""
 "Te rog elimină în siguranță dispozitivul înainte de a-l deconecta."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:901
+#: usbms.c:936
 msgid ""
 " Failed to detect an unplug event!\n"
 "The device will shutdown in 90 sec."
@@ -99,12 +99,12 @@ msgstr ""
 " Nu s-a detectat un eveniment de deconectare!\n"
 "Dispozitivul se va închide în 90 sec."
 
-#: usbms.c:913
+#: usbms.c:948
 msgid "Ending USBMS session…"
 msgstr "Se sfîrșește sesiunea USBMS…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:926
+#: usbms.c:961
 msgid ""
 " Failed to end the USBMS session!\n"
 "The device will shutdown in 90 sec."
@@ -112,7 +112,7 @@ msgstr ""
 " Nu s-a putut sfîrși sesiunea USBMS!\n"
 "Dispozitivul se va închide în 90 sec."
 
-#: usbms.c:942
+#: usbms.c:977
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
