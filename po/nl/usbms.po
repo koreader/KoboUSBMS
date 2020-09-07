@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-07 18:11+0200\n"
+"POT-Creation-Date: 2020-09-07 18:44+0200\n"
 "PO-Revision-Date: 2020-08-30 03:27+0000\n"
 "Last-Translator: NiLuJe <ninuje@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/koreader/kobousbms/"
@@ -19,12 +19,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.2.1-dev\n"
 
-#: usbms.c:552
+#: usbms.c:565
 msgid "USB Mass Storage"
 msgstr "USB-opslag"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:610
+#: usbms.c:623
 msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
@@ -33,7 +33,7 @@ msgstr ""
 "Druk op de aan/uit-knop om af te sluiten."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:625
+#: usbms.c:638
 msgid ""
 " Please disable USBSerial manually!\n"
 "Press the power button to exit."
@@ -42,25 +42,25 @@ msgstr ""
 "Druk op de aan/uit-knop om af te sluiten."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:648
+#: usbms.c:661
 msgid " Filesystem is busy! Offending processes:"
 msgstr " Bestandssysteem is bezig! Verantwoordelijke processen:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
-#: usbms.c:681
+#: usbms.c:694
 msgid " The fuser script failed!"
 msgstr " Het fuserscript is mislukt!"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:693
+#: usbms.c:706
 msgid " Failed to run the fuser script!"
 msgstr " Het fuserscript kan niet worden uitgevoerd!"
 
-#: usbms.c:701
+#: usbms.c:714
 msgid "Press the power button to exit."
 msgstr "Druk op de aan/uit-knop om af te sluiten."
 
-#: usbms.c:769
+#: usbms.c:782
 msgid ""
 "Waiting to be plugged in…\n"
 "Or, press the power button to exit."
@@ -68,12 +68,12 @@ msgstr ""
 "Wachten om te worden aangesloten…\n"
 "Of druk op de aan/uit-knop om af te sluiten."
 
-#: usbms.c:846
+#: usbms.c:859
 msgid "Starting USBMS session…"
 msgstr "USBMS-sessie starten…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:857
+#: usbms.c:870
 msgid ""
 " Failed to start the USBMS session!\n"
 "The device will shutdown in 90 sec."
@@ -81,7 +81,7 @@ msgstr ""
 " De USBMS-sessie kon niet worden gestart!\n"
 "Het apparaat wordt over 90 seconden uitgeschakeld."
 
-#: usbms.c:872
+#: usbms.c:885
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
@@ -90,7 +90,7 @@ msgstr ""
 "Werp het apparaat veilig uit voordat u de kabel eruit haalt."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:936
+#: usbms.c:949
 msgid ""
 " Failed to detect an unplug event!\n"
 "The device will shutdown in 90 sec."
@@ -98,12 +98,12 @@ msgstr ""
 " Loskoppeling kon niet worden gedetecteerd!\n"
 "Het apparaat zal over 90 seconden worden uitgeschakeld."
 
-#: usbms.c:948
+#: usbms.c:961
 msgid "Ending USBMS session…"
 msgstr "Afsluiten van USBMS-sessie…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:961
+#: usbms.c:974
 msgid ""
 " Failed to end the USBMS session!\n"
 "The device will shutdown in 90 sec."
@@ -111,7 +111,7 @@ msgstr ""
 " De USBMS-sessie kon niet wroden beëindigd!\n"
 "Het apparaat wordt over 90 seconden uitgeschakeld."
 
-#: usbms.c:977
+#: usbms.c:990
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
