@@ -1,0 +1,120 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-08-30 14:45+0200\n"
+"PO-Revision-Date: 2020-09-07 14:37+0000\n"
+"Last-Translator: NiLuJe <ninuje@gmail.com>\n"
+"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
+"koreader/kobousbms/zh_Hans/>\n"
+"Language: zh_Hans\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.3-dev\n"
+
+#: usbms.c:525
+msgid "USB Mass Storage"
+msgstr "USB 大容量存储设备"
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:575
+msgid ""
+" Please disable USBNet manually!\n"
+"Press the power button to exit."
+msgstr ""
+"⚠ 请手工关闭 USBNet！\n"
+"按下电源按钮以退出。"
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:590
+msgid ""
+" Please disable USBSerial manually!\n"
+"Press the power button to exit."
+msgstr ""
+"⚠ 请手工关闭 USB 串口！\n"
+"按下电源按钮以退出。"
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:613
+msgid " Filesystem is busy! Offending processes:"
+msgstr "⚠ 文件系统正忙！以下进程正在使用："
+
+#. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
+#: usbms.c:646
+msgid " The fuser script failed!"
+msgstr "⚠ fuser 脚本执行失败！"
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:658
+msgid " Failed to run the fuser script!"
+msgstr "⚠ 运行 fuser 脚本失败！"
+
+#: usbms.c:666
+msgid "Press the power button to exit."
+msgstr "按下电源按钮以退出。"
+
+#: usbms.c:734
+msgid ""
+"Waiting to be plugged in…\n"
+"Or, press the power button to exit."
+msgstr ""
+"正在等待插入……\n"
+"可以按下电源按钮以退出。"
+
+#: usbms.c:811
+msgid "Starting USBMS session…"
+msgstr "正在启动 USBMS 会话…"
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:822
+msgid ""
+" Failed to start the USBMS session!\n"
+"The device will shutdown in 90 sec."
+msgstr ""
+"⚠ USBMS 会话启动失败！\n"
+"此设备将在 90 秒内关机。"
+
+#: usbms.c:837
+msgid ""
+"USBMS session in progress.\n"
+"Please eject your device safely before unplugging it."
+msgstr ""
+"USBMS 会话正在进行中。\n"
+"请在拔出 USB 线之前将此设备弹出。"
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:901
+msgid ""
+" Failed to detect an unplug event!\n"
+"The device will shutdown in 90 sec."
+msgstr ""
+"⚠ 拔出事件检测失败！\n"
+"此设备将在 90 秒内关机。"
+
+#: usbms.c:913
+msgid "Ending USBMS session…"
+msgstr "正在结束 USBMS 会话…"
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:926
+msgid ""
+" Failed to end the USBMS session!\n"
+"The device will shutdown in 90 sec."
+msgstr ""
+"⚠ USBMS 会话结束失败！\n"
+"此设备将在 90 秒内关机。"
+
+#: usbms.c:942
+msgid ""
+"Done!\n"
+"KOReader will now restart…"
+msgstr ""
+"完成！\n"
+"KOReader 即将自动重启…"
