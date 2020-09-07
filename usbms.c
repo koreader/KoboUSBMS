@@ -396,6 +396,7 @@ int
 	// NOTE: The font we ship only covers LGC scripts. Blacklist a few languages where we know it won't work,
 	//       based on KOReader's own language list (c.f., frontend/ui/language.lua).
 	//       Because English is better than the replacement character ;p.
+	//       We do jump through a few hoops to attempt to salvage CJK support...
 	const char* lang = getenv("LANGUAGE");
 	bool is_CJK = false;
 	if (lang) {
@@ -416,7 +417,7 @@ int
 		} else if (strncmp(lang, "ja", 2U) == 0 || strncmp(lang, "ko", 2U) == 0 ||
 		    strncmp(lang, "zh", 2U) == 0) {
 			is_CJK = true;
-			LOG(LOG_NOTICE, "Your language (%s) is unsupported (and CJK), falling back to English", lang);
+			LOG(LOG_NOTICE, "Your language (%s) may be badly handled (CJK)!", lang);
 		}
 	}
 
@@ -450,7 +451,6 @@ int
 	fbink_cfg.is_centered = true;
 	fbink_cfg.is_padded   = true;
 	fbink_cfg.to_syslog   = true;
-	fbink_cfg.is_verbose  = true;
 	// We'll want early errors to already go to syslog
 	fbink_update_verbosity(&fbink_cfg);
 
@@ -496,8 +496,8 @@ int
 	if (libevdev_grab(dev, LIBEVDEV_GRAB) != 0) {
 		LOG(LOG_CRIT,
 		    "Cannot read input events because the input device is currently grabbed by something else!");
-		//rv = USBMS_EARLY_EXIT;
-		//goto cleanup;
+		rv = USBMS_EARLY_EXIT;
+		goto cleanup;
 	}
 	// And we ourselves don't need to grab it, so, don't ;).
 	libevdev_grab(dev, LIBEVDEV_UNGRAB);
