@@ -405,22 +405,22 @@ int
 		    strncmp(lang, "fa", 2U) == 0) {
 			is_RTL = true;
 			LOG(LOG_NOTICE, "Your language (%s) is unsupported (and RTL), falling back to English", lang);
-			setenv("LANGUAGE", "C", 1);
+			//setenv("LANGUAGE", "C", 1);
 		} else if (strncmp(lang, "bn", 2U) == 0) {
 			LOG(LOG_NOTICE, "Your language (%s) is unsupported, falling back to English", lang);
 			setenv("LANGUAGE", "C", 1);
 		} else if (strncmp(lang, "ja", 2U) == 0 || strncmp(lang, "ko", 2U) == 0 ||
 		    strncmp(lang, "zh", 2U) == 0) {
+			is_CJK = true;
 			LOG(LOG_NOTICE, "Your language (%s) is unsupported (and CJK), falling back to English", lang);
 			//setenv("LANGUAGE", "C", 1);
-			is_CJK = true;
 		}
 
 		// KOReader -> Weblate mappings, because everything is terrible...
 		if (strncmp(lang, "zh_CN", 5U) == 0) {
 			setenv("LANGUAGE", "zh_Hans", 1);
 		} else if (strncmp(lang, "ar_AA", 5U) == 0) {
-			setenv("LANGUAGE", "aa", 1);
+			setenv("LANGUAGE", "ar", 1);
 		}
 	}
 
@@ -454,6 +454,7 @@ int
 	fbink_cfg.is_centered = true;
 	fbink_cfg.is_padded   = true;
 	fbink_cfg.to_syslog   = true;
+	fbink_cfg.is_verbose  = true;
 	// We'll want early errors to already go to syslog
 	fbink_update_verbosity(&fbink_cfg);
 
@@ -581,6 +582,13 @@ int
 		snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/NotoSansCJKsc-Regular.otf", abs_pwd);
 		if (fbink_add_ot_font_v2(resource_path, FNT_REGULAR, &msg_cfg) != EXIT_SUCCESS) {
 			PFLOG(LOG_CRIT, "Failed to load CJK font!");
+			rv = USBMS_EARLY_EXIT;
+			goto cleanup;
+		}
+	} else if (is_RTL) {
+		snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/NotoSansArabicUI-Regular.ttf", abs_pwd);
+		if (fbink_add_ot_font_v2(resource_path, FNT_REGULAR, &msg_cfg) != EXIT_SUCCESS) {
+			PFLOG(LOG_CRIT, "Failed to load RTL font!");
 			rv = USBMS_EARLY_EXIT;
 			goto cleanup;
 		}
