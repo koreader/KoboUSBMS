@@ -397,8 +397,8 @@ int
 	//       based on KOReader's own language list (c.f., frontend/ui/language.lua).
 	//       Because English is better than the replacement character ;p.
 	//       We do jump through a few hoops to attempt to salvage CJK support...
-	const char* lang = getenv("LANGUAGE");
-	bool is_CJK = false;
+	const char* lang   = getenv("LANGUAGE");
+	bool        is_CJK = false;
 	if (lang) {
 		// KOReader -> Weblate mappings, because everything is terrible...
 		if (strncmp(lang, "zh_CN", 5U) == 0) {
@@ -407,15 +407,13 @@ int
 			setenv("LANGUAGE", "ar", 1);
 		}
 
-		if (strncmp(lang, "he", 2U) == 0 || strncmp(lang, "ar", 2U) == 0 ||
-		    strncmp(lang, "fa", 2U) == 0) {
+		if (strncmp(lang, "he", 2U) == 0 || strncmp(lang, "ar", 2U) == 0 || strncmp(lang, "fa", 2U) == 0) {
 			LOG(LOG_NOTICE, "Your language (%s) is unsupported (and RTL), falling back to English", lang);
 			setenv("LANGUAGE", "C", 1);
 		} else if (strncmp(lang, "bn", 2U) == 0) {
 			LOG(LOG_NOTICE, "Your language (%s) is unsupported, falling back to English", lang);
 			setenv("LANGUAGE", "C", 1);
-		} else if (strncmp(lang, "ja", 2U) == 0 || strncmp(lang, "ko", 2U) == 0 ||
-		    strncmp(lang, "zh", 2U) == 0) {
+		} else if (strncmp(lang, "ja", 2U) == 0 || strncmp(lang, "ko", 2U) == 0 || strncmp(lang, "zh", 2U) == 0) {
 			is_CJK = true;
 			LOG(LOG_NOTICE, "Your language (%s) may be badly handled (CJK)!", lang);
 		}
@@ -540,7 +538,8 @@ int
 	// NOTE: Minor hackery: instead of the custom LGC Nerdfont we ship, for CJK, use KOReader's own CJK font...
 	//       (The only remotely CJK-ish NerdFont available is M+, and it's more J than CJK ;)).
 	if (is_CJK) {
-		snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/NotoSansCJKsc-Regular.otf", abs_pwd);
+		snprintf(
+		    resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/NotoSansCJKsc-Regular.otf", abs_pwd);
 		if (fbink_add_ot_font(resource_path, FNT_BOLD_ITALIC) != EXIT_SUCCESS) {
 			PFLOG(LOG_CRIT, "Failed to load CJK font!");
 			rv = USBMS_EARLY_EXIT;
