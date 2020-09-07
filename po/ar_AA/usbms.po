@@ -1,0 +1,121 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-08-30 14:45+0200\n"
+"PO-Revision-Date: 2020-09-01 09:53+0000\n"
+"Last-Translator: WaseemAlkurdi <waseem19992009@outlook.com>\n"
+"Language-Team: Arabic <https://hosted.weblate.org/projects/koreader/"
+"kobousbms/ar/>\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Weblate 4.2.1-dev\n"
+
+#: usbms.c:525
+msgid "USB Mass Storage"
+msgstr "خَزْنُ البيانات عبر USB"
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:575
+msgid ""
+" Please disable USBNet manually!\n"
+"Press the power button to exit."
+msgstr ""
+" الرجاء القيام بإلغاء تفعيل الشبكة عبر USB أو USBNet يدويًّا!\n"
+"اضغط زرّ التشغيل للخروج."
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:590
+msgid ""
+" Please disable USBSerial manually!\n"
+"Press the power button to exit."
+msgstr ""
+" الرجاء القيام بإلغاء تفعيل المنفذ التسلسلي عبر USB أو USBSerial يدويًّا!\n"
+"اضغط زرّ التشغيل للخروج."
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:613
+msgid " Filesystem is busy! Offending processes:"
+msgstr " نظام الملفّات مشغول! البرامج الشّاغلة له:"
+
+#. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
+#: usbms.c:646
+msgid " The fuser script failed!"
+msgstr " لم يقم برنامج fuser بعمله!"
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:658
+msgid " Failed to run the fuser script!"
+msgstr " حدث خطأٌ أثناء القيام بتشغيل برنامج fuser!"
+
+#: usbms.c:666
+msgid "Press the power button to exit."
+msgstr "اضغط زرّ التشغيل للخروج."
+
+#: usbms.c:734
+msgid ""
+"Waiting to be plugged in…\n"
+"Or, press the power button to exit."
+msgstr ""
+"جارٍ الانتظار ريثما يتمّ وصل الجهاز …\n"
+"أو اضغط زرّ التشغيل للخروج."
+
+#: usbms.c:811
+msgid "Starting USBMS session…"
+msgstr "جارٍ بدء جلسة الخَزْن عبر USB (أو USBMS) …"
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:822
+msgid ""
+" Failed to start the USBMS session!\n"
+"The device will shutdown in 90 sec."
+msgstr ""
+" حدث خطأٌ أثناء محاولة بدء جلسة الخازن عبر USB (أو USBMS)!\n"
+"سينطفأ الجهاز خلال 90 ثانية."
+
+#: usbms.c:837
+msgid ""
+"USBMS session in progress.\n"
+"Please eject your device safely before unplugging it."
+msgstr ""
+"جلسة الخَزْن عبر USB (أو USBMS) جاريةٌ الآن.\n"
+"فضلًا قم بفصل الجهاز عن الكمبيوتر (eject) بطريقةٍ سليمة قبل فصل السّلك."
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:901
+msgid ""
+" Failed to detect an unplug event!\n"
+"The device will shutdown in 90 sec."
+msgstr ""
+" لم يسجّل الجهاز حَدَثَ فَصْل (unplug)!\n"
+"سينطفأ الجهاز خلال 90 ثانية."
+
+#: usbms.c:913
+msgid "Ending USBMS session…"
+msgstr "جارٍ إنهاءُ جلسة الخزن عبر USB (أو USBMS) …"
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:926
+msgid ""
+" Failed to end the USBMS session!\n"
+"The device will shutdown in 90 sec."
+msgstr ""
+" فشلت عملية إنهاء جلسة الخزن عبر USB (أو USBMS)!\n"
+"سينطفأ الجهاز خلال 90 ثانية."
+
+#: usbms.c:942
+msgid ""
+"Done!\n"
+"KOReader will now restart…"
+msgstr ""
+"قُضِيَ الأمر!\n"
+"سيعاد تشغيل KOReader الآن …"
