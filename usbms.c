@@ -363,7 +363,11 @@ int
 	int                    rv       = EXIT_SUCCESS;
 	int                    pwd      = -1;
 	char*                  abs_pwd  = NULL;
+	bool                   is_CJK   = false;
 	int                    fbfd     = -1;
+	FBInkOTConfig          ot_cfg   = { 0 };
+	FBInkOTConfig          icon_cfg = { 0 };
+	FBInkOTConfig          msg_cfg  = { 0 };
 	struct uevent_listener listener = { 0 };
 	listener.pfd.fd                 = -1;
 	struct libevdev* dev            = NULL;
@@ -398,8 +402,7 @@ int
 	//       based on KOReader's own language list (c.f., frontend/ui/language.lua).
 	//       Because English is better than the replacement character ;p.
 	//       We do jump through a few hoops to attempt to salvage CJK support...
-	const char* lang   = getenv("LANGUAGE");
-	bool        is_CJK = false;
+	const char* lang = getenv("LANGUAGE");
 	if (lang) {
 		// KOReader -> Weblate mappings, because everything is terrible...
 		if (strncmp(lang, "zh_CN", 5U) == 0) {
@@ -539,11 +542,10 @@ int
 	// Display our header
 	fbink_cfg.no_refresh = true;
 	fbink_cls(fbfd, &fbink_cfg, NULL);
-	FBInkOTConfig ot_cfg = { 0 };
-	ot_cfg.margins.top   = (short int) fbink_state.font_h;
-	ot_cfg.size_px       = (unsigned short int) (fbink_state.font_h * 2U);
+	ot_cfg.margins.top = (short int) fbink_state.font_h;
+	ot_cfg.size_px     = (unsigned short int) (fbink_state.font_h * 2U);
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/CaskaydiaCove_NF.ttf", abs_pwd);
-	if (fbink_add_ot_font(resource_path, FNT_REGULAR) != EXIT_SUCCESS) {
+	if (fbink_add_ot_font_v2(resource_path, FNT_REGULAR, &icon_cfg) != EXIT_SUCCESS) {
 		PFLOG(LOG_CRIT, "Failed to load main font!");
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
@@ -553,19 +555,22 @@ int
 	if (is_CJK) {
 		snprintf(
 		    resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/NotoSansCJKsc-Regular.otf", abs_pwd);
-		if (fbink_add_ot_font(resource_path, FNT_BOLD_ITALIC) != EXIT_SUCCESS) {
+		if (fbink_add_ot_font_v2(resource_path, FNT_REGULAR, &msg_cfg) != EXIT_SUCCESS) {
 			PFLOG(LOG_CRIT, "Failed to load CJK font!");
 			rv = USBMS_EARLY_EXIT;
 			goto cleanup;
 		}
-		// We stick it in the BoldItalic style slot, because we have no use for it,
-		// and it's slightly less unwieldy than using the per-FBInkOTConfig API given the zigzags we're doing ;).
-		ot_cfg.style = FNT_BOLD_ITALIC;
+		// The first ot_cfg print (title bar) actually requires CJK support, so point it at our CJK font...
+		ot_cfg.font = msg_cfg.font;
+	} else {
+		// If we don't need CJK support, we simply use the main font everywhere
+		ot_cfg.font  = icon_cfg.font;
+		msg_cfg.font = icon_cfg.font;
 	}
 	fbink_print_ot(fbfd, _("USB Mass Storage"), &ot_cfg, &fbink_cfg, NULL);
 	if (is_CJK) {
 		// Back to the main font, as this will only be used for the status bar from now on
-		ot_cfg.style = FNT_REGULAR;
+		ot_cfg.font = icon_cfg.font;
 	}
 	fbink_cfg.ignore_alpha  = true;
 	fbink_cfg.halign        = CENTER;
@@ -586,27 +591,21 @@ int
 	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 
 	// Setup the center icon display
-	FBInkOTConfig icon_cfg = { 0 };
-	icon_cfg.size_px       = (unsigned short int) (fbink_state.font_h * 30U);
-	icon_cfg.padding       = HORI_PADDING;
+	icon_cfg.size_px = (unsigned short int) (fbink_state.font_h * 30U);
+	icon_cfg.padding = HORI_PADDING;
 
 	// The various lsmod checks will take a while, so, start with the initial cable status...
 	bool usb_plugged = is_usb_plugged(ntxfd);
 	print_icon(fbfd, usb_plugged ? "\uf700" : "\uf701", &fbink_cfg, &icon_cfg);
 
 	// Setup the message area
-	FBInkOTConfig msg_cfg = { 0 };
-	msg_cfg.size_px       = ot_cfg.size_px;
-	msg_cfg.padding       = icon_cfg.padding;
-	fbink_cfg.row         = -14;
-	msg_cfg.margins.top   = (short int) -(fbink_state.font_h * 14U);
+	msg_cfg.size_px     = ot_cfg.size_px;
+	msg_cfg.padding     = icon_cfg.padding;
+	fbink_cfg.row       = -14;
+	msg_cfg.margins.top = (short int) -(fbink_state.font_h * 14U);
 	// We want enough space for 4 lines (+/- metrics shenanigans)
 	msg_cfg.margins.bottom = (short int) (fbink_state.font_h * (14U - (4U * 2U) - 1U));
 	msg_cfg.padding        = FULL_PADDING;
-	// Don't forget to use the CJK font...
-	if (is_CJK) {
-		msg_cfg.style = FNT_BOLD_ITALIC;
-	}
 
 	// And now, on to the fun stuff!
 	bool need_early_abort = false;
@@ -1000,7 +999,15 @@ cleanup:
 	LOG(LOG_INFO, "Bye!");
 	closelog();
 
-	fbink_free_ot_fonts();
+	fbink_free_ot_fonts_v2(&icon_cfg);
+	if (is_CJK) {
+		fbink_free_ot_fonts_v2(&msg_cfg);
+		ot_cfg.font = NULL;
+	} else {
+		// We share the same font everywhere, so just avoid dangling pointers
+		msg_cfg.font = NULL;
+		ot_cfg.font  = NULL;
+	}
 	fbink_close(fbfd);
 
 	ue_destroy_listener(&listener);
