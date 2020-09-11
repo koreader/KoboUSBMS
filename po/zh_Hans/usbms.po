@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-11 23:37+0200\n"
+"POT-Creation-Date: 2020-09-12 01:16+0200\n"
 "PO-Revision-Date: 2020-09-07 14:37+0000\n"
 "Last-Translator: NiLuJe <ninuje@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -101,7 +101,7 @@ msgstr ""
 #| " Failed to start the USBMS session!\n"
 #| "The device will shutdown in 90 sec."
 msgid ""
-" The device was plugged into a simple power source, not a USB host!\n"
+" The device was plugged into a plain power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
 msgstr ""
 "⚠ USBMS 会话启动失败！\n"
@@ -109,10 +109,16 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:911
+#, fuzzy
+#| msgid ""
+#| " Failed to start the USBMS session!\n"
+#| "The device will shutdown in 90 sec."
 msgid ""
-" The device was plugged into a simple power source, not a USB host!\n"
+" The device was plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
+"⚠ USBMS 会话启动失败！\n"
+"此设备将在 90 秒内关机。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:939
@@ -147,7 +153,7 @@ msgstr ""
 #| " Failed to start the USBMS session!\n"
 #| "The device will shutdown in 90 sec."
 msgid ""
-" The device is plugged into a simple power source, not a USB host!\n"
+" The device is plugged into a plain power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
 msgstr ""
 "⚠ USBMS 会话启动失败！\n"
@@ -155,10 +161,16 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1020
+#, fuzzy
+#| msgid ""
+#| " Failed to start the USBMS session!\n"
+#| "The device will shutdown in 90 sec."
 msgid ""
-" The device is plugged into a simple power source, not a USB host!\n"
+" The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
+"⚠ USBMS 会话启动失败！\n"
+"此设备将在 90 秒内关机。"
 
 #: usbms.c:1050
 msgid "Starting USBMS session…"

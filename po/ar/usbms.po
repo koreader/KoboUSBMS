@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-11 23:37+0200\n"
+"POT-Creation-Date: 2020-09-12 01:16+0200\n"
 "PO-Revision-Date: 2020-09-01 09:53+0000\n"
 "Last-Translator: WaseemAlkurdi <waseem19992009@outlook.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/koreader/"
@@ -102,7 +102,7 @@ msgstr ""
 #| " Failed to start the USBMS session!\n"
 #| "The device will shutdown in 90 sec."
 msgid ""
-" The device was plugged into a simple power source, not a USB host!\n"
+" The device was plugged into a plain power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
 msgstr ""
 " حدث خطأٌ أثناء محاولة بدء جلسة الخازن عبر USB (أو USBMS)!\n"
@@ -110,10 +110,16 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:911
+#, fuzzy
+#| msgid ""
+#| " Failed to start the USBMS session!\n"
+#| "The device will shutdown in 90 sec."
 msgid ""
-" The device was plugged into a simple power source, not a USB host!\n"
+" The device was plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
+" حدث خطأٌ أثناء محاولة بدء جلسة الخازن عبر USB (أو USBMS)!\n"
+"سينطفأ الجهاز خلال 90 ثانية."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:939
@@ -148,7 +154,7 @@ msgstr ""
 #| " Failed to start the USBMS session!\n"
 #| "The device will shutdown in 90 sec."
 msgid ""
-" The device is plugged into a simple power source, not a USB host!\n"
+" The device is plugged into a plain power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
 msgstr ""
 " حدث خطأٌ أثناء محاولة بدء جلسة الخازن عبر USB (أو USBMS)!\n"
@@ -156,10 +162,16 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1020
+#, fuzzy
+#| msgid ""
+#| " Failed to start the USBMS session!\n"
+#| "The device will shutdown in 90 sec."
 msgid ""
-" The device is plugged into a simple power source, not a USB host!\n"
+" The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
+" حدث خطأٌ أثناء محاولة بدء جلسة الخازن عبر USB (أو USBMS)!\n"
+"سينطفأ الجهاز خلال 90 ثانية."
 
 #: usbms.c:1050
 msgid "Starting USBMS session…"
