@@ -1091,7 +1091,8 @@ int
 	struct uevent uev;
 	// NOTE: This is basically ue_wait_for_event, but with a 45s timeout,
 	//       solely for the purpose of refreshing the status bar,
-	//       because we don't necessarily get change events on power_supply on every device...
+	//       because we don't necessarily get change events on power_supply on older devices
+	//       (e.g., it happens on Mk. 7, but not on Mk. 5)...
 	while (true) {
 		int poll_num = poll(&pfd, 1, 45 * 1000);
 
@@ -1122,7 +1123,7 @@ int
 					} else if (uev.action == UEVENT_ACTION_CHANGE && uev.subsystem &&
 						   UE_STR_EQ(uev.subsystem, "power_supply")) {
 						LOG(LOG_NOTICE, "Caught a charge tick");
-						// Refresh the status bar on charge % changes, in case we do get those events
+						// On devices where we do get those events, refresh the status bar.
 						// (c.f., NOTE above).
 						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 					}
