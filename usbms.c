@@ -327,6 +327,8 @@ static const char*
 					if (charger_type[size - 2U] == '\n') {
 						charger_type[size - 2U] = '\0';
 					}
+				} else {
+					LOG(LOG_WARNING, "Failed to read the true charger type from sysfs!");
 				}
 				fclose(f);
 
@@ -334,6 +336,8 @@ static const char*
 				if (strncmp(charger_type, "SDP_ADPT", 8U) == 0U) {
 					return "SDP ADPT (Standard Downstream Port, 800mA)";
 				}
+			} else {
+				LOG(LOG_WARNING, "Failed to open the sysfs entry for true charger type!");
 			}
 
 			// If all else fails...
@@ -988,7 +992,7 @@ int
 					// the discrimination between usb_plug and usb_host is only based on detecting an SDP PC
 					// in drivers/input/misc/usb_plug.c, so, do the same thing here.
 					// (c.f., ricoh619_charger_detect @ drivers/mfd/ricoh619.c)
-					if (charger_id != 2) {
+					if (charger_id != 2U) {
 						// c.f., ricoh61x_batt_get_prop @ drivers/power/ricoh619-battery.c
 						// if giRICOH619_DCIN == SDP_PC_CHARGER => online = 2
 						// NOTE: SDP_CHARGER == SDP_PC_CHARGER != SDP_ADPT_CHARGER
