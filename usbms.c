@@ -764,12 +764,23 @@ int
 			// Give up afer 30 sec
 			if (retry >= 6) {
 				LOG(LOG_NOTICE, "It's been 30 sec, giving up");
-				fbink_print_ot(fbfd,
-					       // @translators: First unicode codepoint is an icon, leave it as-is.
-					       _("\uf05a Giving up after 30 sec.\nKOReader will now restart…"),
-					       &msg_cfg,
-					       &fbink_cfg,
-					       NULL);
+				if (early_unmount) {
+					fbink_print_ot(
+					    fbfd,
+					    // @translators: First unicode codepoint is an icon, leave it as-is.
+					    _("\uf05a Giving up after 30 sec.\nThe device will shutdown in 30 sec."),
+					    &msg_cfg,
+					    &fbink_cfg,
+					    NULL);
+				} else {
+					fbink_print_ot(
+					    fbfd,
+					    // @translators: First unicode codepoint is an icon, leave it as-is.
+					    _("\uf05a Giving up after 30 sec.\nKOReader will now restart…"),
+					    &msg_cfg,
+					    &fbink_cfg,
+					    NULL);
+				}
 				// Make sure this message will be visible...
 				fbink_wait_for_complete(fbfd, LAST_MARKER);
 				const struct timespec zzz = { 2L, 500000000L };
@@ -836,13 +847,23 @@ int
 						    UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_PLUG)) {
 							LOG(LOG_WARNING,
 							    "Caught a plug in event, but to a simple power source, not a USB host");
-							fbink_print_ot(
-							    fbfd,
-							    // @translators: First unicode codepoint is an icon, leave it as-is.
-							    _("\uf071 The device was plugged into a simple power source, not a USB host!\nKOReader will now restart…"),
-							    &msg_cfg,
-							    &fbink_cfg,
-							    NULL);
+							if (early_unmount) {
+								fbink_print_ot(
+								    fbfd,
+								    // @translators: First unicode codepoint is an icon, leave it as-is.
+								    _("\uf071 The device was plugged into a simple power source, not a USB host!\nThe device will shutdown in 30 sec."),
+								    &msg_cfg,
+								    &fbink_cfg,
+								    NULL);
+							} else {
+								fbink_print_ot(
+								    fbfd,
+								    // @translators: First unicode codepoint is an icon, leave it as-is.
+								    _("\uf071 The device was plugged into a simple power source, not a USB host!\nKOReader will now restart…"),
+								    &msg_cfg,
+								    &fbink_cfg,
+								    NULL);
+							}
 							need_early_abort = true;
 							break;
 						} else if (uev.action == UEVENT_ACTION_ADD && uev.devpath &&
@@ -862,12 +883,23 @@ int
 			// Give up afer 90 sec
 			if (retry >= 18) {
 				LOG(LOG_NOTICE, "It's been 90 sec, giving up");
-				fbink_print_ot(fbfd,
-					       // @translators: First unicode codepoint is an icon, leave it as-is.
-					       _("\uf05a Giving up after 90 sec.\nKOReader will now restart…"),
-					       &msg_cfg,
-					       &fbink_cfg,
-					       NULL);
+				if (early_unmount) {
+					fbink_print_ot(
+					    fbfd,
+					    // @translators: First unicode codepoint is an icon, leave it as-is.
+					    _("\uf05a Giving up after 90 sec.\nThe device will shutdown in 30 sec."),
+					    &msg_cfg,
+					    &fbink_cfg,
+					    NULL);
+				} else {
+					fbink_print_ot(
+					    fbfd,
+					    // @translators: First unicode codepoint is an icon, leave it as-is.
+					    _("\uf05a Giving up after 90 sec.\nKOReader will now restart…"),
+					    &msg_cfg,
+					    &fbink_cfg,
+					    NULL);
+				}
 				need_early_abort = true;
 				break;
 			}
