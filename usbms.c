@@ -907,18 +907,19 @@ int
 	} else {
 		// NOTE: usb_plugged will be true if usbms was started while *already* plugged in,
 		//       even if it's to a simple power source, and not a USB host...
-		//       On some devices, POWER_SUPPLY_PROP_ONLINE is smart enough to be able to make the distinction,
+		//       On some devices, POWER_SUPPLY_PROP_ONLINE is smart enough to be able to tell the difference,
 		//       which means we can read it from sysfs (c.f., ricoh61x_batt_get_prop @ drivers/power/ricoh619-battery.c),
-		//       but on older, it isn't, and the discrimination is only done during the plug in event...
+		//       but on older devices, it isn't, and the discrimination is *only* done during the plug in event...
 		//       (c.f., drivers/input/misc/usb_plug.c).
-		//       So, do what we can here, otherwise, the state needs to be tracked by the frontend,
+		//       So, do what we can here, otherwise, the state may need to be tracked by the frontend,
 		//       assuming it *also* got a chance to catch the event: i.e., it started *before* the plug in...
-		// NOTE: Mk. 6 devices might be able to tell the difference, but it doesn't make it to sysfs, AFAICT,
+		// NOTE: Mk. 6 devices might be able to tell the difference, but that doesn't make it to sysfs, AFAICT,
 		//       so, limit that to Mk. 7...
 		// NOTE: Might be able to finagle something out of /sys/class/power_supply/usbpwr/online vs.
 		//       /sys/class/power_supply/acpwr/online on Mk. 6, but I don't have the HW, and, on Mk. 7,
-		//       it matches /sys/class/power_supply/mc13892_charger/online anyway...
+		//       it matches /sys/class/power_supply/mc13892_charger/online in both cases anyway...
 		if (strcmp(fbink_state.device_platform, "Mark 7") >= 0) {
+			// NOTE: That might be a tad overly optimistic ;). Revisit if/when Mk. 8 comes out ^^.
 			LOG(LOG_INFO, "Checking charger type");
 			char  charger_type[8] = { 0 };
 			FILE* f               = fopen(CHARGER_TYPE_SYSFS, "re");
@@ -968,7 +969,7 @@ int
 				LOG(LOG_WARNING, "Failed to open the sysfs entry for charger type!");
 			}
 		} else {
-			LOG(LOG_INFO, "Not on >= Mk. 7, can't check charger type!");
+			LOG(LOG_INFO, "Device generation is older than Mk. 7, can't check charger type!");
 		}
 	}
 
@@ -1028,8 +1029,8 @@ int
 
 	struct uevent uev;
 	// NOTE: This is basically ue_wait_for_event, but with a 45s timeout,
-	//       solely for the purpose of refreshing the status bar...
-	//       Because we don't necessarily get change events on power_supply on every device...
+	//       solely for the purpose of refreshing the status bar,
+	//       because we don't necessarily get change events on power_supply on every device...
 	while (true) {
 		int poll_num = poll(&pfd, 1, 45 * 1000);
 
