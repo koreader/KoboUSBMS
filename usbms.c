@@ -307,17 +307,40 @@ __attribute((nonnull(1))) static bool
 }
 
 // Human-readable conversion of the CHARGER_TYPE_SYSFS value on Mk. 7
-// Also see /sys/class/power_supply/mc13892_charger/device/charger_type
+// c.f., ricoh61x_batt_get_prop @ drivers/power/ricoh619-battery.c
 static const char*
     mk7_charger_id_to_string(uint8_t charger_id)
 {
 	switch (charger_id) {
 		case 0:
 			return "None!";
-		case 1:
+		case 1: {
+			// NOTE: We'll have to drill into TRUE_CHARGER_TYPE_SYSFS, because it's more detailed...
+			char  charger_type[8] = { 0 };
+			FILE* f               = fopen(TRUE_CHARGER_TYPE_SYSFS, "re");
+			if (f) {
+				size_t size = fread(charger_type, sizeof(*charger_type), sizeof(charger_type), f);
+				if (size > 0) {
+					// NUL terminate
+					charger_type[size - 1U] = '\0';
+					// Strip trailing LF
+					if (charger_type[size - 2U] == '\n') {
+						charger_type[size - 2U] = '\0';
+					}
+				}
+				fclose(f);
+
+				// c.f., charger_type_read @ drivers/power/ricoh619-battery.c
+				if (strncmp(charger_type, "SDP_ADPT", 8U) == 0U) {
+					return "SDP ADPT (Standard Downstream Port, 800mA)";
+				}
+			}
+
+			// If all else fails...
 			return "Unspecified";
+		}
 		case 2:
-			return "SDP PC (Standard Downstream Port)";
+			return "SDP PC (Standard Downstream Port, 500mA)";
 		case 3:
 			return "DCP (Dedicated Charging Port)";
 		case 4:
@@ -962,14 +985,16 @@ int
 					}
 
 					// While a CDP could technically enumerate,
-					// the discrimination between usb_plug and usb_host is only based on detecting an SDP
+					// the discrimination between usb_plug and usb_host is only based on detecting an SDP PC
 					// in drivers/input/misc/usb_plug.c, so, do the same thing here.
 					// (c.f., ricoh619_charger_detect @ drivers/mfd/ricoh619.c)
 					if (charger_id != 2) {
 						// c.f., ricoh61x_batt_get_prop @ drivers/power/ricoh619-battery.c
 						// if giRICOH619_DCIN == SDP_PC_CHARGER => online = 2
+						// NOTE: SDP_CHARGER == SDP_PC_CHARGER != SDP_ADPT_CHARGER
+						//       c.f., include/linux/power/ricoh619_battery.h
 						LOG(LOG_WARNING,
-						    "Charger type is not SDP (%s)!",
+						    "Charger type is not SDP PC (%s)!",
 						    mk7_charger_id_to_string(charger_id));
 						if (early_unmount) {
 							fbink_print_ot(
@@ -990,7 +1015,7 @@ int
 						}
 						need_early_abort = true;
 					} else {
-						LOG(LOG_INFO, "SDP charger detected");
+						LOG(LOG_INFO, "SDP PC (500mA) charger detected");
 					}
 				} else {
 					LOG(LOG_WARNING, "Failed to read the charger type from sysfs!");
