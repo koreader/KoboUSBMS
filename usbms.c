@@ -994,7 +994,7 @@ int
 						// NOTE: SDP_CHARGER == SDP_PC_CHARGER != SDP_ADPT_CHARGER
 						//       c.f., include/linux/power/ricoh619_battery.h
 						LOG(LOG_WARNING,
-						    "Charger type is not SDP PC (%s)!",
+						    "Charger type is not SDP PC, it's `%s`!",
 						    mk7_charger_id_to_string(charger_id));
 						if (early_unmount) {
 							fbink_print_ot(
