@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-11 23:37+0200\n"
-"PO-Revision-Date: 2020-08-30 03:27+0000\n"
-"Last-Translator: NiLuJe <ninuje@gmail.com>\n"
+"PO-Revision-Date: 2020-09-11 23:14+0000\n"
+"Last-Translator: hombretranquilo <hombretranquilo.mbp@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/ca/>\n"
 "Language: ca\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.2.1-dev\n"
+"X-Generator: Weblate 4.3-dev\n"
 
 #: usbms.c:619
 msgid "USB Mass Storage"
@@ -62,29 +62,21 @@ msgstr "Prèmer el botó d'engegada per a eixir."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:820
-#, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " Giving up after 30 sec.\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-" No s'ha pogut iniciar la sessió USBMS!\n"
-"El dispositiu s'apagarà en 90 segons."
+" Deixar d'intentar-ho transcorreguts 30 segons.\n"
+"El dispositiu s'apagarà en 30 segons."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:828
-#, fuzzy
-#| msgid ""
-#| "Done!\n"
-#| "KOReader will now restart…"
 msgid ""
 " Giving up after 30 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-"Fet!\n"
-"KOReader es reiniciarà ara…"
+" Deixar d'intentar-ho transcorreguts 30 segons.\n"
+"Ara KOReader es reiniciarà…"
 
 #: usbms.c:851
 msgid ""
@@ -96,16 +88,12 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:903
-#, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " The device was plugged into a simple power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-" No s'ha pogut iniciar la sessió USBMS!\n"
-"El dispositiu s'apagarà en 90 segons."
+" El dispositiu està connectat a una font d'alimentació, no a un host USB!\n"
+"El dispositiu s'apagarà en 30 segons."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:911
@@ -113,45 +101,35 @@ msgid ""
 " The device was plugged into a simple power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
+" El dispositiu està connectat a una font d'alimentació, no a un host USB!\n"
+"Ara KOReader es reiniciarà…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:939
-#, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " Giving up after 90 sec.\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-" No s'ha pogut iniciar la sessió USBMS!\n"
-"El dispositiu s'apagarà en 90 segons."
+" Deixar d'intentar-ho transcorreguts 90 segons.\n"
+"El dispositiu s'apagarà en 30 segons."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:947
-#, fuzzy
-#| msgid ""
-#| "Done!\n"
-#| "KOReader will now restart…"
 msgid ""
 " Giving up after 90 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-"Fet!\n"
-"KOReader es reiniciarà ara…"
+" Deixar d'intentar-ho transcorreguts 90 segons.\n"
+"Ara KOReader es reiniciarà…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1012
-#, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " The device is plugged into a simple power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-" No s'ha pogut iniciar la sessió USBMS!\n"
-"El dispositiu s'apagarà en 90 segons."
+" El dispositiu està connectat a una font d'alimentació, no a un host USB!\n"
+"El dispositiu s'apagarà en 30 segons."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1020
@@ -159,6 +137,8 @@ msgid ""
 " The device is plugged into a simple power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
+" El dispositiu està connectat a una font d'alimentació, no a un host USB!\n"
+"Ara KOReader es reiniciarà…"
 
 #: usbms.c:1050
 msgid "Starting USBMS session…"
@@ -210,4 +190,4 @@ msgid ""
 "KOReader will now restart…"
 msgstr ""
 "Fet!\n"
-"KOReader es reiniciarà ara…"
+"Ara KOReader es reiniciarà…"
