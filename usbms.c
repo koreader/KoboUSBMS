@@ -911,8 +911,7 @@ int
 	struct uevent uev;
 	// NOTE: This is basically ue_wait_for_event, but with a 45s timeout,
 	//       solely for the purpose of refreshing the status bar...
-	//       Because we only get change events on power_supply when plugged into a *charger*,
-	//       but not when plugged into a computer.
+	//       Because we don't necessarily get change events on power_supply on every device...
 	while (true) {
 		int poll_num = poll(&pfd, 1, 45 * 1000);
 
