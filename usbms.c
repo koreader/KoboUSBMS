@@ -764,6 +764,16 @@ int
 			// Give up afer 30 sec
 			if (retry >= 6) {
 				LOG(LOG_NOTICE, "It's been 30 sec, giving up");
+				fbink_print_ot(fbfd,
+					       // @translators: First unicode codepoint is an icon, leave it as-is.
+					       _("\uf05a Giving up after 30 sec."),
+					       &msg_cfg,
+					       &fbink_cfg,
+					       NULL);
+				// Make sure this message will be visible...
+				fbink_wait_for_complete(fbfd, LAST_MARKER);
+				const struct timespec zzz = { 2L, 500000000L };
+				nanosleep(&zzz, NULL);
 				break;
 			}
 		}
@@ -852,6 +862,12 @@ int
 			// Give up afer 90 sec
 			if (retry >= 18) {
 				LOG(LOG_NOTICE, "It's been 90 sec, giving up");
+				fbink_print_ot(fbfd,
+					       // @translators: First unicode codepoint is an icon, leave it as-is.
+					       _("\uf05a Giving up after 90 sec."),
+					       &msg_cfg,
+					       &fbink_cfg,
+					       NULL);
 				need_early_abort = true;
 				break;
 			}
@@ -860,6 +876,10 @@ int
 
 	// If we aborted before plug in, we can (usually) still exit safely...
 	if (need_early_abort) {
+		// Make sure the final message will be visible...
+		fbink_wait_for_complete(fbfd, LAST_MARKER);
+		const struct timespec zzz = { 2L, 500000000L };
+		nanosleep(&zzz, NULL);
 		rv = early_unmount ? EXIT_FAILURE : USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
