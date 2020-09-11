@@ -87,7 +87,7 @@
 // So far, those have thankfully been set in stone
 #define NTX_KEYS_EVDEV     "/dev/input/event0"
 #define TOUCHPAD_EVDEV     "/dev/input/event1"
-#define BATT_CAP_SYSFS     "/sys/devices/platform/pmic_battery.1/power_supply/mc13892_bat/capacity"
+#define BATT_CAP_SYSFS     "/sys/class/power_supply/mc13892_bat/capacity"
 #define CHARGER_TYPE_SYSFS "/sys/class/power_supply/mc13892_charger/online"
 
 // Internal storage
