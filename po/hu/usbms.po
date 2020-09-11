@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-12 01:16+0200\n"
-"PO-Revision-Date: 2020-09-11 20:24+0000\n"
-"Last-Translator: Sari Gabor <sari.gabor@gmail.com>\n"
+"PO-Revision-Date: 2020-09-11 23:21+0000\n"
+"Last-Translator: NiLuJe <ninuje@gmail.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/hu/>\n"
 "Language: hu\n"
@@ -88,10 +88,6 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:903
-#, fuzzy
-#| msgid ""
-#| " The device was plugged into a simple power source, not a USB host!\n"
-#| "The device will shutdown in 30 sec."
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
@@ -101,10 +97,6 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:911
-#, fuzzy
-#| msgid ""
-#| " The device was plugged into a simple power source, not a USB host!\n"
-#| "KOReader will now restart…"
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
@@ -132,10 +124,6 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1012
-#, fuzzy
-#| msgid ""
-#| " The device is plugged into a simple power source, not a USB host!\n"
-#| "The device will shutdown in 30 sec."
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
@@ -145,10 +133,6 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1020
-#, fuzzy
-#| msgid ""
-#| " The device is plugged into a simple power source, not a USB host!\n"
-#| "KOReader will now restart…"
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
