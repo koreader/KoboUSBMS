@@ -823,9 +823,21 @@ int
 					if (handle_uevent(&listener, &uev) == EXIT_SUCCESS) {
 						// Now check if it's a plug in...
 						if (uev.action == UEVENT_ACTION_ADD && uev.devpath &&
-						    (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_PLUG) ||
-						     UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_HOST))) {
-							LOG(LOG_NOTICE, "Caught a plug in event");
+						    UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_PLUG)) {
+							LOG(LOG_WARNING,
+							    "Caught a plug in event, but to a simple power source, not a USB host");
+							fbink_print_ot(
+							    fbfd,
+							    // @translators: First unicode codepoint is an icon, leave it as-is.
+							    _("\uf071 The device was plugged into a simple power source, not a USB host!"),
+							    &msg_cfg,
+							    &fbink_cfg,
+							    NULL);
+							need_early_abort = true;
+							break;
+						} else if (uev.action == UEVENT_ACTION_ADD && uev.devpath &&
+							   UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_HOST)) {
+							LOG(LOG_NOTICE, "Caught a plug in event (to a USB host)");
 							break;
 						}
 					}
@@ -899,6 +911,8 @@ int
 	struct uevent uev;
 	// NOTE: This is basically ue_wait_for_event, but with a 45s timeout,
 	//       solely for the purpose of refreshing the status bar...
+	//       Because we only get change events on power_supply when plugged into a *charger*,
+	//       but not when plugged into a computer.
 	while (true) {
 		int poll_num = poll(&pfd, 1, 45 * 1000);
 

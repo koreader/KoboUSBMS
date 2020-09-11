@@ -76,8 +76,8 @@
 #define USBMS_EARLY_EXIT 86
 
 // c.f., https://github.com/koreader/koreader-base/blob/master/input/input-kobo.h
-#define KOBO_USB_DEVPATH_PLUG "/devices/platform/usb_plug"
-#define KOBO_USB_DEVPATH_HOST "/devices/platform/usb_host"
+#define KOBO_USB_DEVPATH_PLUG "/devices/platform/usb_plug"    // Plugged inot a power source
+#define KOBO_USB_DEVPATH_HOST "/devices/platform/usb_host"    // Plugged into a computer
 // c.f., /lib/udev/rules.d/kobo.rules
 #define KOBO_USB_DEVPATH_FSL "/devices/platform/fsl-usb2-udc"    // OK
 #define KOBO_USB_MODALIAS_CI "platform:ci_hdrc"                  // OK
