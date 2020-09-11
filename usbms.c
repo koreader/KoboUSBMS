@@ -319,7 +319,7 @@ static const char*
 			// NOTE: We'll have to drill into TRUE_CHARGER_TYPE_SYSFS, because it's more detailed...
 			FILE* f = fopen(TRUE_CHARGER_TYPE_SYSFS, "re");
 			if (f) {
-				char   charger_type[8] = { 0 };
+				char   charger_type[16] = { 0 };
 				size_t size = fread(charger_type, sizeof(*charger_type), sizeof(charger_type), f);
 				if (size > 0) {
 					// NUL terminate
