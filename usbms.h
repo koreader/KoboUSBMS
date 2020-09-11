@@ -76,7 +76,7 @@
 #define USBMS_EARLY_EXIT 86
 
 // c.f., https://github.com/koreader/koreader-base/blob/master/input/input-kobo.h
-#define KOBO_USB_DEVPATH_PLUG "/devices/platform/usb_plug"    // Plugged into a power source
+#define KOBO_USB_DEVPATH_PLUG "/devices/platform/usb_plug"    // Plugged into a plain power source
 #define KOBO_USB_DEVPATH_HOST "/devices/platform/usb_host"    // Plugged into a computer
 // c.f., /lib/udev/rules.d/kobo.rules
 #define KOBO_USB_DEVPATH_FSL "/devices/platform/fsl-usb2-udc"    // OK
@@ -85,9 +85,10 @@
 #define KOBO_USB_DEVPATH_UDC "/devices/platform/5100000.udc-controller"
 
 // So far, those have thankfully been set in stone
-#define NTX_KEYS_EVDEV          "/dev/input/event0"
-#define TOUCHPAD_EVDEV          "/dev/input/event1"
-#define BATT_CAP_SYSFS          "/sys/class/power_supply/mc13892_bat/capacity"
+#define NTX_KEYS_EVDEV "/dev/input/event0"
+#define TOUCHPAD_EVDEV "/dev/input/event1"
+#define BATT_CAP_SYSFS "/sys/class/power_supply/mc13892_bat/capacity"
+// Those, on the other hand, are only used on Mk. 7 & up
 #define CHARGER_TYPE_SYSFS      "/sys/class/power_supply/mc13892_charger/online"
 #define TRUE_CHARGER_TYPE_SYSFS "/sys/class/power_supply/mc13892_charger/device/charger_type"
 
