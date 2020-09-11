@@ -946,7 +946,6 @@ int
 						// Refresh the status bar on charge % changes, in case we do get those events
 						// (c.f., NOTE above).
 						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
-						break;
 					}
 				}
 			}
