@@ -101,6 +101,7 @@ struct uevent
 {
 	enum uevent_action action;
 	char*              devpath;
+	char*              subsystem;
 	char*              modalias;
 	char               buf[PIPE_BUF];
 	size_t             buflen;
@@ -150,6 +151,8 @@ static int
 			}
 		} else if (UE_STR_EQ(p, "DEVPATH")) {
 			uevp->devpath = p + sizeof("DEVPATH");
+		} else if (UE_STR_EQ(p, "SUBSYSTEM")) {
+			uevp->subsystem = p + sizeof("SUBSYSTEM");
 		} else if (UE_STR_EQ(p, "MODALIAS")) {
 			uevp->modalias = p + sizeof("MODALIAS");
 		}
@@ -168,10 +171,11 @@ static inline void
 static inline void
     ue_reset_event(struct uevent* uevp)
 {
-	uevp->action   = UEVENT_ACTION_INVALID;
-	uevp->devpath  = NULL;
-	uevp->modalias = NULL;
-	uevp->buflen   = 0U;
+	uevp->action    = UEVENT_ACTION_INVALID;
+	uevp->devpath   = NULL;
+	uevp->subsystem = NULL;
+	uevp->modalias  = NULL;
+	uevp->buflen    = 0U;
 }
 
 static int

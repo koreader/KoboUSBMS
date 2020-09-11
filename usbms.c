@@ -940,6 +940,13 @@ int
 						    UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_HOST))) {
 						LOG(LOG_NOTICE, "Caught an unplug event");
 						break;
+					} else if (uev.action == UEVENT_ACTION_CHANGE && uev.subsystem &&
+						   UE_STR_EQ(uev.subsystem, "power_supply")) {
+						LOG(LOG_NOTICE, "Caught a charge tick");
+						// Refresh the status bar on charge % changes, in case we do get those events
+						// (c.f., NOTE above).
+						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+						break;
 					}
 				}
 			}
