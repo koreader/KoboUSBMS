@@ -969,9 +969,11 @@ int
 		if (strcmp(fbink_state.device_platform, "Mark 7") >= 0) {
 			// NOTE: That might be a tad overly optimistic ;). Revisit if/when Mk. 8 comes out ^^.
 			LOG(LOG_INFO, "Checking charger type");
-			char  charger_type[8] = { 0 };
-			FILE* f               = fopen(CHARGER_TYPE_SYSFS, "re");
+			FILE* f = fopen(CHARGER_TYPE_SYSFS, "re");
 			if (f) {
+				char    charger_type[8] = { 0 };
+				uint8_t charger_id      = 0U;
+
 				size_t size = fread(charger_type, sizeof(*charger_type), sizeof(charger_type), f);
 				if (size > 0) {
 					// NUL terminate
@@ -980,51 +982,50 @@ int
 					if (charger_type[size - 2U] == '\n') {
 						charger_type[size - 2U] = '\0';
 					}
-
-					uint8_t charger_id = 0U;
-					if (strtoul_hhu(charger_type, &charger_id) < 0) {
-						PFLOG(LOG_WARNING,
-						      "Failed to convert charger type value '%s' to an uint8_t!",
-						      charger_type);
-					}
-
-					// While a CDP could technically enumerate,
-					// the discrimination between usb_plug and usb_host is only based on detecting an SDP PC
-					// in drivers/input/misc/usb_plug.c, so, do the same thing here.
-					// (c.f., ricoh619_charger_detect @ drivers/mfd/ricoh619.c)
-					if (charger_id != 2U) {
-						// c.f., ricoh61x_batt_get_prop @ drivers/power/ricoh619-battery.c
-						// if giRICOH619_DCIN == SDP_PC_CHARGER => online = 2
-						// NOTE: SDP_CHARGER == SDP_PC_CHARGER != SDP_ADPT_CHARGER
-						//       c.f., include/linux/power/ricoh619_battery.h
-						LOG(LOG_WARNING,
-						    "Charger type is not SDP PC, it's `%s`!",
-						    mk7_charger_id_to_string(charger_id));
-						if (early_unmount) {
-							fbink_print_ot(
-							    fbfd,
-							    // @translators: First unicode codepoint is an icon, leave it as-is.
-							    _("\uf071 The device is plugged into a simple power source, not a USB host!\nThe device will shutdown in 30 sec."),
-							    &msg_cfg,
-							    &fbink_cfg,
-							    NULL);
-						} else {
-							fbink_print_ot(
-							    fbfd,
-							    // @translators: First unicode codepoint is an icon, leave it as-is.
-							    _("\uf071 The device is plugged into a simple power source, not a USB host!\nKOReader will now restart…"),
-							    &msg_cfg,
-							    &fbink_cfg,
-							    NULL);
-						}
-						need_early_abort = true;
-					} else {
-						LOG(LOG_INFO, "SDP PC (500mA) charger detected");
-					}
 				} else {
 					LOG(LOG_WARNING, "Failed to read the charger type from sysfs!");
 				}
 				fclose(f);
+
+				if (strtoul_hhu(charger_type, &charger_id) < 0) {
+					PFLOG(LOG_WARNING,
+					      "Failed to convert charger type value '%s' to an uint8_t!",
+					      charger_type);
+				}
+
+				// While a CDP could technically enumerate,
+				// the discrimination between usb_plug and usb_host is only based on detecting an SDP PC
+				// in drivers/input/misc/usb_plug.c, so, do the same thing here.
+				// (c.f., ricoh619_charger_detect @ drivers/mfd/ricoh619.c)
+				if (charger_id != 2U) {
+					// c.f., ricoh61x_batt_get_prop @ drivers/power/ricoh619-battery.c
+					// if giRICOH619_DCIN == SDP_PC_CHARGER => online = 2
+					// NOTE: SDP_CHARGER == SDP_PC_CHARGER != SDP_ADPT_CHARGER
+					//       c.f., include/linux/power/ricoh619_battery.h
+					LOG(LOG_WARNING,
+					    "Charger type is not SDP PC, it's `%s`!",
+					    mk7_charger_id_to_string(charger_id));
+					if (early_unmount) {
+						fbink_print_ot(
+						    fbfd,
+						    // @translators: First unicode codepoint is an icon, leave it as-is.
+						    _("\uf071 The device is plugged into a simple power source, not a USB host!\nThe device will shutdown in 30 sec."),
+						    &msg_cfg,
+						    &fbink_cfg,
+						    NULL);
+					} else {
+						fbink_print_ot(
+						    fbfd,
+						    // @translators: First unicode codepoint is an icon, leave it as-is.
+						    _("\uf071 The device is plugged into a simple power source, not a USB host!\nKOReader will now restart…"),
+						    &msg_cfg,
+						    &fbink_cfg,
+						    NULL);
+					}
+					need_early_abort = true;
+				} else {
+					LOG(LOG_INFO, "SDP PC (500mA) charger detected");
+				}
 			} else {
 				LOG(LOG_WARNING, "Failed to open the sysfs entry for charger type!");
 			}
