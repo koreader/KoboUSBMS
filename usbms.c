@@ -306,6 +306,27 @@ __attribute((nonnull(1))) static bool
 	return false;
 }
 
+// Human-readable conversion of the CHARGER_TYPE_SYSFS value on Mk. 7
+// Also see /sys/class/power_supply/mc13892_charger/device/charger_type
+static const char*
+    mk7_charger_id_to_string(uint8_t charger_id)
+{
+	switch (charger_id) {
+		case 0:
+			return "None!";
+		case 1:
+			return "Unspecified";
+		case 2:
+			return "SDP PC (Standard Downstream Port)";
+		case 3:
+			return "DCP (Dedicated Charging Port)";
+		case 4:
+			return "CDP (Charging Downstream Port)";
+		default:
+			return "Unknown?!";
+	}
+}
+
 // Parse an evdev event, looking for a power button press
 static bool
     handle_evdev(struct libevdev* dev)
@@ -932,14 +953,24 @@ int
 					if (charger_type[size - 2U] == '\n') {
 						charger_type[size - 2U] = '\0';
 					}
+
+					uint8_t charger_id = 0U;
+					if (strtoul_hhu(charger_type, &charger_id) < 0) {
+						PFLOG(LOG_WARNING,
+						      "Failed to convert charger type value '%s' to an uint8_t!",
+						      charger_type);
+					}
+
 					// While a CDP could technically enumerate,
 					// the discrimination between usb_plug and usb_host is only based on detecting an SDP
 					// in drivers/input/misc/usb_plug.c, so, do the same thing here.
 					// (c.f., ricoh619_charger_detect @ drivers/mfd/ricoh619.c)
-					if (charger_type[0] != '2') {
+					if (charger_id != 2) {
 						// c.f., ricoh61x_batt_get_prop @ drivers/power/ricoh619-battery.c
 						// if giRICOH619_DCIN == SDP_PC_CHARGER => online = 2
-						LOG(LOG_WARNING, "Charger type is not SDP (%s)!", charger_type);
+						LOG(LOG_WARNING,
+						    "Charger type is not SDP (%s)!",
+						    mk7_charger_id_to_string(charger_id));
 						if (early_unmount) {
 							fbink_print_ot(
 							    fbfd,
