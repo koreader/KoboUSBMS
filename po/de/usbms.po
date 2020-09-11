@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-11 17:40+0200\n"
-"PO-Revision-Date: 2020-08-30 03:27+0000\n"
-"Last-Translator: NiLuJe <ninuje@gmail.com>\n"
+"PO-Revision-Date: 2020-09-11 20:24+0000\n"
+"Last-Translator: elvvis <elvvis@hotmail.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/de/>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.2.1-dev\n"
+"X-Generator: Weblate 4.3-dev\n"
 
 #: usbms.c:570
 msgid "USB Mass Storage"
@@ -62,29 +62,21 @@ msgstr "Drücken Sie zum Beenden den Netzschalter."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:771
-#, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " Giving up after 30 sec.\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-" Die USBMS-Sitzung konnte nicht gestartet werden!\n"
-"Das Gerät schaltet sich in 90 Sekunden ab."
+" Aufgeben nach 30 Sekunden.\n"
+"Das Gerät schaltet sich in 30 Sek. ab."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:779
-#, fuzzy
-#| msgid ""
-#| "Done!\n"
-#| "KOReader will now restart…"
 msgid ""
 " Giving up after 30 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-"Erledigt!\n"
-"KOReader wird jetzt neu starten…"
+" Aufgeben nach 30 Sekunden.\n"
+"KOReader wird nun neu starten…"
 
 #: usbms.c:802
 msgid ""
@@ -96,16 +88,13 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:854
-#, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " The device was plugged into a simple power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-" Die USBMS-Sitzung konnte nicht gestartet werden!\n"
-"Das Gerät schaltet sich in 90 Sekunden ab."
+" Das Gerät war an eine einfache Stromquelle angeschlossen, nicht an einen "
+"USB-Host!\n"
+"Das Gerät schaltet sich in 30 Sekunden ab."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:862
@@ -113,45 +102,37 @@ msgid ""
 " The device was plugged into a simple power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
+" Das Gerät war an eine einfache Stromquelle angeschlossen, nicht an einen "
+"USB-Host!\n"
+"KOReader wird nun neu gestartet…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:890
-#, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " Giving up after 90 sec.\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-" Die USBMS-Sitzung konnte nicht gestartet werden!\n"
-"Das Gerät schaltet sich in 90 Sekunden ab."
+" Aufgeben nach 90 Sekunden.\n"
+"Das Gerät schaltet sich in 30 Sek. ab."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:898
-#, fuzzy
-#| msgid ""
-#| "Done!\n"
-#| "KOReader will now restart…"
 msgid ""
 " Giving up after 90 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-"Erledigt!\n"
-"KOReader wird jetzt neu starten…"
+" Aufgeben nach 90 Sekunden.\n"
+"KOReader wird nun neu gestartet…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:946
-#, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " The device is plugged into a simple power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-" Die USBMS-Sitzung konnte nicht gestartet werden!\n"
-"Das Gerät schaltet sich in 90 Sekunden ab."
+" Das Gerät ist an eine einfache Stromquelle angeschlossen, nicht an einen "
+"USB-Host!\n"
+"Das Gerät schaltet sich in 30 Sekunden ab."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:954
@@ -159,6 +140,9 @@ msgid ""
 " The device is plugged into a simple power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
+" Das Gerät ist an eine einfache Stromquelle angeschlossen, nicht an einen "
+"USB-Host!\n"
+"KOReader wird nun neu gestartet…"
 
 #: usbms.c:988
 msgid "Starting USBMS session…"
