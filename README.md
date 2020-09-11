@@ -15,3 +15,7 @@ KOReader implementation: [backend](https://github.com/koreader/koreader-base/pul
 </a>
 
 [koreader-weblate]:https://hosted.weblate.org/engage/koreader/
+
+NOTE: Complex scripts (i.e., Indic, Arabic) are currently unsupported for technical reasons, so, while translations for those are welcome, they currently won't be visible.
+That also applies to simple RTL scripts, although, those may have a better chance of bezing supported than complex one ;).
+CJK *should* mostly behave, though.
