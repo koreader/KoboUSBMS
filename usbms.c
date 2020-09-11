@@ -904,6 +904,72 @@ int
 				break;
 			}
 		}
+	} else {
+		// NOTE: usb_plugged will be true if usbms was started while *already* plugged in,
+		//       even if it's to a simple power source, and not a USB host...
+		//       On some devices, POWER_SUPPLY_PROP_ONLINE is smart enough to be able to make the distinction,
+		//       which means we can read it from sysfs (c.f., ricoh61x_batt_get_prop @ drivers/power/ricoh619-battery.c),
+		//       but on older, it isn't, and the discrimination is only done during the plug in event...
+		//       (c.f., drivers/input/misc/usb_plug.c).
+		//       So, do what we can here, otherwise, the state needs to be tracked by the frontend,
+		//       assuming it *also* got a chance to catch the event: i.e., it started *before* the plug in...
+		// NOTE: Mk. 6 devices might be able to tell the difference, but it doesn't make it to sysfs, AFAICT,
+		//       so, limit that to Mk. 7...
+		// NOTE: Might be able to finagle something out of /sys/class/power_supply/usbpwr/online vs.
+		//       /sys/class/power_supply/acpwr/online on Mk. 6, but I don't have the HW, and, on Mk. 7,
+		//       it matches /sys/class/power_supply/mc13892_charger/online anyway...
+		if (strcmp(fbink_state.device_platform, "Mark 7") >= 0) {
+			LOG(LOG_INFO, "Checking charger type");
+			char  charger_type[8] = { 0 };
+			FILE* f               = fopen(CHARGER_TYPE_SYSFS, "re");
+			if (f) {
+				size_t size = fread(charger_type, sizeof(*charger_type), sizeof(charger_type), f);
+				if (size > 0) {
+					// NUL terminate
+					charger_type[size - 1U] = '\0';
+					// Strip trailing LF
+					if (charger_type[size - 2U] == '\n') {
+						charger_type[size - 2U] = '\0';
+					}
+					// While a CDP could technically enumerate,
+					// the discrimination between usb_plug and usb_host is only based on detecting an SDP
+					// in drivers/input/misc/usb_plug.c, so, do the same thing here.
+					// (c.f., ricoh619_charger_detect @ drivers/mfd/ricoh619.c)
+					if (charger_type[0] != '2') {
+						// c.f., ricoh61x_batt_get_prop @ drivers/power/ricoh619-battery.c
+						// if giRICOH619_DCIN == SDP_PC_CHARGER => online = 2
+						LOG(LOG_WARNING, "Charger type is not SDP (%s)!", charger_type);
+						if (early_unmount) {
+							fbink_print_ot(
+							    fbfd,
+							    // @translators: First unicode codepoint is an icon, leave it as-is.
+							    _("\uf071 The device is plugged into a simple power source, not a USB host!\nThe device will shutdown in 30 sec."),
+							    &msg_cfg,
+							    &fbink_cfg,
+							    NULL);
+						} else {
+							fbink_print_ot(
+							    fbfd,
+							    // @translators: First unicode codepoint is an icon, leave it as-is.
+							    _("\uf071 The device is plugged into a simple power source, not a USB host!\nKOReader will now restart…"),
+							    &msg_cfg,
+							    &fbink_cfg,
+							    NULL);
+						}
+						need_early_abort = true;
+					} else {
+						LOG(LOG_INFO, "SDP charger detected");
+					}
+				} else {
+					LOG(LOG_WARNING, "Failed to read the charger type from sysfs!");
+				}
+				fclose(f);
+			} else {
+				LOG(LOG_WARNING, "Failed to open the sysfs entry for charger type!");
+			}
+		} else {
+			LOG(LOG_INFO, "Not on >= Mk. 7, can't check charger type!");
+		}
 	}
 
 	// If we aborted before plug in, we can (usually) still exit safely...
@@ -915,11 +981,6 @@ int
 		rv = early_unmount ? EXIT_FAILURE : USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
-
-	// NOTE: usb_plugged will be true if usbms was started while *already* plugged in, even if it's to a simple power source,
-	//       and not a USB host. We don't really have a way to make the distinction now, I think?
-	//       (c.f., drivers/input/misc/usb_plug.c).
-	//       So, this needs to be tracked by the frontend...
 
 	// We're plugged in, here comes the fun...
 	LOG(LOG_INFO, "Starting USBMS session...");
