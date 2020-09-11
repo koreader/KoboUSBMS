@@ -895,12 +895,12 @@ int
 						if (uev.action == UEVENT_ACTION_ADD && uev.devpath &&
 						    UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_PLUG)) {
 							LOG(LOG_WARNING,
-							    "Caught a plug in event, but to a simple power source, not a USB host");
+							    "Caught a plug in event, but to a plain power source, not a USB host");
 							if (early_unmount) {
 								fbink_print_ot(
 								    fbfd,
 								    // @translators: First unicode codepoint is an icon, leave it as-is.
-								    _("\uf071 The device was plugged into a simple power source, not a USB host!\nThe device will shutdown in 30 sec."),
+								    _("\uf071 The device was plugged into a plain power source, not a USB host!\nThe device will shutdown in 30 sec."),
 								    &msg_cfg,
 								    &fbink_cfg,
 								    NULL);
@@ -908,7 +908,7 @@ int
 								fbink_print_ot(
 								    fbfd,
 								    // @translators: First unicode codepoint is an icon, leave it as-is.
-								    _("\uf071 The device was plugged into a simple power source, not a USB host!\nKOReader will now restart…"),
+								    _("\uf071 The device was plugged into a plain power source, not a USB host!\nKOReader will now restart…"),
 								    &msg_cfg,
 								    &fbink_cfg,
 								    NULL);
@@ -955,7 +955,7 @@ int
 		}
 	} else {
 		// NOTE: usb_plugged will be true if usbms was started while *already* plugged in,
-		//       even if it's to a simple power source, and not a USB host...
+		//       even if it's to a plain power source, and not a USB host...
 		//       On some devices, POWER_SUPPLY_PROP_ONLINE is smart enough to be able to tell the difference,
 		//       which means we can read it from sysfs (c.f., ricoh61x_batt_get_prop @ drivers/power/ricoh619-battery.c),
 		//       but on older devices, it isn't, and the discrimination is *only* done during the plug in event...
@@ -1009,7 +1009,7 @@ int
 						fbink_print_ot(
 						    fbfd,
 						    // @translators: First unicode codepoint is an icon, leave it as-is.
-						    _("\uf071 The device is plugged into a simple power source, not a USB host!\nThe device will shutdown in 30 sec."),
+						    _("\uf071 The device is plugged into a plain power source, not a USB host!\nThe device will shutdown in 30 sec."),
 						    &msg_cfg,
 						    &fbink_cfg,
 						    NULL);
@@ -1017,7 +1017,7 @@ int
 						fbink_print_ot(
 						    fbfd,
 						    // @translators: First unicode codepoint is an icon, leave it as-is.
-						    _("\uf071 The device is plugged into a simple power source, not a USB host!\nKOReader will now restart…"),
+						    _("\uf071 The device is plugged into a plain power source, not a USB host!\nKOReader will now restart…"),
 						    &msg_cfg,
 						    &fbink_cfg,
 						    NULL);
