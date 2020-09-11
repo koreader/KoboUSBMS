@@ -916,6 +916,11 @@ int
 		goto cleanup;
 	}
 
+	// NOTE: usb_plugged will be true if usbms was started while *already* plugged in, even if it's to a simple power source,
+	//       and not a USB host. We don't really have a way to make the distinction now, I think?
+	//       (c.f., drivers/input/misc/usb_plug.c).
+	//       So, this needs to be tracked by the frontend...
+
 	// We're plugged in, here comes the fun...
 	LOG(LOG_INFO, "Starting USBMS session...");
 	print_icon(fbfd, "\uf287", &fbink_cfg, &icon_cfg);
