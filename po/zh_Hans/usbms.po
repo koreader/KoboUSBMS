@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-11 23:10+0200\n"
+"POT-Creation-Date: 2020-09-11 23:37+0200\n"
 "PO-Revision-Date: 2020-09-07 14:37+0000\n"
 "Last-Translator: NiLuJe <ninuje@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -182,7 +182,7 @@ msgstr ""
 "请在拔出 USB 线之前将此设备弹出。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1147
+#: usbms.c:1148
 msgid ""
 " Failed to detect an unplug event!\n"
 "The device will shutdown in 90 sec."
@@ -190,12 +190,12 @@ msgstr ""
 "⚠ 拔出事件检测失败！\n"
 "此设备将在 90 秒内关机。"
 
-#: usbms.c:1159
+#: usbms.c:1160
 msgid "Ending USBMS session…"
 msgstr "正在结束 USBMS 会话…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1172
+#: usbms.c:1173
 msgid ""
 " Failed to end the USBMS session!\n"
 "The device will shutdown in 90 sec."
@@ -203,7 +203,7 @@ msgstr ""
 "⚠ USBMS 会话结束失败！\n"
 "此设备将在 90 秒内关机。"
 
-#: usbms.c:1188
+#: usbms.c:1189
 msgid ""
 "Done!\n"
 "KOReader will now restart…"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-11 23:10+0200\n"
+"POT-Creation-Date: 2020-09-11 23:37+0200\n"
 "PO-Revision-Date: 2020-08-30 03:27+0000\n"
 "Last-Translator: NiLuJe <ninuje@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/koreader/"
@@ -183,7 +183,7 @@ msgstr ""
 "Proszę bezpiecznie usunąć urządzenie przed odpięciem."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1147
+#: usbms.c:1148
 msgid ""
 " Failed to detect an unplug event!\n"
 "The device will shutdown in 90 sec."
@@ -191,12 +191,12 @@ msgstr ""
 " Nie udało się wykryć zdarzenia odłączenia!\n"
 "Urządzenie wyłączy się za 90 sekund."
 
-#: usbms.c:1159
+#: usbms.c:1160
 msgid "Ending USBMS session…"
 msgstr "Zakańczanie sesji USBMS…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1172
+#: usbms.c:1173
 msgid ""
 " Failed to end the USBMS session!\n"
 "The device will shutdown in 90 sec."
@@ -204,7 +204,7 @@ msgstr ""
 " Nie udało się zakończyć sesji USBMS!\n"
 "Urządzenie wyłączy się za 90 sekund."
 
-#: usbms.c:1188
+#: usbms.c:1189
 msgid ""
 "Done!\n"
 "KOReader will now restart…"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-11 23:10+0200\n"
+"POT-Creation-Date: 2020-09-11 23:37+0200\n"
 "PO-Revision-Date: 2020-09-01 09:53+0000\n"
 "Last-Translator: roshavagarga <aonobg@gmail.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/koreader/"
@@ -182,7 +182,7 @@ msgstr ""
 "Моля, отвържете устройството си безопасно преди да прекъснете USB връзката."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1147
+#: usbms.c:1148
 msgid ""
 " Failed to detect an unplug event!\n"
 "The device will shutdown in 90 sec."
@@ -190,12 +190,12 @@ msgstr ""
 " Неуспешно засичане на прекъсване на USB връзката!\n"
 "Устройството ще се изключи до 90 секунди."
 
-#: usbms.c:1159
+#: usbms.c:1160
 msgid "Ending USBMS session…"
 msgstr "Затваряне на USBMS сесията…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1172
+#: usbms.c:1173
 msgid ""
 " Failed to end the USBMS session!\n"
 "The device will shutdown in 90 sec."
@@ -203,7 +203,7 @@ msgstr ""
 " Неуспешно приключване на USBMS сесията!\n"
 "Устройството ще се изключи до 90 секунди."
 
-#: usbms.c:1188
+#: usbms.c:1189
 msgid ""
 "Done!\n"
 "KOReader will now restart…"

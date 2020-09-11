@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-11 23:10+0200\n"
+"POT-Creation-Date: 2020-09-11 23:37+0200\n"
 "PO-Revision-Date: 2020-09-01 09:53+0000\n"
 "Last-Translator: WaseemAlkurdi <waseem19992009@outlook.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/koreader/"
@@ -183,7 +183,7 @@ msgstr ""
 "فضلًا قم بفصل الجهاز عن الكمبيوتر (eject) بطريقةٍ سليمة قبل فصل السّلك."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1147
+#: usbms.c:1148
 msgid ""
 " Failed to detect an unplug event!\n"
 "The device will shutdown in 90 sec."
@@ -191,12 +191,12 @@ msgstr ""
 " لم يسجّل الجهاز حَدَثَ فَصْل (unplug)!\n"
 "سينطفأ الجهاز خلال 90 ثانية."
 
-#: usbms.c:1159
+#: usbms.c:1160
 msgid "Ending USBMS session…"
 msgstr "جارٍ إنهاءُ جلسة الخزن عبر USB (أو USBMS) …"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1172
+#: usbms.c:1173
 msgid ""
 " Failed to end the USBMS session!\n"
 "The device will shutdown in 90 sec."
@@ -204,7 +204,7 @@ msgstr ""
 " فشلت عملية إنهاء جلسة الخزن عبر USB (أو USBMS)!\n"
 "سينطفأ الجهاز خلال 90 ثانية."
 
-#: usbms.c:1188
+#: usbms.c:1189
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
