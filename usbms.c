@@ -220,10 +220,11 @@ static void
 	bool usb_plugged = is_usb_plugged(ntxfd);
 
 	// Get the battery charge %
-	char  batt_charge[8] = { 0 };
-	FILE* f              = fopen(BATT_CAP_SYSFS, "re");
+	uint8_t batt_perc = 0U;
+	FILE*   f         = fopen(BATT_CAP_SYSFS, "re");
 	if (f) {
-		size_t size = fread(batt_charge, sizeof(*batt_charge), sizeof(batt_charge), f);
+		char   batt_charge[8] = { 0 };
+		size_t size           = fread(batt_charge, sizeof(*batt_charge), sizeof(batt_charge), f);
 		if (size > 0) {
 			// NUL terminate
 			batt_charge[size - 1U] = '\0';
@@ -233,10 +234,10 @@ static void
 			}
 		}
 		fclose(f);
-	}
-	uint8_t batt_perc = 0U;
-	if (strtoul_hhu(batt_charge, &batt_perc) < 0) {
-		PFLOG(LOG_WARNING, "Failed to convert battery charge value '%s' to an uint8_t!", batt_charge);
+
+		if (strtoul_hhu(batt_charge, &batt_perc) < 0) {
+			PFLOG(LOG_WARNING, "Failed to convert battery charge value '%s' to an uint8_t!", batt_charge);
+		}
 	}
 
 	// Check for Wi-Fi status
@@ -316,9 +317,9 @@ static const char*
 			return "None!";
 		case 1: {
 			// NOTE: We'll have to drill into TRUE_CHARGER_TYPE_SYSFS, because it's more detailed...
-			char  charger_type[8] = { 0 };
-			FILE* f               = fopen(TRUE_CHARGER_TYPE_SYSFS, "re");
+			FILE* f = fopen(TRUE_CHARGER_TYPE_SYSFS, "re");
 			if (f) {
+				char   charger_type[8] = { 0 };
 				size_t size = fread(charger_type, sizeof(*charger_type), sizeof(charger_type), f);
 				if (size > 0) {
 					// NUL terminate
@@ -971,9 +972,7 @@ int
 			LOG(LOG_INFO, "Checking charger type");
 			FILE* f = fopen(CHARGER_TYPE_SYSFS, "re");
 			if (f) {
-				char    charger_type[8] = { 0 };
-				uint8_t charger_id      = 0U;
-
+				char   charger_type[8] = { 0 };
 				size_t size = fread(charger_type, sizeof(*charger_type), sizeof(charger_type), f);
 				if (size > 0) {
 					// NUL terminate
@@ -987,6 +986,7 @@ int
 				}
 				fclose(f);
 
+				uint8_t charger_id = 0U;
 				if (strtoul_hhu(charger_type, &charger_id) < 0) {
 					PFLOG(LOG_WARNING,
 					      "Failed to convert charger type value '%s' to an uint8_t!",
