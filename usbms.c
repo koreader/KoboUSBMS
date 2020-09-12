@@ -950,7 +950,7 @@ int
 					LOG(LOG_WARNING, "No charger detected!");
 					need_early_abort = true;
 				} else if (strncmp(charger_type, "DISABLE", 7U) == 0U) {
-					LOG(LOG_WARNING, "Charger disabled!");
+					LOG(LOG_WARNING, "Charger is disabled!");
 					need_early_abort = true;
 				} else {
 					LOG(LOG_ERR, "Unknown charger type!");
@@ -984,7 +984,7 @@ int
 					}
 				}
 			} else {
-				LOG(LOG_WARNING, "Failed to open the sysfs entry for charger type!");
+				LOG(LOG_WARNING, "Failed to open the sysfs entry for charger type (%m)!");
 			}
 		} else {
 			LOG(LOG_INFO, "Device generation is older than Mk. 7, can't check charger type!");
