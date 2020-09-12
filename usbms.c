@@ -947,6 +947,7 @@ int
 					LOG(LOG_WARNING, "SDP ADPT (Standard Downstream Port, 800mA) charger detected");
 					need_early_abort = true;
 				} else if (strncmp(charger_type, "NO", 2U) == 0U) {
+					// Should never happen, we're in a usb_plugged branch ;)
 					LOG(LOG_WARNING, "No charger detected!");
 					need_early_abort = true;
 				} else if (strncmp(charger_type, "DISABLE", 7U) == 0U) {
