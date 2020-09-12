@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-12 23:13+0200\n"
-"PO-Revision-Date: 2020-09-12 21:08+0000\n"
+"PO-Revision-Date: 2020-09-12 21:24+0000\n"
 "Last-Translator: NiLuJe <ninuje@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "koreader/kobousbms/zh_Hans/>\n"
@@ -120,7 +120,7 @@ msgid ""
 "KOReader will now restart…"
 msgstr ""
 "☞ 90秒后放弃。\n"
-"KOReder 现在将重启...…"
+"KOReader 现在将重启...…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:971
