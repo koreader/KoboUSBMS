@@ -166,7 +166,7 @@ static int
 {
 	// NOTE: We want to *reject* negative values (which strtoul does not)!
 	if (strchr(str, '-')) {
-		LOG(LOG_WARNING, "Passed a negative value (%s) to strtoul_hhu", str);
+		PFLOG(LOG_WARNING, "Passed a negative value (%s) to strtoul_hhu", str);
 		return -EINVAL;
 	}
 
@@ -182,19 +182,20 @@ static int
 
 	// NOTE: It fact, always clamp to CHAR_MAX, since we may need to cast to a signed representation later.
 	if (val > CHAR_MAX) {
-		LOG(LOG_WARNING, "Passed a value larger than CHAR_MAX to strtoul_hhu, clamping it down to CHAR_MAX");
+		PFLOG(LOG_WARNING, "Passed a value larger than CHAR_MAX to strtoul_hhu, clamping it down to CHAR_MAX");
 		val = CHAR_MAX;
 	}
 
 	if (endptr == str) {
-		LOG(LOG_WARNING, "No digits were found in value '%s' assigned to a variable expecting an uint8_t", str);
+		PFLOG(LOG_WARNING, "No digits were found in value '%s' assigned to a variable expecting an uint8_t", str);
 		return -EINVAL;
 	}
 
 	// If we got here, strtoul() successfully parsed at least part of a number.
 	// But we do want to enforce the fact that the input really was *only* an integer value.
 	if (*endptr != '\0') {
-		LOG(LOG_WARNING,
+		PFLOG(
+		    LOG_WARNING,
 		    "Found trailing characters (%s) behind value '%lu' assigned from string '%s' to a variable expecting an uint8_t",
 		    endptr,
 		    val,
@@ -204,7 +205,7 @@ static int
 
 	// Make sure there isn't a loss of precision on this arch when casting explicitly
 	if ((uint8_t) val != val) {
-		LOG(LOG_WARNING, "Loss of precision when casting value '%lu' to an uint8_t.", val);
+		PFLOG(LOG_WARNING, "Loss of precision when casting value '%lu' to an uint8_t.", val);
 		return -EINVAL;
 	}
 
