@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-12 23:13+0200\n"
-"PO-Revision-Date: 2020-09-11 23:21+0000\n"
-"Last-Translator: NiLuJe <ninuje@gmail.com>\n"
+"PO-Revision-Date: 2020-09-12 23:09+0000\n"
+"Last-Translator: elvvis <elvvis@hotmail.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/de/>\n"
 "Language: de\n"
@@ -62,29 +62,21 @@ msgstr "Drücken Sie zum Beenden den Netzschalter."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:770
-#, fuzzy
-#| msgid ""
-#| " Giving up after 30 sec.\n"
-#| "The device will shutdown in 30 sec."
 msgid ""
 " Gave up after 30 sec.\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-" Aufgeben nach 30 Sekunden.\n"
-"Das Gerät schaltet sich in 30 Sek. ab."
+" Gab nach 30 Sekunden auf.\n"
+"Das Gerät schaltet sich nach 30 Sekunden ab."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:778
-#, fuzzy
-#| msgid ""
-#| " Giving up after 30 sec.\n"
-#| "KOReader will now restart…"
 msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-" Aufgeben nach 30 Sekunden.\n"
-"KOReader wird nun neu starten…"
+" Gab nach 30 Sekunden auf.\n"
+"KOReader wird nun wieder starten…"
 
 #: usbms.c:801
 msgid ""
@@ -116,29 +108,21 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:889
-#, fuzzy
-#| msgid ""
-#| " Giving up after 90 sec.\n"
-#| "The device will shutdown in 30 sec."
 msgid ""
 " Gave up after 90 sec.\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-" Aufgeben nach 90 Sekunden.\n"
+" Gab nach 90 Sekunden auf.\n"
 "Das Gerät schaltet sich in 30 Sek. ab."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:897
-#, fuzzy
-#| msgid ""
-#| " Giving up after 90 sec.\n"
-#| "KOReader will now restart…"
 msgid ""
 " Gave up after 90 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-" Aufgeben nach 90 Sekunden.\n"
-"KOReader wird nun neu gestartet…"
+" Gab nach 90 Sekunden auf.\n"
+"KOReader wird nun wieder starten…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:971
