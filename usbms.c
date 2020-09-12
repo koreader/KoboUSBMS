@@ -407,10 +407,7 @@ int
 	const char* lang = getenv("LANGUAGE");
 	if (lang) {
 		// KOReader -> Weblate mappings, because everything is terrible...
-		if (strncmp(lang, "zh_CN", 5U) == 0) {
-			setenv("LANGUAGE", "zh_Hans", 1);
-			lang = getenv("LANGUAGE");
-		} else if (strncmp(lang, "ar_AA", 5U) == 0) {
+		if (strncmp(lang, "ar_AA", 5U) == 0) {
 			setenv("LANGUAGE", "ar", 1);
 			lang = getenv("LANGUAGE");
 		}
