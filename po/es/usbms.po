@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-12 23:13+0200\n"
-"PO-Revision-Date: 2020-09-11 23:21+0000\n"
-"Last-Translator: NiLuJe <ninuje@gmail.com>\n"
+"PO-Revision-Date: 2020-09-12 23:09+0000\n"
+"Last-Translator: hombretranquilo <hombretranquilo.mbp@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/es/>\n"
 "Language: es\n"
@@ -62,28 +62,20 @@ msgstr "Presionar el botón de encendido para salir."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:770
-#, fuzzy
-#| msgid ""
-#| " Giving up after 30 sec.\n"
-#| "The device will shutdown in 30 sec."
 msgid ""
 " Gave up after 30 sec.\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-" Dejar de intentarlo transcurridos 30 segundos.\n"
+" Han transcurrido 30 segundos, abandonar.\n"
 "El dispositivo se apagará en 30 segundos."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:778
-#, fuzzy
-#| msgid ""
-#| " Giving up after 30 sec.\n"
-#| "KOReader will now restart…"
 msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-" Dejar de intentarlo transcurridos 30 segundos.\n"
+" Han transcurrido 30 segundos, abandonar.\n"
 "Ahora KOReader se reiniciará…"
 
 #: usbms.c:801
@@ -116,28 +108,20 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:889
-#, fuzzy
-#| msgid ""
-#| " Giving up after 90 sec.\n"
-#| "The device will shutdown in 30 sec."
 msgid ""
 " Gave up after 90 sec.\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-" Dejar de intentarlo transcurridos 90 segundos.\n"
+" Han transcurrido 90 segundos, abandonar.\n"
 "El dispositivo se apagará en 30 segundos."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:897
-#, fuzzy
-#| msgid ""
-#| " Giving up after 90 sec.\n"
-#| "KOReader will now restart…"
 msgid ""
 " Gave up after 90 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-" Dejar de intentarlo transcurridos 90 segundos.\n"
+" Han transcurrido 90 segundos, abandonar.\n"
 "Ahora KOReader se reiniciará…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
