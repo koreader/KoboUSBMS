@@ -769,7 +769,7 @@ int
 					fbink_print_ot(
 					    fbfd,
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
-					    _("\uf05a Giving up after 30 sec.\nThe device will shutdown in 30 sec."),
+					    _("\uf05a Gave up after 30 sec.\nThe device will shutdown in 30 sec."),
 					    &msg_cfg,
 					    &fbink_cfg,
 					    NULL);
@@ -777,7 +777,7 @@ int
 					fbink_print_ot(
 					    fbfd,
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
-					    _("\uf05a Giving up after 30 sec.\nKOReader will now restart…"),
+					    _("\uf05a Gave up after 30 sec.\nKOReader will now restart…"),
 					    &msg_cfg,
 					    &fbink_cfg,
 					    NULL);
@@ -888,7 +888,7 @@ int
 					fbink_print_ot(
 					    fbfd,
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
-					    _("\uf05a Giving up after 90 sec.\nThe device will shutdown in 30 sec."),
+					    _("\uf05a Gave up after 90 sec.\nThe device will shutdown in 30 sec."),
 					    &msg_cfg,
 					    &fbink_cfg,
 					    NULL);
@@ -896,7 +896,7 @@ int
 					fbink_print_ot(
 					    fbfd,
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
-					    _("\uf05a Giving up after 90 sec.\nKOReader will now restart…"),
+					    _("\uf05a Gave up after 90 sec.\nKOReader will now restart…"),
 					    &msg_cfg,
 					    &fbink_cfg,
 					    NULL);
