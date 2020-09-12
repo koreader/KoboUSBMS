@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-12 14:44+0200\n"
-"PO-Revision-Date: 2020-09-12 21:06+0000\n"
-"Last-Translator: Eric <spice2wolf@gmail.com>\n"
+"PO-Revision-Date: 2020-09-12 21:08+0000\n"
+"Last-Translator: NiLuJe <ninuje@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "koreader/kobousbms/zh_Hans/>\n"
 "Language: zh_CN\n"
@@ -66,7 +66,7 @@ msgid ""
 " Gave up after 30 sec.\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-" 30秒钟后放弃。\n"
+"☞ 30秒钟后放弃。\n"
 "设备将在30秒内关机。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -75,7 +75,7 @@ msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-" 30秒后放弃\n"
+"☞ 30秒后放弃\n"
 "KOReader 现在将重启...…"
 
 #: usbms.c:804
@@ -92,7 +92,7 @@ msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-" 该设备插入的是普通电源，而不是USB主机！\n"
+"⚠ 该设备插入的是普通电源，而不是USB主机！\n"
 "设备将在30秒内关闭。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -101,7 +101,7 @@ msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
-" 该设备插入的是普通电源，而不是USB主机！\n"
+"⚠ 该设备插入的是普通电源，而不是USB主机！\n"
 "KOReader 现在将重启...…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -110,7 +110,7 @@ msgid ""
 " Gave up after 90 sec.\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-" 90秒后放弃。\n"
+"☞ 90秒后放弃。\n"
 "设备将在30秒内关机。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -119,7 +119,7 @@ msgid ""
 " Gave up after 90 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-" 90秒后放弃。\n"
+"☞ 90秒后放弃。\n"
 "KOReder 现在将重启...…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -128,7 +128,7 @@ msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-" 设备插入的是普通电源，而不是USB主机！\n"
+"⚠ 设备插入的是普通电源，而不是USB主机！\n"
 "设备将在30秒内关机。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -137,7 +137,7 @@ msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
-" 设备插入的是普通电源。而非一个USB主机！\n"
+"⚠ 设备插入的是普通电源。而非一个USB主机！\n"
 "KOReader 现在将重启...…"
 
 #: usbms.c:1009
