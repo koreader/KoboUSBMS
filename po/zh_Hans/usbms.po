@@ -8,11 +8,11 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-12 14:44+0200\n"
-"PO-Revision-Date: 2020-09-07 14:37+0000\n"
-"Last-Translator: NiLuJe <ninuje@gmail.com>\n"
+"PO-Revision-Date: 2020-09-12 21:06+0000\n"
+"Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "koreader/kobousbms/zh_Hans/>\n"
-"Language: zh_Hans\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -62,29 +62,21 @@ msgstr "按下电源按钮以退出。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:773
-#, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " Gave up after 30 sec.\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-"⚠ USBMS 会话启动失败！\n"
-"此设备将在 90 秒内关机。"
+" 30秒钟后放弃。\n"
+"设备将在30秒内关机。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:781
-#, fuzzy
-#| msgid ""
-#| "Done!\n"
-#| "KOReader will now restart…"
 msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-"完成！\n"
-"KOReader 即将自动重启…"
+" 30秒后放弃\n"
+"KOReader 现在将重启...…"
 
 #: usbms.c:804
 msgid ""
@@ -96,81 +88,57 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:856
-#, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-"⚠ USBMS 会话启动失败！\n"
-"此设备将在 90 秒内关机。"
+" 该设备插入的是普通电源，而不是USB主机！\n"
+"设备将在30秒内关闭。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:864
-#, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
-"⚠ USBMS 会话启动失败！\n"
-"此设备将在 90 秒内关机。"
+" 该设备插入的是普通电源，而不是USB主机！\n"
+"KOReader 现在将重启...…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:892
-#, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " Gave up after 90 sec.\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-"⚠ USBMS 会话启动失败！\n"
-"此设备将在 90 秒内关机。"
+" 90秒后放弃。\n"
+"设备将在30秒内关机。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:900
-#, fuzzy
-#| msgid ""
-#| "Done!\n"
-#| "KOReader will now restart…"
 msgid ""
 " Gave up after 90 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-"完成！\n"
-"KOReader 即将自动重启…"
+" 90秒后放弃。\n"
+"KOReder 现在将重启...…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:974
-#, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-"⚠ USBMS 会话启动失败！\n"
-"此设备将在 90 秒内关机。"
+" 设备插入的是普通电源，而不是USB主机！\n"
+"设备将在30秒内关机。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:982
-#, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
-"⚠ USBMS 会话启动失败！\n"
-"此设备将在 90 秒内关机。"
+" 设备插入的是普通电源。而非一个USB主机！\n"
+"KOReader 现在将重启...…"
 
 #: usbms.c:1009
 msgid "Starting USBMS session…"
