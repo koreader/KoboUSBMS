@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-12 14:18+0200\n"
-"PO-Revision-Date: 2020-09-11 23:21+0000\n"
+"PO-Revision-Date: 2020-09-12 12:20+0000\n"
 "Last-Translator: NiLuJe <ninuje@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/fr/>\n"
@@ -63,10 +63,6 @@ msgstr "Appuyez sur le bouton d'alimentation pour quitter."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:772
-#, fuzzy
-#| msgid ""
-#| " Giving up after 30 sec.\n"
-#| "The device will shutdown in 30 sec."
 msgid ""
 " Gave up after 30 sec.\n"
 "The device will shutdown in 30 sec."
@@ -76,10 +72,6 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:780
-#, fuzzy
-#| msgid ""
-#| " Giving up after 30 sec.\n"
-#| "KOReader will now restart…"
 msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
@@ -117,10 +109,6 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:891
-#, fuzzy
-#| msgid ""
-#| " Giving up after 90 sec.\n"
-#| "The device will shutdown in 30 sec."
 msgid ""
 " Gave up after 90 sec.\n"
 "The device will shutdown in 30 sec."
@@ -130,10 +118,6 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:899
-#, fuzzy
-#| msgid ""
-#| " Giving up after 90 sec.\n"
-#| "KOReader will now restart…"
 msgid ""
 " Gave up after 90 sec.\n"
 "KOReader will now restart…"
