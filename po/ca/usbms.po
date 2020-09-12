@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-12 01:16+0200\n"
+"POT-Creation-Date: 2020-09-12 14:18+0200\n"
 "PO-Revision-Date: 2020-09-11 23:21+0000\n"
 "Last-Translator: NiLuJe <ninuje@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/koreader/"
@@ -19,12 +19,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.3-dev\n"
 
-#: usbms.c:619
+#: usbms.c:571
 msgid "USB Mass Storage"
 msgstr "Emmagatzematge massiu USB"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:671
+#: usbms.c:623
 msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
@@ -33,7 +33,7 @@ msgstr ""
 "Pressionar el botó d'engegada per a eixir."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:686
+#: usbms.c:638
 msgid ""
 " Please disable USBSerial manually!\n"
 "Press the power button to exit."
@@ -42,43 +42,51 @@ msgstr ""
 "Prèmer el botó d'engegada per a eixir."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:709
+#: usbms.c:661
 msgid " Filesystem is busy! Offending processes:"
 msgstr " El sistema d'arxius està ocupat. Processos infractors:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
-#: usbms.c:742
+#: usbms.c:694
 msgid " The fuser script failed!"
 msgstr " L'script fuser ha fallat!"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:754
+#: usbms.c:706
 msgid " Failed to run the fuser script!"
 msgstr " No s'ha pogut executar l'script fuser!"
 
-#: usbms.c:762
+#: usbms.c:714
 msgid "Press the power button to exit."
 msgstr "Prèmer el botó d'engegada per a eixir."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:820
+#: usbms.c:772
+#, fuzzy
+#| msgid ""
+#| " Giving up after 30 sec.\n"
+#| "The device will shutdown in 30 sec."
 msgid ""
-" Giving up after 30 sec.\n"
+" Gave up after 30 sec.\n"
 "The device will shutdown in 30 sec."
 msgstr ""
 " Deixar d'intentar-ho transcorreguts 30 segons.\n"
 "El dispositiu s'apagarà en 30 segons."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:828
+#: usbms.c:780
+#, fuzzy
+#| msgid ""
+#| " Giving up after 30 sec.\n"
+#| "KOReader will now restart…"
 msgid ""
-" Giving up after 30 sec.\n"
+" Gave up after 30 sec.\n"
 "KOReader will now restart…"
 msgstr ""
 " Deixar d'intentar-ho transcorreguts 30 segons.\n"
 "Ara KOReader es reiniciarà…"
 
-#: usbms.c:851
+#: usbms.c:803
 msgid ""
 "Waiting to be plugged in…\n"
 "Or, press the power button to exit."
@@ -87,7 +95,7 @@ msgstr ""
 "O pressionar el botó d'engegada per a eixir."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:903
+#: usbms.c:855
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
@@ -96,7 +104,7 @@ msgstr ""
 "El dispositiu s'apagarà en 30 segons."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:911
+#: usbms.c:863
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
@@ -105,25 +113,33 @@ msgstr ""
 "Ara KOReader es reiniciarà…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:939
+#: usbms.c:891
+#, fuzzy
+#| msgid ""
+#| " Giving up after 90 sec.\n"
+#| "The device will shutdown in 30 sec."
 msgid ""
-" Giving up after 90 sec.\n"
+" Gave up after 90 sec.\n"
 "The device will shutdown in 30 sec."
 msgstr ""
 " Deixar d'intentar-ho transcorreguts 90 segons.\n"
 "El dispositiu s'apagarà en 30 segons."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:947
+#: usbms.c:899
+#, fuzzy
+#| msgid ""
+#| " Giving up after 90 sec.\n"
+#| "KOReader will now restart…"
 msgid ""
-" Giving up after 90 sec.\n"
+" Gave up after 90 sec.\n"
 "KOReader will now restart…"
 msgstr ""
 " Deixar d'intentar-ho transcorreguts 90 segons.\n"
 "Ara KOReader es reiniciarà…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1012
+#: usbms.c:972
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
@@ -132,7 +148,7 @@ msgstr ""
 "El dispositiu s'apagarà en 30 segons."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1020
+#: usbms.c:980
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
@@ -140,12 +156,12 @@ msgstr ""
 " El dispositiu està connectat a una font d'alimentació, no a un host USB!\n"
 "Ara KOReader es reiniciarà…"
 
-#: usbms.c:1050
+#: usbms.c:1007
 msgid "Starting USBMS session…"
 msgstr "Iniciant sessió USBMS…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1061
+#: usbms.c:1018
 msgid ""
 " Failed to start the USBMS session!\n"
 "The device will shutdown in 90 sec."
@@ -153,7 +169,7 @@ msgstr ""
 " No s'ha pogut iniciar la sessió USBMS!\n"
 "El dispositiu s'apagarà en 90 segons."
 
-#: usbms.c:1076
+#: usbms.c:1033
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
@@ -163,7 +179,7 @@ msgstr ""
 "lo."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1148
+#: usbms.c:1105
 msgid ""
 " Failed to detect an unplug event!\n"
 "The device will shutdown in 90 sec."
@@ -171,12 +187,12 @@ msgstr ""
 " No s'ha pogut detectar un event de desconnexió!\n"
 "El dispositiu s'apagarà en 90 segons."
 
-#: usbms.c:1160
+#: usbms.c:1117
 msgid "Ending USBMS session…"
 msgstr "Finalitzant sessió USBMS…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1173
+#: usbms.c:1130
 msgid ""
 " Failed to end the USBMS session!\n"
 "The device will shutdown in 90 sec."
@@ -184,7 +200,7 @@ msgstr ""
 " No s'ha pogut finalitzar la sessió USBMS!\n"
 "El dispositiu s'apagarà en 90 segons."
 
-#: usbms.c:1189
+#: usbms.c:1146
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
