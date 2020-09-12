@@ -307,54 +307,6 @@ __attribute((nonnull(1))) static bool
 	return false;
 }
 
-// Human-readable conversion of the CHARGER_TYPE_SYSFS value on Mk. 7
-// c.f., ricoh61x_batt_get_prop @ drivers/power/ricoh619-battery.c
-static const char*
-    mk7_charger_id_to_string(uint8_t charger_id)
-{
-	switch (charger_id) {
-		case 0:
-			return "None!";
-		case 1: {
-			// NOTE: We'll have to drill into TRUE_CHARGER_TYPE_SYSFS, because it's more detailed...
-			FILE* f = fopen(TRUE_CHARGER_TYPE_SYSFS, "re");
-			if (f) {
-				char   charger_type[16] = { 0 };
-				size_t size = fread(charger_type, sizeof(*charger_type), sizeof(charger_type), f);
-				if (size > 0) {
-					// NUL terminate
-					charger_type[size - 1U] = '\0';
-					// Strip trailing LF
-					if (charger_type[size - 2U] == '\n') {
-						charger_type[size - 2U] = '\0';
-					}
-				} else {
-					LOG(LOG_WARNING, "Failed to read the true charger type from sysfs!");
-				}
-				fclose(f);
-
-				// c.f., charger_type_read @ drivers/power/ricoh619-battery.c
-				if (strncmp(charger_type, "SDP_ADPT", 8U) == 0U) {
-					return "SDP ADPT (Standard Downstream Port, 800mA)";
-				}
-			} else {
-				LOG(LOG_WARNING, "Failed to open the sysfs entry for true charger type!");
-			}
-
-			// If all else fails...
-			return "Unspecified";
-		}
-		case 2:
-			return "SDP PC (Standard Downstream Port, 500mA)";
-		case 3:
-			return "DCP (Dedicated Charging Port)";
-		case 4:
-			return "CDP (Charging Downstream Port)";
-		default:
-			return "Unknown?!";
-	}
-}
-
 // Parse an evdev event, looking for a power button press
 static bool
     handle_evdev(struct libevdev* dev)
@@ -962,17 +914,12 @@ int
 		//       (c.f., drivers/input/misc/usb_plug.c).
 		//       So, do what we can here, otherwise, the state may need to be tracked by the frontend,
 		//       assuming it *also* got a chance to catch the event: i.e., it started *before* the plug in...
-		// NOTE: Mk. 6 devices might be able to tell the difference, but that doesn't make it to sysfs, AFAICT,
-		//       so, limit that to Mk. 7...
-		// NOTE: Might be able to finagle something out of /sys/class/power_supply/usbpwr/online vs.
-		//       /sys/class/power_supply/acpwr/online on Mk. 6, but I don't have the HW, and, on Mk. 7,
-		//       it matches /sys/class/power_supply/mc13892_charger/online in both cases anyway...
-		if (strcmp(fbink_state.device_platform, "Mark 7") >= 0) {
-			// NOTE: That might be a tad overly optimistic ;). Revisit if/when Mk. 8 comes out ^^.
+		// NOTE: Unfortunately, the only platform where we can do that appears to be Mk. 7...
+		if (access(CHARGER_TYPE_SYSFS, F_OK) == 0) {
 			LOG(LOG_INFO, "Checking charger type");
 			FILE* f = fopen(CHARGER_TYPE_SYSFS, "re");
 			if (f) {
-				char   charger_type[8] = { 0 };
+				char   charger_type[16] = { 0 };
 				size_t size = fread(charger_type, sizeof(*charger_type), sizeof(charger_type), f);
 				if (size > 0) {
 					// NUL terminate
@@ -986,25 +933,38 @@ int
 				}
 				fclose(f);
 
-				uint8_t charger_id = 0U;
-				if (strtoul_hhu(charger_type, &charger_id) < 0) {
-					PFLOG(LOG_WARNING,
-					      "Failed to convert charger type value '%s' to an uint8_t!",
-					      charger_type);
+				// c.f., charger_type_read @ drivers/power/ricoh619-battery.c
+				if (strncmp(charger_type, "CDP", 3U) == 0U) {
+					LOG(LOG_WARNING, "CDP (Charging Downstream Port) charger detected");
+					need_early_abort = true;
+				} else if (strncmp(charger_type, "DCP", 3U) == 0U) {
+					LOG(LOG_WARNING, "DCP (Dedicated Charging Port) charger detected");
+					need_early_abort = true;
+				} else if (strncmp(charger_type, "SDP_PC", 6U) == 0U) {
+					// That's the only one we can go through with ;)
+					LOG(LOG_INFO, "SDP PC (Standard Downstream Port, 500mA) charger detected");
+				} else if (strncmp(charger_type, "SDP_ADPT", 8U) == 0U) {
+					LOG(LOG_WARNING, "SDP ADPT (Standard Downstream Port, 800mA) charger detected");
+					need_early_abort = true;
+				} else if (strncmp(charger_type, "NO", 2U) == 0U) {
+					LOG(LOG_WARNING, "No charger detected!");
+					need_early_abort = true;
+				} else if (strncmp(charger_type, "DISABLE", 7U) == 0U) {
+					LOG(LOG_WARNING, "Charger disabled!");
+					need_early_abort = true;
+				} else {
+					LOG(LOG_ERR, "Unknown charger type!");
+					need_early_abort = true;
 				}
 
 				// While a CDP could technically enumerate,
 				// the discrimination between usb_plug and usb_host is only based on detecting an SDP PC
 				// in drivers/input/misc/usb_plug.c, so, do the same thing here.
 				// (c.f., ricoh619_charger_detect @ drivers/mfd/ricoh619.c)
-				if (charger_id != 2U) {
-					// c.f., ricoh61x_batt_get_prop @ drivers/power/ricoh619-battery.c
-					// if giRICOH619_DCIN == SDP_PC_CHARGER => online = 2
-					// NOTE: SDP_CHARGER == SDP_PC_CHARGER != SDP_ADPT_CHARGER
-					//       c.f., include/linux/power/ricoh619_battery.h
-					LOG(LOG_WARNING,
-					    "Charger type is not SDP PC, it's `%s`!",
-					    mk7_charger_id_to_string(charger_id));
+				// NOTE: SDP_CHARGER == SDP_PC_CHARGER != SDP_ADPT_CHARGER
+				//       c.f., include/linux/power/ricoh619_battery.h
+				if (need_early_abort) {
+					LOG(LOG_ERR, "Charger type is not SDP PC, aborting");
 					if (early_unmount) {
 						fbink_print_ot(
 						    fbfd,
@@ -1022,9 +982,6 @@ int
 						    &fbink_cfg,
 						    NULL);
 					}
-					need_early_abort = true;
-				} else {
-					LOG(LOG_INFO, "SDP PC (500mA) charger detected");
 				}
 			} else {
 				LOG(LOG_WARNING, "Failed to open the sysfs entry for charger type!");
