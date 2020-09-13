@@ -37,7 +37,7 @@ __attribute__((format(printf, 7, 0))) static void
 static void
     setup_usb_ids(unsigned short int device_code)
 {
-	// Map device IDs to USB produc IDs, as we're going to need that in the scripts
+	// Map device IDs to USB Product IDs, as we're going to need that in the scripts
 	// c.f., https://github.com/kovidgoyal/calibre/blob/9d881ed2fcff219887579571f1bb48bdf41437d4/src/calibre/devices/kobo/driver.py#L1402-L1416
 	// c.f., https://github.com/baskerville/plato/blob/d96e40737060b569ae875f37d6d741fd5ccc802c/contrib/plato.sh#L38-L56
 	// NOTE: Keep 'em in FBInk order to make my life easier
