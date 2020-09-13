@@ -1153,7 +1153,6 @@ int
 
 cleanup:
 	LOG(LOG_INFO, "Bye!");
-	closelog();
 
 	fbink_free_ot_fonts_v2(&icon_cfg);
 	if (is_CJK) {
@@ -1188,6 +1187,8 @@ cleanup:
 		close(pwd);
 	}
 	free(abs_pwd);
+
+	closelog();
 
 	return rv;
 }
