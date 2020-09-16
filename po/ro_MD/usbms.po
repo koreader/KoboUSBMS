@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-13 14:39+0200\n"
-"PO-Revision-Date: 2020-09-01 18:42+0000\n"
+"PO-Revision-Date: 2020-09-16 11:31+0000\n"
 "Last-Translator: Mihai Vasiliu <mihai.vasiliu.93@gmail.com>\n"
 "Language-Team: Moldavian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/ro_MD/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n == 0 || n % 100 >= 2 && "
 "n % 100 <= 19) ? 1 : 2);\n"
-"X-Generator: Weblate 4.2.1-dev\n"
+"X-Generator: Weblate 4.3-dev\n"
 
 #: usbms.c:569
 msgid "USB Mass Storage"
@@ -63,28 +63,20 @@ msgstr "Apasă butonul de pornire pentru a ieși."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:770
-#, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " Gave up after 30 sec.\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-" A eșuat pornirea sesiunii USBMS!\n"
-"Dispozitivul se va închide în 90 sec."
+" S-a renunțat după 30 sec.\n"
+"Dispozitivul se va închide în 30 sec."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:778
-#, fuzzy
-#| msgid ""
-#| "Done!\n"
-#| "KOReader will now restart…"
 msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-"Gata!\n"
+"S-a renunțat după 30 sec.\n"
 "KOReader va reporni acum…"
 
 #: usbms.c:801
@@ -97,81 +89,57 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:853
-#, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-" A eșuat pornirea sesiunii USBMS!\n"
-"Dispozitivul se va închide în 90 sec."
+" Dispozitivul a fost conectat la un încărcător USB, nu la o gazdă USB!\n"
+"Dispozitivul se va închide în 30 sec."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:861
-#, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
-" A eșuat pornirea sesiunii USBMS!\n"
-"Dispozitivul se va închide în 90 sec."
+" Dispozitivul a fost conectat la un încărcător USB, nu la o gazdă USB!\n"
+"KOReader va reporni acum…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:889
-#, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " Gave up after 90 sec.\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-" A eșuat pornirea sesiunii USBMS!\n"
-"Dispozitivul se va închide în 90 sec."
+" S-a renunțat după 90 sec.\n"
+"Dispozitivul se va închide în 30 sec."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:897
-#, fuzzy
-#| msgid ""
-#| "Done!\n"
-#| "KOReader will now restart…"
 msgid ""
 " Gave up after 90 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-"Gata!\n"
+" S-a renunțat după 90 sec.\n"
 "KOReader va reporni acum…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:971
-#, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-" A eșuat pornirea sesiunii USBMS!\n"
-"Dispozitivul se va închide în 90 sec."
+" Dispozitivul a fost conectat la un încărcător USB, nu la o gazdă USB!\n"
+"Dispozitivul se va închide în 30 sec."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:979
-#, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
-" A eșuat pornirea sesiunii USBMS!\n"
-"Dispozitivul se va închide în 90 sec."
+" Dispozitivul a fost conectat la un încărcător USB, nu la o gazdă USB!\n"
+"KOReader va reporni acum…"
 
 #: usbms.c:1006
 msgid "Starting USBMS session…"
