@@ -406,12 +406,6 @@ int
 	//       We do jump through a few hoops to attempt to salvage CJK support...
 	const char* lang = getenv("LANGUAGE");
 	if (lang) {
-		// KOReader -> Weblate mappings, because everything is terrible...
-		if (strncmp(lang, "ar_AA", 5U) == 0) {
-			setenv("LANGUAGE", "ar", 1);
-			lang = getenv("LANGUAGE");
-		}
-
 		if (strncmp(lang, "he", 2U) == 0 || strncmp(lang, "ar", 2U) == 0 || strncmp(lang, "fa", 2U) == 0) {
 			LOG(LOG_NOTICE, "Your language (%s) is unsupported (RTL), falling back to English", lang);
 			setenv("LANGUAGE", "C", 1);
