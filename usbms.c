@@ -744,13 +744,23 @@ int
 				if (pfd.revents & POLLIN) {
 					if (handle_evdev(dev)) {
 						LOG(LOG_NOTICE, "Caught a power button release");
-						fbink_print_ot(
-						    fbfd,
-						    // @translators: First unicode codepoint is an icon, leave it as-is.
-						    _("\uf05a KOReader will now restart…"),
-						    &msg_cfg,
-						    &fbink_cfg,
-						    NULL);
+						if (early_unmount) {
+							fbink_print_ot(
+							    fbfd,
+							    // @translators: First unicode codepoint is an icon, leave it as-is.
+							    _("\uf071 The device will shutdown in 30 sec."),
+							    &msg_cfg,
+							    &fbink_cfg,
+							    NULL);
+						} else {
+							fbink_print_ot(
+							    fbfd,
+							    // @translators: First unicode codepoint is an icon, leave it as-is.
+							    _("\uf05a KOReader will now restart…"),
+							    &msg_cfg,
+							    &fbink_cfg,
+							    NULL);
+						}
 						fbink_wait_for_complete(fbfd, LAST_MARKER);
 						break;
 					}
@@ -837,13 +847,23 @@ int
 				if (pfds[0].revents & POLLIN) {
 					if (handle_evdev(dev)) {
 						LOG(LOG_NOTICE, "Caught a power button release");
-						fbink_print_ot(
-						    fbfd,
-						    // @translators: First unicode codepoint is an icon, leave it as-is.
-						    _("\uf05a KOReader will now restart…"),
-						    &msg_cfg,
-						    &fbink_cfg,
-						    NULL);
+						if (early_unmount) {
+							fbink_print_ot(
+							    fbfd,
+							    // @translators: First unicode codepoint is an icon, leave it as-is.
+							    _("\uf071 The device will shutdown in 30 sec."),
+							    &msg_cfg,
+							    &fbink_cfg,
+							    NULL);
+						} else {
+							fbink_print_ot(
+							    fbfd,
+							    // @translators: First unicode codepoint is an icon, leave it as-is.
+							    _("\uf05a KOReader will now restart…"),
+							    &msg_cfg,
+							    &fbink_cfg,
+							    NULL);
+						}
 						need_early_abort = true;
 						// That's a direct user interaction with an expected result, don't dawdle.
 						sleep_on_abort = false;
