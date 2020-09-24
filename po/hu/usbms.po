@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-24 15:05+0200\n"
-"PO-Revision-Date: 2020-09-12 21:06+0000\n"
+"PO-Revision-Date: 2020-09-25 05:22+0000\n"
 "Last-Translator: Sari Gabor <sari.gabor@gmail.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/hu/>\n"
@@ -62,25 +62,13 @@ msgstr "Kilépéshez nyomja meg a Power gombot."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:751 usbms.c:854
-#, fuzzy
-#| msgid ""
-#| " Gave up after 30 sec.\n"
-#| "The device will shutdown in 30 sec."
 msgid " The device will shutdown in 30 sec."
-msgstr ""
-" 30 mp múlva megszakítás.\n"
-"Az eszköz 30 mp-en belül kikapcsol."
+msgstr " Az eszköz 30 mp múlva kikapcsol."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:759 usbms.c:862
-#, fuzzy
-#| msgid ""
-#| "Done!\n"
-#| "KOReader will now restart…"
 msgid " KOReader will now restart…"
-msgstr ""
-"Kész!\n"
-"A KOReader újraindul…"
+msgstr " A KOReader újraindul…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:782
