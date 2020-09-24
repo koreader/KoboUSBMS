@@ -744,6 +744,14 @@ int
 				if (pfd.revents & POLLIN) {
 					if (handle_evdev(dev)) {
 						LOG(LOG_NOTICE, "Caught a power button release");
+						fbink_print_ot(
+						    fbfd,
+						    // @translators: First unicode codepoint is an icon, leave it as-is.
+						    _("\uf05a KOReader will now restart…"),
+						    &msg_cfg,
+						    &fbink_cfg,
+						    NULL);
+						fbink_wait_for_complete(fbfd, LAST_MARKER);
 						break;
 					}
 				}
@@ -788,6 +796,7 @@ int
 	}
 
 	LOG(LOG_INFO, "Starting USBMS shenanigans");
+	bool sleep_on_abort = true;
 	// If we're not plugged in, wait for it (or abort early)
 	usb_plugged = is_usb_plugged(ntxfd);
 	if (!usb_plugged) {
@@ -828,7 +837,16 @@ int
 				if (pfds[0].revents & POLLIN) {
 					if (handle_evdev(dev)) {
 						LOG(LOG_NOTICE, "Caught a power button release");
+						fbink_print_ot(
+						    fbfd,
+						    // @translators: First unicode codepoint is an icon, leave it as-is.
+						    _("\uf05a KOReader will now restart…"),
+						    &msg_cfg,
+						    &fbink_cfg,
+						    NULL);
 						need_early_abort = true;
+						// That's a direct user interaction with an expected result, don't dawdle.
+						sleep_on_abort = false;
 						break;
 					}
 				}
@@ -988,8 +1006,10 @@ int
 	if (need_early_abort) {
 		// Make sure the final message will be visible...
 		fbink_wait_for_complete(fbfd, LAST_MARKER);
-		const struct timespec zzz = { 2L, 500000000L };
-		nanosleep(&zzz, NULL);
+		if (sleep_on_abort) {
+			const struct timespec zzz = { 2L, 500000000L };
+			nanosleep(&zzz, NULL);
+		}
 		rv = early_unmount ? EXIT_FAILURE : USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
