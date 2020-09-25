@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-24 15:05+0200\n"
-"PO-Revision-Date: 2020-09-12 23:09+0000\n"
+"PO-Revision-Date: 2020-09-26 10:40+0000\n"
 "Last-Translator: hombretranquilo <hombretranquilo.mbp@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/es/>\n"
@@ -62,25 +62,13 @@ msgstr "Presionar el botón de encendido para salir."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:751 usbms.c:854
-#, fuzzy
-#| msgid ""
-#| " Gave up after 30 sec.\n"
-#| "The device will shutdown in 30 sec."
 msgid " The device will shutdown in 30 sec."
-msgstr ""
-" Han transcurrido 30 segundos, abandonar.\n"
-"El dispositivo se apagará en 30 segundos."
+msgstr " El dispositivo se apagará en 30 segundos."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:759 usbms.c:862
-#, fuzzy
-#| msgid ""
-#| "Done!\n"
-#| "KOReader will now restart…"
 msgid " KOReader will now restart…"
-msgstr ""
-"¡Hecho!\n"
-"Ahora KOReader se reiniciará…"
+msgstr " Ahora KOReader se reiniciará…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:782
