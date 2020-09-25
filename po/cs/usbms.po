@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-24 15:05+0200\n"
-"PO-Revision-Date: 2020-09-22 19:41+0000\n"
+"PO-Revision-Date: 2020-09-26 10:40+0000\n"
 "Last-Translator: leschek <leschekleschek@post.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/koreader/kobousbms/"
 "cs/>\n"
@@ -62,25 +62,13 @@ msgstr "Pro ukončení stiskněte tlačítko napájení."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:751 usbms.c:854
-#, fuzzy
-#| msgid ""
-#| " Gave up after 30 sec.\n"
-#| "The device will shutdown in 30 sec."
 msgid " The device will shutdown in 30 sec."
-msgstr ""
-" Ukončeno po 30 s.\n"
-"Zařízení bude vypnuto za 30 s."
+msgstr " Zařízení bude vypnuto za 30 s."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:759 usbms.c:862
-#, fuzzy
-#| msgid ""
-#| "Done!\n"
-#| "KOReader will now restart…"
 msgid " KOReader will now restart…"
-msgstr ""
-"Hotovo!\n"
-"KOReader bude nyní restartován…"
+msgstr " KOReader bude nyní restartován…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:782
