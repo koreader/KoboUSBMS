@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-24 15:05+0200\n"
-"PO-Revision-Date: 2020-09-12 12:19+0000\n"
+"PO-Revision-Date: 2020-09-25 05:22+0000\n"
 "Last-Translator: Frans de Jonge <fransdejonge@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/koreader/kobousbms/"
 "nl/>\n"
@@ -62,50 +62,30 @@ msgstr "Druk op de aan/uit-knop om af te sluiten."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:751 usbms.c:854
-#, fuzzy
-#| msgid ""
-#| " Giving up after 30 sec.\n"
-#| "The device will shutdown in 30 sec."
 msgid " The device will shutdown in 30 sec."
-msgstr ""
-" Opgeven na 30 seconden.\n"
-"Het apparaat wordt over 30 seconden uitgeschakeld."
+msgstr " Het apparaat wordt over 30 seconden uitgeschakeld."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:759 usbms.c:862
-#, fuzzy
-#| msgid ""
-#| "Done!\n"
-#| "KOReader will now restart…"
 msgid " KOReader will now restart…"
-msgstr ""
-"Klaar!\n"
-"KOReader zal nu opnieuw opstarten…"
+msgstr " KOReader zal nu opnieuw opstarten…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:782
-#, fuzzy
-#| msgid ""
-#| " Giving up after 30 sec.\n"
-#| "The device will shutdown in 30 sec."
 msgid ""
 " Gave up after 30 sec.\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-" Opgeven na 30 seconden.\n"
+" Opgegeven na 30 seconden.\n"
 "Het apparaat wordt over 30 seconden uitgeschakeld."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:790
-#, fuzzy
-#| msgid ""
-#| " Giving up after 30 sec.\n"
-#| "KOReader will now restart…"
 msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-" Opgeven na 30 seconden.\n"
+" Opgegeven na 30 seconden.\n"
 "KOReader zal nu opnieuw opstarten…"
 
 #: usbms.c:814
@@ -138,28 +118,20 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:921
-#, fuzzy
-#| msgid ""
-#| " Giving up after 90 sec.\n"
-#| "The device will shutdown in 30 sec."
 msgid ""
 " Gave up after 90 sec.\n"
 "The device will shutdown in 30 sec."
 msgstr ""
-" Opgeven na 90 seconden.\n"
+" Opgegeven na 90 seconden.\n"
 "Het apparaat wordt over 30 seconden uitgeschakeld."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:929
-#, fuzzy
-#| msgid ""
-#| " Giving up after 90 sec.\n"
-#| "KOReader will now restart…"
 msgid ""
 " Gave up after 90 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-" Opgeven na 90 seconden.\n"
+" Opgegeven na 90 seconden.\n"
 "KOReader zal nu opnieuw opstarten…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
