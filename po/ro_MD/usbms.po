@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-24 15:05+0200\n"
-"PO-Revision-Date: 2020-09-16 11:31+0000\n"
+"PO-Revision-Date: 2020-09-28 20:40+0000\n"
 "Last-Translator: Mihai Vasiliu <mihai.vasiliu.93@gmail.com>\n"
 "Language-Team: Moldavian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/ro_MD/>\n"
@@ -63,25 +63,13 @@ msgstr "Apasă butonul de pornire pentru a ieși."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:751 usbms.c:854
-#, fuzzy
-#| msgid ""
-#| " Gave up after 30 sec.\n"
-#| "The device will shutdown in 30 sec."
 msgid " The device will shutdown in 30 sec."
-msgstr ""
-" S-a renunțat după 30 sec.\n"
-"Dispozitivul se va închide în 30 sec."
+msgstr " Dispozitivul se va închide în 30 sec."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:759 usbms.c:862
-#, fuzzy
-#| msgid ""
-#| "Done!\n"
-#| "KOReader will now restart…"
 msgid " KOReader will now restart…"
-msgstr ""
-"Gata!\n"
-"KOReader va reporni acum…"
+msgstr " KOReader va reporni acum…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:782
