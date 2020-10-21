@@ -1147,9 +1147,12 @@ int
 					LOG(LOG_WARNING, "SDP ADPT (Standard Downstream Port, 800mA) charger detected");
 					need_early_abort = true;
 				} else if (strncmp(charger_type, "NO", 2U) == 0U) {
-					// Should never happen, we're in a usb_plugged branch ;)
-					LOG(LOG_WARNING, "No charger detected!");
-					need_early_abort = true;
+					// NOTE: Despite being in a usb_plugged branch,
+					//       this *may* happen if the device is fully charged.
+					//       In which case,
+					//       /sys/class/power_supply/mc13892_bat/status will *also* say "Not charging".
+					//       I'm not double-checking capacity, but it ought to be 100 in these cases ;).
+					LOG(LOG_INFO, "No charger detected! Fully charged?");
 				} else if (strncmp(charger_type, "DISABLE", 7U) == 0U) {
 					LOG(LOG_WARNING, "Charger is disabled!");
 					need_early_abort = true;
