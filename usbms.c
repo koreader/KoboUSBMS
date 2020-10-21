@@ -213,6 +213,117 @@ static int
 	return EXIT_SUCCESS;
 }
 
+// Pilfered from NickelMenu ;).
+// c.f., https://github.com/pgaskin/NickelMenu/blob/85cd558715886069e70cbdcb1f9de43843e49e9f/src/util.h#L14-L23
+inline char *strtrim(char *s) {
+	if (!s) {
+		return NULL;
+	}
+	char *a = s;
+	char *b = s + strlen(s);
+	for (; a < b && isspace((unsigned char)(*a)); a++);
+	for (; b > a && isspace((unsigned char)(*(b-1))); b--);
+	*b = '\0';
+	return a;
+}
+
+// Attempt to figure out the current frontlight intensity...
+static uint8_t
+    get_frontlight_intensity(void)
+{
+	// TODO: If we're on Mk. 7, we can get it from sysfs!
+	//       /sys/class/backlight/mxc_msp430.0/actual_brightness
+	uint8_t intensity = 0U;
+
+	char *ko_dir = getenv("KOREADER_DIR");
+	if (!ko_dir) {
+		PFLOG(LOG_WARNING, "Unable to compute KOReader directory!");
+		return intensity;
+	}
+
+	// Now, try to parse KOReader's settings...
+	char ko_settings[PATH_MAX] = { 0 };
+	snprintf(ko_settings, sizeof(ko_settings) - 1U, "%s/settings.reader.lua", ko_dir);
+	FILE* f = fopen(ko_settings, "re");
+	if (f) {
+		bool found_state = false;
+		bool fl_state = false;
+		bool found_intensity = false;
+		uint8_t fl_intensity = 0U;
+		char   *line = NULL;
+		line = calloc(PIPE_BUF, sizeof(*line));
+		if (!line) {
+			PFLOG(LOG_ERR, "calloc: %m");
+			fclose(f);
+			return intensity;
+		}
+		while (fgets(line, sizeof(line), f)) {
+			if (strstr(line, "[\"is_frontlight_on\"]")) {
+				char *setting_key = strsep(&line, "=");
+				if (!setting_key) {
+					PFLOG(LOG_WARNING, "Failed to parse `is_frontline_on` in KOReader's settings (key)");
+					continue;
+				}
+
+				char *setting_value = strsep(&line, ",");
+				if (!setting_value) {
+					PFLOG(LOG_WARNING, "Failed to parse `is_frontline_on` in KOReader's settings (value)");
+					continue;
+				}
+
+				setting_value = strtrim(setting_value);
+
+				if (strcmp(setting_value, "true") == 0) {
+					found_state = true;
+					fl_state = true;
+					PFLOG(LOG_INFO, "Frontlight was enabled in KOReader");
+				} else if (strcmp(setting_value, "false") == 0) {
+					found_state = true;
+					fl_state = false;
+					PFLOG(LOG_INFO, "Frontlight was disabled in KOReader");
+				} else {
+					PFLOG(LOG_WARNING, "Failed to parse `is_frontline_on` value! (`%s`)", setting_value);
+				}
+			} else if (strstr(line, "[\"frontlight_intensity\"]")) {
+				char *setting_key = strsep(&line, "=");
+				if (!setting_key) {
+					PFLOG(LOG_WARNING, "Failed to parse `frontlight_intensity` in KOReader's settings (key)");
+					continue;
+				}
+
+				char *setting_value = strsep(&line, ",");
+				if (!setting_value) {
+					PFLOG(LOG_WARNING, "Failed to parse `frontlight_intensity` in KOReader's settings (value)");
+					continue;
+				}
+
+				setting_value = strtrim(setting_value);
+
+				if (strtoul_hhu(setting_value, &fl_intensity) < 0) {
+					PFLOG(LOG_WARNING, "Failed to convert frontlight intensity value '%s' to an uint8_t!", setting_value);
+				} else {
+					found_intensity = true;
+					PFLOG(LOG_INFO, "Frontlight intensity was at %hhu%% in KOReader", fl_intensity);
+				}
+			}
+
+			// If we've found & parsed both state & intensity, we're golden
+			if (found_intensity && found_state) {
+				// And if it was actually enabled, update the return value
+				if (fl_state) {
+					intensity = fl_intensity;
+				}
+				break;
+			}
+		}
+		fclose(f);
+		free(line);
+	}
+
+	// If all else fails, don't touch the FL
+	return intensity;
+}
+
 // We'll want to regularly update a display of the plug/charge status, and whether Wi-Fi is on or not
 static void
     print_status(int fbfd, const FBInkConfig* fbink_cfg, const FBInkOTConfig* ot_cfg, int ntxfd)
@@ -1071,6 +1182,14 @@ int
 	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 	fbink_cfg.no_refresh = false;
 	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
+
+	// TODO
+	// And much like Nickel, gently turn the ligh off for the duration...
+	uint8_t fl_intensity = get_frontlight_intensity();
+	LOG(LOG_INFO, "FL intensity: %hhu%%", fl_intensity);
+	if (fl_intensity != 0U) {
+		// TODO: ramp down!
+	}
 
 	// And now we just have to wait until an unplug...
 	LOG(LOG_INFO, "Waiting for an eject or unplug event . . .");

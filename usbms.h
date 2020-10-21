@@ -25,6 +25,7 @@
 #	define _GNU_SOURCE
 #endif
 
+#include <ctype.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <limits.h>
@@ -37,6 +38,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <syslog.h>
+#include <string.h>
 #include <time.h>
 #include <unistd.h>
 
