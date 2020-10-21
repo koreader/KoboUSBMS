@@ -360,7 +360,10 @@ static void
 		// Ramp-down
 		for (uint8_t i = 1U; i <= STEPS; i++) {
 			int ptr = ifloorf(intensity - ((intensity / STEPSF) * i));
-			int retval = ioctl(ntxfd, CM_FRONT_LIGHT_SET, ptr);
+			int rc = ioctl(ntxfd, CM_FRONT_LIGHT_SET, ptr);
+			if (rc == -1) {
+				PFLOG(LOG_WARNING, "Failed to set frontlight intensity to %d%% (ioctl: %m)", ptr);
+			}
 			if (i < STEPS) {
 				nanosleep(&zzz, NULL);
 			}
@@ -369,7 +372,10 @@ static void
 		// Ramp-up
 		for (uint8_t i = 1U; i <= STEPS; i++) {
 			int ptr = iceilf(0U + ((intensity / STEPSF) * i));
-			int retval = ioctl(ntxfd, CM_FRONT_LIGHT_SET, ptr);
+			int rc = ioctl(ntxfd, CM_FRONT_LIGHT_SET, ptr);
+			if (rc == -1) {
+				PFLOG(LOG_WARNING, "Failed to set frontlight intensity to %d%% (ioctl: %m)", ptr);
+			}
 			if (i < STEPS) {
 				nanosleep(&zzz, NULL);
 			}
@@ -694,14 +700,6 @@ int
 		PFLOG(LOG_CRIT, "open: %m");
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
-	}
-
-	// FIXME: Move in the right place!
-	// And much like Nickel, gently turn the ligh off for the duration...
-	uint8_t fl_intensity = get_frontlight_intensity();
-	LOG(LOG_INFO, "FL intensity: %hhu%%", fl_intensity);
-	if (fl_intensity != 0U) {
-		// TODO: ramp down!
 	}
 
 	// Display our header
@@ -1244,7 +1242,13 @@ int
 	fbink_cfg.no_refresh = false;
 	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
 
-	// FIXME: here goes the ramp down!
+	// And much like Nickel, gently turn the light off for the duration...
+	uint8_t fl_intensity = get_frontlight_intensity();
+	LOG(LOG_INFO, "Frontlight was set to %hhu%%", fl_intensity);
+	if (fl_intensity != 0U) {
+		LOG(LOG_INFO, "Turning frontlight off...");
+		toggle_frontlight(false, fl_intensity, ntxfd);
+	}
 
 	// And now we just have to wait until an unplug...
 	LOG(LOG_INFO, "Waiting for an eject or unplug event . . .");
@@ -1302,6 +1306,12 @@ int
 	}
 	fbink_cfg.is_nightmode = false;
 	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
+
+	// Turn frontlight back on
+	if (fl_intensity != 0U) {
+		LOG(LOG_INFO, "Turning frontlight back on...");
+		toggle_frontlight(true, fl_intensity, ntxfd);
+	}
 
 	// If ue_wait_for_event failed for some reason, abort with extreme prejudice...
 	if (rc != EXIT_SUCCESS) {
