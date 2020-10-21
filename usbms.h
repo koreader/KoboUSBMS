@@ -42,6 +42,24 @@
 #include <time.h>
 #include <unistd.h>
 
+// Like FBInk, handle math shenanigans...
+#       include <math.h>
+#       ifdef __clang__
+#               if __has_builtin(__builtin_ceilf)
+#                       define iceilf(x)      ((int) (__builtin_ceilf(x)))
+#               endif
+#               if __has_builtin(__builtin_floorf)
+#                       define ifloorf(x)      ((int) (__builtin_floorf(x)))
+#               endif
+#       else
+// Hide all this behind a C99 check, to try to avoid blowing up on really old GCC versions...
+#               if __STDC_VERSION__ >= 199901L
+#                       define iceilf(x)        __builtin_iceilf(x)
+#                       define ifloorf(x)       __builtin_ifloorf(x)
+#               endif
+#       endif
+
+
 // I18n
 #include <libintl.h>
 #include <locale.h>
@@ -101,5 +119,6 @@
 #define CM_USB_Plug_IN        108
 #define CM_CHARGE_STATUS      204    // Mapped to CM_USB_Plug_IN on the Forma...
 #define CM_GET_BATTERY_STATUS 206
+#define CM_FRONT_LIGHT_SET    241
 
 #endif    // __USBMS_H

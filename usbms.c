@@ -346,6 +346,37 @@ static uint8_t
 	return intensity;
 }
 
+// Fancy frontlight toggle :)
+static void
+    toggle_frontlight(bool state, uint8_t intensity, int ntxfd)
+{
+	// c.f., https://github.com/koreader/koreader/pull/5421#discussion_r327812380
+	#define STEPS 20u
+	#define STEPSF 20.0f
+	#define SLEEP 7u
+	const struct timespec zzz = { 0L, SLEEP * 1000000L };
+
+	if (state == false) {
+		// Ramp-down
+		for (uint8_t i = 1U; i <= STEPS; i++) {
+			int ptr = ifloorf(intensity - ((intensity / STEPSF) * i));
+			int retval = ioctl(ntxfd, CM_FRONT_LIGHT_SET, ptr);
+			if (i < STEPS) {
+				nanosleep(&zzz, NULL);
+			}
+		}
+	} else {
+		// Ramp-up
+		for (uint8_t i = 1U; i <= STEPS; i++) {
+			int ptr = iceilf(0U + ((intensity / STEPSF) * i));
+			int retval = ioctl(ntxfd, CM_FRONT_LIGHT_SET, ptr);
+			if (i < STEPS) {
+				nanosleep(&zzz, NULL);
+			}
+		}
+	}
+}
+
 // We'll want to regularly update a display of the plug/charge status, and whether Wi-Fi is on or not
 static void
     print_status(int fbfd, const FBInkConfig* fbink_cfg, const FBInkOTConfig* ot_cfg, int ntxfd)
