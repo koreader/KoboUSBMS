@@ -257,7 +257,8 @@ static uint8_t
 			fclose(f);
 			return intensity;
 		}
-		while (fgets(line, sizeof(line), f)) {
+		while (fgets(line, PIPE_BUF, f)) {
+			PFLOG(LOG_INFO, "line=%s", line);
 			if (strstr(line, "[\"is_frontlight_on\"]")) {
 				char *setting_key = strsep(&line, "=");
 				if (!setting_key) {
@@ -641,6 +642,14 @@ int
 		PFLOG(LOG_CRIT, "open: %m");
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
+	}
+
+	// FIXME: Move in the right place!
+	// And much like Nickel, gently turn the ligh off for the duration...
+	uint8_t fl_intensity = get_frontlight_intensity();
+	LOG(LOG_INFO, "FL intensity: %hhu%%", fl_intensity);
+	if (fl_intensity != 0U) {
+		// TODO: ramp down!
 	}
 
 	// Display our header
@@ -1183,13 +1192,7 @@ int
 	fbink_cfg.no_refresh = false;
 	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
 
-	// TODO
-	// And much like Nickel, gently turn the ligh off for the duration...
-	uint8_t fl_intensity = get_frontlight_intensity();
-	LOG(LOG_INFO, "FL intensity: %hhu%%", fl_intensity);
-	if (fl_intensity != 0U) {
-		// TODO: ramp down!
-	}
+	// FIXME: here goes the ramp down!
 
 	// And now we just have to wait until an unplug...
 	LOG(LOG_INFO, "Waiting for an eject or unplug event . . .");
