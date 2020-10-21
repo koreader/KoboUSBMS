@@ -215,7 +215,7 @@ static int
 
 // Pilfered from NickelMenu ;).
 // c.f., https://github.com/pgaskin/NickelMenu/blob/85cd558715886069e70cbdcb1f9de43843e49e9f/src/util.h#L14-L23
-inline char *strtrim(char *s) {
+static char *strtrim(char *s) {
 	if (!s) {
 		return NULL;
 	}
