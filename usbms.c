@@ -362,19 +362,22 @@ static uint8_t
 }
 
 // Fancy frontlight toggle :)
+// Based on a PoC tested in https://github.com/koreader/koreader/pull/5421#discussion_r327812380
 static void
     toggle_frontlight(bool state, uint8_t intensity, int ntxfd)
 {
-// c.f., https://github.com/koreader/koreader/pull/5421#discussion_r327812380
-#define STEPS  20u
-#define STEPSF 20.0f
-#define SLEEP  7u
+#define STEPS 20u
+#define SLEEP 7u    // in ms
+	// NOTE: The ioctl on newer devices actually blocks for noticeably longer than on older devices,
+	//       c.f., https://github.com/koreader/koreader/blob/b40331085a565f99a95c27012b1aa3e71e3eb182/frontend/device/kobo/powerd.lua#L331-L332
+	//       Here, we get away with this thanks to the larger amount of steps, combined with the fact that on newer devices,
+	//       the ioctl won't block as long if it's called with the same requested intensity as the current intensity.
 	const struct timespec zzz = { 0L, SLEEP * 1000000L };
 
 	if (state == false) {
 		// Ramp-down
 		for (uint8_t i = 1U; i <= STEPS; i++) {
-			int ptr = ifloorf(intensity - ((intensity / STEPSF) * i));
+			int ptr = ifloorf(intensity - ((intensity / (float) STEPS) * i));
 			int rc  = ioctl(ntxfd, CM_FRONT_LIGHT_SET, ptr);
 			if (rc == -1) {
 				PFLOG(LOG_WARNING, "Failed to set frontlight intensity to %d%% (ioctl: %m)", ptr);
@@ -386,7 +389,7 @@ static void
 	} else {
 		// Ramp-up
 		for (uint8_t i = 1U; i <= STEPS; i++) {
-			int ptr = iceilf(0U + ((intensity / STEPSF) * i));
+			int ptr = iceilf(0U + ((intensity / (float) STEPS) * i));
 			int rc  = ioctl(ntxfd, CM_FRONT_LIGHT_SET, ptr);
 			if (rc == -1) {
 				PFLOG(LOG_WARNING, "Failed to set frontlight intensity to %d%% (ioctl: %m)", ptr);
