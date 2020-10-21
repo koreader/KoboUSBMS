@@ -252,6 +252,7 @@ static uint8_t
 			}
 		}
 		fclose(f);
+		f = NULL;
 
 		if (strtoul_hhu(fl_intensity, &intensity) < 0) {
 			PFLOG(LOG_WARNING,
@@ -1226,6 +1227,10 @@ int
 	print_icon(fbfd, "\uf287", &fbink_cfg, &icon_cfg);
 	fbink_print_ot(fbfd, _("Starting USBMS session…"), &msg_cfg, &fbink_cfg, NULL);
 
+	// NOTE: We need to figure out the frontlight intensity *before* we unmount onboard,
+	//       because, on < Mk. 7 devices, we'll have to get that from KOReader's config file...
+	uint8_t fl_intensity = get_frontlight_intensity();
+
 	// Here goes nothing...
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/scripts/start-usbms.sh", abs_pwd);
 	rc = system(resource_path);
@@ -1260,7 +1265,6 @@ int
 	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
 
 	// And much like Nickel, gently turn the light off for the duration...
-	uint8_t fl_intensity = get_frontlight_intensity();
 	LOG(LOG_INFO, "Frontlight was set to %hhu%%", fl_intensity);
 	if (fl_intensity != 0U) {
 		LOG(LOG_INFO, "Turning frontlight off...");
