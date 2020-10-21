@@ -52,7 +52,6 @@
 #		define ifloorf(x) ((int) (__builtin_floorf(x)))
 #	endif
 #else
-// Hide all this behind a C99 check, to try to avoid blowing up on really old GCC versions...
 #	if __STDC_VERSION__ >= 199901L
 #		define iceilf(x)  __builtin_iceilf(x)
 #		define ifloorf(x) __builtin_ifloorf(x)

@@ -1166,7 +1166,7 @@ int
 					//       this *may* happen if the device is fully charged.
 					//       In which case,
 					//       /sys/class/power_supply/mc13892_bat/status will *also* say "Not charging".
-					//       I'm not double-checking capacity, but it ought to be 100 in these cases ;).
+					//       I'm not double-checking capacity here, but it ought to be 100 in these cases ;).
 					LOG(LOG_INFO, "No charger detected! Fully charged?");
 				} else if (strncmp(charger_type, "DISABLE", 7U) == 0U) {
 					LOG(LOG_WARNING, "Charger is disabled!");
