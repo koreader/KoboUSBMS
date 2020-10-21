@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-06 05:25+0200\n"
+"POT-Creation-Date: 2020-10-22 01:15+0200\n"
 "PO-Revision-Date: 2020-09-25 05:22+0000\n"
 "Last-Translator: Frans de Jonge <fransdejonge@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/koreader/kobousbms/"
@@ -19,12 +19,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.3-dev\n"
 
-#: usbms.c:563
+#: usbms.c:752
 msgid "USB Mass Storage"
 msgstr "USB-opslag"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:615
+#: usbms.c:804
 msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
@@ -33,7 +33,7 @@ msgstr ""
 "Druk op de aan/uit-knop om af te sluiten."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:630
+#: usbms.c:819
 msgid ""
 " Please disable USBSerial manually!\n"
 "Press the power button to exit."
@@ -42,36 +42,36 @@ msgstr ""
 "Druk op de aan/uit-knop om af te sluiten."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:653
+#: usbms.c:842
 msgid " Filesystem is busy! Offending processes:"
 msgstr " Bestandssysteem is bezig! Verantwoordelijke processen:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
-#: usbms.c:686
+#: usbms.c:875
 msgid " The fuser script failed!"
 msgstr " Het fuserscript is mislukt!"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:698
+#: usbms.c:887
 msgid " Failed to run the fuser script!"
 msgstr " Het fuserscript kan niet worden uitgevoerd!"
 
-#: usbms.c:706
+#: usbms.c:895
 msgid "Press the power button to exit."
 msgstr "Druk op de aan/uit-knop om af te sluiten."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:751 usbms.c:854
+#: usbms.c:940 usbms.c:1043
 msgid " The device will shutdown in 30 sec."
 msgstr " Het apparaat wordt over 30 seconden uitgeschakeld."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:759 usbms.c:862
+#: usbms.c:948 usbms.c:1051
 msgid " KOReader will now restart…"
 msgstr " KOReader zal nu opnieuw opstarten…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:782
+#: usbms.c:971
 msgid ""
 " Gave up after 30 sec.\n"
 "The device will shutdown in 30 sec."
@@ -80,7 +80,7 @@ msgstr ""
 "Het apparaat wordt over 30 seconden uitgeschakeld."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:790
+#: usbms.c:979
 msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
@@ -88,7 +88,7 @@ msgstr ""
 " Opgegeven na 30 seconden.\n"
 "KOReader zal nu opnieuw opstarten…"
 
-#: usbms.c:814
+#: usbms.c:1003
 msgid ""
 "Waiting to be plugged in…\n"
 "Or, press the power button to exit."
@@ -97,7 +97,7 @@ msgstr ""
 "Of druk op de aan/uit-knop om af te sluiten."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:885
+#: usbms.c:1074
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
@@ -107,7 +107,7 @@ msgstr ""
 "Het apparaat wordt over 30 seconden uitgeschakeld."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:893
+#: usbms.c:1082
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
@@ -117,7 +117,7 @@ msgstr ""
 "KOReader zal nu herstarten…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:921
+#: usbms.c:1110
 msgid ""
 " Gave up after 90 sec.\n"
 "The device will shutdown in 30 sec."
@@ -126,7 +126,7 @@ msgstr ""
 "Het apparaat wordt over 30 seconden uitgeschakeld."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:929
+#: usbms.c:1118
 msgid ""
 " Gave up after 90 sec.\n"
 "KOReader will now restart…"
@@ -135,7 +135,7 @@ msgstr ""
 "KOReader zal nu opnieuw opstarten…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1003
+#: usbms.c:1195
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
@@ -145,7 +145,7 @@ msgstr ""
 "Het apparaat wordt over 30 seconden uitgeschakeld."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1011
+#: usbms.c:1203
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
@@ -154,12 +154,12 @@ msgstr ""
 "host! \n"
 "KOReader zal nu herstarten…"
 
-#: usbms.c:1040
+#: usbms.c:1232
 msgid "Starting USBMS session…"
 msgstr "USBMS-sessie starten…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1051
+#: usbms.c:1248
 msgid ""
 " Failed to start the USBMS session!\n"
 "The device will shutdown in 90 sec."
@@ -167,7 +167,7 @@ msgstr ""
 " De USBMS-sessie kon niet worden gestart!\n"
 "Het apparaat wordt over 90 seconden uitgeschakeld."
 
-#: usbms.c:1066
+#: usbms.c:1263
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
@@ -176,7 +176,7 @@ msgstr ""
 "Werp het apparaat veilig uit voordat u de kabel eruit haalt."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1138
+#: usbms.c:1347
 msgid ""
 " Failed to detect an unplug event!\n"
 "The device will shutdown in 90 sec."
@@ -184,12 +184,12 @@ msgstr ""
 " Loskoppeling kon niet worden gedetecteerd!\n"
 "Het apparaat zal over 90 seconden worden uitgeschakeld."
 
-#: usbms.c:1150
+#: usbms.c:1359
 msgid "Ending USBMS session…"
 msgstr "Afsluiten van USBMS-sessie…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1163
+#: usbms.c:1372
 msgid ""
 " Failed to end the USBMS session!\n"
 "The device will shutdown in 90 sec."
@@ -197,7 +197,7 @@ msgstr ""
 " De USBMS-sessie kon niet wroden beëindigd!\n"
 "Het apparaat wordt over 90 seconden uitgeschakeld."
 
-#: usbms.c:1179
+#: usbms.c:1388
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
