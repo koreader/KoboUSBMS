@@ -231,9 +231,31 @@ static char *strtrim(char *s) {
 static uint8_t
     get_frontlight_intensity(void)
 {
-	// TODO: If we're on Mk. 7, we can get it from sysfs!
-	//       /sys/class/backlight/mxc_msp430.0/actual_brightness
+	// If all else fails, don't touch the FL by ensuring we return 0
 	uint8_t intensity = 0U;
+
+	// On Mk. 7, we can actually get it from sysfs, making our life far easier...
+	FILE* f = fopen(FL_INTENSITY_SYSFS, "re");
+	if (f) {
+		char   fl_intensity[8] = { 0 };
+		size_t size            = fread(fl_intensity, sizeof(*fl_intensity), sizeof(fl_intensity), f);
+		if (size > 0) {
+			// NUL terminate
+			fl_intensity[size - 1U] = '\0';
+			// Strip trailing LF
+			if (fl_intensity[size - 2U] == '\n') {
+				fl_intensity[size - 2U] = '\0';
+			}
+		}
+		fclose(f);
+
+		if (strtoul_hhu(fl_intensity, &intensity) < 0) {
+			PFLOG(LOG_WARNING, "Failed to convert sysfs frontlight intensity value '%s' to an uint8_t!", fl_intensity);
+		} else {
+			// We're good, don't bother trying to parse KOReader's settings!
+			return intensity;
+		}
+	}
 
 	char *ko_dir = getenv("KOREADER_DIR");
 	if (!ko_dir) {
@@ -244,7 +266,7 @@ static uint8_t
 	// Now, try to parse KOReader's settings...
 	char ko_settings[PATH_MAX] = { 0 };
 	snprintf(ko_settings, sizeof(ko_settings) - 1U, "%s/settings.reader.lua", ko_dir);
-	FILE* f = fopen(ko_settings, "re");
+	f = fopen(ko_settings, "re");
 	if (f) {
 		bool found_state = false;
 		bool fl_state = false;
@@ -301,7 +323,7 @@ static uint8_t
 				setting_value = strtrim(setting_value);
 
 				if (strtoul_hhu(setting_value, &fl_intensity) < 0) {
-					PFLOG(LOG_WARNING, "Failed to convert frontlight intensity value '%s' to an uint8_t!", setting_value);
+					PFLOG(LOG_WARNING, "Failed to convert KOReader frontlight intensity value '%s' to an uint8_t!", setting_value);
 				} else {
 					found_intensity = true;
 					PFLOG(LOG_INFO, "Frontlight intensity was at %hhu%% in KOReader", fl_intensity);
@@ -321,7 +343,6 @@ static uint8_t
 		free(line);
 	}
 
-	// If all else fails, don't touch the FL
 	return intensity;
 }
 

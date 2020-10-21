@@ -90,8 +90,9 @@
 #define NTX_KEYS_EVDEV "/dev/input/event0"
 #define TOUCHPAD_EVDEV "/dev/input/event1"
 #define BATT_CAP_SYSFS "/sys/class/power_supply/mc13892_bat/capacity"
-// This, on the other hand, is only available on Mk. 7
+// These, on the other hand, are only available on Mk. 7
 #define CHARGER_TYPE_SYSFS "/sys/class/power_supply/mc13892_charger/device/charger_type"
+#define FL_INTENSITY_SYSFS "/sys/class/backlight/mxc_msp430.0/actual_brightness"
 
 // Internal storage
 #define KOBO_MOUNTPOINT "/mnt/onboard"
