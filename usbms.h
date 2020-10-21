@@ -33,32 +33,31 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/ioctl.h>
 #include <sys/mount.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <syslog.h>
-#include <string.h>
 #include <time.h>
 #include <unistd.h>
 
 // Like FBInk, handle math shenanigans...
-#       include <math.h>
-#       ifdef __clang__
-#               if __has_builtin(__builtin_ceilf)
-#                       define iceilf(x)      ((int) (__builtin_ceilf(x)))
-#               endif
-#               if __has_builtin(__builtin_floorf)
-#                       define ifloorf(x)      ((int) (__builtin_floorf(x)))
-#               endif
-#       else
+#include <math.h>
+#ifdef __clang__
+#	if __has_builtin(__builtin_ceilf)
+#		define iceilf(x) ((int) (__builtin_ceilf(x)))
+#	endif
+#	if __has_builtin(__builtin_floorf)
+#		define ifloorf(x) ((int) (__builtin_floorf(x)))
+#	endif
+#else
 // Hide all this behind a C99 check, to try to avoid blowing up on really old GCC versions...
-#               if __STDC_VERSION__ >= 199901L
-#                       define iceilf(x)        __builtin_iceilf(x)
-#                       define ifloorf(x)       __builtin_ifloorf(x)
-#               endif
-#       endif
-
+#	if __STDC_VERSION__ >= 199901L
+#		define iceilf(x)  __builtin_iceilf(x)
+#		define ifloorf(x) __builtin_ifloorf(x)
+#	endif
+#endif
 
 // I18n
 #include <libintl.h>

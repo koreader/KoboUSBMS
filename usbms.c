@@ -215,14 +215,18 @@ static int
 
 // Pilfered from NickelMenu ;).
 // c.f., https://github.com/pgaskin/NickelMenu/blob/85cd558715886069e70cbdcb1f9de43843e49e9f/src/util.h#L14-L23
-static char *strtrim(char *s) {
+static char*
+    strtrim(char* s)
+{
 	if (!s) {
 		return NULL;
 	}
-	char *a = s;
-	char *b = s + strlen(s);
-	for (; a < b && isspace((unsigned char)(*a)); a++);
-	for (; b > a && isspace((unsigned char)(*(b-1))); b--);
+	char* a = s;
+	char* b = s + strlen(s);
+	for (; a < b && isspace((unsigned char) (*a)); a++)
+		;
+	for (; b > a && isspace((unsigned char) (*(b - 1))); b--)
+		;
 	*b = '\0';
 	return a;
 }
@@ -250,14 +254,16 @@ static uint8_t
 		fclose(f);
 
 		if (strtoul_hhu(fl_intensity, &intensity) < 0) {
-			PFLOG(LOG_WARNING, "Failed to convert sysfs frontlight intensity value '%s' to an uint8_t!", fl_intensity);
+			PFLOG(LOG_WARNING,
+			      "Failed to convert sysfs frontlight intensity value '%s' to an uint8_t!",
+			      fl_intensity);
 		} else {
 			// We're good, don't bother trying to parse KOReader's settings!
 			return intensity;
 		}
 	}
 
-	char *ko_dir = getenv("KOREADER_DIR");
+	char* ko_dir = getenv("KOREADER_DIR");
 	if (!ko_dir) {
 		PFLOG(LOG_WARNING, "Unable to compute KOReader directory!");
 		return intensity;
@@ -268,29 +274,31 @@ static uint8_t
 	snprintf(ko_settings, sizeof(ko_settings) - 1U, "%s/settings.reader.lua", ko_dir);
 	f = fopen(ko_settings, "re");
 	if (f) {
-		bool found_state = false;
-		bool fl_state = false;
-		bool found_intensity = false;
-		uint8_t fl_intensity = 0U;
-		char   *line = NULL;
-		line = calloc(PIPE_BUF, sizeof(*line));
+		bool    found_state     = false;
+		bool    fl_state        = false;
+		bool    found_intensity = false;
+		uint8_t fl_intensity    = 0U;
+		char*   line            = NULL;
+		line                    = calloc(PIPE_BUF, sizeof(*line));
 		if (!line) {
 			PFLOG(LOG_ERR, "calloc: %m");
 			fclose(f);
 			return intensity;
 		}
 		while (fgets(line, PIPE_BUF, f)) {
-			char *cur_line = line;
+			char* cur_line = line;
 			if (strstr(cur_line, "[\"is_frontlight_on\"]")) {
-				char *setting_key = strsep(&cur_line, "=");
+				char* setting_key = strsep(&cur_line, "=");
 				if (!setting_key) {
-					PFLOG(LOG_WARNING, "Failed to parse `is_frontline_on` in KOReader's settings (key)");
+					PFLOG(LOG_WARNING,
+					      "Failed to parse `is_frontline_on` in KOReader's settings (key)");
 					continue;
 				}
 
-				char *setting_value = strsep(&cur_line, ",");
+				char* setting_value = strsep(&cur_line, ",");
 				if (!setting_value) {
-					PFLOG(LOG_WARNING, "Failed to parse `is_frontline_on` in KOReader's settings (value)");
+					PFLOG(LOG_WARNING,
+					      "Failed to parse `is_frontline_on` in KOReader's settings (value)");
 					continue;
 				}
 
@@ -298,32 +306,38 @@ static uint8_t
 
 				if (strcmp(setting_value, "true") == 0) {
 					found_state = true;
-					fl_state = true;
+					fl_state    = true;
 					PFLOG(LOG_INFO, "Frontlight was enabled in KOReader");
 				} else if (strcmp(setting_value, "false") == 0) {
 					found_state = true;
-					fl_state = false;
+					fl_state    = false;
 					PFLOG(LOG_INFO, "Frontlight was disabled in KOReader");
 				} else {
-					PFLOG(LOG_WARNING, "Failed to parse `is_frontline_on` value! (`%s`)", setting_value);
+					PFLOG(LOG_WARNING,
+					      "Failed to parse `is_frontline_on` value! (`%s`)",
+					      setting_value);
 				}
 			} else if (strstr(cur_line, "[\"frontlight_intensity\"]")) {
-				char *setting_key = strsep(&cur_line, "=");
+				char* setting_key = strsep(&cur_line, "=");
 				if (!setting_key) {
-					PFLOG(LOG_WARNING, "Failed to parse `frontlight_intensity` in KOReader's settings (key)");
+					PFLOG(LOG_WARNING,
+					      "Failed to parse `frontlight_intensity` in KOReader's settings (key)");
 					continue;
 				}
 
-				char *setting_value = strsep(&cur_line, ",");
+				char* setting_value = strsep(&cur_line, ",");
 				if (!setting_value) {
-					PFLOG(LOG_WARNING, "Failed to parse `frontlight_intensity` in KOReader's settings (value)");
+					PFLOG(LOG_WARNING,
+					      "Failed to parse `frontlight_intensity` in KOReader's settings (value)");
 					continue;
 				}
 
 				setting_value = strtrim(setting_value);
 
 				if (strtoul_hhu(setting_value, &fl_intensity) < 0) {
-					PFLOG(LOG_WARNING, "Failed to convert KOReader frontlight intensity value '%s' to an uint8_t!", setting_value);
+					PFLOG(LOG_WARNING,
+					      "Failed to convert KOReader frontlight intensity value '%s' to an uint8_t!",
+					      setting_value);
 				} else {
 					found_intensity = true;
 					PFLOG(LOG_INFO, "Frontlight intensity was at %hhu%% in KOReader", fl_intensity);
@@ -350,17 +364,17 @@ static uint8_t
 static void
     toggle_frontlight(bool state, uint8_t intensity, int ntxfd)
 {
-	// c.f., https://github.com/koreader/koreader/pull/5421#discussion_r327812380
-	#define STEPS 20u
-	#define STEPSF 20.0f
-	#define SLEEP 7u
+// c.f., https://github.com/koreader/koreader/pull/5421#discussion_r327812380
+#define STEPS  20u
+#define STEPSF 20.0f
+#define SLEEP  7u
 	const struct timespec zzz = { 0L, SLEEP * 1000000L };
 
 	if (state == false) {
 		// Ramp-down
 		for (uint8_t i = 1U; i <= STEPS; i++) {
 			int ptr = ifloorf(intensity - ((intensity / STEPSF) * i));
-			int rc = ioctl(ntxfd, CM_FRONT_LIGHT_SET, ptr);
+			int rc  = ioctl(ntxfd, CM_FRONT_LIGHT_SET, ptr);
 			if (rc == -1) {
 				PFLOG(LOG_WARNING, "Failed to set frontlight intensity to %d%% (ioctl: %m)", ptr);
 			}
@@ -372,7 +386,7 @@ static void
 		// Ramp-up
 		for (uint8_t i = 1U; i <= STEPS; i++) {
 			int ptr = iceilf(0U + ((intensity / STEPSF) * i));
-			int rc = ioctl(ntxfd, CM_FRONT_LIGHT_SET, ptr);
+			int rc  = ioctl(ntxfd, CM_FRONT_LIGHT_SET, ptr);
 			if (rc == -1) {
 				PFLOG(LOG_WARNING, "Failed to set frontlight intensity to %d%% (ioctl: %m)", ptr);
 			}
