@@ -258,15 +258,15 @@ static uint8_t
 			return intensity;
 		}
 		while (fgets(line, PIPE_BUF, f)) {
-			PFLOG(LOG_INFO, "line=%s", line);
-			if (strstr(line, "[\"is_frontlight_on\"]")) {
-				char *setting_key = strsep(&line, "=");
+			char *cur_line = line;
+			if (strstr(cur_line, "[\"is_frontlight_on\"]")) {
+				char *setting_key = strsep(&cur_line, "=");
 				if (!setting_key) {
 					PFLOG(LOG_WARNING, "Failed to parse `is_frontline_on` in KOReader's settings (key)");
 					continue;
 				}
 
-				char *setting_value = strsep(&line, ",");
+				char *setting_value = strsep(&cur_line, ",");
 				if (!setting_value) {
 					PFLOG(LOG_WARNING, "Failed to parse `is_frontline_on` in KOReader's settings (value)");
 					continue;
@@ -285,14 +285,14 @@ static uint8_t
 				} else {
 					PFLOG(LOG_WARNING, "Failed to parse `is_frontline_on` value! (`%s`)", setting_value);
 				}
-			} else if (strstr(line, "[\"frontlight_intensity\"]")) {
-				char *setting_key = strsep(&line, "=");
+			} else if (strstr(cur_line, "[\"frontlight_intensity\"]")) {
+				char *setting_key = strsep(&cur_line, "=");
 				if (!setting_key) {
 					PFLOG(LOG_WARNING, "Failed to parse `frontlight_intensity` in KOReader's settings (key)");
 					continue;
 				}
 
-				char *setting_value = strsep(&line, ",");
+				char *setting_value = strsep(&cur_line, ",");
 				if (!setting_value) {
 					PFLOG(LOG_WARNING, "Failed to parse `frontlight_intensity` in KOReader's settings (value)");
 					continue;
