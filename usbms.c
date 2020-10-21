@@ -166,7 +166,7 @@ static int
 {
 	// NOTE: We want to *reject* negative values (which strtoul does not)!
 	if (strchr(str, '-')) {
-		PFLOG(LOG_WARNING, "Passed a negative value (%s) to strtoul_hhu", str);
+		PFLOG(LOG_WARNING, "Passed a negative value (`%s`) to strtoul_hhu", str);
 		return -EINVAL;
 	}
 
@@ -187,7 +187,7 @@ static int
 	}
 
 	if (endptr == str) {
-		PFLOG(LOG_WARNING, "No digits were found in value '%s' assigned to a variable expecting an uint8_t", str);
+		PFLOG(LOG_WARNING, "No digits were found in value `%s` assigned to a variable expecting an uint8_t", str);
 		return -EINVAL;
 	}
 
@@ -196,7 +196,7 @@ static int
 	if (*endptr != '\0') {
 		PFLOG(
 		    LOG_WARNING,
-		    "Found trailing characters (%s) behind value '%lu' assigned from string '%s' to a variable expecting an uint8_t",
+		    "Found trailing characters (`%s`) behind value '%lu' assigned from string `%s` to a variable expecting an uint8_t",
 		    endptr,
 		    val,
 		    str);
@@ -256,10 +256,11 @@ static uint8_t
 
 		if (strtoul_hhu(fl_intensity, &intensity) < 0) {
 			PFLOG(LOG_WARNING,
-			      "Failed to convert sysfs frontlight intensity value '%s' to an uint8_t!",
+			      "Failed to convert sysfs frontlight intensity value `%s` to an uint8_t!",
 			      fl_intensity);
 		} else {
 			// We're good, don't bother trying to parse KOReader's settings!
+			PFLOG(LOG_INFO, "sysfs says frontlight intensity is at %hhu%%", intensity);
 			return intensity;
 		}
 	}
@@ -292,14 +293,14 @@ static uint8_t
 				char* setting_key = strsep(&cur_line, "=");
 				if (!setting_key) {
 					PFLOG(LOG_WARNING,
-					      "Failed to parse `is_frontline_on` in KOReader's settings (key)");
+					      "Failed to parse 'is_frontline_on' in KOReader's settings (key)");
 					continue;
 				}
 
 				char* setting_value = strsep(&cur_line, ",");
 				if (!setting_value) {
 					PFLOG(LOG_WARNING,
-					      "Failed to parse `is_frontline_on` in KOReader's settings (value)");
+					      "Failed to parse 'is_frontline_on' in KOReader's settings (value)");
 					continue;
 				}
 
@@ -308,28 +309,28 @@ static uint8_t
 				if (strcmp(setting_value, "true") == 0) {
 					found_state = true;
 					fl_state    = true;
-					PFLOG(LOG_INFO, "Frontlight was enabled in KOReader");
+					PFLOG(LOG_INFO, "Frontlight is enabled in KOReader");
 				} else if (strcmp(setting_value, "false") == 0) {
 					found_state = true;
 					fl_state    = false;
-					PFLOG(LOG_INFO, "Frontlight was disabled in KOReader");
+					PFLOG(LOG_INFO, "Frontlight is disabled in KOReader");
 				} else {
 					PFLOG(LOG_WARNING,
-					      "Failed to parse `is_frontline_on` value! (`%s`)",
+					      "Failed to parse 'is_frontline_on' value! (`%s`)",
 					      setting_value);
 				}
 			} else if (strstr(cur_line, "[\"frontlight_intensity\"]")) {
 				char* setting_key = strsep(&cur_line, "=");
 				if (!setting_key) {
 					PFLOG(LOG_WARNING,
-					      "Failed to parse `frontlight_intensity` in KOReader's settings (key)");
+					      "Failed to parse 'frontlight_intensity' in KOReader's settings (key)");
 					continue;
 				}
 
 				char* setting_value = strsep(&cur_line, ",");
 				if (!setting_value) {
 					PFLOG(LOG_WARNING,
-					      "Failed to parse `frontlight_intensity` in KOReader's settings (value)");
+					      "Failed to parse 'frontlight_intensity' in KOReader's settings (value)");
 					continue;
 				}
 
@@ -337,17 +338,17 @@ static uint8_t
 
 				if (strtoul_hhu(setting_value, &fl_intensity) < 0) {
 					PFLOG(LOG_WARNING,
-					      "Failed to convert KOReader frontlight intensity value '%s' to an uint8_t!",
+					      "Failed to convert KOReader frontlight intensity value `%s` to an uint8_t!",
 					      setting_value);
 				} else {
 					found_intensity = true;
-					PFLOG(LOG_INFO, "Frontlight intensity was at %hhu%% in KOReader", fl_intensity);
+					PFLOG(LOG_INFO, "KOReader says frontlight intensity is at %hhu%%", fl_intensity);
 				}
 			}
 
 			// If we've found & parsed both state & intensity, we're golden
 			if (found_intensity && found_state) {
-				// And if it was actually enabled, update the return value
+				// And if it is actually enabled, update the return value
 				if (fl_state) {
 					intensity = fl_intensity;
 				}
@@ -425,7 +426,7 @@ static void
 		fclose(f);
 
 		if (strtoul_hhu(batt_charge, &batt_perc) < 0) {
-			PFLOG(LOG_WARNING, "Failed to convert battery charge value '%s' to an uint8_t!", batt_charge);
+			PFLOG(LOG_WARNING, "Failed to convert battery charge value `%s` to an uint8_t!", batt_charge);
 		}
 	}
 
@@ -696,7 +697,7 @@ int
 	}
 	// And we ourselves don't need to grab it, so, don't ;).
 	libevdev_grab(dev, LIBEVDEV_UNGRAB);
-	LOG(LOG_INFO, "Initialized libevdev v%s for device '%s'", LIBEVDEV_VERSION, libevdev_get_name(dev));
+	LOG(LOG_INFO, "Initialized libevdev v%s for device `%s`", LIBEVDEV_VERSION, libevdev_get_name(dev));
 
 	// Now that FBInk has been initialized, setup the USB product ID for the current device
 	FBInkState fbink_state = { 0 };
@@ -1233,6 +1234,7 @@ int
 	// NOTE: We need to figure out the frontlight intensity *before* we unmount onboard,
 	//       because, on < Mk. 7 devices, we'll have to get that from KOReader's config file...
 	uint8_t fl_intensity = get_frontlight_intensity();
+	LOG(LOG_INFO, "Frontlight intensity is currently set to %hhu%%", fl_intensity);
 
 	// Here goes nothing...
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/scripts/start-usbms.sh", abs_pwd);
@@ -1268,7 +1270,6 @@ int
 	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
 
 	// And much like Nickel, gently turn the light off for the duration...
-	LOG(LOG_INFO, "Frontlight was set to %hhu%%", fl_intensity);
 	if (fl_intensity != 0U) {
 		LOG(LOG_INFO, "Turning frontlight off...");
 		toggle_frontlight(false, fl_intensity, ntxfd);
