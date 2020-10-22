@@ -573,8 +573,9 @@ int
 
 	// We'll want to jump to /, and only get back to our original PWD on exit...
 	// c.f., man getcwd for the fchdir trick, as we can certainly spare the fd ;).
-	// NOTE: O_PATH is Linux 2.6.39+ :(
-	pwd = open(".", O_RDONLY | O_DIRECTORY | O_PATH | O_CLOEXEC);
+	// NOTE: While using O_PATH would be nice, the flag itself is Linux 2.6.39+,
+	//       but, more importantly, the resulting fd is only usable with fchdir since Linux 3.5+...
+	pwd = open(".", O_RDONLY | O_DIRECTORY | O_CLOEXEC);
 	if (pwd == -1) {
 		PFLOG(LOG_CRIT, "open: %m");
 		rv = USBMS_EARLY_EXIT;
