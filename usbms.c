@@ -575,6 +575,8 @@ int
 	// c.f., man getcwd for the fchdir trick, as we can certainly spare the fd ;).
 	// NOTE: While using O_PATH would be nice, the flag itself is Linux 2.6.39+,
 	//       but, more importantly, the resulting fd is only usable with fchdir since Linux 3.5+...
+	//       And, of course, Mk. 6 devices are smack in that sweet spot: they run Linux 3.0.35,
+	//       where O_PATH is supported, but not by fchdir ;).
 	pwd = open(".", O_RDONLY | O_DIRECTORY | O_CLOEXEC);
 	if (pwd == -1) {
 		PFLOG(LOG_CRIT, "open: %m");
