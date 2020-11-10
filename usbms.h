@@ -68,7 +68,7 @@
 
 // Fallback version tag...
 #ifndef USBMS_VERSION
-#	define USBMS_VERSION "v0.9.12"
+#	define USBMS_VERSION "v0.9.12.1"
 #endif
 // Fallback timestamp...
 #ifndef USBMS_TIMESTAMP
