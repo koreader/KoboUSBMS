@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-06 16:23+0100\n"
-"PO-Revision-Date: 2020-09-21 07:39+0000\n"
-"Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
+"PO-Revision-Date: 2020-11-21 18:28+0000\n"
+"Last-Translator: Mihail Iosilevitch <yosik@tutanota.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/ru/>\n"
 "Language: ru\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.3-dev\n"
+"X-Generator: Weblate 4.4-dev\n"
 
 #: usbms.c:755
 msgid "USB Mass Storage"
@@ -57,17 +57,17 @@ msgstr ""
 
 #: usbms.c:898
 msgid "Press the power button to exit."
-msgstr ""
+msgstr "Нажмите кнопку питания чтобы выйти."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:943 usbms.c:1046
 msgid " The device will shutdown in 30 sec."
-msgstr ""
+msgstr "Устройство будет выключено через 30 секунд."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:951 usbms.c:1054
 msgid " KOReader will now restart…"
-msgstr ""
+msgstr "Сейчас KOReader перезапустится…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:974
@@ -95,6 +95,8 @@ msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
 msgstr ""
+"Устройство было подключено к простому источнику энергии, а не USB-хосту!\n"
+"Устройство выключится через 30 секунд."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1085
@@ -102,6 +104,8 @@ msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
+"Устройство было подключено к простому источнику энергии, а не USB-хосту!\n"
+"KOReader сейчас перезапустится…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1113
@@ -130,10 +134,12 @@ msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
+"Устройство было подключено к простому источнику энергии, а не USB-хосту!\n"
+"KOReader сейчас перезапустится…"
 
 #: usbms.c:1238
 msgid "Starting USBMS session…"
-msgstr ""
+msgstr "Начало сессии USBMS…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1254
