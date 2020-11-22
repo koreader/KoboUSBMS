@@ -209,7 +209,7 @@ static int
 
 	// See udev & busybox for the reasoning behind the insanely large value used here
 	// (default is from /proc/sys/net/core/rmem_default)
-	int recvbuf_size = 1028 * 1024 * 1024;
+	int recvbuf_size = 128 * 1024 * 1024;
 	setsockopt(l->pfd.fd, SOL_SOCKET, SO_RCVBUFFORCE, &recvbuf_size, sizeof(recvbuf_size));
 
 	if (bind(l->pfd.fd, (const struct sockaddr*) &(l->nls), sizeof(l->nls))) {
