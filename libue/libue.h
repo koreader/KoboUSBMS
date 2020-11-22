@@ -39,10 +39,12 @@
 
 #include "../openssh/atomicio.h"
 
-#define LIBUE_VERSION_MAJOR  "0"
-#define LIBUE_VERSION_MINOR  "3.0"
-#define LIBUE_VERSION        LIBUE_VERSION_MAJOR "." LIBUE_VERSION_MINOR
-#define LIBUE_VERSION_NUMBER 10000
+#define LIBUE_VERSION_MAJOR "1"
+#define LIBUE_VERSION_MINOR "4"
+#define LIBUE_VERSION_PATCH "0"
+#define LIBUE_VERSION       LIBUE_VERSION_MAJOR "." LIBUE_VERSION_MINOR "." LIBUE_VERSION_PATCH
+// Much like SQLite, this is (MAJOR*1000000 + MINOR*1000 + PATCH)
+#define LIBUE_VERSION_NUMBER 1004000
 
 // Enable debug logging in Debug builds
 #ifdef DEBUG
