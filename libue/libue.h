@@ -103,7 +103,7 @@ struct uevent
 	char*              devpath;
 	char*              subsystem;
 	char*              modalias;
-	char               buf[PIPE_BUF];
+	char               buf[16U * 1024U];
 	size_t             buflen;
 };
 
@@ -204,6 +204,11 @@ static int
 		return ERR_LISTENER_NOT_ROOT;
 	}
 
+	// See udev & busybox for the reasoning behind the insanely large value used here
+	// (default is from /proc/sys/net/core/rmem_default)
+	int recvbuf_size = 1028 * 1024 * 1024;
+	setsockopt(l->pfd.fd, SOL_SOCKET, SO_RCVBUFFORCE, &recvbuf_size, sizeof(recvbuf_size));
+
 	if (bind(l->pfd.fd, (const struct sockaddr*) &(l->nls), sizeof(l->nls))) {
 		UE_PFLOG(LOG_CRIT, "bind: %m");
 		return ERR_LISTENER_BIND;
@@ -217,11 +222,14 @@ __attribute__((unused)) static int
 {
 	while (poll(&(l->pfd), 1, -1) != -1) {
 		ue_reset_event(uevp);
-		ssize_t len = recv(l->pfd.fd, uevp->buf, sizeof(uevp->buf), MSG_DONTWAIT);
+		ssize_t len = read(l->pfd.fd, uevp->buf, sizeof(uevp->buf) - 1U);
 		if (len == -1) {
-			UE_PFLOG(LOG_CRIT, "recv: %m");
+			UE_PFLOG(LOG_CRIT, "read: %m");
 			return ERR_LISTENER_RECV;
 		}
+		char* end = uevp->buf + len;
+		*end      = '\0';
+
 		int rc = ue_parse_event_msg(uevp, (size_t) len);
 		if (rc == EXIT_SUCCESS) {
 			UE_PFLOG(LOG_DEBUG, "uevent successfully parsed");
