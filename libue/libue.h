@@ -198,13 +198,13 @@ static int
 	l->nls.nl_groups = 1U << 0U;
 
 	l->pfd.events = POLLIN;
-	l->pfd.fd     = socket(PF_NETLINK, SOCK_DGRAM, NETLINK_KOBJECT_UEVENT);
+	l->pfd.fd     = socket(PF_NETLINK, SOCK_DGRAM | SOCK_NONBLOCK | SOCK_CLOEXEC, NETLINK_KOBJECT_UEVENT);
 	if (l->pfd.fd == -1) {
 		UE_PFLOG(LOG_CRIT, "socket: %m");
 		return ERR_LISTENER_NOT_ROOT;
 	}
 
-	if (bind(l->pfd.fd, (struct sockaddr*) &(l->nls), sizeof(l->nls))) {
+	if (bind(l->pfd.fd, (const struct sockaddr*) &(l->nls), sizeof(l->nls))) {
 		UE_PFLOG(LOG_CRIT, "bind: %m");
 		return ERR_LISTENER_BIND;
 	}
