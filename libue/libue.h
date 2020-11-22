@@ -25,6 +25,7 @@
 #ifndef __LIBUE_H
 #define __LIBUE_H
 
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -222,8 +223,16 @@ __attribute__((unused)) static int
 {
 	while (poll(&(l->pfd), 1, -1) != -1) {
 		ue_reset_event(uevp);
+retry:
 		ssize_t len = read(l->pfd.fd, uevp->buf, sizeof(uevp->buf) - 1U);
 		if (len == -1) {
+			if (errno == EINTR) {
+				// Retry the read now
+				goto retry;
+			} else if (errno == EAGAIN) {
+				// Retry the read after polling
+				continue;
+			}
 			UE_PFLOG(LOG_CRIT, "read: %m");
 			return ERR_LISTENER_RECV;
 		}
