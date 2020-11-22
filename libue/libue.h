@@ -232,6 +232,15 @@ retry:
 			} else if (errno == EAGAIN) {
 				// Retry the read after polling
 				continue;
+			} else if (errno == ENOBUFS) {
+				UE_PFLOG(LOG_WARNING, "uevent overrun!");
+				close(l->pfd.fd);
+				int rc = ue_init_listener(l);
+				if (rc < 0) {
+					UE_PFLOG(LOG_CRIT, "Failed to reinitialize libue listener (%d)", rc);
+					return rc;
+				}
+				return ue_wait_for_event(l, uevp);
 			}
 			UE_PFLOG(LOG_CRIT, "read: %m");
 			return ERR_LISTENER_RECV;
