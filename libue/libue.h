@@ -37,6 +37,8 @@
 
 #include <linux/netlink.h>
 
+#include "../openssh/atomicio.h"
+
 #define LIBUE_VERSION_MAJOR  "0"
 #define LIBUE_VERSION_MINOR  "3.0"
 #define LIBUE_VERSION        LIBUE_VERSION_MAJOR "." LIBUE_VERSION_MINOR
@@ -223,16 +225,9 @@ __attribute__((unused)) static int
 {
 	while (poll(&(l->pfd), 1, -1) != -1) {
 		ue_reset_event(uevp);
-retry:
-		ssize_t len = read(l->pfd.fd, uevp->buf, sizeof(uevp->buf) - 1U);
+		ssize_t len = xread(l->pfd.fd, uevp->buf, sizeof(uevp->buf) - 1U);
 		if (len == -1) {
-			if (errno == EINTR) {
-				// Retry the read now
-				goto retry;
-			} else if (errno == EAGAIN) {
-				// Retry the read after polling
-				continue;
-			} else if (errno == ENOBUFS) {
+			if (errno == ENOBUFS) {
 				UE_PFLOG(LOG_WARNING, "uevent overrun!");
 				close(l->pfd.fd);
 				int rc = ue_init_listener(l);

@@ -110,28 +110,32 @@ endif
 ##
 # Now that we're done fiddling with flags, let's build stuff!
 SRCS:=usbms.c
+# We always need OpenSSH's neat io wrappers
+SSH_SRCS:=openssh/atomicio.c
 
 default: vendored
 
 OBJS:=$(addprefix $(OUT_DIR)/, $(SRCS:.c=.o))
+SSH_OBJS:=$(addprefix $(OUT_DIR)/, $(SSH_SRCS:.c=.o))
 
 $(OUT_DIR)/%.o: %.c
 	$(CC) $(CPPFLAGS) $(EXTRA_CPPFLAGS) $(CFLAGS) $(EXTRA_CFLAGS) $(QUIET_CFLAGS) -o $@ -c $<
 
 outdir:
-	mkdir -p $(OUT_DIR)
+	mkdir -p $(OUT_DIR) $(OUT_DIR)/openssh
 
 # Make absolutely sure we create our output directories first, even with unfortunate // timings!
 # c.f., https://www.gnu.org/software/make/manual/html_node/Prerequisite-Types.html#Prerequisite-Types
 $(OBJS): | outdir
+$(SSH_OBJS): | outdir
 
 all: usbms
 
 vendored: libevdev.built fbink.built
 	$(MAKE) usbms
 
-usbms: $(OBJS) $(INIH_OBJS) $(STR5_OBJS) $(SSH_OBJS)
-	$(CC) $(CPPFLAGS) $(EXTRA_CPPFLAGS) $(CFLAGS) $(EXTRA_CFLAGS) $(LDFLAGS) $(EXTRA_LDFLAGS) -o$(OUT_DIR)/$@$(BINEXT) $(OBJS) $(LIBS)
+usbms: $(OBJS) $(SSH_OBJS)
+	$(CC) $(CPPFLAGS) $(EXTRA_CPPFLAGS) $(CFLAGS) $(EXTRA_CFLAGS) $(LDFLAGS) $(EXTRA_LDFLAGS) -o$(OUT_DIR)/$@$(BINEXT) $(OBJS) $(SSH_OBJS) $(LIBS)
 
 strip: all
 	$(STRIP) --strip-unneeded $(OUT_DIR)/usbms
@@ -166,9 +170,11 @@ pot:
 
 clean:
 	rm -rf Release/*.o
+	rm -rf Release/openssh/*.o
 	rm -rf Release/usbms
 	rm -rf Release/KoboRoot.tgz
 	rm -rf Debug/*.o
+	rm -rf Debug/openssh/*.o
 	rm -rf Debug/usbms
 	rm -rf Kobo
 
