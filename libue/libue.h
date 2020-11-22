@@ -178,10 +178,13 @@ static inline void
 	uevp->buflen    = 0U;
 }
 
+/*
+ * c.f., https://git.busybox.net/busybox/tree/util-linux/uevent.c
+ */
 static int
     ue_init_listener(struct uevent_listener* l)
 {
-	memset(&l->nls, 0, sizeof(struct sockaddr_nl));
+	memset(&l->nls, 0, sizeof(l->nls));
 	l->nls.nl_family = AF_NETLINK;
 	// NOTE: It's actually a pid_t in non-braindead kernels...
 #pragma GCC diagnostic push
@@ -197,7 +200,7 @@ static int
 		return ERR_LISTENER_NOT_ROOT;
 	}
 
-	if (bind(l->pfd.fd, (struct sockaddr*) &(l->nls), sizeof(struct sockaddr_nl))) {
+	if (bind(l->pfd.fd, (struct sockaddr*) &(l->nls), sizeof(l->nls))) {
 		UE_PFLOG(LOG_CRIT, "bind: %m");
 		return ERR_LISTENER_BIND;
 	}
