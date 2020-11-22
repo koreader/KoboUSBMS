@@ -64,6 +64,7 @@
 
 #include "FBInk/fbink.h"
 #include "libue/libue.h"
+#include "openssh/atomicio.h"
 #include <libevdev/libevdev.h>
 
 // Fallback version tag...

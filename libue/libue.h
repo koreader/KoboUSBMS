@@ -255,6 +255,7 @@ __attribute__((unused)) static int
 			UE_PFLOG(LOG_DEBUG, "skipped %zd bytes unsupported uevent: `%.*s`", len, (int) len, uevp->buf);
 		}
 	}
+
 	UE_PFLOG(LOG_CRIT, "poll: %m");
 	return ERR_LISTENER_POLL;
 }

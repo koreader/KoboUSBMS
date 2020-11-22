@@ -528,11 +528,19 @@ static int
     handle_uevent(struct uevent_listener* l, struct uevent* uevp)
 {
 	ue_reset_event(uevp);
-	ssize_t len = recv(l->pfd.fd, uevp->buf, sizeof(uevp->buf), MSG_DONTWAIT);
+	ssize_t len = xread(l->pfd.fd, uevp->buf, sizeof(uevp->buf) - 1U);
 	if (len == -1) {
-		PFLOG(LOG_CRIT, "recv: %m");
+		if (errno == ENOBUFS) {
+			// NOTE: Unlike ue_wait_for_event, don't recover:
+			//       since the event is potentially lost, we'll consider this fatal
+			PFLOG(LOG_WARNING, "uevent overrun!");
+		}
+		PFLOG(LOG_CRIT, "read: %m");
 		return ERR_LISTENER_RECV;
 	}
+	char* end = uevp->buf + len;
+	*end      = '\0';
+
 	int rc = ue_parse_event_msg(uevp, (size_t) len);
 	if (rc == EXIT_SUCCESS) {
 		PFLOG(LOG_DEBUG, "uevent successfully parsed");
@@ -544,6 +552,7 @@ static int
 	} else {
 		PFLOG(LOG_DEBUG, "skipped %zd bytes unsupported uevent: `%.*s`", len, (int) len, uevp->buf);
 	}
+
 	return EXIT_FAILURE;
 }
 
@@ -1064,7 +1073,8 @@ int
 				}
 
 				if (pfds[1].revents & POLLIN) {
-					if (handle_uevent(&listener, &uev) == EXIT_SUCCESS) {
+					int ue_rc = handle_uevent(&listener, &uev);
+					if (ue_rc == EXIT_SUCCESS) {
 						// Now check if it's a plug in...
 						if (uev.action == UEVENT_ACTION_ADD && uev.devpath &&
 						    UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_PLUG)) {
@@ -1094,6 +1104,10 @@ int
 							LOG(LOG_NOTICE, "Caught a plug in event (to a USB host)");
 							break;
 						}
+					} else if (ue_rc == ERR_LISTENER_RECV) {
+						// Assume handle_uevent read failures to be fatal
+						rv = early_unmount ? EXIT_FAILURE : USBMS_EARLY_EXIT;
+						goto cleanup;
 					}
 				}
 			}
@@ -1306,7 +1320,8 @@ int
 
 		if (poll_num > 0) {
 			if (pfd.revents & POLLIN) {
-				if (handle_uevent(&listener, &uev) == EXIT_SUCCESS) {
+				int ue_rc = handle_uevent(&listener, &uev);
+				if (ue_rc == EXIT_SUCCESS) {
 					// Now check if it's an eject or an unplug...
 					if (uev.action == UEVENT_ACTION_OFFLINE && uev.devpath &&
 					    (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_FSL) ||
@@ -1326,6 +1341,10 @@ int
 						// (c.f., NOTE above).
 						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 					}
+				} else if (ue_rc == ERR_LISTENER_RECV) {
+					// Assume handle_uevent read failures to be fatal
+					rv = EXIT_FAILURE;
+					goto cleanup;
 				}
 			}
 		}
