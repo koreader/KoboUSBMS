@@ -115,7 +115,7 @@ struct uevent
 static int
     ue_parse_event_msg(struct uevent* uevp, size_t buflen)
 {
-	/* skip udev events */
+	/* skip udev events, which we should not receive in the first place */
 	if (memcmp(uevp->buf, "libudev", 7) == 0 || memcmp(uevp->buf, "udev", 4) == 0) {
 		return ERR_PARSE_UDEV;
 	}
@@ -191,7 +191,10 @@ static int
 #pragma GCC diagnostic ignored "-Wsign-conversion"
 	l->nls.nl_pid = getpid();
 #pragma GCC diagnostic pop
-	// We only care about Kernel events (c.f., https://github.com/gentoo/eudev/blob/9aadd2bfd66333318461c97cc7744ccdb84c24b5/src/libudev/libudev-monitor.c#L65-L69)
+	// We only care about Kernel events
+	// (c.f., https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/lib/kobject_uevent.c
+	// & https://github.com/gentoo/eudev/blob/9aadd2bfd66333318461c97cc7744ccdb84c24b5/src/libudev/libudev-monitor.c#L65-L69
+	// & https://git.busybox.net/busybox/tree/util-linux/uevent.c)
 	l->nls.nl_groups = 1U << 0U;
 
 	l->pfd.events = POLLIN;
