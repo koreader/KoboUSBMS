@@ -191,7 +191,8 @@ static int
 #pragma GCC diagnostic ignored "-Wsign-conversion"
 	l->nls.nl_pid = getpid();
 #pragma GCC diagnostic pop
-	l->nls.nl_groups = -1U;
+	// We only care about Kernel events (c.f., https://github.com/gentoo/eudev/blob/9aadd2bfd66333318461c97cc7744ccdb84c24b5/src/libudev/libudev-monitor.c#L65-L69)
+	l->nls.nl_groups = 1U << 0U;
 
 	l->pfd.events = POLLIN;
 	l->pfd.fd     = socket(PF_NETLINK, SOCK_DGRAM, NETLINK_KOBJECT_UEVENT);
