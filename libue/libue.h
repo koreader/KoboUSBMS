@@ -232,6 +232,7 @@ __attribute__((unused)) static int
 		ssize_t len = xread(l->pfd.fd, uevp->buf, sizeof(uevp->buf) - 1U);
 		if (len == -1) {
 			if (errno == ENOBUFS) {
+				// NOTE: Events will be lost! But our only recourse is to restart from scratch.
 				UE_PFLOG(LOG_WARNING, "uevent overrun!");
 				close(l->pfd.fd);
 				int rc = ue_init_listener(l);

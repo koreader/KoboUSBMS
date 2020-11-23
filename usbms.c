@@ -532,7 +532,7 @@ static int
 	if (len == -1) {
 		if (errno == ENOBUFS) {
 			// NOTE: Unlike ue_wait_for_event, don't recover:
-			//       since the event is potentially lost, we'll consider this fatal
+			//       since events were most likely lost, we'll consider this fatal
 			PFLOG(LOG_WARNING, "uevent overrun!");
 		}
 		PFLOG(LOG_CRIT, "read: %m");
