@@ -35,6 +35,7 @@
 #include <syslog.h>
 #include <unistd.h>
 
+#include <linux/limits.h>
 #include <linux/netlink.h>
 
 #include "../openssh/atomicio.h"
@@ -108,7 +109,7 @@ struct uevent
 	char*              devpath;
 	char*              subsystem;
 	char*              modalias;
-	char               buf[16U * 1024U];
+	char               buf[PIPE_BUF];
 	size_t             buflen;
 };
 
