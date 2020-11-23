@@ -109,8 +109,8 @@ struct uevent
 	char*              devpath;
 	char*              subsystem;
 	char*              modalias;
-	char               buf[PIPE_BUF];
-	size_t             buflen;
+	char   buf[PIPE_BUF];    // i.e., 4*1024, which is between busybox's mdev (3kB, stack) and uevent (16kB, mmap).
+	size_t buflen;
 };
 
 /*
@@ -197,7 +197,7 @@ static int
 #pragma GCC diagnostic ignored "-Wsign-conversion"
 	l->nls.nl_pid = getpid();
 #pragma GCC diagnostic pop
-	// We only care about Kernel events
+	// We only care about kernel events
 	// (c.f., https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/lib/kobject_uevent.c
 	// & https://github.com/gentoo/eudev/blob/9aadd2bfd66333318461c97cc7744ccdb84c24b5/src/libudev/libudev-monitor.c#L65-L69
 	// & https://git.busybox.net/busybox/tree/util-linux/uevent.c)
@@ -212,6 +212,7 @@ static int
 
 	// See udev & busybox for the reasoning behind the insanely large value used here
 	// (default is from /proc/sys/net/core/rmem_default)
+	// That's thankfully lazily allocated by the kernel, so we don't really waste anything.
 	int recvbuf_size = 128 * 1024 * 1024;
 	setsockopt(l->pfd.fd, SOL_SOCKET, SO_RCVBUFFORCE, &recvbuf_size, sizeof(recvbuf_size));
 
