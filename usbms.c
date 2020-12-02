@@ -1407,7 +1407,7 @@ int
 	// c.f., https://www.mobileread.com/forums/showpost.php?p=4064358&postcount=9
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/.kobo/epoch.conf", KOBO_MOUNTPOINT);
 	if (access(resource_path, F_OK) == 0) {
-		LOG(LOG_INFO, "Checking date/time synchronization");
+		LOG(LOG_INFO, "Checking date/time synchronization file...");
 		FILE* f = fopen(resource_path, "re");
 		if (f) {
 			char epoch[32] = { 0 };
@@ -1423,7 +1423,8 @@ int
 			fclose(f);
 			f = NULL;
 
-			// c.f., busybox's date applet
+			// c.f., busybox's date & hwclock applets
+			tzset();
 			struct timespec ts = { 0 };
 			struct tm tm_time = { 0 };
 			clock_gettime(CLOCK_REALTIME, &ts);
@@ -1438,6 +1439,19 @@ int
 					ts.tv_sec = t;
 					ts.tv_nsec = 0;
 					clock_settime(CLOCK_REALTIME, &ts);
+
+					// Update the rtc, too (which is in UTC)
+					gmtime_r(&ts.tv_sec, &tm_time);
+					int rtc = open("/dev/rtc0", O_WRONLY | O_NONBLOCK | O_CLOEXEC);
+					if (rtc == -1) {
+						LOG(LOG_WARNING, "Failed to open RTC: %m");
+					} else {
+						tm_time.tm_isdst = 0;
+						if (ioctl(rtc, RTC_SET_TIME, &tm_time) == -1) {
+							LOG(LOG_WARNING, "Failed to set RTC time: %m");
+						}
+						close(rtc);
+					}
 					LOG(LOG_INFO, "Updated date/time to epoch: %s", epoch);
 				}
 			}
