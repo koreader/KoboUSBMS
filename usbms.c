@@ -1410,8 +1410,8 @@ int
 		LOG(LOG_INFO, "Checking date/time synchronization file...");
 		FILE* f = fopen(resource_path, "re");
 		if (f) {
-			char epoch[32] = { 0 };
-			size_t size    = fread(epoch, sizeof(*epoch), sizeof(epoch), f);
+			char   epoch[32] = { 0 };
+			size_t size      = fread(epoch, sizeof(*epoch), sizeof(epoch), f);
 			if (size > 0) {
 				// NUL terminate
 				epoch[size - 1U] = '\0';
@@ -1425,8 +1425,8 @@ int
 
 			// c.f., busybox's date & hwclock applets
 			tzset();
-			struct timespec ts = { 0 };
-			struct tm tm_time = { 0 };
+			struct timespec ts      = { 0 };
+			struct tm       tm_time = { 0 };
 			clock_gettime(CLOCK_REALTIME, &ts);
 			localtime_r(&ts.tv_sec, &tm_time);
 			if (strptime(epoch, "%s", &tm_time) == NULL) {
@@ -1436,7 +1436,7 @@ int
 				if (t == (time_t) -1L) {
 					LOG(LOG_WARNING, "Invalid date for epoch.conf data: `%s`", epoch);
 				} else {
-					ts.tv_sec = t;
+					ts.tv_sec  = t;
 					ts.tv_nsec = 0;
 					clock_settime(CLOCK_REALTIME, &ts);
 
