@@ -1410,17 +1410,9 @@ int
 		LOG(LOG_INFO, "Checking date/time synchronization file...");
 		FILE* f = fopen(resource_path, "re");
 		if (f) {
-			char   epoch[32] = { 0 };
-			size_t size      = fread(epoch, sizeof(*epoch), sizeof(epoch), f);
-			if (size > 0) {
-				LOG(LOG_INFO, "Read %zu bytes: `%*s`", size, (int) size, epoch);
-				// NUL terminate
-				epoch[size - 1U] = '\0';
-				// Strip trailing LF
-				if (epoch[size - 2U] == '\n') {
-					epoch[size - 2U] = '\0';
-				}
-			}
+			char epoch[32] = { 0 };
+			(void) fread(epoch, sizeof(*epoch), sizeof(epoch), f);
+			// NOTE: The Kobo app doesn't NUL-terminate this, but we're okay, since we zero-init the buffer.
 			fclose(f);
 			f = NULL;
 
@@ -1459,7 +1451,7 @@ int
 		}
 
 		// We're done, remove it to prevent Nickel from doing something stupid with it later ;).
-		//unlink(resource_path);
+		unlink(resource_path);
 	}
 
 	// Whee!
