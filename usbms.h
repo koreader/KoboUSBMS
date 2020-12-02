@@ -116,6 +116,10 @@
 #define KOBO_MOUNTPOINT "/mnt/onboard"
 // The timestamp file that the Kobo app creates, which Nickel uses to resync date/time after USBMS sessions
 #define KOBO_EPOCH_TS KOBO_MOUNTPOINT "/.kobo/epoch.conf"
+// Same idea, but for the timezone
+#define KOBO_TZ_FILE  KOBO_MOUNTPOINT "/.kobo/timezone.conf"
+#define SYSTEM_TZPATH "/etc/zoneinfo"
+#define SYSTEM_TZFILE "/etc/localtime"
 
 // c.f., arch/arm/mach-imx/imx_ntx_io.c in a Kobo kernel
 #define CM_USB_Plug_IN        108

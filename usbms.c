@@ -1401,6 +1401,38 @@ int
 
 	// Handle date/time synchronization, like Nickel
 	// c.f., https://www.mobileread.com/forums/showpost.php?p=4064358&postcount=9
+	if (access(KOBO_TZ_FILE, F_OK) == 0) {
+		LOG(LOG_INFO, "Checking timezone synchronization file...");
+		FILE* f = fopen(KOBO_TZ_FILE, "re");
+		if (f) {
+			char tzname[_POSIX_PATH_MAX * 2U] = { 0 };
+			(void) fread(tzname, sizeof(*tzname), sizeof(tzname), f);
+			// NOTE: The Kobo app doesn't NUL-terminate this, but we're okay, since we zero-init the buffer.
+			fclose(f);
+			f = NULL;
+
+			// Start by checking if we actually *can* use it...
+			snprintf(resource_path, sizeof(resource_path) - 1U, SYSTEM_TZPATH "/%s", tzname);
+			if (access(resource_path, F_OK) != 0) {
+				LOG(LOG_WARNING, "Cannot use the timezone from timezone.conf data: `%s`", tzname);
+			} else {
+				// Then it's as easy as a symlink ;)
+				unlink(SYSTEM_TZFILE);
+				if (symlink(resource_path, SYSTEM_TZFILE) == -1) {
+					LOG(LOG_WARNING, "Failed to symlink the zoneinfo file for `%s`: %m", tzname);
+					// Fallback to US/NYC
+					symlink(SYSTEM_TZPATH "/US/New York", SYSTEM_TZFILE);
+					LOG(LOG_INFO, "Reset timezone to US/New York");
+				} else {
+					LOG(LOG_INFO, "Updated timezone to: %s", tzname);
+				}
+			}
+		}
+
+		// We're done, get rid of it ;)
+		unlink(KOBO_TZ_FILE);
+	}
+
 	if (access(KOBO_EPOCH_TS, F_OK) == 0) {
 		LOG(LOG_INFO, "Checking date/time synchronization file...");
 		FILE* f = fopen(KOBO_EPOCH_TS, "re");
