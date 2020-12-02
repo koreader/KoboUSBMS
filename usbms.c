@@ -1403,6 +1403,50 @@ int
 		goto cleanup;
 	}
 
+	// Handle date/time synchronization, like Nickel
+	// c.f., https://www.mobileread.com/forums/showpost.php?p=4064358&postcount=9
+	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/.kobo/epoch.conf", KOBO_MOUNTPOINT);
+	if (access(resource_path, F_OK) == 0) {
+		LOG(LOG_INFO, "Checking date/time synchronization");
+		FILE* f = fopen(resource_path, "re");
+		if (f) {
+			char epoch[32] = { 0 };
+			size_t size    = fread(epoch, sizeof(*epoch), sizeof(epoch), f);
+			if (size > 0) {
+				// NUL terminate
+				epoch[size - 1U] = '\0';
+				// Strip trailing LF
+				if (epoch[size - 2U] == '\n') {
+					epoch[size - 2U] = '\0';
+				}
+			}
+			fclose(f);
+			f = NULL;
+
+			// c.f., busybox's date applet
+			struct timespec ts = { 0 };
+			struct tm tm_time = { 0 };
+			clock_gettime(CLOCK_REALTIME, &ts);
+			localtime_r(&ts.tv_sec, &tm_time);
+			if (strptime(epoch, "%s", &tm_time) == NULL) {
+				LOG(LOG_WARNING, "Failed to parse epoch.conf data: `%s`", epoch);
+			} else {
+				time_t t = mktime(&tm_time);
+				if (t == (time_t) -1L) {
+					LOG(LOG_WARNING, "Invalid date for epoch.conf data: `%s`", epoch);
+				} else {
+					ts.tv_sec = t;
+					ts.tv_nsec = 0;
+					clock_settime(CLOCK_REALTIME, &ts);
+					LOG(LOG_INFO, "Updated date/time to epoch: %s", epoch);
+				}
+			}
+		}
+
+		// We're done, remove it to prevent Nickel from doing something stupid with it later ;).
+		unlink(resource_path);
+	}
+
 	// Whee!
 	LOG(LOG_INFO, "Done :)");
 	// NOTE: We batch the final screen, make it flash, and wait for completion of the refresh,
