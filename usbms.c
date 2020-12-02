@@ -1401,10 +1401,9 @@ int
 
 	// Handle date/time synchronization, like Nickel
 	// c.f., https://www.mobileread.com/forums/showpost.php?p=4064358&postcount=9
-	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/.kobo/epoch.conf", KOBO_MOUNTPOINT);
-	if (access(resource_path, F_OK) == 0) {
+	if (access(KOBO_EPOCH_TS, F_OK) == 0) {
 		LOG(LOG_INFO, "Checking date/time synchronization file...");
-		FILE* f = fopen(resource_path, "re");
+		FILE* f = fopen(KOBO_EPOCH_TS, "re");
 		if (f) {
 			char epoch[32] = { 0 };
 			(void) fread(epoch, sizeof(*epoch), sizeof(epoch), f);
@@ -1447,7 +1446,7 @@ int
 		}
 
 		// We're done, remove it to prevent Nickel from doing something stupid with it later ;).
-		unlink(resource_path);
+		unlink(KOBO_EPOCH_TS);
 	}
 
 	// Whee!

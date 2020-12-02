@@ -114,6 +114,8 @@
 
 // Internal storage
 #define KOBO_MOUNTPOINT "/mnt/onboard"
+// The timestamp file that the Kobo app creates, which Nickel uses to resync date/time after USBMS sessions
+#define KOBO_EPOCH_TS KOBO_MOUNTPOINT "/.kobo/epoch.conf"
 
 // c.f., arch/arm/mach-imx/imx_ntx_io.c in a Kobo kernel
 #define CM_USB_Plug_IN        108
