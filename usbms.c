@@ -1413,6 +1413,7 @@ int
 			char   epoch[32] = { 0 };
 			size_t size      = fread(epoch, sizeof(*epoch), sizeof(epoch), f);
 			if (size > 0) {
+				LOG(LOG_INFO, "Read %zu bytes: `%*s`", size, (int) size, epoch);
 				// NUL terminate
 				epoch[size - 1U] = '\0';
 				// Strip trailing LF
@@ -1458,7 +1459,7 @@ int
 		}
 
 		// We're done, remove it to prevent Nickel from doing something stupid with it later ;).
-		unlink(resource_path);
+		//unlink(resource_path);
 	}
 
 	// Whee!
