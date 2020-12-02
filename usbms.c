@@ -1350,6 +1350,15 @@ int
 			print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 		}
 	}
+	// Remember the eject timestamp
+	struct timespec eject_ts = { 0 };
+	clock_gettime(CLOCK_REALTIME, &eject_ts);
+	// We'll lose the precision later on, so, just round up if necessary
+	if (eject_ts.tv_nsec >= 500000000L) {
+		eject_ts.tv_sec++;
+		eject_ts.tv_nsec = 0;
+	}
+
 	fbink_cfg.is_nightmode = false;
 	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
 
@@ -1448,6 +1457,17 @@ int
 			struct timespec ts      = { 0 };
 			struct tm       tm_time = { 0 };
 			clock_gettime(CLOCK_REALTIME, &ts);
+
+			// Compute the elapsed time since the actual eject
+			if (ts.tv_nsec >= 500000000L) {
+				ts.tv_sec++;
+				ts.tv_nsec = 0;
+			}
+			time_t elapsed = 0;
+			if (ts.tv_sec > eject_ts.tv_sec) {
+				elapsed = ts.tv_sec - eject_ts.tv_sec;
+			}
+
 			localtime_r(&ts.tv_sec, &tm_time);
 			if (strptime(epoch, "%s", &tm_time) == NULL) {
 				LOG(LOG_WARNING, "Failed to parse epoch.conf data: `%s`", epoch);
@@ -1456,7 +1476,11 @@ int
 				if (t == (time_t) -1L) {
 					LOG(LOG_WARNING, "Invalid date for epoch.conf data: `%s`", epoch);
 				} else {
-					ts.tv_sec  = t;
+					// Account for the time difference between the eject,
+					// (which is roughly when the ts was stored by the app),
+					// and the moment when we actually started reading it,
+					// because we're guaranteed to have lost a few seconds to fsck...
+					ts.tv_sec  = t + elapsed;
 					ts.tv_nsec = 0;
 					clock_settime(CLOCK_REALTIME, &ts);
 
