@@ -231,6 +231,18 @@ static char*
 	return a;
 }
 
+// Based on timespecsub from <bsd/sys/time.h>
+static void
+    timespec_delta(struct timespec* t2, struct timespec* t1, struct timespec* td)
+{
+	td->tv_sec  = t2->tv_sec - t1->tv_sec;
+	td->tv_nsec = t2->tv_nsec - t1->tv_nsec;
+	if (td->tv_nsec < 0) {
+		td->tv_sec--;
+		td->tv_nsec += 1000000000L;
+	}
+}
+
 // Attempt to figure out the current frontlight intensity...
 static uint8_t
     get_frontlight_intensity(void)
@@ -1353,11 +1365,6 @@ int
 	// Remember the eject timestamp
 	struct timespec eject_ts = { 0 };
 	clock_gettime(CLOCK_REALTIME, &eject_ts);
-	// We'll lose the precision later on, so, just round up if necessary
-	if (eject_ts.tv_nsec >= 500000000L) {
-		eject_ts.tv_sec++;
-		eject_ts.tv_nsec = 0;
-	}
 
 	fbink_cfg.is_nightmode = false;
 	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
@@ -1459,13 +1466,12 @@ int
 			clock_gettime(CLOCK_REALTIME, &ts);
 
 			// Compute the elapsed time since the actual eject
-			if (ts.tv_nsec >= 500000000L) {
-				ts.tv_sec++;
-				ts.tv_nsec = 0;
-			}
-			time_t elapsed = 0;
-			if (ts.tv_sec > eject_ts.tv_sec) {
-				elapsed = ts.tv_sec - eject_ts.tv_sec;
+			struct timespec elapsed = { 0 };
+			timespec_delta(&ts, &eject_ts, &elapsed);
+			// We'll lose the precision later on, so, just round up if necessary
+			if (elapsed.tv_nsec >= 500000000L) {
+				elapsed.tv_sec++;
+				elapsed.tv_nsec = 0;
 			}
 
 			localtime_r(&ts.tv_sec, &tm_time);
@@ -1480,7 +1486,7 @@ int
 					// (which is roughly when the ts was stored by the app),
 					// and the moment when we actually started reading it,
 					// because we're guaranteed to have lost a few seconds to fsck...
-					ts.tv_sec  = t + elapsed;
+					ts.tv_sec  = t + elapsed.tv_sec;
 					ts.tv_nsec = 0;
 					clock_settime(CLOCK_REALTIME, &ts);
 
@@ -1499,7 +1505,7 @@ int
 					LOG(LOG_INFO,
 					    "Updated date/time to epoch: %s (+ %jd)",
 					    epoch,
-					    (intmax_t) elapsed);
+					    (intmax_t) elapsed.tv_sec);
 				}
 			}
 		}
