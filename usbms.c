@@ -1430,7 +1430,7 @@ int
 			// Start by checking if we actually *can* use it...
 			snprintf(resource_path, sizeof(resource_path) - 1U, SYSTEM_TZPATH "/%s", tzname);
 			if (access(resource_path, F_OK) != 0) {
-				LOG(LOG_WARNING, "Cannot use the timezone from timezone.conf data: `%s`", tzname);
+				LOG(LOG_WARNING, "Cannot use the timezone from timezone.conf: `%s`", tzname);
 			} else {
 				// Then it's as easy as a symlink ;)
 				unlink(SYSTEM_TZFILE);
@@ -1480,7 +1480,7 @@ int
 			} else {
 				time_t t = mktime(&tm_time);
 				if (t == (time_t) -1L) {
-					LOG(LOG_WARNING, "Invalid date for epoch.conf data: `%s`", epoch);
+					LOG(LOG_WARNING, "Invalid date from epoch.conf: `%s`", epoch);
 				} else {
 					// Account for the time difference between the eject,
 					// (which is roughly when the ts was stored by the app),

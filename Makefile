@@ -18,7 +18,7 @@ DEBUG_CFLAGS:=-Og -fno-omit-frame-pointer -pipe -g
 # Fallback CFLAGS, we honor the env first and foremost!
 OPT_CFLAGS:=-O2 -fomit-frame-pointer -pipe
 
-# We need -lrt on that old glibc for the clock_* familay of functions...
+# We need -lrt on the old Kobo glibc for the clock_* family of functions...
 LIBS+=-lrt
 # We need our bundled FBInk & libdevdev.
 LIBS+=-l:libfbink.a -lm
