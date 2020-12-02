@@ -1496,7 +1496,10 @@ int
 						}
 						close(rtc);
 					}
-					LOG(LOG_INFO, "Updated date/time to epoch: %s", epoch);
+					LOG(LOG_INFO,
+					    "Updated date/time to epoch: %s (+ %jd)",
+					    epoch,
+					    (intmax_t) elapsed);
 				}
 			}
 		}
