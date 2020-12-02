@@ -244,11 +244,9 @@ static uint8_t
 		char   fl_intensity[8] = { 0 };
 		size_t size            = fread(fl_intensity, sizeof(*fl_intensity), sizeof(fl_intensity), f);
 		if (size > 0) {
-			// NUL terminate
-			fl_intensity[size - 1U] = '\0';
 			// Strip trailing LF
-			if (fl_intensity[size - 2U] == '\n') {
-				fl_intensity[size - 2U] = '\0';
+			if (fl_intensity[size - 1U] == '\n') {
+				fl_intensity[size - 1U] = '\0';
 			}
 		}
 		fclose(f);
@@ -416,11 +414,9 @@ static void
 		char   batt_charge[8] = { 0 };
 		size_t size           = fread(batt_charge, sizeof(*batt_charge), sizeof(batt_charge), f);
 		if (size > 0) {
-			// NUL terminate
-			batt_charge[size - 1U] = '\0';
 			// Strip trailing LF
-			if (batt_charge[size - 2U] == '\n') {
-				batt_charge[size - 2U] = '\0';
+			if (batt_charge[size - 1U] == '\n') {
+				batt_charge[size - 1U] = '\0';
 			}
 		}
 		fclose(f);
@@ -437,11 +433,13 @@ static void
 	snprintf(if_sysfs, sizeof(if_sysfs) - 1U, "/sys/class/net/%s/carrier", getenv("INTERFACE"));
 	f = fopen(if_sysfs, "re");
 	if (f) {
-		char   carrier[8];
-		size_t size = fread(carrier, sizeof(*carrier), sizeof(carrier), f);
+		char   carrier[8] = { 0 };
+		size_t size       = fread(carrier, sizeof(*carrier), sizeof(carrier), f);
 		if (size > 0) {
-			// NUL terminate
-			carrier[size - 1U] = '\0';
+			// Strip trailing LF
+			if (carrier[size - 1U] == '\n') {
+				carrier[size - 1U] = '\0';
+			}
 		}
 		fclose(f);
 
@@ -1158,11 +1156,9 @@ int
 				char   charger_type[16] = { 0 };
 				size_t size = fread(charger_type, sizeof(*charger_type), sizeof(charger_type), f);
 				if (size > 0) {
-					// NUL terminate
-					charger_type[size - 1U] = '\0';
 					// Strip trailing LF
-					if (charger_type[size - 2U] == '\n') {
-						charger_type[size - 2U] = '\0';
+					if (charger_type[size - 1U] == '\n') {
+						charger_type[size - 1U] = '\0';
 					}
 				} else {
 					LOG(LOG_WARNING, "Failed to read the charger type from sysfs!");
