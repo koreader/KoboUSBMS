@@ -1421,9 +1421,16 @@ int
 		LOG(LOG_INFO, "Checking timezone synchronization file...");
 		FILE* f = fopen(KOBO_TZ_FILE, "re");
 		if (f) {
-			char tzname[_POSIX_PATH_MAX * 2U] = { 0 };
-			(void) fread(tzname, sizeof(*tzname), sizeof(tzname) - 1U, f);
-			// NOTE: The Kobo app doesn't NUL-terminate this, but we're okay, since we zero-init the buffer.
+			char   tzname[_POSIX_PATH_MAX * 2U] = { 0 };
+			size_t size                         = fread(tzname, sizeof(*tzname), sizeof(tzname) - 1U, f);
+			if (size > 0) {
+				// Strip trailing LF, not that the Kobo app actually adds one ;).
+				if (tzname[size - 1U] == '\n') {
+					tzname[size - 1U] = '\0';
+				}
+			} else {
+				LOG(LOG_WARNING, "Failed to read timezone.conf!");
+			}
 			fclose(f);
 			f = NULL;
 
@@ -1469,9 +1476,16 @@ int
 		LOG(LOG_INFO, "Checking date/time synchronization file...");
 		FILE* f = fopen(KOBO_EPOCH_TS, "re");
 		if (f) {
-			char epoch[32] = { 0 };
-			(void) fread(epoch, sizeof(*epoch), sizeof(epoch) - 1U, f);
-			// NOTE: The Kobo app doesn't NUL-terminate this, but we're okay, since we zero-init the buffer.
+			char   epoch[32] = { 0 };
+			size_t size      = fread(epoch, sizeof(*epoch), sizeof(epoch) - 1U, f);
+			if (size > 0) {
+				// Strip trailing LF, not that the Kobo app actually adds one ;).
+				if (epoch[size - 1U] == '\n') {
+					epoch[size - 1U] = '\0';
+				}
+			} else {
+				LOG(LOG_WARNING, "Failed to read epoch.conf!");
+			}
 			fclose(f);
 			f = NULL;
 
