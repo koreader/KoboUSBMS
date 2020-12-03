@@ -254,7 +254,7 @@ static uint8_t
 	FILE* f = fopen(FL_INTENSITY_SYSFS, "re");
 	if (f) {
 		char   fl_intensity[8] = { 0 };
-		size_t size            = fread(fl_intensity, sizeof(*fl_intensity), sizeof(fl_intensity), f);
+		size_t size            = fread(fl_intensity, sizeof(*fl_intensity), sizeof(fl_intensity) - 1U, f);
 		if (size > 0) {
 			// Strip trailing LF
 			if (fl_intensity[size - 1U] == '\n') {
@@ -424,7 +424,7 @@ static void
 	FILE*   f         = fopen(BATT_CAP_SYSFS, "re");
 	if (f) {
 		char   batt_charge[8] = { 0 };
-		size_t size           = fread(batt_charge, sizeof(*batt_charge), sizeof(batt_charge), f);
+		size_t size           = fread(batt_charge, sizeof(*batt_charge), sizeof(batt_charge) - 1U, f);
 		if (size > 0) {
 			// Strip trailing LF
 			if (batt_charge[size - 1U] == '\n') {
@@ -446,7 +446,7 @@ static void
 	f = fopen(if_sysfs, "re");
 	if (f) {
 		char   carrier[8] = { 0 };
-		size_t size       = fread(carrier, sizeof(*carrier), sizeof(carrier), f);
+		size_t size       = fread(carrier, sizeof(*carrier), sizeof(carrier) - 1U, f);
 		if (size > 0) {
 			// Strip trailing LF
 			if (carrier[size - 1U] == '\n') {
@@ -1166,7 +1166,7 @@ int
 			FILE* f = fopen(CHARGER_TYPE_SYSFS, "re");
 			if (f) {
 				char   charger_type[16] = { 0 };
-				size_t size = fread(charger_type, sizeof(*charger_type), sizeof(charger_type), f);
+				size_t size = fread(charger_type, sizeof(*charger_type), sizeof(charger_type) - 1U, f);
 				if (size > 0) {
 					// Strip trailing LF
 					if (charger_type[size - 1U] == '\n') {
@@ -1422,7 +1422,7 @@ int
 		FILE* f = fopen(KOBO_TZ_FILE, "re");
 		if (f) {
 			char tzname[_POSIX_PATH_MAX * 2U] = { 0 };
-			(void) fread(tzname, sizeof(*tzname), sizeof(tzname), f);
+			(void) fread(tzname, sizeof(*tzname), sizeof(tzname) - 1U, f);
 			// NOTE: The Kobo app doesn't NUL-terminate this, but we're okay, since we zero-init the buffer.
 			fclose(f);
 			f = NULL;
@@ -1470,7 +1470,7 @@ int
 		FILE* f = fopen(KOBO_EPOCH_TS, "re");
 		if (f) {
 			char epoch[32] = { 0 };
-			(void) fread(epoch, sizeof(*epoch), sizeof(epoch), f);
+			(void) fread(epoch, sizeof(*epoch), sizeof(epoch) - 1U, f);
 			// NOTE: The Kobo app doesn't NUL-terminate this, but we're okay, since we zero-init the buffer.
 			fclose(f);
 			f = NULL;
