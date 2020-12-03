@@ -1428,7 +1428,7 @@ int
 			f = NULL;
 
 			// Replace all occurences of a space by an underscore
-			for (char* p = tzname; (p = strchr(tzname, ' ')) != NULL; *p = '_')
+			for (char* p = tzname; (p = strchr(p, ' ')) != NULL; *p = '_')
 				;
 
 			// Start by checking if we actually *can* use it...
