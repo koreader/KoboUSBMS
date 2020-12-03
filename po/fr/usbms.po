@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-03 05:11+0100\n"
+"POT-Creation-Date: 2020-12-03 17:12+0100\n"
 "PO-Revision-Date: 2020-09-24 13:08+0000\n"
 "Last-Translator: NiLuJe <ninuje@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/koreader/"
@@ -198,7 +198,7 @@ msgstr ""
 " Échec de la clôture de session USBMS!\n"
 "L'appareil va s'éteindre dans 90 sec."
 
-#: usbms.c:1544
+#: usbms.c:1558
 msgid ""
 "Done!\n"
 "KOReader will now restart…"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-03 05:11+0100\n"
+"POT-Creation-Date: 2020-12-03 17:12+0100\n"
 "PO-Revision-Date: 2020-11-21 18:28+0000\n"
 "Last-Translator: Mihail Iosilevitch <yosik@tutanota.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/koreader/"
@@ -172,7 +172,7 @@ msgid ""
 "The device will shutdown in 90 sec."
 msgstr ""
 
-#: usbms.c:1544
+#: usbms.c:1558
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
