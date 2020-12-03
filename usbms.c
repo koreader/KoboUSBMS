@@ -1490,10 +1490,13 @@ int
 				elapsed.tv_nsec = 0;
 			}
 
+			// Seed the timespec with the current time_t ts
 			localtime_r(&ts.tv_sec, &tm_time);
+			// We're on glibc, let strptime deal with it (barring that, strtol/strotull would do)
 			if (strptime(epoch, "%s", &tm_time) == NULL) {
 				LOG(LOG_WARNING, "Failed to parse epoch.conf data: `%s`", epoch);
 			} else {
+				// Make a time_t out of the updated timespec
 				time_t t = mktime(&tm_time);
 				if (t == (time_t) -1L) {
 					LOG(LOG_WARNING, "Invalid date from epoch.conf: `%s`", epoch);
@@ -1504,6 +1507,7 @@ int
 					// because we're guaranteed to have lost a few seconds to fsck...
 					ts.tv_sec  = t + elapsed.tv_sec;
 					ts.tv_nsec = 0;
+					// And, finally, update the system clock
 					clock_settime(CLOCK_REALTIME, &ts);
 
 					// Update the rtc, too (which is in UTC)
