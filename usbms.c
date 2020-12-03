@@ -1428,13 +1428,26 @@ int
 			f = NULL;
 
 			// Replace all occurences of a space by an underscore
-			for (char* p = tzname; (p = strchr(tzname, ' ')) != NULL; *p = '_');
+			for (char* p = tzname; (p = strchr(tzname, ' ')) != NULL; *p = '_')
+				;
 
 			// Start by checking if we actually *can* use it...
+			bool tz_available = false;
 			snprintf(resource_path, sizeof(resource_path) - 1U, SYSTEM_TZPATH "/%s", tzname);
 			if (access(resource_path, F_OK) != 0) {
-				LOG(LOG_WARNING, "Cannot use the timezone from timezone.conf: `%s`", tzname);
+				tz_available = false;
+				// Try with the few extra symlinks Kobo maintains...
+				snprintf(resource_path, sizeof(resource_path) - 1U, KOBO_TZPATH "/%s", tzname);
+				if (access(resource_path, F_OK) != 0) {
+					tz_available = false;
+					LOG(LOG_WARNING, "Cannot use the timezone from timezone.conf: `%s`", tzname);
+				} else {
+					tz_available = true;
+				}
 			} else {
+				tz_available = true;
+			}
+			if (tz_available) {
 				// Then it's as easy as a symlink ;)
 				unlink(SYSTEM_TZFILE);
 				if (symlink(resource_path, SYSTEM_TZFILE) == -1) {

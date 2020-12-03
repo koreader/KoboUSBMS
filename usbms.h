@@ -119,6 +119,7 @@
 // Same idea, but for the timezone
 #define KOBO_TZ_FILE  KOBO_MOUNTPOINT "/.kobo/timezone.conf"
 #define SYSTEM_TZPATH "/etc/zoneinfo"
+#define KOBO_TZPATH   "/etc/zoneinfo-kobo"
 #define SYSTEM_TZFILE "/etc/localtime"
 
 // c.f., arch/arm/mach-imx/imx_ntx_io.c in a Kobo kernel
