@@ -1492,7 +1492,7 @@ int
 
 			// Seed the timespec with the current time_t ts
 			localtime_r(&ts.tv_sec, &tm_time);
-			// We're on glibc, let strptime deal with it (barring that, strtol/strotull would do)
+			// We're on glibc, let strptime deal with it (barring that, strtol/stroll would do)
 			if (strptime(epoch, "%s", &tm_time) == NULL) {
 				LOG(LOG_WARNING, "Failed to parse epoch.conf data: `%s`", epoch);
 			} else {
