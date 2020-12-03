@@ -1427,6 +1427,9 @@ int
 			fclose(f);
 			f = NULL;
 
+			// Replace all occurences of a space by an underscore
+			for (char* p = tzname; (p = strchr(tzname, ' ')) != NULL; *p = '_');
+
 			// Start by checking if we actually *can* use it...
 			snprintf(resource_path, sizeof(resource_path) - 1U, SYSTEM_TZPATH "/%s", tzname);
 			if (access(resource_path, F_OK) != 0) {
@@ -1437,8 +1440,8 @@ int
 				if (symlink(resource_path, SYSTEM_TZFILE) == -1) {
 					LOG(LOG_WARNING, "Failed to symlink the zoneinfo file for `%s`: %m", tzname);
 					// Fallback to US/NYC
-					symlink(SYSTEM_TZPATH "/US/New York", SYSTEM_TZFILE);
-					LOG(LOG_INFO, "Reset timezone to US/New York");
+					symlink(SYSTEM_TZPATH "/America/New_York", SYSTEM_TZFILE);
+					LOG(LOG_INFO, "Reset timezone to America/New_York");
 				} else {
 					LOG(LOG_INFO, "Updated timezone to: %s", tzname);
 				}
