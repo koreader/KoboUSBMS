@@ -991,9 +991,6 @@ int
 		while (true) {
 			int poll_num = poll(pfds, nfds, 5 * 1000);
 
-			// Refresh the status bar
-			print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
-
 			if (poll_num == -1) {
 				if (errno == EINTR) {
 					continue;
@@ -1043,7 +1040,7 @@ int
 			struct timespec poll_ts = { 0 };
 			clock_gettime(CLOCK_MONOTONIC_RAW, &poll_ts);
 			if (elapsed_time(&poll_ts, &start_ts) >= 30) {
-				// We've been polling for more that 30 sec, we're done
+				// We've been polling for more than 30 sec, we're done
 				done = true;
 			}
 
