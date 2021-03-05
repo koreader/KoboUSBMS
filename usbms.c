@@ -1047,11 +1047,6 @@ int
 				done = true;
 			}
 
-			if (poll_num == 0) {
-				// Timed out, we're done
-				done = true;
-			}
-
 			// Give up afer 30 sec
 			if (done) {
 				LOG(LOG_NOTICE, "It's been 30 sec, giving up");
