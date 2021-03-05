@@ -243,6 +243,22 @@ static void
 	}
 }
 
+static time_t
+    elapsed_time(struct timespec* t2, struct timespec* t1)
+{
+	// Compute the elapsed time between the two timestamps
+	struct timespec td = { 0 };
+	timespec_delta(t2, t1, &td);
+
+	// We don't need nanosecond precision, just round up if necessary
+	if (td.tv_nsec >= 500000000L) {
+		td.tv_sec++;
+		td.tv_nsec = 0;
+	}
+
+	return td.tv_sec;
+}
+
 // Attempt to figure out the current frontlight intensity...
 static uint8_t
     get_frontlight_intensity(void)
@@ -760,10 +776,10 @@ int
 	//       (and compute an accurate amount of expirations, as if it had ticked all this time).
 	// Here, the next minute on the dot is good enough for us,
 	// so, just round the current timestamp up the the next multiple of 60.
-	clock_timer.it_value.tv_sec = (now_ts.tv_sec + 60 - 1) / 60 * 60;
+	clock_timer.it_value.tv_sec  = (now_ts.tv_sec + 60 - 1) / 60 * 60;
 	clock_timer.it_value.tv_nsec = 0;
 	// Tick every minute
-	clock_timer.it_interval.tv_sec = 60;
+	clock_timer.it_interval.tv_sec  = 60;
 	clock_timer.it_interval.tv_nsec = 0;
 	if (timerfd_settime(clockfd, TFD_TIMER_ABSTIME, &clock_timer, NULL) == -1) {
 		PFLOG(LOG_CRIT, "timerfd_settime: %m");
@@ -959,13 +975,21 @@ int
 	// If we need an early abort because of USBNet/USBSerial or a busy mountpoint, do it now...
 	if (need_early_abort) {
 		LOG(LOG_INFO, "Waiting for a power button press . . .");
-		struct pollfd pfd = { 0 };
-		pfd.fd            = evfd;
-		pfd.events        = POLLIN;
+		struct pollfd pfds[2] = { 0 };
+		nfds_t        nfds    = 2;
+		// Input device
+		pfds[0].fd     = evfd;
+		pfds[0].events = POLLIN;
+		// Clock
+		pfds[1].fd     = clockfd;
+		pfds[1].events = POLLIN;
 
-		size_t retry = 0U;
+		// Keep track of the time we've polled
+		struct timespec start_ts = { 0 };
+		clock_gettime(CLOCK_MONOTONIC_RAW, &start_ts);
+
 		while (true) {
-			int poll_num = poll(&pfd, 1, 5 * 1000);
+			int poll_num = poll(pfds, nfds, 5 * 1000);
 
 			// Refresh the status bar
 			print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
@@ -979,8 +1003,12 @@ int
 				goto cleanup;
 			}
 
+			bool done = false;
 			if (poll_num > 0) {
-				if (pfd.revents & POLLIN) {
+				// Refresh the status bar
+				print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+
+				if (pfds[0].revents & POLLIN) {
 					if (handle_evdev(dev)) {
 						LOG(LOG_NOTICE, "Caught a power button release");
 						if (early_unmount) {
@@ -1004,15 +1032,28 @@ int
 						break;
 					}
 				}
+
+				if (pfds[1].revents & POLLIN) {
+					// We don't actually care about the expiration count, so just read to clear the event
+					uint64_t exp;
+					read(clockfd, &exp, sizeof(exp));
+				}
+			}
+
+			struct timespec poll_ts = { 0 };
+			clock_gettime(CLOCK_MONOTONIC_RAW, &poll_ts);
+			if (elapsed_time(&poll_ts, &start_ts) >= 30) {
+				// We've been polling for more that 30 sec, we're done
+				done = true;
 			}
 
 			if (poll_num == 0) {
-				// Timed out, increase the retry counter
-				retry++;
+				// Timed out, we're done
+				done = true;
 			}
 
 			// Give up afer 30 sec
-			if (retry >= 6) {
+			if (done) {
 				LOG(LOG_NOTICE, "It's been 30 sec, giving up");
 				if (early_unmount) {
 					fbink_print_ot(
@@ -1519,20 +1560,14 @@ int
 
 			// c.f., busybox's date & hwclock applets
 			tzset();
-			struct timespec ts      = { 0 };
-			struct tm       tm_time = { 0 };
+			struct timespec ts = { 0 };
 			clock_gettime(CLOCK_REALTIME, &ts);
 
 			// Compute the elapsed time since the actual eject
-			struct timespec elapsed = { 0 };
-			timespec_delta(&ts, &eject_ts, &elapsed);
-			// We'll lose the precision later on, so, just round up if necessary
-			if (elapsed.tv_nsec >= 500000000L) {
-				elapsed.tv_sec++;
-				elapsed.tv_nsec = 0;
-			}
+			time_t elapsed_sec = elapsed_time(&ts, &eject_ts);
 
 			// Seed the timespec with the current time_t ts
+			struct tm tm_time = { 0 };
 			localtime_r(&ts.tv_sec, &tm_time);
 			// We're on glibc, let strptime deal with it (barring that, strtol/stroll would do)
 			if (strptime(epoch, "%s", &tm_time) == NULL) {
@@ -1547,7 +1582,7 @@ int
 					// (which is roughly when the ts was stored by the app),
 					// and the moment when we actually started reading it,
 					// because we're guaranteed to have lost a few seconds to fsck...
-					ts.tv_sec  = t + elapsed.tv_sec;
+					ts.tv_sec  = t + elapsed_sec;
 					ts.tv_nsec = 0;
 					// And, finally, update the system clock
 					clock_settime(CLOCK_REALTIME, &ts);
@@ -1567,7 +1602,7 @@ int
 					LOG(LOG_INFO,
 					    "Updated date/time to epoch: %s (+ %jd)",
 					    epoch,
-					    (intmax_t) elapsed.tv_sec);
+					    (intmax_t) elapsed_sec);
 				}
 			}
 		}
