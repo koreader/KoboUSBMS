@@ -1368,8 +1368,6 @@ int
 		       &msg_cfg,
 		       &fbink_cfg,
 		       NULL);
-	// Refresh the status bar
-	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 	fbink_cfg.no_refresh = false;
 	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
 
@@ -1476,8 +1474,6 @@ int
 	LOG(LOG_INFO, "Ending USBMS session...");
 	print_icon(fbfd, "\ufa52", &fbink_cfg, &icon_cfg);
 	fbink_print_ot(fbfd, _("Ending USBMS session…"), &msg_cfg, &fbink_cfg, NULL);
-	// Refresh the status bar
-	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 
 	// Nearly there...
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/scripts/end-usbms.sh", abs_pwd);
