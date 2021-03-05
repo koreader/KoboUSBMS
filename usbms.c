@@ -1000,7 +1000,6 @@ int
 				goto cleanup;
 			}
 
-			bool done = false;
 			if (poll_num > 0) {
 				// Refresh the status bar
 				print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
@@ -1037,6 +1036,7 @@ int
 				}
 			}
 
+			bool            done    = false;
 			struct timespec poll_ts = { 0 };
 			clock_gettime(CLOCK_MONOTONIC_RAW, &poll_ts);
 			if (elapsed_time(&poll_ts, &start_ts) >= 30) {
@@ -1089,22 +1089,25 @@ int
 			       NULL);
 
 		LOG(LOG_INFO, "Waiting for a plug in event or a power button press . . .");
-		struct pollfd pfds[2] = { 0 };
-		nfds_t        nfds    = 2;
+		struct pollfd pfds[3] = { 0 };
+		nfds_t        nfds    = 3;
 		// Input device
 		pfds[0].fd     = evfd;
 		pfds[0].events = POLLIN;
 		// Uevent socket
 		pfds[1].fd     = listener.pfd.fd;
 		pfds[1].events = listener.pfd.events;
+		// Clock
+		pfds[2].fd     = clockfd;
+		pfds[2].events = POLLIN;
+
+		// Keep track of the time we've polled
+		struct timespec start_ts = { 0 };
+		clock_gettime(CLOCK_MONOTONIC_RAW, &start_ts);
 
 		struct uevent uev;
-		size_t        retry = 0U;
 		while (true) {
 			int poll_num = poll(pfds, nfds, 5 * 1000);
-
-			// Refresh the status bar
-			print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 
 			if (poll_num == -1) {
 				if (errno == EINTR) {
@@ -1116,6 +1119,9 @@ int
 			}
 
 			if (poll_num > 0) {
+				// Refresh the status bar
+				print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+
 				if (pfds[0].revents & POLLIN) {
 					if (handle_evdev(dev)) {
 						LOG(LOG_NOTICE, "Caught a power button release");
@@ -1181,15 +1187,24 @@ int
 						goto cleanup;
 					}
 				}
+
+				if (pfds[2].revents & POLLIN) {
+					// We don't actually care about the expiration count, so just read to clear the event
+					uint64_t exp;
+					read(clockfd, &exp, sizeof(exp));
+				}
 			}
 
-			if (poll_num == 0) {
-				// Timed out, increase the retry counter
-				retry++;
+			bool            done    = false;
+			struct timespec poll_ts = { 0 };
+			clock_gettime(CLOCK_MONOTONIC_RAW, &poll_ts);
+			if (elapsed_time(&poll_ts, &start_ts) >= 90) {
+				// We've been polling for more than 90 sec, we're done
+				done = true;
 			}
 
 			// Give up afer 90 sec
-			if (retry >= 18) {
+			if (done) {
 				LOG(LOG_NOTICE, "It's been 90 sec, giving up");
 				if (early_unmount) {
 					fbink_print_ot(
@@ -1366,17 +1381,22 @@ int
 
 	// And now we just have to wait until an unplug...
 	LOG(LOG_INFO, "Waiting for an eject or unplug event . . .");
-	struct pollfd pfd = { 0 };
-	pfd.fd            = listener.pfd.fd;
-	pfd.events        = listener.pfd.events;
+	struct pollfd pfds[2] = { 0 };
+	nfds_t        nfds    = 2;
+	// Uevent socket
+	pfds[0].fd     = listener.pfd.fd;
+	pfds[0].events = listener.pfd.events;
+	// Clock
+	pfds[1].fd     = clockfd;
+	pfds[1].events = POLLIN;
 
 	struct uevent uev;
-	// NOTE: This is basically ue_wait_for_event, but with a 45s timeout,
+	// NOTE: This is basically ue_wait_for_event, but with an extra polling on our clock timerfd,
 	//       solely for the purpose of refreshing the status bar,
 	//       because we don't necessarily get change events on power_supply on older devices
 	//       (e.g., it happens on Mk. 7, but not on Mk. 5)...
 	while (true) {
-		int poll_num = poll(&pfd, 1, 45 * 1000);
+		int poll_num = poll(pfds, nfds, -1);
 
 		if (poll_num == -1) {
 			if (errno == EINTR) {
@@ -1388,7 +1408,10 @@ int
 		}
 
 		if (poll_num > 0) {
-			if (pfd.revents & POLLIN) {
+			// Refresh the status bar
+			print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+
+			if (pfds[0].revents & POLLIN) {
 				int ue_rc = handle_uevent(&listener, &uev);
 				if (ue_rc == EXIT_SUCCESS) {
 					// Now check if it's an eject or an unplug...
@@ -1406,9 +1429,6 @@ int
 					} else if (uev.action == UEVENT_ACTION_CHANGE && uev.subsystem &&
 						   UE_STR_EQ(uev.subsystem, "power_supply")) {
 						LOG(LOG_NOTICE, "Caught a charge tick");
-						// On devices where we do get those events, refresh the status bar.
-						// (c.f., NOTE above).
-						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 					}
 				} else if (ue_rc == ERR_LISTENER_RECV) {
 					// Assume handle_uevent read failures to be fatal
@@ -1416,11 +1436,12 @@ int
 					goto cleanup;
 				}
 			}
-		}
 
-		if (poll_num == 0) {
-			// Refresh the status bar on every timeout
-			print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+			if (pfds[1].revents & POLLIN) {
+				// We don't actually care about the expiration count, so just read to clear the event
+				uint64_t exp;
+				read(clockfd, &exp, sizeof(exp));
+			}
 		}
 	}
 	// Remember the eject timestamp
@@ -1611,7 +1632,7 @@ int
 	fbink_cfg.no_refresh = true;
 	print_icon(fbfd, "\uf058", &fbink_cfg, &icon_cfg);
 	fbink_print_ot(fbfd, _("Done!\nKOReader will now restart…"), &msg_cfg, &fbink_cfg, NULL);
-	// Refresh the status bar
+	// Refresh the status bar one last time
 	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 	fbink_cfg.no_refresh  = false;
 	fbink_cfg.is_flashing = true;
