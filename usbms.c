@@ -583,6 +583,7 @@ int
 	struct libevdev* dev            = NULL;
 	int              evfd           = -1;
 	int              ntxfd          = -1;
+	int              clockfd        = -1;
 
 	// We'll be chatting exclusively over syslog, because duh.
 	openlog("usbms", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_DAEMON);
@@ -739,6 +740,33 @@ int
 	ntxfd = open("/dev/ntx_io", O_RDONLY | O_NONBLOCK | O_CLOEXEC);
 	if (ntxfd == -1) {
 		PFLOG(LOG_CRIT, "open: %m");
+		rv = USBMS_EARLY_EXIT;
+		goto cleanup;
+	}
+
+	// Setup the timer for clock ticks
+	clockfd = timerfd_create(CLOCK_REALTIME, TFD_NONBLOCK | TFD_CLOEXEC);
+	if (clockfd == -1) {
+		PFLOG(LOG_CRIT, "timerfd_create: %m");
+		rv = USBMS_EARLY_EXIT;
+		goto cleanup;
+	}
+	// Arm it to get a tick on every minute, on the dot.
+	struct timespec now_ts = { 0 };
+	clock_gettime(CLOCK_REALTIME, &now_ts);
+	struct itimerspec clock_timer;
+	// NOTE: Setting an initial expiration time in the past is perfectly valid:
+	//       the fd will just be marked as readable immediately
+	//       (and compute an accurate amount of expirations, as if it had ticked all this time).
+	// Here, the next minute on the dot is good enough for us,
+	// so, just round the current timestamp up the the next multiple of 60.
+	clock_timer.it_value.tv_sec = (now_ts.tv_sec + 60 - 1) / 60 * 60;
+	clock_timer.it_value.tv_nsec = 0;
+	// Tick every minute
+	clock_timer.it_interval.tv_sec = 60;
+	clock_timer.it_interval.tv_nsec = 0;
+	if (timerfd_settime(clockfd, TFD_TIMER_ABSTIME, &clock_timer, NULL) == -1) {
+		PFLOG(LOG_CRIT, "timerfd_settime: %m");
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
@@ -1587,6 +1615,10 @@ cleanup:
 
 	if (ntxfd != -1) {
 		close(ntxfd);
+	}
+
+	if (clockfd != -1) {
+		close(clockfd);
 	}
 
 	if (pwd != -1) {
