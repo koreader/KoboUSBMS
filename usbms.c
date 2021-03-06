@@ -1024,11 +1024,10 @@ int
 			}
 
 			if (poll_num > 0) {
-				// Refresh the status bar
-				print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
-
 				if (pfds[0].revents & POLLIN) {
 					if (handle_evdev(dev)) {
+						// Refresh the status bar
+						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 						LOG(LOG_NOTICE, "Caught a power button release");
 						if (early_unmount) {
 							fbink_print_ot(
@@ -1053,6 +1052,8 @@ int
 				}
 
 				if (pfds[1].revents & POLLIN) {
+					// Refresh the status bar
+					print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 					// We don't actually care about the expiration count, so just read to clear the event
 					uint64_t exp;
 					read(clockfd, &exp, sizeof(exp));
@@ -1142,11 +1143,10 @@ int
 			}
 
 			if (poll_num > 0) {
-				// Refresh the status bar
-				print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
-
 				if (pfds[0].revents & POLLIN) {
 					if (handle_evdev(dev)) {
+						// Refresh the status bar
+						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 						LOG(LOG_NOTICE, "Caught a power button release");
 						if (early_unmount) {
 							fbink_print_ot(
@@ -1178,6 +1178,8 @@ int
 						// Now check if it's a plug in...
 						if (uev.action == UEVENT_ACTION_ADD && uev.devpath &&
 						    UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_PLUG)) {
+							// Refresh the status bar
+							print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 							LOG(LOG_WARNING,
 							    "Caught a plug in event, but to a plain power source, not a USB host");
 							if (early_unmount) {
@@ -1201,6 +1203,8 @@ int
 							break;
 						} else if (uev.action == UEVENT_ACTION_ADD && uev.devpath &&
 							   UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_HOST)) {
+							// Refresh the status bar
+							print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 							LOG(LOG_NOTICE, "Caught a plug in event (to a USB host)");
 							break;
 						}
@@ -1212,6 +1216,8 @@ int
 				}
 
 				if (pfds[2].revents & POLLIN) {
+					// Refresh the status bar
+					print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 					// We don't actually care about the expiration count, so just read to clear the event
 					uint64_t exp;
 					read(clockfd, &exp, sizeof(exp));
@@ -1429,9 +1435,6 @@ int
 		}
 
 		if (poll_num > 0) {
-			// Refresh the status bar
-			print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
-
 			if (pfds[0].revents & POLLIN) {
 				int ue_rc = handle_uevent(&listener, &uev);
 				if (ue_rc == EXIT_SUCCESS) {
@@ -1440,15 +1443,21 @@ int
 					    (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_FSL) ||
 					     (uev.modalias && UE_STR_EQ(uev.modalias, KOBO_USB_MODALIAS_CI)) ||
 					     UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_UDC))) {
+						// Refresh the status bar
+						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 						LOG(LOG_NOTICE, "Caught an eject event");
 						break;
 					} else if (uev.action == UEVENT_ACTION_REMOVE && uev.devpath &&
 						   (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_PLUG) ||
 						    UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_HOST))) {
+						// Refresh the status bar
+						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 						LOG(LOG_NOTICE, "Caught an unplug event");
 						break;
 					} else if (uev.action == UEVENT_ACTION_CHANGE && uev.subsystem &&
 						   UE_STR_EQ(uev.subsystem, "power_supply")) {
+						// Refresh the status bar
+						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 						LOG(LOG_NOTICE, "Caught a charge tick");
 					}
 				} else if (ue_rc == ERR_LISTENER_RECV) {
@@ -1459,6 +1468,8 @@ int
 			}
 
 			if (pfds[1].revents & POLLIN) {
+				// Refresh the status bar
+				print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
 				// We don't actually care about the expiration count, so just read to clear the event
 				uint64_t exp;
 				read(clockfd, &exp, sizeof(exp));
