@@ -892,7 +892,7 @@ int
 	const USBMSPartition mount_points[] = { { PARTITION_INTERNAL, "Internal", KOBO_PARTITION, KOBO_MOUNTPOINT },
 						{ PARTITION_EXTERNAL, "External", KOBO_SD_PARTITION, KOBO_SD_MOUNTPOINT },
 						{ PARTITION_NONE, NULL, NULL, NULL } };
-	for (size_t i = 0U; mount_points[i].name; i++) {
+	for (size_t i = 0U; !need_early_abort && mount_points[i].name; i++) {
 		// Check if the character device actually exists, because SD cards ;).
 		if (mount_points[i].id != PARTITION_INTERNAL && access(mount_points[i].device, F_OK) != 0) {
 			LOG(LOG_INFO, "%s storage device not available.", mount_points[i].name);
