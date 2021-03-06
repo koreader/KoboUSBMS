@@ -895,7 +895,7 @@ int
 	for (size_t i = 0U; mount_points[i].name; i++) {
 		// Check if the character device actually exists, because SD cards ;).
 		if (access(mount_points[i].device, F_OK) != 0) {
-			LOG(LOG_INFO, "%s storage device not found.", mount_points[i].name);
+			LOG(LOG_INFO, "%s storage device not available.", mount_points[i].name);
 			continue;
 		}
 
