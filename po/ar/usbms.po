@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-26 17:43+0100\n"
+"POT-Creation-Date: 2021-03-06 01:53+0100\n"
 "PO-Revision-Date: 2020-09-01 09:53+0000\n"
 "Last-Translator: WaseemAlkurdi <waseem19992009@outlook.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/koreader/"
@@ -20,12 +20,12 @@ msgstr ""
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
 "X-Generator: Weblate 4.2.1-dev\n"
 
-#: usbms.c:774
+#: usbms.c:818
 msgid "USB Mass Storage"
 msgstr "خَزْنُ البيانات عبر USB"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:826
+#: usbms.c:870
 msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
@@ -34,7 +34,7 @@ msgstr ""
 "اضغط زرّ التشغيل للخروج."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:841
+#: usbms.c:885
 msgid ""
 " Please disable USBSerial manually!\n"
 "Press the power button to exit."
@@ -43,26 +43,26 @@ msgstr ""
 "اضغط زرّ التشغيل للخروج."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:864
+#: usbms.c:923
 msgid " Filesystem is busy! Offending processes:"
 msgstr " نظام الملفّات مشغول! البرامج الشّاغلة له:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
-#: usbms.c:897
+#: usbms.c:960
 msgid " The fuser script failed!"
 msgstr " لم يقم برنامج fuser بعمله!"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:909
+#: usbms.c:973
 msgid " Failed to run the fuser script!"
 msgstr " حدث خطأٌ أثناء القيام بتشغيل برنامج fuser!"
 
-#: usbms.c:917
+#: usbms.c:981
 msgid "Press the power button to exit."
 msgstr "اضغط زرّ التشغيل للخروج."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:962 usbms.c:1065
+#: usbms.c:1036 usbms.c:1155
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -73,7 +73,7 @@ msgstr ""
 "سينطفأ الجهاز خلال 90 ثانية."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:970 usbms.c:1073
+#: usbms.c:1044 usbms.c:1163
 #, fuzzy
 #| msgid ""
 #| "Done!\n"
@@ -84,7 +84,7 @@ msgstr ""
 "سيعاد تشغيل KOReader الآن …"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:993
+#: usbms.c:1078
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -97,7 +97,7 @@ msgstr ""
 "سينطفأ الجهاز خلال 90 ثانية."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1001
+#: usbms.c:1086
 #, fuzzy
 #| msgid ""
 #| "Done!\n"
@@ -109,7 +109,7 @@ msgstr ""
 "قُضِيَ الأمر!\n"
 "سيعاد تشغيل KOReader الآن …"
 
-#: usbms.c:1025
+#: usbms.c:1110
 msgid ""
 "Waiting to be plugged in…\n"
 "Or, press the power button to exit."
@@ -118,7 +118,7 @@ msgstr ""
 "أو اضغط زرّ التشغيل للخروج."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1097
+#: usbms.c:1189
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -131,7 +131,7 @@ msgstr ""
 "سينطفأ الجهاز خلال 90 ثانية."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1105
+#: usbms.c:1197
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -144,7 +144,7 @@ msgstr ""
 "سينطفأ الجهاز خلال 90 ثانية."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1137
+#: usbms.c:1242
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -157,7 +157,7 @@ msgstr ""
 "سينطفأ الجهاز خلال 90 ثانية."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1145
+#: usbms.c:1250
 #, fuzzy
 #| msgid ""
 #| "Done!\n"
@@ -170,7 +170,7 @@ msgstr ""
 "سيعاد تشغيل KOReader الآن …"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1223
+#: usbms.c:1328
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -183,7 +183,7 @@ msgstr ""
 "سينطفأ الجهاز خلال 90 ثانية."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1231
+#: usbms.c:1336
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -195,12 +195,12 @@ msgstr ""
 " حدث خطأٌ أثناء محاولة بدء جلسة الخازن عبر USB (أو USBMS)!\n"
 "سينطفأ الجهاز خلال 90 ثانية."
 
-#: usbms.c:1260
+#: usbms.c:1365
 msgid "Starting USBMS session…"
 msgstr "جارٍ بدء جلسة الخَزْن عبر USB (أو USBMS) …"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1276
+#: usbms.c:1381
 msgid ""
 " Failed to start the USBMS session!\n"
 "The device will shutdown in 90 sec."
@@ -208,7 +208,7 @@ msgstr ""
 " حدث خطأٌ أثناء محاولة بدء جلسة الخازن عبر USB (أو USBMS)!\n"
 "سينطفأ الجهاز خلال 90 ثانية."
 
-#: usbms.c:1291
+#: usbms.c:1396
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
@@ -217,7 +217,7 @@ msgstr ""
 "فضلًا قم بفصل الجهاز عن الكمبيوتر (eject) بطريقةٍ سليمة قبل فصل السّلك."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1384
+#: usbms.c:1498
 msgid ""
 " Failed to detect an unplug event!\n"
 "The device will shutdown in 90 sec."
@@ -225,12 +225,12 @@ msgstr ""
 " لم يسجّل الجهاز حَدَثَ فَصْل (unplug)!\n"
 "سينطفأ الجهاز خلال 90 ثانية."
 
-#: usbms.c:1396
+#: usbms.c:1510
 msgid "Ending USBMS session…"
 msgstr "جارٍ إنهاءُ جلسة الخزن عبر USB (أو USBMS) …"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1409
+#: usbms.c:1521
 msgid ""
 " Failed to end the USBMS session!\n"
 "The device will shutdown in 90 sec."
@@ -238,7 +238,7 @@ msgstr ""
 " فشلت عملية إنهاء جلسة الخزن عبر USB (أو USBMS)!\n"
 "سينطفأ الجهاز خلال 90 ثانية."
 
-#: usbms.c:1558
+#: usbms.c:1664
 msgid ""
 "Done!\n"
 "KOReader will now restart…"

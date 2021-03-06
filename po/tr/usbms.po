@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-26 17:43+0100\n"
+"POT-Creation-Date: 2021-03-06 01:53+0100\n"
 "PO-Revision-Date: 2021-01-26 16:10+0000\n"
 "Last-Translator: NiLuJe <ninuje@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/koreader/"
@@ -19,12 +19,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.5-dev\n"
 
-#: usbms.c:774
+#: usbms.c:818
 msgid "USB Mass Storage"
 msgstr "USB Depolama Aygıtı"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:826
+#: usbms.c:870
 #, fuzzy
 msgid ""
 " Please disable USBNet manually!\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Çıkmak için güç düğmesine basın."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:841
+#: usbms.c:885
 msgid ""
 " Please disable USBSerial manually!\n"
 "Press the power button to exit."
@@ -43,39 +43,39 @@ msgstr ""
 "Çıkmak için güç düğmesine basın."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:864
+#: usbms.c:923
 #, fuzzy
 msgid " Filesystem is busy! Offending processes:"
 msgstr "• Dosya sistemi meşgul! Kusurlu süreçler:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
-#: usbms.c:897
+#: usbms.c:960
 msgid " The fuser script failed!"
 msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:909
+#: usbms.c:973
 msgid " Failed to run the fuser script!"
 msgstr " fuser komutu çalıştırılırken hata oluştu!"
 
-#: usbms.c:917
+#: usbms.c:981
 #, fuzzy
 msgid "Press the power button to exit."
 msgstr "Çıkmak için güç düğmesine basın."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:962 usbms.c:1065
+#: usbms.c:1036 usbms.c:1155
 msgid " The device will shutdown in 30 sec."
 msgstr " Cihaz 30 saniye sonra kapanacak."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:970 usbms.c:1073
+#: usbms.c:1044 usbms.c:1163
 #, fuzzy
 msgid " KOReader will now restart…"
 msgstr " KOReader şimdi yeniden başlayacak…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:993
+#: usbms.c:1078
 msgid ""
 " Gave up after 30 sec.\n"
 "The device will shutdown in 30 sec."
@@ -84,7 +84,7 @@ msgstr ""
 "Cihaz 30 saniye içinde kapanacak."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1001
+#: usbms.c:1086
 #, fuzzy
 msgid ""
 " Gave up after 30 sec.\n"
@@ -93,7 +93,7 @@ msgstr ""
 " 30 saniye sonra vazgeçti.\n"
 "KOReader şimdi yeniden başlayacak …"
 
-#: usbms.c:1025
+#: usbms.c:1110
 #, fuzzy
 msgid ""
 "Waiting to be plugged in…\n"
@@ -103,7 +103,7 @@ msgstr ""
 "Veya çıkmak için güç düğmesine basın."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1097
+#: usbms.c:1189
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
@@ -112,7 +112,7 @@ msgstr ""
 "Cihaz 30 saniye içinde kapanacak."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1105
+#: usbms.c:1197
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
@@ -121,28 +121,28 @@ msgstr ""
 "KOReader şimdi yeniden başlayacak…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1137
+#: usbms.c:1242
 msgid ""
 " Gave up after 90 sec.\n"
 "The device will shutdown in 30 sec."
 msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1145
+#: usbms.c:1250
 msgid ""
 " Gave up after 90 sec.\n"
 "KOReader will now restart…"
 msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1223
+#: usbms.c:1328
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
 msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1231
+#: usbms.c:1336
 #, fuzzy
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
@@ -151,13 +151,13 @@ msgstr ""
 " Cihaz, bir USB girişine değil, düz bir güç kaynağına takıldı!\n"
 "KOReader şimdi yeniden başlayacak…"
 
-#: usbms.c:1260
+#: usbms.c:1365
 #, fuzzy
 msgid "Starting USBMS session…"
 msgstr "USBMS oturumu başlatılıyor…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1276
+#: usbms.c:1381
 msgid ""
 " Failed to start the USBMS session!\n"
 "The device will shutdown in 90 sec."
@@ -165,7 +165,7 @@ msgstr ""
 " USBMS oturumunu başlatamadı!\n"
 "Cihaz 90 saniye içinde kapacak."
 
-#: usbms.c:1291
+#: usbms.c:1396
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
@@ -174,18 +174,18 @@ msgstr ""
 "Lütfen aygıtınızı çıkarmadan önce güvenli bir şekilde çıkarınız."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1384
+#: usbms.c:1498
 msgid ""
 " Failed to detect an unplug event!\n"
 "The device will shutdown in 90 sec."
 msgstr ""
 
-#: usbms.c:1396
+#: usbms.c:1510
 msgid "Ending USBMS session…"
 msgstr "USBMS oturumu sonlandırılıyor…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1409
+#: usbms.c:1521
 #, fuzzy
 msgid ""
 " Failed to end the USBMS session!\n"
@@ -194,7 +194,7 @@ msgstr ""
 " USBMS oturumu sonlandırılamadı!\n"
 "Cihaz 90 saniye içinde kapanacak."
 
-#: usbms.c:1558
+#: usbms.c:1664
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
