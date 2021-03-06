@@ -54,5 +54,6 @@ mount -t vfat -o "${MOUNT_ARGS}" "${PARTITION}" "/mnt/onboard"
 # Handle the SD card now (again, not dealing with the dynamic detection nonsense).
 PARTITION="${DISK}1p1"
 if [ -e "${PARTITION}" ] ; then
+	# NOTE: Mimic the stock script and never check the external SD card...
 	mount -t vfat -o "${MOUNT_ARGS}" "${PARTITION}" "/mnt/sd"
 fi
