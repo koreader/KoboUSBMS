@@ -889,12 +889,12 @@ int
 	}
 
 	// We'll want to check both the internal storage and the SD card, as both get exported.
-	USBMSPartition mount_points[] = { { KOBO_INTERNAL, "Internal", KOBO_PARTITION, KOBO_MOUNTPOINT },
-					  { KOBO_EXTERNAL, "External", KOBO_SD_PARTITION, KOBO_SD_MOUNTPOINT },
-					  { 0, NULL, NULL, NULL } };
+	const USBMSPartition mount_points[] = { { PARTITION_INTERNAL, "Internal", KOBO_PARTITION, KOBO_MOUNTPOINT },
+						{ PARTITION_EXTERNAL, "External", KOBO_SD_PARTITION, KOBO_SD_MOUNTPOINT },
+						{ PARTITION_NONE, NULL, NULL, NULL } };
 	for (size_t i = 0U; mount_points[i].name; i++) {
 		// Check if the character device actually exists, because SD cards ;).
-		if (mount_points[i].id != KOBO_INTERNAL && access(mount_points[i].device, F_OK) != 0) {
+		if (mount_points[i].id != PARTITION_INTERNAL && access(mount_points[i].device, F_OK) != 0) {
 			LOG(LOG_INFO, "%s storage device not available.", mount_points[i].name);
 			continue;
 		}
@@ -911,7 +911,7 @@ int
 			} else if (errno == EBUSY) {
 				LOG(LOG_WARNING, "%s storage partition is busy, can't export it!", mount_points[i].name);
 				print_icon(fbfd,
-					   mount_points[i].id == KOBO_INTERNAL ? "\uf7c9" : "\ufcda",
+					   mount_points[i].id == PARTITION_INTERNAL ? "\uf7c9" : "\ufcda",
 					   &fbink_cfg,
 					   &icon_cfg);
 

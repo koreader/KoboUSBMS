@@ -114,11 +114,9 @@
 #define FL_INTENSITY_SYSFS "/sys/class/backlight/mxc_msp430.0/actual_brightness"
 
 // Internal storage
-#define KOBO_INTERNAL   'O'
 #define KOBO_PARTITION  "/dev/mmcblk0p3"
 #define KOBO_MOUNTPOINT "/mnt/onboard"
 // External storage
-#define KOBO_EXTERNAL      'S'
 #define KOBO_SD_PARTITION  "/dev/mmcblk1p1"
 #define KOBO_SD_MOUNTPOINT "/mnt/sd"
 // The timestamp file that the Kobo app creates, which Nickel uses to resync date/time after USBMS sessions
@@ -129,12 +127,20 @@
 #define KOBO_TZPATH   "/etc/zoneinfo-kobo"
 #define SYSTEM_TZFILE "/etc/localtime"
 
+// List of exportable partitions
+typedef enum
+{
+	PARTITION_NONE     = -1,
+	PARTITION_INTERNAL = 0,
+	PARTITION_EXTERNAL
+} PARTITION_ID_E;
+
 typedef struct
 {
-	uint8_t     id;
-	const char* name;
-	const char* device;
-	const char* mountpoint;
+	PARTITION_ID_E id;
+	const char*    name;
+	const char*    device;
+	const char*    mountpoint;
 } USBMSPartition;
 
 // c.f., arch/arm/mach-imx/imx_ntx_io.c in a Kobo kernel
