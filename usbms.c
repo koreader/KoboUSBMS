@@ -888,88 +888,111 @@ int
 			       NULL);
 	}
 
-	// Wee bit of trickery with an obscure umount2 feature, to see if the mountpoint is currently busy,
-	// without actually unmounting it for real...
-	rc = umount2(KOBO_MOUNTPOINT, MNT_EXPIRE);
-	if (rc != EXIT_SUCCESS) {
-		if (errno == EAGAIN) {
-			// That means we're good to go ;).
-			LOG(LOG_INFO,
-			    "Internal storage partition wasn't busy, it's been successfully marked as expired.");
-		} else if (errno == EBUSY) {
-			LOG(LOG_WARNING, "Internal storage partition is busy, can't export it!");
-			print_icon(fbfd, "\uf7c9", &fbink_cfg, &icon_cfg);
+	// We'll want to check both the inetrnal storage and the SD card, as both get exported.
+	USBMSPartition mount_points[] = { { KOBO_INTERNAL, "Internal", KOBO_PARTITION, KOBO_MOUNTPOINT },
+					  { KOBO_EXTERNAL, "External", KOBO_SD_PARTITION, KOBO_SD_MOUNTPOINT },
+					  { 0, NULL, NULL, NULL } };
+	for (size_t i = 0U; mount_points[i].name; i++) {
+		// Check if the character device actually exists, because SD cards ;).
+		if (access(mount_points[i].device, F_OK) != 0) {
+			LOG(LOG_INFO, "%s storage device not found.", mount_points[i].name);
+			continue;
+		}
 
-			// Start a little bit higher than usual to leave us some room...
-			fbink_cfg.row       = -16;
-			msg_cfg.margins.top = (short int) -(fbink_state.font_h * 16U);
-			rc                  = fbink_print_ot(fbfd,
-                                            // @translators: First unicode codepoint is an icon, leave it as-is.
-                                            _("\uf071 Filesystem is busy! Offending processes:"),
-                                            &msg_cfg,
-                                            &fbink_cfg,
-                                            NULL);
+		// Wee bit of trickery with an obscure umount2 feature, to see if the mountpoint is currently busy,
+		// without actually unmounting it for real...
+		rc = umount2(mount_points[i].mountpoint, MNT_EXPIRE);
+		if (rc != EXIT_SUCCESS) {
+			if (errno == EAGAIN) {
+				// That means we're good to go ;).
+				LOG(LOG_INFO,
+				    "%s storage partition wasn't busy, it's been successfully marked as expired.",
+				    mount_points[i].name);
+			} else if (errno == EBUSY) {
+				LOG(LOG_WARNING, "%s storage partition is busy, can't export it!", mount_points[i].name);
+				print_icon(fbfd,
+					   mount_points[i].id == KOBO_INTERNAL ? "\uf7c9" : "\ufcda",
+					   &fbink_cfg,
+					   &icon_cfg);
 
-			// And now, switch to a smaller font size when consuming the script's output...
-			msg_cfg.padding     = HORI_PADDING;
-			msg_cfg.size_px     = fbink_state.font_h;
-			msg_cfg.margins.top = (short int) rc;
-			// Drop the bottom margin to allow stomping over the status bar...
-			msg_cfg.margins.bottom = 0;
+				// Start a little bit higher than usual to leave us some room...
+				fbink_cfg.row       = -16;
+				msg_cfg.margins.top = (short int) -(fbink_state.font_h * 16U);
+				rc                  = fbink_print_ot(fbfd,
+                                                    // @translators: First unicode codepoint is an icon, leave it as-is.
+                                                    _("\uf071 Filesystem is busy! Offending processes:"),
+                                                    &msg_cfg,
+                                                    &fbink_cfg,
+                                                    NULL);
 
-			LOG(LOG_WARNING, "Listing offending processes...");
-			snprintf(resource_path, sizeof(resource_path) - 1U, "%s/scripts/fuser-check.sh", abs_pwd);
-			FILE* f = popen(resource_path, "re");
-			if (f) {
-				char line[PIPE_BUF];
-				while (fgets(line, sizeof(line), f)) {
-					rc                  = fbink_print_ot(fbfd, line, &msg_cfg, &fbink_cfg, NULL);
-					msg_cfg.margins.top = (short int) rc;
-				}
+				// And now, switch to a smaller font size when consuming the script's output...
+				msg_cfg.padding     = HORI_PADDING;
+				msg_cfg.size_px     = fbink_state.font_h;
+				msg_cfg.margins.top = (short int) rc;
+				// Drop the bottom margin to allow stomping over the status bar...
+				msg_cfg.margins.bottom = 0;
 
-				// Back to normal :)
-				msg_cfg.size_px = ot_cfg.size_px;
+				LOG(LOG_WARNING, "Listing offending processes...");
+				snprintf(resource_path,
+					 sizeof(resource_path) - 1U,
+					 "%s/scripts/fuser-check.sh '%s'",
+					 abs_pwd,
+					 mount_points[i].mountpoint);
+				FILE* f = popen(resource_path, "re");
+				if (f) {
+					char line[PIPE_BUF];
+					while (fgets(line, sizeof(line), f)) {
+						rc = fbink_print_ot(fbfd, line, &msg_cfg, &fbink_cfg, NULL);
+						msg_cfg.margins.top = (short int) rc;
+					}
 
-				rc = pclose(f);
-				if (rc != EXIT_SUCCESS) {
+					// Back to normal :)
+					msg_cfg.size_px = ot_cfg.size_px;
+
+					rc = pclose(f);
+					if (rc != EXIT_SUCCESS) {
+						// Hu oh... Print a giant warning, and abort.
+						LOG(LOG_CRIT, "The fuser script failed (%d)!", rc);
+						print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
+						rc = fbink_print_ot(
+						    fbfd,
+						    // @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
+						    _("\uf071 The fuser script failed!"),
+						    &msg_cfg,
+						    &fbink_cfg,
+						    NULL);
+						msg_cfg.margins.top = (short int) rc;
+					}
+				} else {
 					// Hu oh... Print a giant warning, and abort.
-					LOG(LOG_CRIT, "The fuser script failed (%d)!", rc);
+					LOG(LOG_CRIT, "Failed to run fuser script!");
 					print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 					rc = fbink_print_ot(
 					    fbfd,
-					    // @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
-					    _("\uf071 The fuser script failed!"),
+					    // @translators: First unicode codepoint is an icon, leave it as-is.
+					    _("\uf071 Failed to run the fuser script!"),
 					    &msg_cfg,
 					    &fbink_cfg,
 					    NULL);
 					msg_cfg.margins.top = (short int) rc;
 				}
-			} else {
-				// Hu oh... Print a giant warning, and abort.
-				LOG(LOG_CRIT, "Failed to run fuser script!");
-				print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
-				rc                  = fbink_print_ot(fbfd,
-                                                    // @translators: First unicode codepoint is an icon, leave it as-is.
-                                                    _("\uf071 Failed to run the fuser script!"),
-                                                    &msg_cfg,
-                                                    &fbink_cfg,
-                                                    NULL);
-				msg_cfg.margins.top = (short int) rc;
-			}
 
-			// We can still exit safely at that point
-			fbink_print_ot(fbfd, _("Press the power button to exit."), &msg_cfg, &fbink_cfg, NULL);
-			need_early_abort = true;
+				// We can still exit safely at that point
+				fbink_print_ot(fbfd, _("Press the power button to exit."), &msg_cfg, &fbink_cfg, NULL);
+				need_early_abort = true;
+				break;
+			} else {
+				PFLOG(LOG_CRIT, "umount2: %m");
+				rv = USBMS_EARLY_EXIT;
+				goto cleanup;
+			}
 		} else {
-			PFLOG(LOG_CRIT, "umount2: %m");
-			rv = USBMS_EARLY_EXIT;
-			goto cleanup;
+			// NOTE: This should never really happen...
+			LOG(LOG_WARNING,
+			    "%s storage partition has been unmounted early: it wasn't busy, and it was already marked as expired?!",
+			    mount_points[i].name);
+			early_unmount = true;
 		}
-	} else {
-		// NOTE: This should never really happen...
-		LOG(LOG_WARNING,
-		    "Internal storage partition has been unmounted early: it wasn't busy, and it was already marked as expired?!");
-		early_unmount = true;
 	}
 
 	// If we need an early abort because of USBNet/USBSerial or a busy mountpoint, do it now...

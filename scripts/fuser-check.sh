@@ -10,7 +10,7 @@ fi
 SCRIPT_NAME="$(basename "${0}")"
 
 # Do something a wee bit more user-friendly with what fuser spits out...
-for pid in $(fuser -m "/mnt/onboard") ; do
+for pid in $(fuser -m "${1}") ; do
 	if [ -e "/proc/${pid}" ] ; then
 		pretty_msg="${pid} -> $(cat "/proc/${pid}/comm")"
 		echo "${pretty_msg}"
