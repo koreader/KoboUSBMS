@@ -775,7 +775,7 @@ int
 	//       the fd will just be marked as readable immediately
 	//       (and compute an accurate amount of expirations, as if it had ticked all this time).
 	// Here, the next minute on the dot is good enough for us,
-	// so, just round the current timestamp up the the next multiple of 60.
+	// so, just round the current timestamp up to the next multiple of 60.
 	clock_timer.it_value.tv_sec  = (now_ts.tv_sec + 60 - 1) / 60 * 60;
 	clock_timer.it_value.tv_nsec = 0;
 	// Tick every minute
@@ -888,7 +888,7 @@ int
 			       NULL);
 	}
 
-	// We'll want to check both the inetrnal storage and the SD card, as both get exported.
+	// We'll want to check both the internal storage and the SD card, as both get exported.
 	USBMSPartition mount_points[] = { { KOBO_INTERNAL, "Internal", KOBO_PARTITION, KOBO_MOUNTPOINT },
 					  { KOBO_EXTERNAL, "External", KOBO_SD_PARTITION, KOBO_SD_MOUNTPOINT },
 					  { 0, NULL, NULL, NULL } };
@@ -1007,7 +1007,7 @@ int
 		pfds[1].fd     = clockfd;
 		pfds[1].events = POLLIN;
 
-		// Keep track of the time we've polled
+		// Keep track of the time we've been polling
 		struct timespec start_ts = { 0 };
 		clock_gettime(CLOCK_MONOTONIC_RAW, &start_ts);
 
@@ -1125,7 +1125,7 @@ int
 		pfds[2].fd     = clockfd;
 		pfds[2].events = POLLIN;
 
-		// Keep track of the time we've polled
+		// Keep track of the time we've been polling
 		struct timespec start_ts = { 0 };
 		clock_gettime(CLOCK_MONOTONIC_RAW, &start_ts);
 
