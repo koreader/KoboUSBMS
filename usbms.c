@@ -894,7 +894,7 @@ int
 					  { 0, NULL, NULL, NULL } };
 	for (size_t i = 0U; mount_points[i].name; i++) {
 		// Check if the character device actually exists, because SD cards ;).
-		if (access(mount_points[i].device, F_OK) != 0) {
+		if (mount_points[i].id != KOBO_INTERNAL && access(mount_points[i].device, F_OK) != 0) {
 			LOG(LOG_INFO, "%s storage device not available.", mount_points[i].name);
 			continue;
 		}
