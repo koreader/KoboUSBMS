@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-06 19:57+0100\n"
-"PO-Revision-Date: 2021-01-22 11:32+0000\n"
+"PO-Revision-Date: 2021-04-01 21:19+0000\n"
 "Last-Translator: Enrico Segre <enricoalbertoernestosegre@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/he/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 4.5-dev\n"
+"X-Generator: Weblate 4.6-dev\n"
 
 #: usbms.c:818
 msgid "USB Mass Storage"
@@ -152,22 +152,19 @@ msgstr ""
 "המכשיר יופעל מחדש כעת…"
 
 #: usbms.c:1365
-#, fuzzy
 msgid "Starting USBMS session…"
-msgstr "מתחיל הפעלת USBMS …"
+msgstr "מתחיל הפעלת USBMS…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1381
-#, fuzzy
 msgid ""
 " Failed to start the USBMS session!\n"
 "The device will shutdown in 90 sec."
 msgstr ""
-" התחלת ההפעלה USBMS נכשלה!\n"
+" התחלת הפעלת USBMS נכשלה!\n"
 "המכשיר יכבה בעוד 90 שניות."
 
 #: usbms.c:1396
-#, fuzzy
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
@@ -185,13 +182,11 @@ msgstr ""
 "המכשיר יכבה בעוד 90 שניות."
 
 #: usbms.c:1510
-#, fuzzy
 msgid "Ending USBMS session…"
 msgstr "מסיים הפעלת USBMS…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1521
-#, fuzzy
 msgid ""
 " Failed to end the USBMS session!\n"
 "The device will shutdown in 90 sec."
