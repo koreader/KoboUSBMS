@@ -20,6 +20,7 @@
 #include "usbms.h"
 
 // Wrapper function to use syslog as a libevdev log handler
+// c.f., libevdev_dflt_log_func @ libevdev/libevdev.c
 __attribute__((format(printf, 7, 0))) static void
     libevdev_to_syslog(const struct libevdev*     dev __attribute__((unused)),
 		       enum libevdev_log_priority priority,
@@ -30,7 +31,27 @@ __attribute__((format(printf, 7, 0))) static void
 		       const char*                format,
 		       va_list                    args)
 {
-	syslog(LOG_INFO, "libevdev: %s @ %s:%d (prio: %u)", func, file, line, priority);
+	const char* prefix;
+	switch (priority) {
+		case LIBEVDEV_LOG_ERROR:
+			prefix = "libevdev error";
+			break;
+		case LIBEVDEV_LOG_INFO:
+			prefix = "libevdev info";
+			break;
+		case LIBEVDEV_LOG_DEBUG:
+			prefix = "libevdev debug";
+			break;
+		default:
+			prefix = "libevdev INVALID LOG PRIORITY";
+			break;
+	}
+
+	if (priority == LIBEVDEV_LOG_DEBUG) {
+		syslog(LOG_INFO, "%s in %s:%d:%s:", prefix, file, line, func);
+	} else {
+		syslog(LOG_INFO, "%s in %s:", prefix, func);
+	}
 	vsyslog(LOG_INFO, format, args);
 }
 
@@ -533,6 +554,7 @@ static bool
 		rc = libevdev_next_event(dev, LIBEVDEV_READ_FLAG_NORMAL, &ev);
 		if (rc == LIBEVDEV_READ_STATUS_SYNC) {
 			while (rc == LIBEVDEV_READ_STATUS_SYNC) {
+				// NOTE: We're ignoring the sync delta events here.
 				rc = libevdev_next_event(dev, LIBEVDEV_READ_FLAG_SYNC, &ev);
 			}
 		} else if (rc == LIBEVDEV_READ_STATUS_SUCCESS) {
