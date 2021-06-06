@@ -125,6 +125,11 @@ static void
 		case 382U:    // Nia (luna)
 			pid = 0x4230;
 			break;
+		/*
+		case ?:    // Elipsa (?)
+			pid = 0x4233;
+			break;
+		*/
 		case 0U:
 			pid = 0x4163;
 			break;
