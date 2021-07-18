@@ -105,12 +105,21 @@
 // TODO: TBC, no idea which devices it applies to (Trilogy?)...
 #define KOBO_USB_DEVPATH_UDC "/devices/platform/5100000.udc-controller"
 
-// So far, those have thankfully been set in stone
-#define NTX_KEYS_EVDEV "/dev/input/event0"
-#define TOUCHPAD_EVDEV "/dev/input/event1"
-#define BATT_CAP_SYSFS "/sys/class/power_supply/mc13892_bat/capacity"
-// These, on the other hand, are only available on Mk. 7
-#define CHARGER_TYPE_SYSFS "/sys/class/power_supply/mc13892_charger/device/charger_type"
+// Those had been set in stone so far...
+#define NXP_NTX_KEYS_EVDEV "/dev/input/event0"
+#define NXP_TOUCHPAD_EVDEV "/dev/input/event1"
+// ... but sunxi & SMP changed that ;).
+#define SUNXI_NTX_KEYS_EVDEV "/dev/input/by-path/platform-ntx_event0-event"
+#define SUNXI_TOUCHPAD_EVDEV "/dev/input/by-path/platform-0-0010-event"
+const char* NTX_KEYS_EVDEV = NULL;
+const char* TOUCHPAD_EVDEV = NULL;
+#define NXP_BATT_CAP_SYSFS   "/sys/class/power_supply/mc13892_bat/capacity"
+#define SUNXI_BATT_CAP_SYSFS "/sys/class/power_supply/battery/capacity"
+const char* BATT_CAP_SYSFS = NULL;
+// These, on the other hand, are only available on Mk. 7+
+#define NXP_CHARGER_TYPE_SYSFS   "/sys/class/power_supply/mc13892_charger/device/charger_type"
+#define SUNXI_CHARGER_TYPE_SYSFS "/sys/class/power_supply/charger/device/charger_type"
+const char* CHARGER_TYPE_SYSFS = NULL;
 #define FL_INTENSITY_SYSFS "/sys/class/backlight/mxc_msp430.0/actual_brightness"
 
 // Internal storage
@@ -145,7 +154,7 @@ typedef struct
 
 // c.f., arch/arm/mach-imx/imx_ntx_io.c in a Kobo kernel
 #define CM_USB_Plug_IN        108
-#define CM_CHARGE_STATUS      204    // Mapped to CM_USB_Plug_IN on the Forma...
+#define CM_CHARGE_STATUS      204    // Mapped to CM_USB_Plug_IN on the Mk. 7+...
 #define CM_GET_BATTERY_STATUS 206
 #define CM_FRONT_LIGHT_SET    241
 

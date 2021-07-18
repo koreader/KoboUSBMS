@@ -125,11 +125,9 @@ static void
 		case 382U:    // Nia (luna)
 			pid = 0x4230;
 			break;
-		/*
-		case ?:    // Elipsa (?)
+		case 387U:    // Elipsa (europa)
 			pid = 0x4233;
 			break;
-		*/
 		case 0U:
 			pid = 0x4163;
 			break;
@@ -728,6 +726,24 @@ int
 	}
 	LOG(LOG_INFO, "Initialized FBInk %s", fbink_version());
 
+	// Now that FBInk has been initialized, setup the USB product ID for the current device
+	FBInkState fbink_state = { 0 };
+	fbink_get_state(&fbink_cfg, &fbink_state);
+	setup_usb_ids(fbink_state.device_id);
+
+	// And setup the sysfs paths based on the device...
+	if (fbink_state.is_sunxi) {
+		NTX_KEYS_EVDEV     = SUNXI_NTX_KEYS_EVDEV;
+		TOUCHPAD_EVDEV     = SUNXI_TOUCHPAD_EVDEV;
+		BATT_CAP_SYSFS     = SUNXI_BATT_CAP_SYSFS;
+		CHARGER_TYPE_SYSFS = SUNXI_CHARGER_TYPE_SYSFS;
+	} else {
+		NTX_KEYS_EVDEV     = NXP_NTX_KEYS_EVDEV;
+		TOUCHPAD_EVDEV     = NXP_TOUCHPAD_EVDEV;
+		BATT_CAP_SYSFS     = NXP_BATT_CAP_SYSFS;
+		CHARGER_TYPE_SYSFS = NXP_CHARGER_TYPE_SYSFS;
+	}
+
 	// Setup libue
 	int rc = -1;
 	rc     = ue_init_listener(&listener);
@@ -764,11 +780,6 @@ int
 	// And we ourselves don't need to grab it, so, don't ;).
 	libevdev_grab(dev, LIBEVDEV_UNGRAB);
 	LOG(LOG_INFO, "Initialized libevdev v%s for device `%s`", LIBEVDEV_VERSION, libevdev_get_name(dev));
-
-	// Now that FBInk has been initialized, setup the USB product ID for the current device
-	FBInkState fbink_state = { 0 };
-	fbink_get_state(&fbink_cfg, &fbink_state);
-	setup_usb_ids(fbink_state.device_id);
 
 	// Much like in KOReader's OTAManager, check if we can use pipefail in a roundabout way,
 	// because old busybox ash versions will *abort* on set failures...
