@@ -315,7 +315,7 @@ static uint8_t
 		}
 	}
 
-	char* ko_dir = getenv("KOREADER_DIR");
+	const char* ko_dir = getenv("KOREADER_DIR");
 	if (!ko_dir) {
 		PFLOG(LOG_WARNING, "Unable to compute KOReader directory!");
 		return intensity;
@@ -827,7 +827,7 @@ int
 
 	// Display our header
 	fbink_cfg.no_refresh = true;
-	fbink_cls(fbfd, &fbink_cfg, NULL);
+	fbink_cls(fbfd, &fbink_cfg, NULL, false);
 	ot_cfg.margins.top = (short int) fbink_state.font_h;
 	ot_cfg.size_px     = (unsigned short int) (fbink_state.font_h * 2U);
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/CaskaydiaCove_NF.otf", abs_pwd);
