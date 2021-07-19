@@ -116,7 +116,7 @@ const char* TOUCHPAD_EVDEV = NULL;
 #define SUNXI_BATT_CAP_SYSFS "/sys/class/power_supply/battery/capacity"
 const char* BATT_CAP_SYSFS = NULL;
 // NOTE: On sunxi, the CM_USB_Plug_IN ioctl is currently broken (it's poking at "mc13892_bat" instead of "battery"),
-// so, rely on sysfs ourselves instead...
+//       so, rely on sysfs ourselves instead...
 #define SUNXI_BATT_STATUS_SYSFS "/sys/class/power_supply/battery/status"
 bool (*fxpIsUSBPlugged)(int) = NULL;
 // These, on the other hand, are only available on Mk. 7+
