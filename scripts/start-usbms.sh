@@ -64,11 +64,14 @@ done
 MODULES_PATH="/drivers/${PLATFORM}"
 GADGETS_PATH="${MODULES_PATH}/usb/gadget"
 
+# NOTE: The stock script *disables* stalling.
+#       I'm not entirely convinced that's a great idea,
+#       and the only sensible reason to disable it appears to be related to Windows compatibility kludges...
+#       TL;DR: I'm not sure those Windows concerns are still valid today, so, test this on a Windows box, I guess? ;o).
 if [ -e "${MODULES_PATH}/g_mass_storage.ko" ] ; then
 	PARAMS="idVendor=${USB_VENDOR_ID} idProduct=${USB_PRODUCT_ID} iManufacturer=Kobo iProduct=eReader-${FW_VERSION} iSerialNumber=${SERIAL_NUMBER}"
 	# shellcheck disable=SC2086
 	insmod "${MODULES_PATH}/g_mass_storage.ko" file="${PARTITIONS}" stall=1 removable=1 ${PARAMS}
-
 else
 	if [ "${PLATFORM}" = "mx6sll-ntx" ] || [ "${PLATFORM}" = "mx6ull-ntx" ] ; then
 		PARAMS="idVendor=${USB_VENDOR_ID} idProduct=${USB_PRODUCT_ID} iManufacturer=Kobo iProduct=eReader-${FW_VERSION} iSerialNumber=${SERIAL_NUMBER}"
