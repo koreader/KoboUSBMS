@@ -41,7 +41,8 @@ EXTRA_CFLAGS+=-Wformat=2
 EXTRA_CFLAGS+=-Wformat-signedness
 # NOTE: This doesn't really play nice w/ FORTIFY, leading to an assload of false-positives, unless LTO is enabled
 ifneq (,$(findstring flto,$(CFLAGS)))
-	EXTRA_CFLAGS+=-Wformat-truncation=2
+	# NOTE: -Wformat-truncation=2 is still a tad too aggressive w/ GCC 9, so, tone it down to avoid false-positives...
+	EXTRA_CFLAGS+=-Wformat-truncation=1
 else
 	EXTRA_CFLAGS+=-Wno-format-truncation
 endif
