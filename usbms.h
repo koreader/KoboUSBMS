@@ -100,10 +100,9 @@
 #define KOBO_USB_DEVPATH_PLUG "/devices/platform/usb_plug"    // Plugged into a plain power source
 #define KOBO_USB_DEVPATH_HOST "/devices/platform/usb_host"    // Plugged into a computer
 // c.f., /lib/udev/rules.d/kobo.rules
-#define KOBO_USB_DEVPATH_FSL "/devices/platform/fsl-usb2-udc"    // OK
-#define KOBO_USB_MODALIAS_CI "platform:ci_hdrc"                  // OK
-// TODO: TBC, no idea which devices it applies to (Trilogy?)...
-#define KOBO_USB_DEVPATH_UDC "/devices/platform/5100000.udc-controller"
+#define KOBO_USB_DEVPATH_FSL "/devices/platform/fsl-usb2-udc"                  // OK
+#define KOBO_USB_MODALIAS_CI "platform:ci_hdrc"                                // OK
+#define KOBO_USB_DEVPATH_UDC "/devices/platform/soc/5100000.udc-controller"    // OK
 
 // Those had been set in stone so far...
 #define NXP_NTX_KEYS_EVDEV "/dev/input/event0"
