@@ -737,6 +737,9 @@ int
 		TOUCHPAD_EVDEV     = SUNXI_TOUCHPAD_EVDEV;
 		BATT_CAP_SYSFS     = SUNXI_BATT_CAP_SYSFS;
 		CHARGER_TYPE_SYSFS = SUNXI_CHARGER_TYPE_SYSFS;
+
+		// Enforce REAGL, since AUTO is not recommended on sunxi
+		fbink_cfg.wfm_mode = WFM_REAGL;
 	} else {
 		NTX_KEYS_EVDEV     = NXP_NTX_KEYS_EVDEV;
 		TOUCHPAD_EVDEV     = NXP_TOUCHPAD_EVDEV;
