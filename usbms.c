@@ -1431,8 +1431,14 @@ int
 	// Now we're cooking with gas!
 	LOG(LOG_INFO, "USBMS session in progress");
 	// Switch to nightmode for the duration of the session, as a nod to the stock behavior ;).
-	fbink_cfg.is_nightmode = true;
-	fbink_cfg.no_refresh   = true;
+	fbink_cfg.no_refresh = true;
+	if (fbink_state.can_hw_invert) {
+		fbink_cfg.is_nightmode = true;
+	} else {
+		// Fake it ;).
+		fbink_cfg.is_inverted = true;
+		fbink_invert_screen(fbfd, &fbink_cfg);
+	}
 	fbink_print_ot(fbfd,
 		       _("USBMS session in progress.\nPlease eject your device safely before unplugging it."),
 		       &msg_cfg,
@@ -1521,8 +1527,13 @@ int
 	struct timespec eject_ts = { 0 };
 	clock_gettime(CLOCK_REALTIME, &eject_ts);
 
-	fbink_cfg.is_nightmode = false;
-	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
+	if (fbink_state.can_hw_invert) {
+		fbink_cfg.is_nightmode = false;
+		fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
+	} else {
+		fbink_cfg.is_inverted = false;
+		fbink_invert_screen(fbfd, &fbink_cfg);
+	}
 
 	// Turn frontlight back on
 	if (fl_intensity != 0U) {
