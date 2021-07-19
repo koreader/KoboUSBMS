@@ -176,14 +176,17 @@ static bool
 		fclose(f);
 
 		// c.f., power_supply_show_property @ drivers/power/supply/power_supply_sysfs.c
+		//     & include/linux/power_supply.h
+		// NOTE: Match the behavior of the NXP _Is_USB_plugged ntx_io ioctl:
+		//       false if discharging, true otherwise.
 		if (strncmp(status, "Unknown", 7U) == 0U) {
-			is_plugged = false;
+			is_plugged = true;
 		} else if (strncmp(status, "Charging", 8U) == 0U) {
 			is_plugged = true;
 		} else if (strncmp(status, "Discharging", 11U) == 0U) {
 			is_plugged = false;
 		} else if (strncmp(status, "Not charging", 12U) == 0U) {
-			is_plugged = false;
+			is_plugged = true;
 		} else if (strncmp(status, "Full", 4U) == 0U) {
 			// NOTE: The charger type check ought to confirm that...
 			is_plugged = true;
