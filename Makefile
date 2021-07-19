@@ -21,7 +21,7 @@ OPT_CFLAGS:=-O2 -fomit-frame-pointer -pipe
 # We need -lrt on the old Kobo glibc for the clock_* family of functions...
 LIBS+=-lrt
 # We need our bundled FBInk & libdevdev.
-LIBS+=-l:libfbink.a -lm
+LIBS+=-l:libfbink.a -l:libi2c.a -lm
 LIBS+=-l:libevdev.a
 
 # NOTE: Remember to use gdb -ex 'set follow-fork-mode child' to debug, since we fork like wild bunnies...
@@ -94,9 +94,9 @@ EXTRA_LDFLAGS:=-Llibevdev-staged/lib
 
 # And pick up FBInk, too.
 ifdef DEBUG
-	EXTRA_LDFLAGS+=-LFBInk/Debug
+	EXTRA_LDFLAGS+=-LFBInk/Debug -LFBInk/libi2c-staged/lib
 else
-	EXTRA_LDFLAGS+=-LFBInk/Release
+	EXTRA_LDFLAGS+=-LFBInk/Release -LFBInk/libi2c-staged/lib
 	EXTRA_CPPFLAGS+=-DNDEBUG
 endif
 
@@ -120,6 +120,11 @@ default: vendored
 OBJS:=$(addprefix $(OUT_DIR)/, $(SRCS:.c=.o))
 SSH_OBJS:=$(addprefix $(OUT_DIR)/, $(SSH_SRCS:.c=.o))
 
+# Silence a few warnings when building libevdev
+EVDEV_CFLAGS:=-Wno-conversion -Wno-sign-conversion -Wno-undef -Wno-vla-parameter -Wno-format -Wno-null-dereference -Wno-bad-function-cast -Wno-inline
+# And when *linking* libevdev (w/ LTO)
+EVDEV_LDFLAGS:=-Wno-null-dereference
+
 $(OUT_DIR)/%.o: %.c
 	$(CC) $(CPPFLAGS) $(EXTRA_CPPFLAGS) $(CFLAGS) $(EXTRA_CFLAGS) $(QUIET_CFLAGS) -o $@ -c $<
 
@@ -137,7 +142,7 @@ vendored: libevdev.built fbink.built
 	$(MAKE) usbms
 
 usbms: $(OBJS) $(SSH_OBJS)
-	$(CC) $(CPPFLAGS) $(EXTRA_CPPFLAGS) $(CFLAGS) $(EXTRA_CFLAGS) $(LDFLAGS) $(EXTRA_LDFLAGS) -o$(OUT_DIR)/$@$(BINEXT) $(OBJS) $(SSH_OBJS) $(LIBS)
+	$(CC) $(CPPFLAGS) $(EXTRA_CPPFLAGS) $(CFLAGS) $(EXTRA_CFLAGS) $(LDFLAGS) $(EXTRA_LDFLAGS) $(EVDEV_LDFLAGS) -o$(OUT_DIR)/$@$(BINEXT) $(OBJS) $(SSH_OBJS) $(LIBS)
 
 strip: all
 	$(STRIP) --strip-unneeded $(OUT_DIR)/usbms
@@ -184,6 +189,9 @@ libevdev.built:
 	mkdir -p libevdev-staged
 	cd libevdev && \
 	autoreconf -fi && \
+	env CPPFLAGS="$(CPPFLAGS) $(EXTRA_CPPFLAGS)" \
+	CFLAGS="$(CFLAGS) $(EVDEV_CFLAGS)" \
+	LDFLAGS="$(LDFLAGS)" \
 	./configure $(if $(CROSS_TC),--host=$(CROSS_TC),) \
 	--prefix="$(CURDIR)/libevdev-staged" \
 	--enable-static \
