@@ -157,7 +157,7 @@ typedef struct
 
 // c.f., arch/arm/mach-imx/imx_ntx_io.c or arch/arm/mach-sunxi/sunxi_ntx_io.c in a Kobo kernel
 #define CM_USB_Plug_IN        108
-#define CM_CHARGE_STATUS      204    // Mapped to CM_USB_Plug_IN on the Mk. 7+...
+#define CM_CHARGE_STATUS      204    // Mapped to CM_USB_Plug_IN on Mk. 7+...
 #define CM_GET_BATTERY_STATUS 206
 #define CM_FRONT_LIGHT_SET    241
 
