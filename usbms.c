@@ -155,6 +155,44 @@ static bool
 	return !!ptr;
 }
 
+static bool
+    is_usb_plugged_sunxi(void)
+{
+	bool is_plugged = false;
+
+	FILE* f = fopen(SUNXI_BATT_STATUS_SYSFS, "re");
+	if (f) {
+		char   status[16] = { 0 };
+		size_t size       = fread(status, sizeof(*status), sizeof(status) - 1U, f);
+		if (size > 0) {
+			// Strip trailing LF
+			if (status[size - 1U] == '\n') {
+				status[size - 1U] = '\0';
+			}
+			LOG(LOG_INFO, "Battery status: %s", status);
+		} else {
+			LOG(LOG_WARNING, "Failed to read the battery status from sysfs!");
+		}
+		fclose(f);
+
+		// c.f., power_supply_show_property @ drivers/power/supply/power_supply_sysfs.c
+		if (strncmp(status, "Unknown", 7U) == 0U) {
+			is_plugged = false;
+		} else if (strncmp(status, "Charging", 8U) == 0U) {
+			is_plugged = true;
+		} else if (strncmp(status, "Discharging", 11U) == 0U) {
+			is_plugged = false;
+		} else if (strncmp(status, "Not charging", 12U) == 0U) {
+			is_plugged = false;
+		} else if (strncmp(status, "Full", 4U) == 0U) {
+			// NOTE: The charger type check ought to confirm that...
+			is_plugged = true;
+		}
+	}
+
+	return is_plugged;
+}
+
 // Return a fancy battery icon given the charge percentage...
 static const char*
     get_battery_icon(uint8_t charge)
