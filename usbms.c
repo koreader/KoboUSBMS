@@ -169,7 +169,7 @@ static bool
 			if (status[size - 1U] == '\n') {
 				status[size - 1U] = '\0';
 			}
-			LOG(LOG_INFO, "Battery status: %s", status);
+			LOG(LOG_DEBUG, "Battery status: %s", status);
 		} else {
 			LOG(LOG_WARNING, "Failed to read the battery status from sysfs!");
 		}
@@ -177,8 +177,9 @@ static bool
 
 		// c.f., power_supply_show_property @ drivers/power/supply/power_supply_sysfs.c
 		//     & include/linux/power_supply.h
-		// NOTE: Match the behavior of the NXP _Is_USB_plugged ntx_io ioctl:
+		// NOTE: Match the behavior of the NXP ntx_io ioctl (c.f., _Is_USB_plugged):
 		//       false if discharging, true otherwise.
+		// NOTE: The charger type check ought to then confirm that...
 		if (strncmp(status, "Unknown", 7U) == 0U) {
 			is_plugged = true;
 		} else if (strncmp(status, "Charging", 8U) == 0U) {
@@ -188,7 +189,6 @@ static bool
 		} else if (strncmp(status, "Not charging", 12U) == 0U) {
 			is_plugged = true;
 		} else if (strncmp(status, "Full", 4U) == 0U) {
-			// NOTE: The charger type check ought to confirm that...
 			is_plugged = true;
 		}
 	}
