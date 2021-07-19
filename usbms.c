@@ -144,7 +144,7 @@ static void
 }
 
 static bool
-    is_usb_plugged(int ntxfd)
+    ioctl_is_usb_plugged(int ntxfd)
 {
 	// Check if we're plugged in...
 	unsigned long ptr = 0U;
@@ -156,7 +156,7 @@ static bool
 }
 
 static bool
-    is_usb_plugged_sunxi(void)
+    sysfs_is_usb_plugged(int foo __attribute__((unused)))
 {
 	bool is_plugged = false;
 
@@ -498,7 +498,7 @@ static void
     print_status(int fbfd, const FBInkConfig* fbink_cfg, const FBInkOTConfig* ot_cfg, int ntxfd)
 {
 	// Check if we're plugged in...
-	bool usb_plugged = is_usb_plugged(ntxfd);
+	bool usb_plugged = (*fxpIsUSBPlugged)(ntxfd);
 
 	// Get the battery charge %
 	uint8_t batt_perc = 0U;
@@ -772,12 +772,15 @@ int
 	fbink_get_state(&fbink_cfg, &fbink_state);
 	setup_usb_ids(fbink_state.device_id);
 
-	// And setup the sysfs paths based on the device...
+	// And setup the sysfs paths & usb check based on the device...
 	if (fbink_state.is_sunxi) {
 		NTX_KEYS_EVDEV     = SUNXI_NTX_KEYS_EVDEV;
 		TOUCHPAD_EVDEV     = SUNXI_TOUCHPAD_EVDEV;
 		BATT_CAP_SYSFS     = SUNXI_BATT_CAP_SYSFS;
 		CHARGER_TYPE_SYSFS = SUNXI_CHARGER_TYPE_SYSFS;
+
+		// The CM_USB_Plug_IN ioctl is currently unreliable...
+		fxpIsUSBPlugged = &sysfs_is_usb_plugged;
 
 		// Enforce REAGL, since AUTO is not recommended on sunxi
 		fbink_cfg.wfm_mode = WFM_REAGL;
@@ -786,6 +789,8 @@ int
 		TOUCHPAD_EVDEV     = NXP_TOUCHPAD_EVDEV;
 		BATT_CAP_SYSFS     = NXP_BATT_CAP_SYSFS;
 		CHARGER_TYPE_SYSFS = NXP_CHARGER_TYPE_SYSFS;
+
+		fxpIsUSBPlugged = &ioctl_is_usb_plugged;
 	}
 
 	// Setup libue
@@ -925,7 +930,7 @@ int
 	icon_cfg.padding = HORI_PADDING;
 
 	// The various lsmod checks will take a while, so, start with the initial cable status...
-	bool usb_plugged = is_usb_plugged(ntxfd);
+	bool usb_plugged = (*fxpIsUSBPlugged)(ntxfd);
 	print_icon(fbfd, usb_plugged ? "\uf700" : "\uf701", &fbink_cfg, &icon_cfg);
 
 	// Setup the message area
@@ -1186,7 +1191,7 @@ int
 	LOG(LOG_INFO, "Starting USBMS shenanigans");
 	bool sleep_on_abort = true;
 	// If we're not plugged in, wait for it (or abort early)
-	usb_plugged = is_usb_plugged(ntxfd);
+	usb_plugged = (*fxpIsUSBPlugged)(ntxfd);
 	if (!usb_plugged) {
 		fbink_print_ot(fbfd,
 			       _("Waiting to be plugged in…\nOr, press the power button to exit."),
