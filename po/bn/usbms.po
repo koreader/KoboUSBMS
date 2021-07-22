@@ -8,17 +8,20 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-19 04:38+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2021-07-23 09:34+0000\n"
+"Last-Translator: Tushar Bakshi <tusharbakshi6@gmail.com>\n"
+"Language-Team: Bengali <https://hosted.weblate.org/projects/koreader/"
+"kobousbms/bn/>\n"
 "Language: bn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.7.2-dev\n"
 
 #: usbms.c:905
 msgid "USB Mass Storage"
-msgstr ""
+msgstr "ইউএসবি মাস স্টোরেজ"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:957
@@ -26,6 +29,8 @@ msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
 msgstr ""
+" ইউএসবি নেট ম্যানুয়ালি অক্ষম করুন!\n"
+"প্রস্থান করতে পাওয়ার বোতাম টিপুন।"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:972
@@ -33,35 +38,37 @@ msgid ""
 " Please disable USBSerial manually!\n"
 "Press the power button to exit."
 msgstr ""
+" অনুগ্রহ করে ম্যানুয়ালি ইউএসবিসিরিয়াল অক্ষম করুন!\n"
+"প্রস্থান করতে পাওয়ার বোতামটি টিপুন।"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1010
 msgid " Filesystem is busy! Offending processes:"
-msgstr ""
+msgstr " ফাইলসিস্টেম ব্যস্ত! আপত্তিকর প্রক্রিয়া:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
 #: usbms.c:1047
 msgid " The fuser script failed!"
-msgstr ""
+msgstr " ফাউজার স্ক্রিপ্ট ব্যর্থ হয়েছে!"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1060
 msgid " Failed to run the fuser script!"
-msgstr ""
+msgstr " ফাউজার স্ক্রিপ্ট চালাতে ব্যর্থ!"
 
 #: usbms.c:1068
 msgid "Press the power button to exit."
-msgstr ""
+msgstr "প্রস্থান করতে পাওয়ার বোতামটি টিপুন।"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1123 usbms.c:1242
 msgid " The device will shutdown in 30 sec."
-msgstr ""
+msgstr " ডিভাইসটি ৩০ সেকেন্ডে বন্ধ হয়ে যাবে।"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1131 usbms.c:1250
 msgid " KOReader will now restart…"
-msgstr ""
+msgstr "OR কোরিডার এখন পুনরায় চালু হবে …"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1165
@@ -69,6 +76,8 @@ msgid ""
 " Gave up after 30 sec.\n"
 "The device will shutdown in 30 sec."
 msgstr ""
+" ৩০ সেকেন্ড পরে হাল ছেড়ে দেন।\n"
+"ডিভাইসটি ৩০ সেকেন্ডের মধ্যে বন্ধ হয়ে যাবে।"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1173
@@ -76,12 +85,16 @@ msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
 msgstr ""
+" ৩০ সেকেন্ড পরে হাল ছেড়ে দেন।\n"
+"কেওরিডার এখন পুনরায় শুরু হবে…"
 
 #: usbms.c:1197
 msgid ""
 "Waiting to be plugged in…\n"
 "Or, press the power button to exit."
 msgstr ""
+"প্লাগ ইন করার জন্য অপেক্ষা করা হচ্ছে...\n"
+"অথবা, প্রস্থান করতে পাওয়ার বোতামটি টিপুন।"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1276
@@ -89,6 +102,9 @@ msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
 msgstr ""
+" ডিভাইসটি একটি সাধারণ পাওয়ার সোর্সে প্লাগ করা হয়েছিল, কোনও ইউএসবি হোস্ট "
+"নয়!\n"
+"ডিভাইসটি ৩০ সেকেন্ডের মধ্যে বন্ধ হয়ে যাবে।"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1284
@@ -96,6 +112,9 @@ msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
+" ডিভাইসটি একটি সাধারণ পাওয়ার সোর্সে প্লাগ করা হয়েছিল, কোনও ইউএসবি হোস্ট "
+"নয়!\n"
+"কেওরিডার এখন পুনরায় শুরু হবে…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1329
@@ -103,6 +122,8 @@ msgid ""
 " Gave up after 90 sec.\n"
 "The device will shutdown in 30 sec."
 msgstr ""
+" ৯০ সেকেন্ড পরে হাল ছেড়ে দিয়েছে।\n"
+"ডিভাইসটি ৩০ সেকেন্ডের মধ্যে বন্ধ হয়ে যাবে।"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1337
@@ -110,6 +131,8 @@ msgid ""
 " Gave up after 90 sec.\n"
 "KOReader will now restart…"
 msgstr ""
+" ৯০ সেকেন্ড পরে হাল ছেড়ে দিয়েছে।\n"
+"কেওরিডার এখন পুনরায় শুরু হবে…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1415
@@ -117,6 +140,9 @@ msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shutdown in 30 sec."
 msgstr ""
+" ডিভাইসটি একটি সাধারণ পাওয়ার সোর্সে প্লাগ করা হয়েছিল, কোনও ইউএসবি হোস্টে "
+"নয়!\n"
+"ডিভাইসটি ৩০ সেকেন্ডের মধ্যে বন্ধ হয়ে যাবে।"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1423
@@ -124,10 +150,13 @@ msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
+" ডিভাইসটি একটি সাধারণ পাওয়ার সোর্সে প্লাগ করা হয়েছে, কোনও ইউএসবি হোস্টে "
+"নয়!\n"
+"কেওরিডার এখন পুনরায় শুরু হবে…"
 
 #: usbms.c:1452
 msgid "Starting USBMS session…"
-msgstr ""
+msgstr "ইউএসবিএমএস সেশন শুরু হচ্ছে…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1468
@@ -135,12 +164,16 @@ msgid ""
 " Failed to start the USBMS session!\n"
 "The device will shutdown in 90 sec."
 msgstr ""
+" ইউএসবিএমএস সেশন শুরু করতে ব্যর্থ!\n"
+"ডিভাইসটি ৯০ সেকেন্ডে বন্ধ হয়ে যাবে।"
 
 #: usbms.c:1489
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
 msgstr ""
+"ইউএসবিএমএস সেশন চলছে।\n"
+"আপনার ডিভাইসটি আনপ্লাগ করার আগে অনুগ্রহ করে নিরাপদে বের করুন।"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1596
@@ -148,10 +181,12 @@ msgid ""
 " Failed to detect an unplug event!\n"
 "The device will shutdown in 90 sec."
 msgstr ""
+" একটি আনপ্লাগ ঘটনা শনাক্ত করতে ব্যর্থ হয়েছে!\n"
+"ডিভাইসটি ৯০ সেকেন্ডে বন্ধ হয়ে যাবে।"
 
 #: usbms.c:1608
 msgid "Ending USBMS session…"
-msgstr ""
+msgstr "ইউএসবিএমএস সেশন শেষ হচ্ছে…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1619
@@ -159,9 +194,13 @@ msgid ""
 " Failed to end the USBMS session!\n"
 "The device will shutdown in 90 sec."
 msgstr ""
+" ইউএসবিএমএস সেশন শুরু করতে ব্যর্থ!\n"
+"ডিভাইসটি ৯০ সেকেন্ডে বন্ধ হয়ে যাবে।"
 
 #: usbms.c:1762
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
 msgstr ""
+"সম্পন্ন!\n"
+"কোরিডার এখন পুনরায় চালু হবে …"
