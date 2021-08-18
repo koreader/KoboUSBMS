@@ -993,7 +993,7 @@ int
 			if (errno == EAGAIN) {
 				// That means we're good to go ;).
 				LOG(LOG_INFO,
-				    "%s storage partition wasn't busy, it's been marked as expired.",
+				    "%s storage partition wasn't busy, it's been successfully marked as expired.",
 				    mount_points[i].name);
 			} else if (errno == EBUSY) {
 				LOG(LOG_WARNING, "%s storage partition is busy, can't export it!", mount_points[i].name);
@@ -1019,7 +1019,7 @@ int
 				// Drop the bottom margin to allow stomping over the status bar…
 				msg_cfg.margins.bottom = 0;
 
-				LOG(LOG_WARNING, "Listing for offending processes…");
+				LOG(LOG_WARNING, "Listing all offending processes…");
 				snprintf(resource_path,
 					 sizeof(resource_path) - 1U,
 					 "%s/scripts/fuser-check.sh '%s'",
