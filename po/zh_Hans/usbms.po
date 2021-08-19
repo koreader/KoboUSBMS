@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-19 13:31+0200\n"
-"PO-Revision-Date: 2020-09-28 20:40+0000\n"
-"Last-Translator: NiLuJe <ninuje@gmail.com>\n"
+"PO-Revision-Date: 2021-08-19 19:26+0000\n"
+"Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "koreader/kobousbms/zh_Hans/>\n"
-"Language: zh_CN\n"
+"Language: zh_Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.3-dev\n"
+"X-Generator: Weblate 4.8-dev\n"
 
 #: usbms.c:905
 msgid "USB Mass Storage"
@@ -53,10 +53,8 @@ msgstr "⚠ fuser 脚本执行失败！"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1060
-#, fuzzy
-#| msgid " Failed to run the fuser script!"
 msgid " Could not run the fuser script!"
-msgstr "⚠ 运行 fuser 脚本失败！"
+msgstr "⚠ 无法运行 fuser 脚本！"
 
 #: usbms.c:1068
 msgid "Press the power button to exit."
@@ -64,10 +62,8 @@ msgstr "按下电源按钮以退出。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1123 usbms.c:1242
-#, fuzzy
-#| msgid " The device will shutdown in 30 sec."
 msgid " The device will shut down in 30 sec."
-msgstr "⚠ 设备将在30秒内关机。"
+msgstr "⚠ 设备将在 30 秒内关机。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1131 usbms.c:1250
@@ -76,16 +72,12 @@ msgstr "☞ KOReader 现在将重启 …"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1165
-#, fuzzy
-#| msgid ""
-#| " Gave up after 30 sec.\n"
-#| "The device will shutdown in 30 sec."
 msgid ""
 " Gave up after 30 sec.\n"
 "The device will shut down in 30 sec."
 msgstr ""
-"☞ 30秒钟后放弃。\n"
-"设备将在30秒内关机。"
+"☞ 30 秒钟后放弃。\n"
+"设备将在 30 秒内关机。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1173
@@ -106,16 +98,12 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1276
-#, fuzzy
-#| msgid ""
-#| " The device was plugged into a plain power source, not a USB host!\n"
-#| "The device will shutdown in 30 sec."
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 30 sec."
 msgstr ""
-"⚠ 该设备插入的是普通电源，而不是USB主机！\n"
-"设备将在30秒内关闭。"
+"⚠ 该设备插入的是普通电源，而不是 USB 主机！\n"
+"设备将在 30 秒内关闭。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1284
@@ -128,16 +116,12 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1329
-#, fuzzy
-#| msgid ""
-#| " Gave up after 90 sec.\n"
-#| "The device will shutdown in 30 sec."
 msgid ""
 " Gave up after 90 sec.\n"
 "The device will shut down in 30 sec."
 msgstr ""
-"☞ 90秒后放弃。\n"
-"设备将在30秒内关机。"
+"☞ 90 秒后放弃。\n"
+"设备将在 30 秒内关机。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1337
@@ -150,16 +134,12 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1415
-#, fuzzy
-#| msgid ""
-#| " The device is plugged into a plain power source, not a USB host!\n"
-#| "The device will shutdown in 30 sec."
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 30 sec."
 msgstr ""
-"⚠ 设备插入的是普通电源，而不是USB主机！\n"
-"设备将在30秒内关机。"
+"⚠ 设备插入的是普通电源，而不是 USB 主机！\n"
+"设备将在 30 秒内关机。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1423
@@ -176,15 +156,11 @@ msgstr "正在启动 USBMS 会话…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1468
-#, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " Could not start the USBMS session!\n"
 "The device will shut down in 90 sec."
 msgstr ""
-"⚠ USBMS 会话启动失败！\n"
+"⚠ 无法启动 USBMS 会话！\n"
 "此设备将在 90 秒内关机。"
 
 #: usbms.c:1489
@@ -197,15 +173,11 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1596
-#, fuzzy
-#| msgid ""
-#| " Failed to detect an unplug event!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " Could not detect an unplug event!\n"
 "The device will shut down in 90 sec."
 msgstr ""
-"⚠ 拔出事件检测失败！\n"
+"⚠ 无法检测拔出事件！\n"
 "此设备将在 90 秒内关机。"
 
 #: usbms.c:1608
@@ -214,15 +186,11 @@ msgstr "正在结束 USBMS 会话…"
 
 #. @translators: First Unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1619
-#, fuzzy
-#| msgid ""
-#| " Failed to end the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " Could not end the USBMS session!\n"
 "The device will shut down in 90 sec."
 msgstr ""
-"⚠ USBMS 会话结束失败！\n"
+"⚠ 无法结束 USBMS 会话！\n"
 "此设备将在 90 秒内关机。"
 
 #: usbms.c:1762
