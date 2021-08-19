@@ -132,11 +132,11 @@ static void
 			pid = 0x4163;
 			break;
 		default:
-			PFLOG(LOG_WARNING, "Can't match device code (%hu) to an USB Product ID!", device_code);
+			PFLOG(LOG_WARNING, "Can't match device code (%hu) to a USB Product ID!", device_code);
 			break;
 	}
 
-	// Push it to the env...
+	// Push it to the env…
 	char pid_str[8] = { 0 };
 	snprintf(pid_str, sizeof(pid_str) - 1U, "0x%04X", pid);
 	PFLOG(LOG_NOTICE, "USB product ID: %s", pid_str);
@@ -146,11 +146,11 @@ static void
 static bool
     ioctl_is_usb_plugged(int ntxfd)
 {
-	// Check if we're plugged in...
+	// Check if we're plugged in…
 	unsigned long ptr = 0U;
 	int           rc  = ioctl(ntxfd, CM_USB_Plug_IN, &ptr);
 	if (rc == -1) {
-		PFLOG(LOG_WARNING, "Failed to query USB status (ioctl: %m)");
+		PFLOG(LOG_WARNING, "Could not query USB status (ioctl: %m)");
 	}
 	return !!ptr;
 }
@@ -171,7 +171,7 @@ static bool
 			}
 			LOG(LOG_DEBUG, "Battery status: %s", status);
 		} else {
-			LOG(LOG_WARNING, "Failed to read the battery status from sysfs!");
+			LOG(LOG_WARNING, "Could not read the battery status from sysfs!");
 		}
 		fclose(f);
 
@@ -179,7 +179,7 @@ static bool
 		//     & include/linux/power_supply.h
 		// NOTE: Match the behavior of the NXP ntx_io ioctl (c.f., _Is_USB_plugged):
 		//       false if discharging, true otherwise.
-		// NOTE: The charger type check ought to then confirm that...
+		// NOTE: The charger type check ought to then confirm that…
 		if (strncmp(status, "Unknown", 7U) == 0U) {
 			is_plugged = true;
 		} else if (strncmp(status, "Charging", 8U) == 0U) {
@@ -196,7 +196,7 @@ static bool
 	return is_plugged;
 }
 
-// Return a fancy battery icon given the charge percentage...
+// Return a fancy battery icon given the charge percentage…
 static const char*
     get_battery_icon(uint8_t charge)
 {
@@ -235,7 +235,7 @@ static int
 		return -EINVAL;
 	}
 
-	// Now that we know it's positive, we can go on with strtoul...
+	// Now that we know it's positive, we can go on with strtoul…
 	char* endptr;
 	errno                 = 0;    // To distinguish success/failure after call
 	unsigned long int val = strtoul(str, &endptr, 10);
@@ -324,14 +324,14 @@ static time_t
 	return td.tv_sec;
 }
 
-// Attempt to figure out the current frontlight intensity...
+// Attempt to figure out the current frontlight intensity…
 static uint8_t
     get_frontlight_intensity(void)
 {
 	// If all else fails, don't touch the FL by ensuring we return 0
 	uint8_t intensity = 0U;
 
-	// On Mk. 7, we can actually get it from sysfs, making our life far easier...
+	// On Mk. 7, we can actually get it from sysfs, making our life far easier…
 	FILE* f = fopen(FL_INTENSITY_SYSFS, "re");
 	if (f) {
 		char   fl_intensity[8] = { 0 };
@@ -347,7 +347,7 @@ static uint8_t
 
 		if (strtoul_hhu(fl_intensity, &intensity) < 0) {
 			PFLOG(LOG_WARNING,
-			      "Failed to convert sysfs frontlight intensity value `%s` to an uint8_t!",
+			      "Could not convert sysfs frontlight intensity value `%s` to an uint8_t!",
 			      fl_intensity);
 		} else {
 			// We're good, don't bother trying to parse KOReader's settings!
@@ -362,7 +362,7 @@ static uint8_t
 		return intensity;
 	}
 
-	// Now, try to parse KOReader's settings...
+	// Now, try to parse KOReader's settings…
 	char ko_settings[PATH_MAX] = { 0 };
 	snprintf(ko_settings, sizeof(ko_settings) - 1U, "%s/settings.reader.lua", ko_dir);
 	f = fopen(ko_settings, "re");
@@ -384,14 +384,14 @@ static uint8_t
 				char* setting_key = strsep(&cur_line, "=");
 				if (!setting_key) {
 					PFLOG(LOG_WARNING,
-					      "Failed to parse 'is_frontline_on' in KOReader's settings (key)");
+					      "Could not parse 'is_frontline_on' in KOReader's settings (key)");
 					continue;
 				}
 
 				char* setting_value = strsep(&cur_line, ",");
 				if (!setting_value) {
 					PFLOG(LOG_WARNING,
-					      "Failed to parse 'is_frontline_on' in KOReader's settings (value)");
+					      "Could not parse 'is_frontline_on' in KOReader's settings (value)");
 					continue;
 				}
 
@@ -407,21 +407,21 @@ static uint8_t
 					PFLOG(LOG_INFO, "Frontlight is disabled in KOReader");
 				} else {
 					PFLOG(LOG_WARNING,
-					      "Failed to parse 'is_frontline_on' value! (`%s`)",
+					      "Could not parse 'is_frontline_on' value! (`%s`)",
 					      setting_value);
 				}
 			} else if (strstr(cur_line, "[\"frontlight_intensity\"]")) {
 				char* setting_key = strsep(&cur_line, "=");
 				if (!setting_key) {
 					PFLOG(LOG_WARNING,
-					      "Failed to parse 'frontlight_intensity' in KOReader's settings (key)");
+					      "Could not parse 'frontlight_intensity' in KOReader's settings (key)");
 					continue;
 				}
 
 				char* setting_value = strsep(&cur_line, ",");
 				if (!setting_value) {
 					PFLOG(LOG_WARNING,
-					      "Failed to parse 'frontlight_intensity' in KOReader's settings (value)");
+					      "Could not parse 'frontlight_intensity' in KOReader's settings (value)");
 					continue;
 				}
 
@@ -429,7 +429,7 @@ static uint8_t
 
 				if (strtoul_hhu(setting_value, &fl_intensity) < 0) {
 					PFLOG(LOG_WARNING,
-					      "Failed to convert KOReader frontlight intensity value `%s` to an uint8_t!",
+					      "Could not convert KOReader frontlight intensity value `%s` to an uint8_t!",
 					      setting_value);
 				} else {
 					found_intensity = true;
@@ -472,7 +472,7 @@ static void
 			int ptr = ifloorf(intensity - ((intensity / (float) STEPS) * i));
 			int rc  = ioctl(ntxfd, CM_FRONT_LIGHT_SET, ptr);
 			if (rc == -1) {
-				PFLOG(LOG_WARNING, "Failed to set frontlight intensity to %d%% (ioctl: %m)", ptr);
+				PFLOG(LOG_WARNING, "Could not set frontlight intensity to %d%% (ioctl: %m)", ptr);
 			}
 			if (i < STEPS) {
 				nanosleep(&zzz, NULL);
@@ -484,7 +484,7 @@ static void
 			int ptr = iceilf(0U + ((intensity / (float) STEPS) * i));
 			int rc  = ioctl(ntxfd, CM_FRONT_LIGHT_SET, ptr);
 			if (rc == -1) {
-				PFLOG(LOG_WARNING, "Failed to set frontlight intensity to %d%% (ioctl: %m)", ptr);
+				PFLOG(LOG_WARNING, "Could not set frontlight intensity to %d%% (ioctl: %m)", ptr);
 			}
 			if (i < STEPS) {
 				nanosleep(&zzz, NULL);
@@ -497,7 +497,7 @@ static void
 static void
     print_status(int fbfd, const FBInkConfig* fbink_cfg, const FBInkOTConfig* ot_cfg, int ntxfd)
 {
-	// Check if we're plugged in...
+	// Check if we're plugged in…
 	bool usb_plugged = (*fxpIsUSBPlugged)(ntxfd);
 
 	// Get the battery charge %
@@ -515,7 +515,7 @@ static void
 		fclose(f);
 
 		if (strtoul_hhu(batt_charge, &batt_perc) < 0) {
-			PFLOG(LOG_WARNING, "Failed to convert battery charge value `%s` to an uint8_t!", batt_charge);
+			PFLOG(LOG_WARNING, "Could not convert battery charge value `%s` to an uint8_t!", batt_charge);
 		}
 	}
 
@@ -673,10 +673,10 @@ int
 	// Say hello
 	LOG(LOG_INFO, "Initializing USBMS %s (%s)", USBMS_VERSION, USBMS_TIMESTAMP);
 
-	// We'll want to jump to /, and only get back to our original PWD on exit...
+	// We'll want to jump to /, and only get back to our original PWD on exit…
 	// c.f., man getcwd for the fchdir trick, as we can certainly spare the fd ;).
 	// NOTE: While using O_PATH would be nice, the flag itself is Linux 2.6.39+,
-	//       but, more importantly, the resulting fd is only usable with fchdir since Linux 3.5+...
+	//       but, more importantly, the resulting fd is only usable with fchdir since Linux 3.5+…
 	//       And, of course, Mk. 6 devices are smack in that sweet spot: they run Linux 3.0.35,
 	//       where O_PATH is supported, but not by fchdir ;).
 	pwd = open(".", O_RDONLY | O_DIRECTORY | O_CLOEXEC);
@@ -685,7 +685,7 @@ int
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
-	// We do need the pathname to load resources, though...
+	// We do need the pathname to load resources, though…
 	abs_pwd = get_current_dir_name();
 	if (chdir("/") == -1) {
 		PFLOG(LOG_CRIT, "chdir: %m");
@@ -697,7 +697,7 @@ int
 	// NOTE: The font we ship only covers LGC scripts. Blacklist a few languages where we know it won't work,
 	//       based on KOReader's own language list (c.f., frontend/ui/language.lua).
 	//       Because English is better than the replacement character ;p.
-	//       We do jump through a few hoops to attempt to salvage CJK support...
+	//       We do jump through a few hoops to attempt to salvage CJK support…
 	const char* lang = getenv("LANGUAGE");
 	if (lang) {
 		if (strncmp(lang, "he", 2U) == 0 || strncmp(lang, "ar", 2U) == 0 || strncmp(lang, "fa", 2U) == 0) {
@@ -725,25 +725,25 @@ int
 
 	// NOTE: Setup gettext, with a rather nasty twist, because of Kobo's utter lack of sane locales setup:
 	//       In order to translate stuff, gettext needs a valid setlocale call to a locale that *isn't* C or POSIX.
-	//       Unfortunately, Kobo doesn't compile *any* locales...
+	//       Unfortunately, Kobo doesn't compile *any* locales…
 	//       The minimal LC_* category we need for our translation is LC_MESSAGES.
 	//       It requires SYS_LC_MESSAGES from the glibc (usually shipped in archive form on sane systems).
 	//       So, we build one manually (via localedef) from the en_US definitions, and set-it up in a bogus custom locale,
 	//       which we use for our LC_MESSAGES setlocale call.
-	//       We of course ship it, and we enforce our own l10n directory as the global locale search path...
-	//       Then, we can *finally* choose our translation language via the LANGUAGE env var...
+	//       We of course ship it, and we enforce our own l10n directory as the global locale search path…
+	//       Then, we can *finally* choose our translation language via the LANGUAGE env var…
 	//       c.f., https://stackoverflow.com/q/36857863
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/l10n", abs_pwd);
-	// We can't touch the rootfs, so, teach the glibc about our awful workaround...
+	// We can't touch the rootfs, so, teach the glibc about our awful workaround…
 	// (c.f., https://www.gnu.org/software/libc/manual/html_node/Locale-Names.html)
 	setenv("LOCPATH", resource_path, 1);
 	// Then, because gettext wants a setlocale call, let's give it one that's enough to get us translations,
-	// and minimal enough that we don't have to ship a crazy amount of useless locale stuff...
+	// and minimal enough that we don't have to ship a crazy amount of useless locale stuff…
 	setlocale(LC_MESSAGES, "kobo");
-	// And now stuff can more or less start looking like a classic gettext setup...
+	// And now stuff can more or less start looking like a classic gettext setup…
 	bindtextdomain("usbms", resource_path);
 	textdomain("usbms");
-	// The whole locale shenanigan means more hand-holding is needed to enforce UTF-8...
+	// The whole locale shenanigan means more hand-holding is needed to enforce UTF-8…
 	bind_textdomain_codeset("usbms", "UTF-8");
 
 	// Setup FBInk
@@ -756,12 +756,12 @@ int
 	fbink_update_verbosity(&fbink_cfg);
 
 	if ((fbfd = fbink_open()) == ERRCODE(EXIT_FAILURE)) {
-		LOG(LOG_CRIT, "Failed to open the framebuffer, aborting . . .");
+		LOG(LOG_CRIT, "Could not open the framebuffer, aborting…");
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
 	if (fbink_init(fbfd, &fbink_cfg) == ERRCODE(EXIT_FAILURE)) {
-		LOG(LOG_CRIT, "Failed to initialize FBInk, aborting . . .");
+		LOG(LOG_CRIT, "Could not initialize FBInk, aborting…");
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
@@ -772,14 +772,14 @@ int
 	fbink_get_state(&fbink_cfg, &fbink_state);
 	setup_usb_ids(fbink_state.device_id);
 
-	// And setup the sysfs paths & usb check based on the device...
+	// And setup the sysfs paths & usb check based on the device…
 	if (fbink_state.is_sunxi) {
 		NTX_KEYS_EVDEV     = SUNXI_NTX_KEYS_EVDEV;
 		TOUCHPAD_EVDEV     = SUNXI_TOUCHPAD_EVDEV;
 		BATT_CAP_SYSFS     = SUNXI_BATT_CAP_SYSFS;
 		CHARGER_TYPE_SYSFS = SUNXI_CHARGER_TYPE_SYSFS;
 
-		// The CM_USB_Plug_IN ioctl is currently unreliable...
+		// The CM_USB_Plug_IN ioctl is currently unreliable…
 		fxpIsUSBPlugged = &sysfs_is_usb_plugged;
 
 		// Enforce REAGL, since AUTO is not recommended on sunxi
@@ -797,7 +797,7 @@ int
 	int rc = -1;
 	rc     = ue_init_listener(&listener);
 	if (rc < 0) {
-		LOG(LOG_CRIT, "Failed to initialize libue listener (%d)", rc);
+		LOG(LOG_CRIT, "Could not initialize libue listener (%d)", rc);
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
@@ -815,11 +815,11 @@ int
 	libevdev_set_device_log_function(dev, &libevdev_to_syslog, LIBEVDEV_LOG_INFO, NULL);
 	rc = libevdev_set_fd(dev, evfd);
 	if (rc < 0) {
-		LOG(LOG_CRIT, "Failed to initialize libevdev (%s)", strerror(-rc));
+		LOG(LOG_CRIT, "Could not initialize libevdev (%s)", strerror(-rc));
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
-	// Check that nothing else has grabbed the input device, because that would prevent us from using it...
+	// Check that nothing else has grabbed the input device, because that would prevent us from using it…
 	if (libevdev_grab(dev, LIBEVDEV_GRAB) != 0) {
 		LOG(LOG_CRIT,
 		    "Cannot read input events because the input device is currently grabbed by something else!");
@@ -831,7 +831,7 @@ int
 	LOG(LOG_INFO, "Initialized libevdev v%s for device `%s`", LIBEVDEV_VERSION, libevdev_get_name(dev));
 
 	// Much like in KOReader's OTAManager, check if we can use pipefail in a roundabout way,
-	// because old busybox ash versions will *abort* on set failures...
+	// because old busybox ash versions will *abort* on set failures…
 	rc = system("set -o pipefail 2>/dev/null");
 	if (rc == EXIT_SUCCESS) {
 		setenv("WITH_PIPEFAIL", "true", 1);
@@ -881,21 +881,21 @@ int
 	ot_cfg.size_px     = (unsigned short int) (fbink_state.font_h * 2U);
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/CaskaydiaCove_NF.otf", abs_pwd);
 	if (fbink_add_ot_font_v2(resource_path, FNT_REGULAR, &icon_cfg) != EXIT_SUCCESS) {
-		PFLOG(LOG_CRIT, "Failed to load main font!");
+		PFLOG(LOG_CRIT, "Could not load main font!");
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
-	// NOTE: Minor hackery: instead of the custom LGC Nerdfont we ship, for CJK, use KOReader's own CJK font...
+	// NOTE: Minor hackery: instead of the custom LGC Nerdfont we ship, for CJK, use KOReader's own CJK font…
 	//       (The only remotely CJK-ish NerdFont available is M+, and it's more J than CJK ;)).
 	if (is_CJK) {
 		snprintf(
 		    resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/NotoSansCJKsc-Regular.otf", abs_pwd);
 		if (fbink_add_ot_font_v2(resource_path, FNT_REGULAR, &msg_cfg) != EXIT_SUCCESS) {
-			PFLOG(LOG_CRIT, "Failed to load CJK font!");
+			PFLOG(LOG_CRIT, "Could not load CJK font!");
 			rv = USBMS_EARLY_EXIT;
 			goto cleanup;
 		}
-		// The first ot_cfg print (title bar) actually requires CJK support, so point it at our CJK font...
+		// The first ot_cfg print (title bar) actually requires CJK support, so point it at our CJK font…
 		ot_cfg.font = msg_cfg.font;
 	} else {
 		// If we don't need CJK support, we simply use the main font everywhere
@@ -929,7 +929,7 @@ int
 	icon_cfg.size_px = (unsigned short int) (fbink_state.font_h * 30U);
 	icon_cfg.padding = HORI_PADDING;
 
-	// The various lsmod checks will take a while, so, start with the initial cable status...
+	// The various lsmod checks will take a while, so, start with the initial cable status…
 	bool usb_plugged = (*fxpIsUSBPlugged)(ntxfd);
 	print_icon(fbfd, usb_plugged ? "\uf700" : "\uf701", &fbink_cfg, &icon_cfg);
 
@@ -960,7 +960,7 @@ int
 			       NULL);
 	}
 
-	// Same deal for USBSerial...
+	// Same deal for USBSerial…
 	if (is_module_loaded("g_serial")) {
 		LOG(LOG_ERR, "Device is in USBSerial mode, aborting");
 		need_early_abort = true;
@@ -987,7 +987,7 @@ int
 		}
 
 		// Wee bit of trickery with an obscure umount2 feature, to see if the mountpoint is currently busy,
-		// without actually unmounting it for real...
+		// without actually unmounting it for real…
 		rc = umount2(mount_points[i].mountpoint, MNT_EXPIRE);
 		if (rc != EXIT_SUCCESS) {
 			if (errno == EAGAIN) {
@@ -1002,7 +1002,7 @@ int
 					   &fbink_cfg,
 					   &icon_cfg);
 
-				// Start a little bit higher than usual to leave us some room...
+				// Start a little bit higher than usual to leave us some room…
 				fbink_cfg.row       = -16;
 				msg_cfg.margins.top = (short int) -(fbink_state.font_h * 16U);
 				rc                  = fbink_print_ot(fbfd,
@@ -1012,14 +1012,14 @@ int
                                                     &fbink_cfg,
                                                     NULL);
 
-				// And now, switch to a smaller font size when consuming the script's output...
+				// And now, switch to a smaller font size when consuming the script's output…
 				msg_cfg.padding     = HORI_PADDING;
 				msg_cfg.size_px     = fbink_state.font_h;
 				msg_cfg.margins.top = (short int) rc;
-				// Drop the bottom margin to allow stomping over the status bar...
+				// Drop the bottom margin to allow stomping over the status bar…
 				msg_cfg.margins.bottom = 0;
 
-				LOG(LOG_WARNING, "Listing offending processes...");
+				LOG(LOG_WARNING, "Listing all offending processes…");
 				snprintf(resource_path,
 					 sizeof(resource_path) - 1U,
 					 "%s/scripts/fuser-check.sh '%s'",
@@ -1038,7 +1038,7 @@ int
 
 					rc = pclose(f);
 					if (rc != EXIT_SUCCESS) {
-						// Hu oh... Print a giant warning, and abort.
+						// Hu oh… Print a giant warning, and abort.
 						LOG(LOG_CRIT, "The fuser script failed (%d)!", rc);
 						print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 						rc = fbink_print_ot(
@@ -1051,13 +1051,13 @@ int
 						msg_cfg.margins.top = (short int) rc;
 					}
 				} else {
-					// Hu oh... Print a giant warning, and abort.
-					LOG(LOG_CRIT, "Failed to run fuser script!");
+					// Hu oh… Print a giant warning, and abort.
+					LOG(LOG_CRIT, "Could not run fuser script!");
 					print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 					rc = fbink_print_ot(
 					    fbfd,
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
-					    _("\uf071 Failed to run the fuser script!"),
+					    _("\uf071 Could not run the fuser script!"),
 					    &msg_cfg,
 					    &fbink_cfg,
 					    NULL);
@@ -1074,7 +1074,7 @@ int
 				goto cleanup;
 			}
 		} else {
-			// NOTE: This should never really happen...
+			// NOTE: This should never really happen…
 			LOG(LOG_WARNING,
 			    "%s storage partition has been unmounted early: it wasn't busy, and it was already marked as expired?!",
 			    mount_points[i].name);
@@ -1082,9 +1082,9 @@ int
 		}
 	}
 
-	// If we need an early abort because of USBNet/USBSerial or a busy mountpoint, do it now...
+	// If we need an early abort because of USBNet/USBSerial or a busy mountpoint, do it now…
 	if (need_early_abort) {
-		LOG(LOG_INFO, "Waiting for a power button press . . .");
+		LOG(LOG_INFO, "Waiting for a power button press…");
 		struct pollfd pfds[2] = { 0 };
 		nfds_t        nfds    = 2;
 		// Input device
@@ -1120,7 +1120,7 @@ int
 							fbink_print_ot(
 							    fbfd,
 							    // @translators: First unicode codepoint is an icon, leave it as-is.
-							    _("\uf071 The device will shutdown in 30 sec."),
+							    _("\uf071 The device will shut down in 30 sec."),
 							    &msg_cfg,
 							    &fbink_cfg,
 							    NULL);
@@ -1162,7 +1162,7 @@ int
 					fbink_print_ot(
 					    fbfd,
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
-					    _("\uf05a Gave up after 30 sec.\nThe device will shutdown in 30 sec."),
+					    _("\uf05a Gave up after 30 sec.\nThe device will shut down in 30 sec."),
 					    &msg_cfg,
 					    &fbink_cfg,
 					    NULL);
@@ -1175,7 +1175,7 @@ int
 					    &fbink_cfg,
 					    NULL);
 				}
-				// Make sure this message will be visible...
+				// Make sure this message will be visible…
 				fbink_wait_for_complete(fbfd, LAST_MARKER);
 				const struct timespec zzz = { 2L, 500000000L };
 				nanosleep(&zzz, NULL);
@@ -1199,7 +1199,7 @@ int
 			       &fbink_cfg,
 			       NULL);
 
-		LOG(LOG_INFO, "Waiting for a plug in event or a power button press . . .");
+		LOG(LOG_INFO, "Waiting for a plug in event or a power button press…");
 		struct pollfd pfds[3] = { 0 };
 		nfds_t        nfds    = 3;
 		// Input device
@@ -1239,7 +1239,7 @@ int
 							fbink_print_ot(
 							    fbfd,
 							    // @translators: First unicode codepoint is an icon, leave it as-is.
-							    _("\uf071 The device will shutdown in 30 sec."),
+							    _("\uf071 The device will shut down in 30 sec."),
 							    &msg_cfg,
 							    &fbink_cfg,
 							    NULL);
@@ -1262,7 +1262,7 @@ int
 				if (pfds[1].revents & POLLIN) {
 					int ue_rc = handle_uevent(&listener, &uev);
 					if (ue_rc == EXIT_SUCCESS) {
-						// Now check if it's a plug in...
+						// Now check if it's a plug in…
 						if (uev.action == UEVENT_ACTION_ADD && uev.devpath &&
 						    UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_PLUG)) {
 							// Refresh the status bar
@@ -1273,7 +1273,7 @@ int
 								fbink_print_ot(
 								    fbfd,
 								    // @translators: First unicode codepoint is an icon, leave it as-is.
-								    _("\uf071 The device was plugged into a plain power source, not a USB host!\nThe device will shutdown in 30 sec."),
+								    _("\uf071 The device was plugged into a plain power source, not a USB host!\nThe device will shut down in 30 sec."),
 								    &msg_cfg,
 								    &fbink_cfg,
 								    NULL);
@@ -1326,7 +1326,7 @@ int
 					fbink_print_ot(
 					    fbfd,
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
-					    _("\uf05a Gave up after 90 sec.\nThe device will shutdown in 30 sec."),
+					    _("\uf05a Gave up after 90 sec.\nThe device will shut down in 30 sec."),
 					    &msg_cfg,
 					    &fbink_cfg,
 					    NULL);
@@ -1345,14 +1345,14 @@ int
 		}
 	} else {
 		// NOTE: usb_plugged will be true if usbms was started while *already* plugged in,
-		//       even if it's to a plain power source, and not a USB host...
+		//       even if it's to a plain power source, and not a USB host…
 		//       On some devices, POWER_SUPPLY_PROP_ONLINE is smart enough to be able to tell the difference,
 		//       which means we can read it from sysfs (c.f., ricoh61x_batt_get_prop @ drivers/power/ricoh619-battery.c),
-		//       but on older devices, it isn't, and the discrimination is *only* done during the plug in event...
+		//       but on older devices, it isn't, and the discrimination is *only* done during the plug in event…
 		//       (c.f., drivers/input/misc/usb_plug.c).
 		//       So, do what we can here, otherwise, the state may need to be tracked by the frontend,
-		//       assuming it *also* got a chance to catch the event: i.e., it started *before* the plug in...
-		// NOTE: Unfortunately, the only platform where we can do that appears to be Mk. 7...
+		//       assuming it *also* got a chance to catch the event: i.e., it started *before* the plug in…
+		// NOTE: Unfortunately, the only platform where we can do that appears to be Mk. 7…
 		if (access(CHARGER_TYPE_SYSFS, F_OK) == 0) {
 			LOG(LOG_INFO, "Checking charger type");
 			FILE* f = fopen(CHARGER_TYPE_SYSFS, "re");
@@ -1365,7 +1365,7 @@ int
 						charger_type[size - 1U] = '\0';
 					}
 				} else {
-					LOG(LOG_WARNING, "Failed to read the charger type from sysfs!");
+					LOG(LOG_WARNING, "Could not read the charger type from sysfs!");
 				}
 				fclose(f);
 
@@ -1412,7 +1412,7 @@ int
 						fbink_print_ot(
 						    fbfd,
 						    // @translators: First unicode codepoint is an icon, leave it as-is.
-						    _("\uf071 The device is plugged into a plain power source, not a USB host!\nThe device will shutdown in 30 sec."),
+						    _("\uf071 The device is plugged into a plain power source, not a USB host!\nThe device will shut down in 30 sec."),
 						    &msg_cfg,
 						    &fbink_cfg,
 						    NULL);
@@ -1427,16 +1427,16 @@ int
 					}
 				}
 			} else {
-				LOG(LOG_WARNING, "Failed to open the sysfs entry for charger type (%m)!");
+				LOG(LOG_WARNING, "Could not open the sysfs entry for charger type (%m)!");
 			}
 		} else {
 			LOG(LOG_INFO, "Device generation is older than Mk. 7, can't check charger type!");
 		}
 	}
 
-	// If we aborted before plug in, we can (usually) still exit safely...
+	// If we aborted before plug in, we can (usually) still exit safely…
 	if (need_early_abort) {
-		// Make sure the final message will be visible...
+		// Make sure the final message will be visible…
 		fbink_wait_for_complete(fbfd, LAST_MARKER);
 		if (sleep_on_abort) {
 			const struct timespec zzz = { 2L, 500000000L };
@@ -1446,26 +1446,26 @@ int
 		goto cleanup;
 	}
 
-	// We're plugged in, here comes the fun...
-	LOG(LOG_INFO, "Starting USBMS session...");
+	// We're plugged in, here comes the fun…
+	LOG(LOG_INFO, "Starting USBMS session…");
 	print_icon(fbfd, "\uf287", &fbink_cfg, &icon_cfg);
 	fbink_print_ot(fbfd, _("Starting USBMS session…"), &msg_cfg, &fbink_cfg, NULL);
 
 	// NOTE: We need to figure out the frontlight intensity *before* we unmount onboard,
-	//       because, on < Mk. 7 devices, we'll have to get that from KOReader's config file...
+	//       because, on < Mk. 7 devices, we'll have to get that from KOReader's config file…
 	uint8_t fl_intensity = get_frontlight_intensity();
 	LOG(LOG_INFO, "Frontlight intensity is currently set to %hhu%%", fl_intensity);
 
-	// Here goes nothing...
+	// Here goes nothing…
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/scripts/start-usbms.sh", abs_pwd);
 	rc = system(resource_path);
 	if (rc != EXIT_SUCCESS) {
-		// Hu oh... Print a giant warning, and abort. KOReader will shutdown the device after a while.
-		LOG(LOG_CRIT, "Failed to start the USBMS session (%d)!", rc);
+		// Hu oh… Print a giant warning, and abort. KOReader will shut down the device after a while.
+		LOG(LOG_CRIT, "Could not start the USBMS session (%d)!", rc);
 		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
 			       // @translators: First unicode codepoint is an icon, leave it as-is.
-			       _("\uf071 Failed to start the USBMS session!\nThe device will shutdown in 90 sec."),
+			       _("\uf071 Could not start the USBMS session!\nThe device will shut down in 90 sec."),
 			       &msg_cfg,
 			       &fbink_cfg,
 			       NULL);
@@ -1493,14 +1493,14 @@ int
 	fbink_cfg.no_refresh = false;
 	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
 
-	// And much like Nickel, gently turn the light off for the duration...
+	// And much like Nickel, gently turn the light off for the duration…
 	if (fl_intensity != 0U) {
-		LOG(LOG_INFO, "Turning frontlight off...");
+		LOG(LOG_INFO, "Turning frontlight off…");
 		toggle_frontlight(false, fl_intensity, ntxfd);
 	}
 
-	// And now we just have to wait until an unplug...
-	LOG(LOG_INFO, "Waiting for an eject or unplug event . . .");
+	// And now we just have to wait until an unplug…
+	LOG(LOG_INFO, "Waiting for an eject or unplug event…");
 	struct pollfd pfds[2] = { 0 };
 	nfds_t        nfds    = 2;
 	// Uevent socket
@@ -1514,7 +1514,7 @@ int
 	// NOTE: This is basically ue_wait_for_event, but with an extra polling on our clock timerfd,
 	//       solely for the purpose of refreshing the status bar,
 	//       because we don't necessarily get change events on power_supply on older devices
-	//       (e.g., it happens on Mk. 7, but not on Mk. 5)...
+	//       (e.g., it happens on Mk. 7, but not on Mk. 5)…
 	while (true) {
 		int poll_num = poll(pfds, nfds, -1);
 
@@ -1531,7 +1531,7 @@ int
 			if (pfds[0].revents & POLLIN) {
 				int ue_rc = handle_uevent(&listener, &uev);
 				if (ue_rc == EXIT_SUCCESS) {
-					// Now check if it's an eject or an unplug...
+					// Now check if it's an eject or an unplug…
 					if (uev.action == UEVENT_ACTION_OFFLINE && uev.devpath &&
 					    (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_FSL) ||
 					     (uev.modalias && UE_STR_EQ(uev.modalias, KOBO_USB_MODALIAS_CI)) ||
@@ -1583,17 +1583,17 @@ int
 
 	// Turn frontlight back on
 	if (fl_intensity != 0U) {
-		LOG(LOG_INFO, "Turning frontlight back on...");
+		LOG(LOG_INFO, "Turning frontlight back on…");
 		toggle_frontlight(true, fl_intensity, ntxfd);
 	}
 
-	// If ue_wait_for_event failed for some reason, abort with extreme prejudice...
+	// If ue_wait_for_event failed for some reason, abort with extreme prejudice…
 	if (rc != EXIT_SUCCESS) {
-		LOG(LOG_CRIT, "Failed to detect an unlug event!");
+		LOG(LOG_CRIT, "Could not detect an unlug event!");
 		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
 			       // @translators: First unicode codepoint is an icon, leave it as-is.
-			       _("\uf071 Failed to detect an unplug event!\nThe device will shutdown in 90 sec."),
+			       _("\uf071 Could not detect an unplug event!\nThe device will shut down in 90 sec."),
 			       &msg_cfg,
 			       &fbink_cfg,
 			       NULL);
@@ -1603,20 +1603,20 @@ int
 	}
 
 	// And now remount all the things!
-	LOG(LOG_INFO, "Ending USBMS session...");
+	LOG(LOG_INFO, "Ending USBMS session…");
 	print_icon(fbfd, "\ufa52", &fbink_cfg, &icon_cfg);
 	fbink_print_ot(fbfd, _("Ending USBMS session…"), &msg_cfg, &fbink_cfg, NULL);
 
-	// Nearly there...
+	// Nearly there…
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/scripts/end-usbms.sh", abs_pwd);
 	rc = system(resource_path);
 	if (rc != EXIT_SUCCESS) {
-		// Hu oh... Print a giant warning, and abort. KOReader will shutdown the device after a while.
-		LOG(LOG_CRIT, "Failed to end the USBMS session (%d)!", rc);
+		// Hu oh… Print a giant warning, and abort. KOReader will shut down the device after a while.
+		LOG(LOG_CRIT, "Could not end the USBMS session (%d)!", rc);
 		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
-			       // @translators: First unicode codepoint is an icon, leave it as-is.
-			       _("\uf071 Failed to end the USBMS session!\nThe device will shutdown in 90 sec."),
+			       // @translators: First Unicode codepoint is an icon, leave it as-is.
+			       _("\uf071 Could not end the USBMS session!\nThe device will shut down in 90 sec."),
 			       &msg_cfg,
 			       &fbink_cfg,
 			       NULL);
@@ -1628,7 +1628,7 @@ int
 	// Handle date/time synchronization, like Nickel
 	// c.f., https://www.mobileread.com/forums/showpost.php?p=4064358&postcount=9
 	if (access(KOBO_TZ_FILE, F_OK) == 0) {
-		LOG(LOG_INFO, "Checking timezone synchronization file...");
+		LOG(LOG_INFO, "Checking timezone synchronization file…");
 		FILE* f = fopen(KOBO_TZ_FILE, "re");
 		if (f) {
 			char   tzname[_POSIX_PATH_MAX * 2U] = { 0 };
@@ -1639,7 +1639,7 @@ int
 					tzname[size - 1U] = '\0';
 				}
 			} else {
-				LOG(LOG_WARNING, "Failed to read timezone.conf!");
+				LOG(LOG_WARNING, "Could not read timezone.conf!");
 			}
 			fclose(f);
 			f = NULL;
@@ -1648,12 +1648,12 @@ int
 			for (char* p = tzname; (p = strchr(p, ' ')) != NULL; *p = '_')
 				;
 
-			// Start by checking if we actually *can* use it...
+			// Start by checking if we actually *can* use it…
 			bool tz_available = false;
 			snprintf(resource_path, sizeof(resource_path) - 1U, SYSTEM_TZPATH "/%s", tzname);
 			if (access(resource_path, F_OK) != 0) {
 				tz_available = false;
-				// Try with the few extra symlinks Kobo maintains...
+				// Try with the few extra symlinks Kobo maintains…
 				snprintf(resource_path, sizeof(resource_path) - 1U, KOBO_TZPATH "/%s", tzname);
 				if (access(resource_path, F_OK) != 0) {
 					tz_available = false;
@@ -1668,7 +1668,7 @@ int
 				// Then it's as easy as a symlink ;)
 				unlink(SYSTEM_TZFILE);
 				if (symlink(resource_path, SYSTEM_TZFILE) == -1) {
-					LOG(LOG_WARNING, "Failed to symlink the zoneinfo file for `%s`: %m", tzname);
+					LOG(LOG_WARNING, "Could not symlink the zoneinfo file for `%s`: %m", tzname);
 					// Fallback to US/NYC
 					symlink(SYSTEM_TZPATH "/America/New_York", SYSTEM_TZFILE);
 					LOG(LOG_INFO, "Reset timezone to America/New_York");
@@ -1683,7 +1683,7 @@ int
 	}
 
 	if (access(KOBO_EPOCH_TS, F_OK) == 0) {
-		LOG(LOG_INFO, "Checking date/time synchronization file...");
+		LOG(LOG_INFO, "Checking date/time synchronization file…");
 		FILE* f = fopen(KOBO_EPOCH_TS, "re");
 		if (f) {
 			char   epoch[32] = { 0 };
@@ -1694,7 +1694,7 @@ int
 					epoch[size - 1U] = '\0';
 				}
 			} else {
-				LOG(LOG_WARNING, "Failed to read epoch.conf!");
+				LOG(LOG_WARNING, "Could not read epoch.conf!");
 			}
 			fclose(f);
 			f = NULL;
@@ -1712,7 +1712,7 @@ int
 			localtime_r(&ts.tv_sec, &tm_time);
 			// We're on glibc, let strptime deal with it (barring that, strtol/stroll would do)
 			if (strptime(epoch, "%s", &tm_time) == NULL) {
-				LOG(LOG_WARNING, "Failed to parse epoch.conf data: `%s`", epoch);
+				LOG(LOG_WARNING, "Could not parse epoch.conf data: `%s`", epoch);
 			} else {
 				// Make a time_t out of the updated timespec
 				time_t t = mktime(&tm_time);
@@ -1722,7 +1722,7 @@ int
 					// Account for the time difference between the eject,
 					// (which is roughly when the ts was stored by the app),
 					// and the moment when we actually started reading it,
-					// because we're guaranteed to have lost a few seconds to fsck...
+					// because we're guaranteed to have lost a few seconds to fsck…
 					ts.tv_sec  = t + elapsed_sec;
 					ts.tv_nsec = 0;
 					// And, finally, update the system clock
@@ -1732,11 +1732,11 @@ int
 					gmtime_r(&ts.tv_sec, &tm_time);
 					int rtc = open("/dev/rtc0", O_WRONLY | O_NONBLOCK | O_CLOEXEC);
 					if (rtc == -1) {
-						LOG(LOG_WARNING, "Failed to open RTC: %m");
+						LOG(LOG_WARNING, "Could not open RTC: %m");
 					} else {
 						tm_time.tm_isdst = 0;
 						if (ioctl(rtc, RTC_SET_TIME, &tm_time) == -1) {
-							LOG(LOG_WARNING, "Failed to set RTC time: %m");
+							LOG(LOG_WARNING, "Could not set RTC time: %m");
 						}
 						close(rtc);
 					}
@@ -1755,7 +1755,7 @@ int
 	// Whee!
 	LOG(LOG_INFO, "Done :)");
 	// NOTE: We batch the final screen, make it flash, and wait for completion of the refresh,
-	//       all in order to make sure we won't lose a race with the refresh induced by KOReader's restart...
+	//       all in order to make sure we won't lose a race with the refresh induced by KOReader's restart…
 	//       (i.e., don't let it get optimized out by the EPDC).
 	fbink_cfg.no_refresh = true;
 	print_icon(fbfd, "\uf058", &fbink_cfg, &icon_cfg);
