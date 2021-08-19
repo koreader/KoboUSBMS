@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-19 04:38+0200\n"
+"POT-Creation-Date: 2021-08-19 13:31+0200\n"
 "PO-Revision-Date: 2021-07-23 09:34+0000\n"
 "Last-Translator: Tushar Bakshi <tusharbakshi6@gmail.com>\n"
 "Language-Team: Bengali <https://hosted.weblate.org/projects/koreader/"
@@ -53,7 +53,9 @@ msgstr " ফাউজার স্ক্রিপ্ট ব্যর্থ �
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1060
-msgid " Failed to run the fuser script!"
+#, fuzzy
+#| msgid " Failed to run the fuser script!"
+msgid " Could not run the fuser script!"
 msgstr " ফাউজার স্ক্রিপ্ট চালাতে ব্যর্থ!"
 
 #: usbms.c:1068
@@ -62,7 +64,9 @@ msgstr "প্রস্থান করতে পাওয়ার বোতা
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1123 usbms.c:1242
-msgid " The device will shutdown in 30 sec."
+#, fuzzy
+#| msgid " The device will shutdown in 30 sec."
+msgid " The device will shut down in 30 sec."
 msgstr " ডিভাইসটি ৩০ সেকেন্ডে বন্ধ হয়ে যাবে।"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -72,9 +76,13 @@ msgstr "OR কোরিডার এখন পুনরায় চালু �
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1165
+#, fuzzy
+#| msgid ""
+#| " Gave up after 30 sec.\n"
+#| "The device will shutdown in 30 sec."
 msgid ""
 " Gave up after 30 sec.\n"
-"The device will shutdown in 30 sec."
+"The device will shut down in 30 sec."
 msgstr ""
 " ৩০ সেকেন্ড পরে হাল ছেড়ে দেন।\n"
 "ডিভাইসটি ৩০ সেকেন্ডের মধ্যে বন্ধ হয়ে যাবে।"
@@ -98,12 +106,15 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1276
+#, fuzzy
+#| msgid ""
+#| " The device was plugged into a plain power source, not a USB host!\n"
+#| "The device will shutdown in 30 sec."
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
-"The device will shutdown in 30 sec."
+"The device will shut down in 30 sec."
 msgstr ""
-" ডিভাইসটি একটি সাধারণ পাওয়ার সোর্সে প্লাগ করা হয়েছিল, কোনও ইউএসবি হোস্ট "
-"নয়!\n"
+" ডিভাইসটি একটি সাধারণ পাওয়ার সোর্সে প্লাগ করা হয়েছিল, কোনও ইউএসবি হোস্ট নয়!\n"
 "ডিভাইসটি ৩০ সেকেন্ডের মধ্যে বন্ধ হয়ে যাবে।"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -112,15 +123,18 @@ msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
-" ডিভাইসটি একটি সাধারণ পাওয়ার সোর্সে প্লাগ করা হয়েছিল, কোনও ইউএসবি হোস্ট "
-"নয়!\n"
+" ডিভাইসটি একটি সাধারণ পাওয়ার সোর্সে প্লাগ করা হয়েছিল, কোনও ইউএসবি হোস্ট নয়!\n"
 "কেওরিডার এখন পুনরায় শুরু হবে…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1329
+#, fuzzy
+#| msgid ""
+#| " Gave up after 90 sec.\n"
+#| "The device will shutdown in 30 sec."
 msgid ""
 " Gave up after 90 sec.\n"
-"The device will shutdown in 30 sec."
+"The device will shut down in 30 sec."
 msgstr ""
 " ৯০ সেকেন্ড পরে হাল ছেড়ে দিয়েছে।\n"
 "ডিভাইসটি ৩০ সেকেন্ডের মধ্যে বন্ধ হয়ে যাবে।"
@@ -136,12 +150,15 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1415
+#, fuzzy
+#| msgid ""
+#| " The device is plugged into a plain power source, not a USB host!\n"
+#| "The device will shutdown in 30 sec."
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
-"The device will shutdown in 30 sec."
+"The device will shut down in 30 sec."
 msgstr ""
-" ডিভাইসটি একটি সাধারণ পাওয়ার সোর্সে প্লাগ করা হয়েছিল, কোনও ইউএসবি হোস্টে "
-"নয়!\n"
+" ডিভাইসটি একটি সাধারণ পাওয়ার সোর্সে প্লাগ করা হয়েছিল, কোনও ইউএসবি হোস্টে নয়!\n"
 "ডিভাইসটি ৩০ সেকেন্ডের মধ্যে বন্ধ হয়ে যাবে।"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -150,8 +167,7 @@ msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
-" ডিভাইসটি একটি সাধারণ পাওয়ার সোর্সে প্লাগ করা হয়েছে, কোনও ইউএসবি হোস্টে "
-"নয়!\n"
+" ডিভাইসটি একটি সাধারণ পাওয়ার সোর্সে প্লাগ করা হয়েছে, কোনও ইউএসবি হোস্টে নয়!\n"
 "কেওরিডার এখন পুনরায় শুরু হবে…"
 
 #: usbms.c:1452
@@ -160,9 +176,13 @@ msgstr "ইউএসবিএমএস সেশন শুরু হচ্ছে
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1468
+#, fuzzy
+#| msgid ""
+#| " Failed to start the USBMS session!\n"
+#| "The device will shutdown in 90 sec."
 msgid ""
-" Failed to start the USBMS session!\n"
-"The device will shutdown in 90 sec."
+" Could not start the USBMS session!\n"
+"The device will shut down in 90 sec."
 msgstr ""
 " ইউএসবিএমএস সেশন শুরু করতে ব্যর্থ!\n"
 "ডিভাইসটি ৯০ সেকেন্ডে বন্ধ হয়ে যাবে।"
@@ -177,9 +197,13 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1596
+#, fuzzy
+#| msgid ""
+#| " Failed to detect an unplug event!\n"
+#| "The device will shutdown in 90 sec."
 msgid ""
-" Failed to detect an unplug event!\n"
-"The device will shutdown in 90 sec."
+" Could not detect an unplug event!\n"
+"The device will shut down in 90 sec."
 msgstr ""
 " একটি আনপ্লাগ ঘটনা শনাক্ত করতে ব্যর্থ হয়েছে!\n"
 "ডিভাইসটি ৯০ সেকেন্ডে বন্ধ হয়ে যাবে।"
@@ -188,11 +212,15 @@ msgstr ""
 msgid "Ending USBMS session…"
 msgstr "ইউএসবিএমএস সেশন শেষ হচ্ছে…"
 
-#. @translators: First unicode codepoint is an icon, leave it as-is.
+#. @translators: First Unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1619
+#, fuzzy
+#| msgid ""
+#| " Failed to end the USBMS session!\n"
+#| "The device will shutdown in 90 sec."
 msgid ""
-" Failed to end the USBMS session!\n"
-"The device will shutdown in 90 sec."
+" Could not end the USBMS session!\n"
+"The device will shut down in 90 sec."
 msgstr ""
 " ইউএসবিএমএস সেশন শুরু করতে ব্যর্থ!\n"
 "ডিভাইসটি ৯০ সেকেন্ডে বন্ধ হয়ে যাবে।"

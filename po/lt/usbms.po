@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-19 04:38+0200\n"
+"POT-Creation-Date: 2021-08-19 13:31+0200\n"
 "PO-Revision-Date: 2021-07-11 16:35+0000\n"
 "Last-Translator: Gediminas Murauskas <muziejusinfo@gmail.com>\n"
 "Language-Team: Lithuanian <https://hosted.weblate.org/projects/koreader/"
@@ -55,7 +55,9 @@ msgstr " Kaitintuvo scenarijaus nepavyko!"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1060
-msgid " Failed to run the fuser script!"
+#, fuzzy
+#| msgid " Failed to run the fuser script!"
+msgid " Could not run the fuser script!"
 msgstr " Nepavyko paleisti kaitintuvo scenarijaus!"
 
 #: usbms.c:1068
@@ -64,7 +66,9 @@ msgstr "Norėdami išeiti, paspauskite įrenginio išjungimo mygtuką."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1123 usbms.c:1242
-msgid " The device will shutdown in 30 sec."
+#, fuzzy
+#| msgid " The device will shutdown in 30 sec."
+msgid " The device will shut down in 30 sec."
 msgstr " Įrenginys išsijungs po 30 sek."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -74,9 +78,13 @@ msgstr " KOReader bus paleistas iš naujo…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1165
+#, fuzzy
+#| msgid ""
+#| " Gave up after 30 sec.\n"
+#| "The device will shutdown in 30 sec."
 msgid ""
 " Gave up after 30 sec.\n"
-"The device will shutdown in 30 sec."
+"The device will shut down in 30 sec."
 msgstr ""
 "Bandyta 30 sek., veiksmas nepavyko.\n"
 "Įrenginys išsijungs po 30 sek."
@@ -100,9 +108,13 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1276
+#, fuzzy
+#| msgid ""
+#| " The device was plugged into a plain power source, not a USB host!\n"
+#| "The device will shutdown in 30 sec."
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
-"The device will shutdown in 30 sec."
+"The device will shut down in 30 sec."
 msgstr ""
 " Įrenginys prijungtas prie paprasto maitinimo šaltinio, o ne USB duomenų "
 "šaltinio!\n"
@@ -120,9 +132,13 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1329
+#, fuzzy
+#| msgid ""
+#| " Gave up after 90 sec.\n"
+#| "The device will shutdown in 30 sec."
 msgid ""
 " Gave up after 90 sec.\n"
-"The device will shutdown in 30 sec."
+"The device will shut down in 30 sec."
 msgstr ""
 " Bandyta 90 sek., veiksmas nepavyko.\n"
 "Įrenginys išsijungs po 30 sek."
@@ -138,9 +154,13 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1415
+#, fuzzy
+#| msgid ""
+#| " The device is plugged into a plain power source, not a USB host!\n"
+#| "The device will shutdown in 30 sec."
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
-"The device will shutdown in 30 sec."
+"The device will shut down in 30 sec."
 msgstr ""
 " Įrenginys prijungtas prie paprasto maitinimo šaltinio, o ne USB duomenų "
 "šaltinio!\n"
@@ -162,9 +182,13 @@ msgstr "Pradedama USBMS sesija…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1468
+#, fuzzy
+#| msgid ""
+#| " Failed to start the USBMS session!\n"
+#| "The device will shutdown in 90 sec."
 msgid ""
-" Failed to start the USBMS session!\n"
-"The device will shutdown in 90 sec."
+" Could not start the USBMS session!\n"
+"The device will shut down in 90 sec."
 msgstr ""
 " Nepavyko paleisti USBMS sesijos!\n"
 "Įrenginys išsijungs po90 sek."
@@ -179,9 +203,13 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1596
+#, fuzzy
+#| msgid ""
+#| " Failed to detect an unplug event!\n"
+#| "The device will shutdown in 90 sec."
 msgid ""
-" Failed to detect an unplug event!\n"
-"The device will shutdown in 90 sec."
+" Could not detect an unplug event!\n"
+"The device will shut down in 90 sec."
 msgstr ""
 " Nepavyko aptikti atjungimo įvykio!\n"
 "Įrenginys išsijungs po 90 sek."
@@ -190,11 +218,15 @@ msgstr ""
 msgid "Ending USBMS session…"
 msgstr "Baigiama USBMS sesija…"
 
-#. @translators: First unicode codepoint is an icon, leave it as-is.
+#. @translators: First Unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1619
+#, fuzzy
+#| msgid ""
+#| " Failed to end the USBMS session!\n"
+#| "The device will shutdown in 90 sec."
 msgid ""
-" Failed to end the USBMS session!\n"
-"The device will shutdown in 90 sec."
+" Could not end the USBMS session!\n"
+"The device will shut down in 90 sec."
 msgstr ""
 " Nepavyko užbaigti USBMS sesijos!\n"
 "Įrenginys išsijungs po 90 sek."

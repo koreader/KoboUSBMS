@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-19 04:38+0200\n"
+"POT-Creation-Date: 2021-08-19 13:31+0200\n"
 "PO-Revision-Date: 2021-04-01 21:19+0000\n"
 "Last-Translator: Enrico Segre <enricoalbertoernestosegre@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/koreader/"
@@ -54,7 +54,9 @@ msgstr " סקריפט ה-fuser נכשל!"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1060
-msgid " Failed to run the fuser script!"
+#, fuzzy
+#| msgid " Failed to run the fuser script!"
+msgid " Could not run the fuser script!"
 msgstr " נכשלה הרצת סקריפט fuser!"
 
 #: usbms.c:1068
@@ -63,7 +65,9 @@ msgstr "לחץ על לחצן ההפעלה כדי לצאת."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1123 usbms.c:1242
-msgid " The device will shutdown in 30 sec."
+#, fuzzy
+#| msgid " The device will shutdown in 30 sec."
+msgid " The device will shut down in 30 sec."
 msgstr " המכשיר יכבה בעוד 30 שניות."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -73,9 +77,13 @@ msgstr "‪KOReader ‬ יופעל מחדש …"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1165
+#, fuzzy
+#| msgid ""
+#| " Gave up after 30 sec.\n"
+#| "The device will shutdown in 30 sec."
 msgid ""
 " Gave up after 30 sec.\n"
-"The device will shutdown in 30 sec."
+"The device will shut down in 30 sec."
 msgstr ""
 " ויתרתי אחרי 30 שניות.\n"
 "ההתקן יכבה בעוד 30 שניות."
@@ -99,9 +107,13 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1276
+#, fuzzy
+#| msgid ""
+#| " The device was plugged into a plain power source, not a USB host!\n"
+#| "The device will shutdown in 30 sec."
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
-"The device will shutdown in 30 sec."
+"The device will shut down in 30 sec."
 msgstr ""
 " המכשיר היה מחובר למקור חשמל רגיל ולא למארח USB!\n"
 "המכשיר יכבה בעוד 30 שניות."
@@ -117,9 +129,13 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1329
+#, fuzzy
+#| msgid ""
+#| " Gave up after 90 sec.\n"
+#| "The device will shutdown in 30 sec."
 msgid ""
 " Gave up after 90 sec.\n"
-"The device will shutdown in 30 sec."
+"The device will shut down in 30 sec."
 msgstr ""
 " ויתרתי אחרי 90 שניות.\n"
 "ההתקן יכבה בעוד 30 שניות."
@@ -135,9 +151,13 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1415
+#, fuzzy
+#| msgid ""
+#| " The device is plugged into a plain power source, not a USB host!\n"
+#| "The device will shutdown in 30 sec."
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
-"The device will shutdown in 30 sec."
+"The device will shut down in 30 sec."
 msgstr ""
 " המכשיר מחובר למקור חשמל רגיל ולא למארח USB!\n"
 "המכשיר יכבה בעוד 30 שניות."
@@ -157,9 +177,13 @@ msgstr "מתחיל הפעלת USBMS…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1468
+#, fuzzy
+#| msgid ""
+#| " Failed to start the USBMS session!\n"
+#| "The device will shutdown in 90 sec."
 msgid ""
-" Failed to start the USBMS session!\n"
-"The device will shutdown in 90 sec."
+" Could not start the USBMS session!\n"
+"The device will shut down in 90 sec."
 msgstr ""
 " התחלת הפעלת USBMS נכשלה!\n"
 "המכשיר יכבה בעוד 90 שניות."
@@ -174,9 +198,13 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1596
+#, fuzzy
+#| msgid ""
+#| " Failed to detect an unplug event!\n"
+#| "The device will shutdown in 90 sec."
 msgid ""
-" Failed to detect an unplug event!\n"
-"The device will shutdown in 90 sec."
+" Could not detect an unplug event!\n"
+"The device will shut down in 90 sec."
 msgstr ""
 " איתור אירוע ניתוק נכשל!\n"
 "המכשיר יכבה בעוד 90 שניות."
@@ -185,11 +213,15 @@ msgstr ""
 msgid "Ending USBMS session…"
 msgstr "מסיים הפעלת USBMS…"
 
-#. @translators: First unicode codepoint is an icon, leave it as-is.
+#. @translators: First Unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1619
+#, fuzzy
+#| msgid ""
+#| " Failed to end the USBMS session!\n"
+#| "The device will shutdown in 90 sec."
 msgid ""
-" Failed to end the USBMS session!\n"
-"The device will shutdown in 90 sec."
+" Could not end the USBMS session!\n"
+"The device will shut down in 90 sec."
 msgstr ""
 " נכשל סיום הפעלת USBMS!\n"
 "המכשיר יכבה בעוד 90 שניות."
