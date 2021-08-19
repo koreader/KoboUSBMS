@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-19 13:31+0200\n"
-"PO-Revision-Date: 2021-08-19 13:41+0000\n"
-"Last-Translator: Andrij Mizyk <andmizyk@gmail.com>\n"
+"PO-Revision-Date: 2021-08-19 19:26+0000\n"
+"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/uk/>\n"
 "Language: uk\n"
@@ -64,7 +64,7 @@ msgstr "Натисніть кнопку живлення, щоб вийти."
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1123 usbms.c:1242
 msgid " The device will shut down in 30 sec."
-msgstr " Пристрій вимкнеться через 30 сек."
+msgstr " Пристрій вимкнеться за 30 с."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1131 usbms.c:1250
@@ -104,7 +104,7 @@ msgid ""
 "The device will shut down in 30 sec."
 msgstr ""
 " Пристрій підʼєднано до простого джерела живлення, а не до розʼєму USB!\n"
-"Пристрій вимкнеться через 30 сек."
+"Пристрій вимкнеться за 30 с."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1284
@@ -121,8 +121,8 @@ msgid ""
 " Gave up after 90 sec.\n"
 "The device will shut down in 30 sec."
 msgstr ""
-" Не вдалося впродовж 90 сек.\n"
-"Пристрій вимкнеться через 30 сек."
+" Не вдалося впродовж 90 с.\n"
+"Пристрій вимкнеться за 30 с."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1337
@@ -140,7 +140,7 @@ msgid ""
 "The device will shut down in 30 sec."
 msgstr ""
 " Пристрій підʼєднано до звичайного джерела живлення, а не до розʼєму USB!\n"
-"Пристрій вимкнеться через 30 сек."
+"Пристрій вимкнеться за 30 с."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1423
