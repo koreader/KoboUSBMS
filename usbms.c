@@ -164,6 +164,7 @@ static bool
 	if (f) {
 		char   status[16] = { 0 };
 		size_t size       = fread(status, sizeof(*status), sizeof(status) - 1U, f);
+		fclose(f);
 		if (size > 0) {
 			// Strip trailing LF
 			if (status[size - 1U] == '\n') {
@@ -173,7 +174,6 @@ static bool
 		} else {
 			LOG(LOG_WARNING, "Could not read the battery status from sysfs!");
 		}
-		fclose(f);
 
 		// c.f., power_supply_show_property @ drivers/power/supply/power_supply_sysfs.c
 		//     & include/linux/power_supply.h
@@ -336,14 +336,14 @@ static uint8_t
 	if (f) {
 		char   fl_intensity[8] = { 0 };
 		size_t size            = fread(fl_intensity, sizeof(*fl_intensity), sizeof(fl_intensity) - 1U, f);
+		fclose(f);
+		f = NULL;
 		if (size > 0) {
 			// Strip trailing LF
 			if (fl_intensity[size - 1U] == '\n') {
 				fl_intensity[size - 1U] = '\0';
 			}
 		}
-		fclose(f);
-		f = NULL;
 
 		if (strtoul_hhu(fl_intensity, &intensity) < 0) {
 			PFLOG(LOG_WARNING,
@@ -506,13 +506,13 @@ static void
 	if (f) {
 		char   batt_charge[8] = { 0 };
 		size_t size           = fread(batt_charge, sizeof(*batt_charge), sizeof(batt_charge) - 1U, f);
+		fclose(f);
 		if (size > 0) {
 			// Strip trailing LF
 			if (batt_charge[size - 1U] == '\n') {
 				batt_charge[size - 1U] = '\0';
 			}
 		}
-		fclose(f);
 
 		if (strtoul_hhu(batt_charge, &batt_perc) < 0) {
 			PFLOG(LOG_WARNING, "Could not convert battery charge value `%s` to an uint8_t!", batt_charge);
@@ -528,13 +528,13 @@ static void
 	if (f) {
 		char   carrier[8] = { 0 };
 		size_t size       = fread(carrier, sizeof(*carrier), sizeof(carrier) - 1U, f);
+		fclose(f);
 		if (size > 0) {
 			// Strip trailing LF
 			if (carrier[size - 1U] == '\n') {
 				carrier[size - 1U] = '\0';
 			}
 		}
-		fclose(f);
 
 		// If there's a carrier, Wi-Fi is up.
 		if (carrier[0] == '1') {
@@ -1359,6 +1359,7 @@ int
 			if (f) {
 				char   charger_type[16] = { 0 };
 				size_t size = fread(charger_type, sizeof(*charger_type), sizeof(charger_type) - 1U, f);
+				fclose(f);
 				if (size > 0) {
 					// Strip trailing LF
 					if (charger_type[size - 1U] == '\n') {
@@ -1367,7 +1368,6 @@ int
 				} else {
 					LOG(LOG_WARNING, "Could not read the charger type from sysfs!");
 				}
-				fclose(f);
 
 				// c.f., charger_type_read @ drivers/power/ricoh619-battery.c
 				if (strncmp(charger_type, "CDP", 3U) == 0U) {
@@ -1633,6 +1633,7 @@ int
 		if (f) {
 			char   tzname[_POSIX_PATH_MAX * 2U] = { 0 };
 			size_t size                         = fread(tzname, sizeof(*tzname), sizeof(tzname) - 1U, f);
+			fclose(f);
 			if (size > 0) {
 				// Strip trailing LF, not that the Kobo app actually adds one ;).
 				if (tzname[size - 1U] == '\n') {
@@ -1641,8 +1642,6 @@ int
 			} else {
 				LOG(LOG_WARNING, "Could not read timezone.conf!");
 			}
-			fclose(f);
-			f = NULL;
 
 			// Replace all occurences of a space by an underscore
 			for (char* p = tzname; (p = strchr(p, ' ')) != NULL; *p = '_')
@@ -1688,6 +1687,7 @@ int
 		if (f) {
 			char   epoch[32] = { 0 };
 			size_t size      = fread(epoch, sizeof(*epoch), sizeof(epoch) - 1U, f);
+			fclose(f);
 			if (size > 0) {
 				// Strip trailing LF, not that the Kobo app actually adds one ;).
 				if (epoch[size - 1U] == '\n') {
@@ -1696,8 +1696,6 @@ int
 			} else {
 				LOG(LOG_WARNING, "Could not read epoch.conf!");
 			}
-			fclose(f);
-			f = NULL;
 
 			// c.f., busybox's date & hwclock applets
 			tzset();
