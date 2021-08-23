@@ -202,7 +202,7 @@ libevdev.built:
 
 fbink.built:
 	cd FBInk && \
-	$(MAKE) strip KOBO=1 MINIMAL=1 IMAGE=1 OPENTYPE=1
+	$(MAKE) staticlib KOBO=1 MINIMAL=1 IMAGE=1 OPENTYPE=1
 	touch fbink.built
 
 release: libevdev.built fbink.built
@@ -210,13 +210,13 @@ release: libevdev.built fbink.built
 
 debug: libevdev.built
 	cd FBInk && \
-	$(MAKE) debug KOBO=1 MINIMAL=1 IMAGE=1 OPENTYPE=1
+	$(MAKE) staticlib DEBUG=1 KOBO=1 MINIMAL=1 IMAGE=1 OPENTYPE=1
 	touch fbink.built
 	$(MAKE) all DEBUG=1
 
 fbinkclean:
 	cd FBInk && \
-	$(MAKE) clean
+	$(MAKE) distclean
 
 libevdevclean:
 	cd libevdev && \
