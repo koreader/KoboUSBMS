@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-19 13:31+0200\n"
+"POT-Creation-Date: 2021-08-23 22:49+0200\n"
 "PO-Revision-Date: 2021-08-19 19:26+0000\n"
 "Last-Translator: Sari Gabor <sari.gabor@gmail.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/koreader/"
@@ -193,7 +193,7 @@ msgstr ""
 " Hiba USBMS mód befejezése közben!\n"
 "Az eszköz 90mp múlva leáll."
 
-#: usbms.c:1762
+#: usbms.c:1760
 msgid ""
 "Done!\n"
 "KOReader will now restart…"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-19 13:31+0200\n"
+"POT-Creation-Date: 2021-08-23 22:49+0200\n"
 "PO-Revision-Date: 2020-12-18 13:29+0000\n"
 "Last-Translator: ilyats <ilyatsindlekht@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/koreader/"
@@ -226,7 +226,7 @@ msgstr ""
 " Ошибка при останове сессии USBMS!\n"
 "Устройство будет отключено через 90 секунд."
 
-#: usbms.c:1762
+#: usbms.c:1760
 msgid ""
 "Done!\n"
 "KOReader will now restart…"

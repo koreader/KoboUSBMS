@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-19 13:31+0200\n"
+"POT-Creation-Date: 2021-08-23 22:49+0200\n"
 "PO-Revision-Date: 2021-08-21 14:37+0000\n"
 "Last-Translator: Frans de Jonge <fransdejonge@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/koreader/kobousbms/"
@@ -102,8 +102,8 @@ msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 30 sec."
 msgstr ""
-" Het apparaat is op een gewone stroombron aangesloten, niet op een USB-host!"
-"\n"
+" Het apparaat is op een gewone stroombron aangesloten, niet op een USB-"
+"host!\n"
 "Het apparaat wordt over 30 seconden uitgeschakeld."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -197,7 +197,7 @@ msgstr ""
 " De USBMS-sessie kon niet worden beëindigd!\n"
 "Het apparaat wordt over 90 seconden uitgeschakeld."
 
-#: usbms.c:1762
+#: usbms.c:1760
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
