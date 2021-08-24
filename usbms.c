@@ -66,9 +66,7 @@ static void
 	uint32_t pid = 0xDEAD;
 	switch (device_code) {
 		case DEVICE_KOBO_TOUCH_AB:    // Touch A/B (trilogy)
-			pid = 0x4163;
-			break;
-		case DEVICE_KOBO_TOUCH_C:    // Touch C (trilogy)
+		case DEVICE_KOBO_TOUCH_C:     // Touch C (trilogy)
 			pid = 0x4163;
 			break;
 		case DEVICE_KOBO_MINI:    // Mini (pixie)
@@ -92,30 +90,22 @@ static void
 		case DEVICE_KOBO_AURA_H2O:    // Aura H2O (dahlia)
 			pid = 0x4213;
 			break;
-		case DEVICE_KOBO_AURA_H2O_2:    // Aura H2O² (snow)
-			pid = 0x4227;
-			break;
+		case DEVICE_KOBO_AURA_H2O_2:       // Aura H2O² (snow)
 		case DEVICE_KOBO_AURA_H2O_2_R2:    // Aura H2O² r2 (snow)
 			pid = 0x4227;
 			break;
-		case DEVICE_KOBO_AURA_ONE:    // Aura ONE (daylight)
-			pid = 0x4225;
-			break;
+		case DEVICE_KOBO_AURA_ONE:       // Aura ONE (daylight)
 		case DEVICE_KOBO_AURA_ONE_LE:    // Aura ONE LE (daylight)
 			pid = 0x4225;
 			break;
-		case DEVICE_KOBO_AURA_SE:    // Aura SE (star)
-			pid = 0x4226;
-			break;
+		case DEVICE_KOBO_AURA_SE:       // Aura SE (star)
 		case DEVICE_KOBO_AURA_SE_R2:    // Aura SE r2 (star)
 			pid = 0x4226;
 			break;
 		case DEVICE_KOBO_CLARA_HD:    // Clara HD (nova)
 			pid = 0x4228;
 			break;
-		case DEVICE_KOBO_FORMA:    // Forma (frost)
-			pid = 0x4229;
-			break;
+		case DEVICE_KOBO_FORMA:         // Forma (frost)
 		case DEVICE_KOBO_FORMA_32GB:    // Forma 32GB (frost)
 			pid = 0x4229;
 			break;
