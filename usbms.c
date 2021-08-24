@@ -65,67 +65,67 @@ static void
 
 	uint32_t pid = 0xDEAD;
 	switch (device_code) {
-		case 310U:    // Touch A/B (trilogy)
+		case DEVICE_KOBO_TOUCH_AB:    // Touch A/B (trilogy)
 			pid = 0x4163;
 			break;
-		case 320U:    // Touch C (trilogy)
+		case DEVICE_KOBO_TOUCH_C:    // Touch C (trilogy)
 			pid = 0x4163;
 			break;
-		case 340U:    // Mini (pixie)
+		case DEVICE_KOBO_MINI:    // Mini (pixie)
 			pid = 0x4183;
 			break;
-		case 330U:    // Glo (kraken)
+		case DEVICE_KOBO_GLO:    // Glo (kraken)
 			pid = 0x4173;
 			break;
-		case 371U:    // Glo HD (alyssum)
+		case DEVICE_KOBO_GLO_HD:    // Glo HD (alyssum)
 			pid = 0x4223;
 			break;
-		case 372U:    // Touch 2.0 (pika)
+		case DEVICE_KOBO_TOUCH_2:    // Touch 2.0 (pika)
 			pid = 0x4224;
 			break;
-		case 360U:    // Aura (phoenix)
+		case DEVICE_KOBO_AURA:    // Aura (phoenix)
 			pid = 0x4203;
 			break;
-		case 350U:    // Aura HD (dragon)
+		case DEVICE_KOBO_AURA_HD:    // Aura HD (dragon)
 			pid = 0x4193;
 			break;
-		case 370U:    // Aura H2O (dahlia)
+		case DEVICE_KOBO_AURA_H2O:    // Aura H2O (dahlia)
 			pid = 0x4213;
 			break;
-		case 374U:    // Aura H2O² (snow)
+		case DEVICE_KOBO_AURA_H2O_2:    // Aura H2O² (snow)
 			pid = 0x4227;
 			break;
-		case 378U:    // Aura H2O² r2 (snow)
+		case DEVICE_KOBO_AURA_H2O_2_R2:    // Aura H2O² r2 (snow)
 			pid = 0x4227;
 			break;
-		case 373U:    // Aura ONE (daylight)
+		case DEVICE_KOBO_AURA_ONE:    // Aura ONE (daylight)
 			pid = 0x4225;
 			break;
-		case 381U:    // Aura ONE LE (daylight)
+		case DEVICE_KOBO_AURA_ONE_LE:    // Aura ONE LE (daylight)
 			pid = 0x4225;
 			break;
-		case 375U:    // Aura SE (star)
+		case DEVICE_KOBO_AURA_SE:    // Aura SE (star)
 			pid = 0x4226;
 			break;
-		case 379U:    // Aura SE r2 (star)
+		case DEVICE_KOBO_AURA_SE_R2:    // Aura SE r2 (star)
 			pid = 0x4226;
 			break;
-		case 376U:    // Clara HD (nova)
+		case DEVICE_KOBO_CLARA_HD:    // Clara HD (nova)
 			pid = 0x4228;
 			break;
-		case 377U:    // Forma (frost)
+		case DEVICE_KOBO_FORMA:    // Forma (frost)
 			pid = 0x4229;
 			break;
-		case 380U:    // Forma 32GB (frost)
+		case DEVICE_KOBO_FORMA_32GB:    // Forma 32GB (frost)
 			pid = 0x4229;
 			break;
-		case 384U:    // Libra H2O (storm)
+		case DEVICE_KOBO_LIBRA_H2O:    // Libra H2O (storm)
 			pid = 0x4232;
 			break;
-		case 382U:    // Nia (luna)
+		case DEVICE_KOBO_NIA:    // Nia (luna)
 			pid = 0x4230;
 			break;
-		case 387U:    // Elipsa (europa)
+		case DEVICE_KOBO_ELIPSA:    // Elipsa (europa)
 			pid = 0x4233;
 			break;
 		case 0U:
