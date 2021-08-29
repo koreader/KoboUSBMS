@@ -219,6 +219,7 @@ fbinkclean:
 	$(MAKE) distclean
 
 libevdevclean:
+	-$(MAKE) -C libevdev distclean
 	cd libevdev && \
 	git reset --hard && \
 	git clean -fxdq
