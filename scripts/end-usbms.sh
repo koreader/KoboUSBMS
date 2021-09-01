@@ -14,7 +14,7 @@ fi
 SCRIPT_NAME="$(basename "${0}")"
 
 # If we're NOT in the middle of an USBMS session, something went wrong...
-if ! lsmod | grep -q -e "g_file_storage" -e "g_mass_storage" ; then
+if ! grep -q -e "^g_file_storage" -e "^g_mass_storage" "/proc/modules" ; then
 	logger -p "DAEMON.ERR" -t "${SCRIPT_NAME}[$$]" "Not in an USBMS session?!"
 	exit 1
 fi
@@ -31,7 +31,7 @@ else
 		rmmod configfs
 	else
 		# NOTE: See start-usbms.sh for why we have to double-check this one...
-		lsmod | grep -q "arcotg_udc" && rmmod arcotg_udc
+		grep -q "^arcotg_udc" "/proc/modules" && rmmod arcotg_udc
 	fi
 fi
 
