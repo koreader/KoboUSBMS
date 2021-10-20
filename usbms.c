@@ -118,10 +118,10 @@ static void
 		case DEVICE_KOBO_ELIPSA:    // Elipsa (europa)
 			pid = 0x4233;
 			break;
-		case DEVICE_KOBO_LIBRA_2:    // Libra 2 (??)
+		case DEVICE_KOBO_LIBRA_2:    // Libra 2 (io)
 			pid = 0x4234;
 			break;
-		case DEVICE_KOBO_SAGE:    // Sage (??)
+		case DEVICE_KOBO_SAGE:    // Sage (cadmus)
 			pid = 0x4231;
 			break;
 		case 0U:
