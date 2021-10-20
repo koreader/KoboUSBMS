@@ -100,13 +100,13 @@
 #define KOBO_USB_DEVPATH_PLUG "/devices/platform/usb_plug"    // Plugged into a plain power source
 #define KOBO_USB_DEVPATH_HOST "/devices/platform/usb_host"    // Plugged into a computer
 // c.f., /lib/udev/rules.d/kobo.rules
-#define KOBO_USB_DEVPATH_FSL "/devices/platform/fsl-usb2-udc"                  // OK
-#define KOBO_USB_MODALIAS_CI "platform:ci_hdrc"                                // OK
-#define KOBO_USB_DEVPATH_UDC "/devices/platform/soc/5100000.udc-controller"    // OK
+#define KOBO_USB_DEVPATH_FSL  "/devices/platform/fsl-usb2-udc"                  // OK
+#define KOBO_USB_MODALIAS_CI  "platform:ci_hdrc"                                // OK
+#define KOBO_USB_DEVPATH_UDC  "/devices/platform/soc/5100000.udc-controller"    // OK
 
 // Those had been set in stone so far...
-#define NXP_NTX_KEYS_EVDEV "/dev/input/event0"
-#define NXP_TOUCHPAD_EVDEV "/dev/input/event1"
+#define NXP_NTX_KEYS_EVDEV   "/dev/input/event0"
+#define NXP_TOUCHPAD_EVDEV   "/dev/input/event1"
 // ... but sunxi & SMP changed that ;).
 #define SUNXI_NTX_KEYS_EVDEV "/dev/input/by-path/platform-ntx_event0-event"
 #define SUNXI_TOUCHPAD_EVDEV "/dev/input/by-path/platform-0-0010-event"
@@ -126,18 +126,18 @@ const char* CHARGER_TYPE_SYSFS = NULL;
 #define FL_INTENSITY_SYSFS "/sys/class/backlight/mxc_msp430.0/actual_brightness"
 
 // Internal storage
-#define KOBO_PARTITION  "/dev/mmcblk0p3"
-#define KOBO_MOUNTPOINT "/mnt/onboard"
+#define KOBO_PARTITION     "/dev/mmcblk0p3"
+#define KOBO_MOUNTPOINT    "/mnt/onboard"
 // External storage
 #define KOBO_SD_PARTITION  "/dev/mmcblk1p1"
 #define KOBO_SD_MOUNTPOINT "/mnt/sd"
 // The timestamp file that the Kobo app creates, which Nickel uses to resync date/time after USBMS sessions
-#define KOBO_EPOCH_TS KOBO_MOUNTPOINT "/.kobo/epoch.conf"
+#define KOBO_EPOCH_TS      KOBO_MOUNTPOINT "/.kobo/epoch.conf"
 // Same idea, but for the timezone
-#define KOBO_TZ_FILE  KOBO_MOUNTPOINT "/.kobo/timezone.conf"
-#define SYSTEM_TZPATH "/etc/zoneinfo"
-#define KOBO_TZPATH   "/etc/zoneinfo-kobo"
-#define SYSTEM_TZFILE "/etc/localtime"
+#define KOBO_TZ_FILE       KOBO_MOUNTPOINT "/.kobo/timezone.conf"
+#define SYSTEM_TZPATH      "/etc/zoneinfo"
+#define KOBO_TZPATH        "/etc/zoneinfo-kobo"
+#define SYSTEM_TZFILE      "/etc/localtime"
 
 // List of exportable partitions
 typedef enum

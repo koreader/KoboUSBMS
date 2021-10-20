@@ -859,8 +859,8 @@ int
 	//       (and compute an accurate amount of expirations, as if it had ticked all this time).
 	// Here, the next minute on the dot is good enough for us,
 	// so, just round the current timestamp up to the next multiple of 60.
-	clock_timer.it_value.tv_sec  = (now_ts.tv_sec + 60 - 1) / 60 * 60;
-	clock_timer.it_value.tv_nsec = 0;
+	clock_timer.it_value.tv_sec     = (now_ts.tv_sec + 60 - 1) / 60 * 60;
+	clock_timer.it_value.tv_nsec    = 0;
 	// Tick every minute
 	clock_timer.it_interval.tv_sec  = 60;
 	clock_timer.it_interval.tv_nsec = 0;
@@ -930,10 +930,10 @@ int
 	print_icon(fbfd, usb_plugged ? "\uf700" : "\uf701", &fbink_cfg, &icon_cfg);
 
 	// Setup the message area
-	msg_cfg.size_px     = ot_cfg.size_px;
-	msg_cfg.padding     = icon_cfg.padding;
-	fbink_cfg.row       = -14;
-	msg_cfg.margins.top = (short int) -(fbink_state.font_h * 14U);
+	msg_cfg.size_px        = ot_cfg.size_px;
+	msg_cfg.padding        = icon_cfg.padding;
+	fbink_cfg.row          = -14;
+	msg_cfg.margins.top    = (short int) -(fbink_state.font_h * 14U);
 	// We want enough space for 4 lines (+/- metrics shenanigans)
 	msg_cfg.margins.bottom = (short int) (fbink_state.font_h * (14U - (4U * 2U) - 1U));
 	msg_cfg.padding        = FULL_PADDING;
@@ -972,9 +972,11 @@ int
 	}
 
 	// We'll want to check both the internal storage and the SD card, as both get exported.
-	const USBMSPartition mount_points[] = { { PARTITION_INTERNAL, "Internal", KOBO_PARTITION, KOBO_MOUNTPOINT },
-						{ PARTITION_EXTERNAL, "External", KOBO_SD_PARTITION, KOBO_SD_MOUNTPOINT },
-						{ PARTITION_NONE, NULL, NULL, NULL } };
+	const USBMSPartition mount_points[] = {
+		{PARTITION_INTERNAL, "Internal",    KOBO_PARTITION,    KOBO_MOUNTPOINT},
+		{PARTITION_EXTERNAL, "External", KOBO_SD_PARTITION, KOBO_SD_MOUNTPOINT},
+		{    PARTITION_NONE,       NULL,              NULL,               NULL}
+	};
 	for (size_t i = 0U; !need_early_abort && mount_points[i].name; i++) {
 		// Check if the character device actually exists, because SD cards ;).
 		if (mount_points[i].id != PARTITION_INTERNAL && access(mount_points[i].device, F_OK) != 0) {
@@ -1009,9 +1011,9 @@ int
                                                     NULL);
 
 				// And now, switch to a smaller font size when consuming the script's output…
-				msg_cfg.padding     = HORI_PADDING;
-				msg_cfg.size_px     = fbink_state.font_h;
-				msg_cfg.margins.top = (short int) rc;
+				msg_cfg.padding        = HORI_PADDING;
+				msg_cfg.size_px        = fbink_state.font_h;
+				msg_cfg.margins.top    = (short int) rc;
 				// Drop the bottom margin to allow stomping over the status bar…
 				msg_cfg.margins.bottom = 0;
 
@@ -1084,11 +1086,11 @@ int
 		struct pollfd pfds[2] = { 0 };
 		nfds_t        nfds    = 2;
 		// Input device
-		pfds[0].fd     = evfd;
-		pfds[0].events = POLLIN;
+		pfds[0].fd            = evfd;
+		pfds[0].events        = POLLIN;
 		// Clock
-		pfds[1].fd     = clockfd;
-		pfds[1].events = POLLIN;
+		pfds[1].fd            = clockfd;
+		pfds[1].events        = POLLIN;
 
 		// Keep track of the time we've been polling
 		struct timespec start_ts = { 0 };
@@ -1187,7 +1189,7 @@ int
 	LOG(LOG_INFO, "Starting USBMS shenanigans");
 	bool sleep_on_abort = true;
 	// If we're not plugged in, wait for it (or abort early)
-	usb_plugged = (*fxpIsUSBPlugged)(ntxfd);
+	usb_plugged         = (*fxpIsUSBPlugged)(ntxfd);
 	if (!usb_plugged) {
 		fbink_print_ot(fbfd,
 			       _("Waiting to be plugged in…\nOr, press the power button to exit."),
@@ -1199,14 +1201,14 @@ int
 		struct pollfd pfds[3] = { 0 };
 		nfds_t        nfds    = 3;
 		// Input device
-		pfds[0].fd     = evfd;
-		pfds[0].events = POLLIN;
+		pfds[0].fd            = evfd;
+		pfds[0].events        = POLLIN;
 		// Uevent socket
-		pfds[1].fd     = listener.pfd.fd;
-		pfds[1].events = listener.pfd.events;
+		pfds[1].fd            = listener.pfd.fd;
+		pfds[1].events        = listener.pfd.events;
 		// Clock
-		pfds[2].fd     = clockfd;
-		pfds[2].events = POLLIN;
+		pfds[2].fd            = clockfd;
+		pfds[2].events        = POLLIN;
 
 		// Keep track of the time we've been polling
 		struct timespec start_ts = { 0 };
@@ -1250,7 +1252,7 @@ int
 						}
 						need_early_abort = true;
 						// That's a direct user interaction with an expected result, don't dawdle.
-						sleep_on_abort = false;
+						sleep_on_abort   = false;
 						break;
 					}
 				}
@@ -1500,11 +1502,11 @@ int
 	struct pollfd pfds[2] = { 0 };
 	nfds_t        nfds    = 2;
 	// Uevent socket
-	pfds[0].fd     = listener.pfd.fd;
-	pfds[0].events = listener.pfd.events;
+	pfds[0].fd            = listener.pfd.fd;
+	pfds[0].events        = listener.pfd.events;
 	// Clock
-	pfds[1].fd     = clockfd;
-	pfds[1].events = POLLIN;
+	pfds[1].fd            = clockfd;
+	pfds[1].events        = POLLIN;
 
 	struct uevent uev;
 	// NOTE: This is basically ue_wait_for_event, but with an extra polling on our clock timerfd,
