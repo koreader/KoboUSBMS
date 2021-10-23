@@ -1380,6 +1380,10 @@ int
 				} else if (strncmp(charger_type, "SDP_ADPT", 8U) == 0U) {
 					LOG(LOG_WARNING, "SDP ADPT (Standard Downstream Port, 800mA) charger detected");
 					need_early_abort = true;
+				} else if (strncmp(charger_type, "SDP_OVRLIM", 8U) == 0U) {
+					// NOTE: Currently commented out, so we end up in the default case anyway.
+					LOG(LOG_WARNING, "SDP OVRLIM (Standard Downstream Port, > 500mA) charger detected");
+					need_early_abort = true;
 				} else if (strncmp(charger_type, "NO", 2U) == 0U) {
 					// NOTE: Despite being in a usb_plugged branch,
 					//       this *may* happen if the device is fully charged.
