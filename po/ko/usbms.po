@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-29 23:09+0200\n"
+"POT-Creation-Date: 2021-10-24 20:11+0200\n"
 "PO-Revision-Date: 2021-10-13 00:05+0000\n"
 "Last-Translator: kr <harum@naver.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/koreader/"
@@ -19,12 +19,12 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.9-dev\n"
 
-#: usbms.c:895
+#: usbms.c:901
 msgid "USB Mass Storage"
 msgstr "USB 대용량 저장 장치"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:947
+#: usbms.c:953
 msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
@@ -33,7 +33,7 @@ msgstr ""
 "끝내려면 전원 버튼을 누르십시오."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:962
+#: usbms.c:968
 msgid ""
 " Please disable USBSerial manually!\n"
 "Press the power button to exit."
@@ -42,36 +42,36 @@ msgstr ""
 "끝내려면 전원 버튼을 누르십시오."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1000
+#: usbms.c:1008
 msgid " Filesystem is busy! Offending processes:"
 msgstr " 파일 시스템이 사용 중입니다! 위반 프로세스:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
-#: usbms.c:1037
+#: usbms.c:1045
 msgid " The fuser script failed!"
 msgstr " 퓨저 스크립트가 실패했습니다!"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1050
+#: usbms.c:1058
 msgid " Could not run the fuser script!"
 msgstr " 퓨저 스크립트를 실행할 수 없습니다!"
 
-#: usbms.c:1058
+#: usbms.c:1066
 msgid "Press the power button to exit."
 msgstr "끝내려면 전원 버튼을 누르세요."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1113 usbms.c:1232
+#: usbms.c:1121 usbms.c:1240
 msgid " The device will shut down in 30 sec."
 msgstr " 장치가 30초 후에 종료됩니다."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1121 usbms.c:1240
+#: usbms.c:1129 usbms.c:1248
 msgid " KOReader will now restart…"
 msgstr " KOReader가 지금 다시 시작됩니다…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1155
+#: usbms.c:1163
 msgid ""
 " Gave up after 30 sec.\n"
 "The device will shut down in 30 sec."
@@ -80,7 +80,7 @@ msgstr ""
 "장치가 30초 후에 종료됩니다."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1163
+#: usbms.c:1171
 msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
@@ -88,7 +88,7 @@ msgstr ""
 " 30초 후 포기.\n"
 "KOReader가 지금 다시 시작됩니다…"
 
-#: usbms.c:1187
+#: usbms.c:1195
 msgid ""
 "Waiting to be plugged in…\n"
 "Or, press the power button to exit."
@@ -97,7 +97,7 @@ msgstr ""
 "또는 끝내려면 전원 버튼을 누르세요."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1266
+#: usbms.c:1274
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 30 sec."
@@ -106,7 +106,7 @@ msgstr ""
 "장치는 30초 후에 종료됩니다."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1274
+#: usbms.c:1282
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
@@ -115,7 +115,7 @@ msgstr ""
 "KOReader가 지금 다시 시작됩니다…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1319
+#: usbms.c:1327
 msgid ""
 " Gave up after 90 sec.\n"
 "The device will shut down in 30 sec."
@@ -124,7 +124,7 @@ msgstr ""
 "장치가 30초 후에 종료됩니다."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1327
+#: usbms.c:1335
 msgid ""
 " Gave up after 90 sec.\n"
 "KOReader will now restart…"
@@ -133,7 +133,7 @@ msgstr ""
 "KOReader가 지금 다시 시작됩니다…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1405
+#: usbms.c:1417
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 30 sec."
@@ -142,7 +142,7 @@ msgstr ""
 "장치는 30초 후에 종료됩니다."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1413
+#: usbms.c:1425
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
@@ -150,12 +150,12 @@ msgstr ""
 " 장치가 USB 호스트가 아닌 일반 전원에 연결되어 있습니다!\n"
 "KOReader가 지금 다시 시작됩니다…"
 
-#: usbms.c:1442
+#: usbms.c:1454
 msgid "Starting USBMS session…"
 msgstr "USBMS 세션 시작 중…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1458
+#: usbms.c:1470
 msgid ""
 " Could not start the USBMS session!\n"
 "The device will shut down in 90 sec."
@@ -163,7 +163,7 @@ msgstr ""
 " USBMS 세션을 시작할 수 없습니다!\n"
 "이 장치는 90초 후에 종료됩니다."
 
-#: usbms.c:1479
+#: usbms.c:1491
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
@@ -172,7 +172,7 @@ msgstr ""
 "장치를 안전하게 꺼내기를 한 후에 플러그를 뽑으세요."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1586
+#: usbms.c:1598
 msgid ""
 " Could not detect an unplug event!\n"
 "The device will shut down in 90 sec."
@@ -180,12 +180,12 @@ msgstr ""
 " 플러그 분리 이벤트를 감지하지 못했습니다!\n"
 "장치는 90초 후에 종료됩니다."
 
-#: usbms.c:1598
+#: usbms.c:1610
 msgid "Ending USBMS session…"
 msgstr "USBMS 세션 마치는 중…"
 
 #. @translators: First Unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1609
+#: usbms.c:1621
 msgid ""
 " Could not end the USBMS session!\n"
 "The device will shut down in 90 sec."
@@ -193,7 +193,7 @@ msgstr ""
 " USBMS 세션을 끝낼 수 없습니다!\n"
 "장치는 90초 후에 종료됩니다."
 
-#: usbms.c:1750
+#: usbms.c:1762
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
