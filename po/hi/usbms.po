@@ -8,13 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-24 20:11+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2021-10-29 10:52+0000\n"
+"Last-Translator: অনিকেত চট্টোপাধ্যায় <aniket.chatterjee@gmail.com>\n"
+"Language-Team: Hindi <https://hosted.weblate.org/projects/koreader/kobousbms/"
+"hi/>\n"
 "Language: hi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.9-dev\n"
 
 #: usbms.c:901
 msgid "USB Mass Storage"
@@ -51,12 +54,12 @@ msgstr ""
 
 #: usbms.c:1066
 msgid "Press the power button to exit."
-msgstr ""
+msgstr "छोड़ने के लिए पावर बटन दबाएं।"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1121 usbms.c:1240
 msgid " The device will shut down in 30 sec."
-msgstr ""
+msgstr " युक्ति ३० सेकंड में बंद हो जाएगी।"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1129 usbms.c:1248
