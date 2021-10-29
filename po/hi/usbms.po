@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-24 20:11+0200\n"
-"PO-Revision-Date: 2021-10-29 10:52+0000\n"
+"PO-Revision-Date: 2021-10-29 11:25+0000\n"
 "Last-Translator: অনিকেত চট্টোপাধ্যায় <aniket.chatterjee@gmail.com>\n"
 "Language-Team: Hindi <https://hosted.weblate.org/projects/koreader/kobousbms/"
 "hi/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: usbms.c:901
 msgid "USB Mass Storage"
-msgstr ""
+msgstr "USB विपुल भंडारण"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:953
@@ -64,7 +64,7 @@ msgstr " युक्ति ३० सेकंड में बंद हो
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1129 usbms.c:1248
 msgid " KOReader will now restart…"
-msgstr ""
+msgstr " कोरीडर अभी पुनर्प्रारंभ करेगा…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1163
