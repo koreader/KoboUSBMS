@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-24 20:11+0200\n"
-"PO-Revision-Date: 2021-10-29 11:25+0000\n"
+"PO-Revision-Date: 2021-10-30 11:36+0000\n"
 "Last-Translator: অনিকেত চট্টোপাধ্যায় <aniket.chatterjee@gmail.com>\n"
 "Language-Team: Hindi <https://hosted.weblate.org/projects/koreader/kobousbms/"
 "hi/>\n"
@@ -72,6 +72,8 @@ msgid ""
 " Gave up after 30 sec.\n"
 "The device will shut down in 30 sec."
 msgstr ""
+" ३० सेकंड के बाद छोड़ दिया।\n"
+"युक्ति ३० सेकंड में बंद हो जाएगी।"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1171
@@ -79,6 +81,8 @@ msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
 msgstr ""
+" ३० सेकंड के बाद छोड़ दिया।\n"
+"कोरीडर अभी पुनर्प्रारंभ करेगा…"
 
 #: usbms.c:1195
 msgid ""
