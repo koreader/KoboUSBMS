@@ -699,7 +699,7 @@ int
 		if (strncmp(lang, "he", 2U) == 0 || strncmp(lang, "ar", 2U) == 0 || strncmp(lang, "fa", 2U) == 0) {
 			LOG(LOG_NOTICE, "Your language (%s) is unsupported (RTL), falling back to English", lang);
 			setenv("LANGUAGE", "C", 1);
-		} else if (strncmp(lang, "bn", 2U) == 0) {
+		} else if (strncmp(lang, "bn", 2U) == 0 || strncmp(lang, "hi", 2U) == 0) {
 			LOG(LOG_NOTICE, "Your language (%s) is unsupported (!LGC), falling back to English", lang);
 			setenv("LANGUAGE", "C", 1);
 		} else if (strncmp(lang, "ja", 2U) == 0 || strncmp(lang, "ko", 2U) == 0 || strncmp(lang, "zh", 2U) == 0) {
@@ -1382,7 +1382,8 @@ int
 					need_early_abort = true;
 				} else if (strncmp(charger_type, "SDP_OVRLIM", 8U) == 0U) {
 					// NOTE: Currently commented out, so we end up in the default case anyway.
-					LOG(LOG_WARNING, "SDP OVRLIM (Standard Downstream Port, > 500mA) charger detected");
+					LOG(LOG_WARNING,
+					    "SDP OVRLIM (Standard Downstream Port, > 500mA) charger detected");
 					need_early_abort = true;
 				} else if (strncmp(charger_type, "NO", 2U) == 0U) {
 					// NOTE: Despite being in a usb_plugged branch,
