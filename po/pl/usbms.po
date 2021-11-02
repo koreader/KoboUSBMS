@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-11-01 18:53+0100\n"
-"PO-Revision-Date: 2021-08-19 19:26+0000\n"
-"Last-Translator: Matthaiks <kitynska@gmail.com>\n"
+"PO-Revision-Date: 2021-11-03 15:03+0000\n"
+"Last-Translator: MaciejK2 <maciejk2@onet.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/pl/>\n"
 "Language: pl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.8-dev\n"
+"X-Generator: Weblate 4.9-dev\n"
 
 #: usbms.c:901
 msgid "USB Mass Storage"
@@ -45,7 +45,7 @@ msgstr ""
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1008
 msgid " Filesystem is busy! Offending processes:"
-msgstr " System plików w użyciu! Proces:"
+msgstr " System plików jest zajęty! Proces:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
 #: usbms.c:1045
@@ -95,7 +95,7 @@ msgid ""
 "Or, press the power button to exit."
 msgstr ""
 "Oczekiwanie na podłączenie...\n"
-"Naciśnij przycisk zasilania, aby wyjść."
+"Możesz też nacisnąć przycisk zasilania, aby wyjść."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1274
@@ -104,7 +104,7 @@ msgid ""
 "The device will shut down in 30 sec."
 msgstr ""
 " Urządzenie było podłączone do zwykłego źródła zasilania, a nie do hosta "
-"USB!\n"
+"USB (na przykład komputera)!\n"
 "Urządzenie wyłączy się za 30 sekund."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -114,7 +114,7 @@ msgid ""
 "KOReader will now restart…"
 msgstr ""
 " Urządzenie było podłączone do zwykłego źródła zasilania, a nie do hosta "
-"USB!\n"
+"USB (na przykład komputera)!\n"
 "KOReader zostanie teraz ponownie uruchomiony…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -142,7 +142,7 @@ msgid ""
 "The device will shut down in 30 sec."
 msgstr ""
 " Urządzenie jest podłączone do zwykłego źródła zasilania, a nie do hosta "
-"USB!\n"
+"USB (na przykład komputera)!\n"
 "Urządzenie wyłączy się za 30 sekund."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -152,7 +152,7 @@ msgid ""
 "KOReader will now restart…"
 msgstr ""
 " Urządzenie jest podłączone do zwykłego źródła zasilania, a nie do hosta "
-"USB!\n"
+"USB (na przykład komputera)!\n"
 "KOReader uruchomi się teraz ponownie…"
 
 #: usbms.c:1455
@@ -182,7 +182,7 @@ msgid ""
 " Could not detect an unplug event!\n"
 "The device will shut down in 90 sec."
 msgstr ""
-" Nie można wykryć zdarzenia odłączenia!\n"
+" Nie można wykryć odłączenia urządzenia!\n"
 "Urządzenie wyłączy się za 90 sekund."
 
 #: usbms.c:1611
