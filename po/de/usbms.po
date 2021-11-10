@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-11-01 18:53+0100\n"
-"PO-Revision-Date: 2021-09-10 13:33+0000\n"
-"Last-Translator: elvvis <elvvis@hotmail.de>\n"
+"PO-Revision-Date: 2021-11-10 18:51+0000\n"
+"Last-Translator: zwim <martin.zwicknagl@kirchbichl.net>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/de/>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.9-dev\n"
+"X-Generator: Weblate 4.9.1-dev\n"
 
 #: usbms.c:901
 msgid "USB Mass Storage"
@@ -123,7 +123,7 @@ msgid ""
 "The device will shut down in 30 sec."
 msgstr ""
 " Gab nach 90 Sekunden auf.\n"
-"Das Gerät schaltet sich in 30 Sek. ab"
+"Das Gerät schaltet sich in 30 Sekunden ab."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1335
