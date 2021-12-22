@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-11-01 18:53+0100\n"
-"PO-Revision-Date: 2021-11-10 18:51+0000\n"
+"PO-Revision-Date: 2021-12-23 15:53+0000\n"
 "Last-Translator: zwim <martin.zwicknagl@kirchbichl.net>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/de/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.9.1-dev\n"
+"X-Generator: Weblate 4.10.1\n"
 
 #: usbms.c:901
 msgid "USB Mass Storage"
@@ -142,7 +142,7 @@ msgid ""
 msgstr ""
 " Das Gerät ist an eine einfache Stromquelle angeschlossen, nicht an einem "
 "USB-Host!\n"
-"Das Gerät schaltet sich in 30 Sekunden ab"
+"Das Gerät schaltet sich in 30 Sekunden ab."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1426
@@ -165,7 +165,7 @@ msgid ""
 "The device will shut down in 90 sec."
 msgstr ""
 " Die USBMS-Sitzung konnte nicht gestartet werden!\n"
-"Das Gerät schaltet sich in 90 Sekunden ab"
+"Das Gerät schaltet sich in 90 Sekunden ab."
 
 #: usbms.c:1492
 msgid ""
@@ -182,7 +182,7 @@ msgid ""
 "The device will shut down in 90 sec."
 msgstr ""
 " Es ist fehlgeschlagen, ein Unplug-Ereignis zu entdecken!\n"
-"Das Gerät schaltet sich in 90 Sekunden ab"
+"Das Gerät schaltet sich in 90 Sekunden ab."
 
 #: usbms.c:1611
 msgid "Ending USBMS session…"
@@ -195,7 +195,7 @@ msgid ""
 "The device will shut down in 90 sec."
 msgstr ""
 " Die USBMS-Sitzung konnte nicht beendet werden!\n"
-"Das Gerät schaltet sich in 90 Sekunden ab"
+"Das Gerät schaltet sich in 90 Sekunden ab."
 
 #: usbms.c:1763
 msgid ""
