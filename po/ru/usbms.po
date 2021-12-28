@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-11-01 18:53+0100\n"
-"PO-Revision-Date: 2020-12-18 13:29+0000\n"
-"Last-Translator: ilyats <ilyatsindlekht@gmail.com>\n"
+"PO-Revision-Date: 2021-12-29 18:53+0000\n"
+"Last-Translator: Nikita Epifanov <nikgreens@protonmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/ru/>\n"
 "Language: ru\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.4-dev\n"
+"X-Generator: Weblate 4.10.1\n"
 
 #: usbms.c:901
 msgid "USB Mass Storage"
@@ -54,10 +54,8 @@ msgstr " В скрипте-обертке команды fuser произош
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1058
-#, fuzzy
-#| msgid " Failed to run the fuser script!"
 msgid " Could not run the fuser script!"
-msgstr " Ошибка при запуске скрипта-обертки команды fuser!"
+msgstr " Не удалось запустить скрипт fuser!"
 
 #: usbms.c:1066
 msgid "Press the power button to exit."
@@ -65,10 +63,8 @@ msgstr "Нажмите кнопку питания чтобы выйти."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1121 usbms.c:1240
-#, fuzzy
-#| msgid " The device will shutdown in 30 sec."
 msgid " The device will shut down in 30 sec."
-msgstr "Устройство будет выключено через 30 секунд."
+msgstr " Устройство будет выключено через 30 секунд."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1129 usbms.c:1248
@@ -77,10 +73,6 @@ msgstr "Сейчас KOReader перезапустится…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1163
-#, fuzzy
-#| msgid ""
-#| " Gave up after 30 sec.\n"
-#| "The device will shutdown in 30 sec."
 msgid ""
 " Gave up after 30 sec.\n"
 "The device will shut down in 30 sec."
@@ -107,15 +99,11 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1274
-#, fuzzy
-#| msgid ""
-#| " The device was plugged into a plain power source, not a USB host!\n"
-#| "The device will shutdown in 30 sec."
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 30 sec."
 msgstr ""
-"Устройство было подключено к простому источнику энергии, а не USB-хосту!\n"
+" Устройство было подключено к простому источнику энергии, а не USB-хосту!\n"
 "Устройство выключится через 30 секунд."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -129,16 +117,12 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1327
-#, fuzzy
-#| msgid ""
-#| " Gave up after 90 sec.\n"
-#| "The device will shutdown in 30 sec."
 msgid ""
 " Gave up after 90 sec.\n"
 "The device will shut down in 30 sec."
 msgstr ""
 " Не удалось за 90 секунд.\n"
-"Устрпойство будет отключено через 30 секунд."
+"Устройство будет отключено через 30 секунд."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1335
@@ -151,10 +135,6 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1418
-#, fuzzy
-#| msgid ""
-#| " The device is plugged into a plain power source, not a USB host!\n"
-#| "The device will shutdown in 30 sec."
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 30 sec."
@@ -177,16 +157,12 @@ msgstr "Начало сессии USBMS…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1471
-#, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " Could not start the USBMS session!\n"
 "The device will shut down in 90 sec."
 msgstr ""
-" Ошибка при запуске сессии USBMS!\n"
-"Устройство будет отключено через 90 секунд."
+" Не удалось запустить сеанс USBMS!\n"
+"Устройство выключится через 90 секунд."
 
 #: usbms.c:1492
 msgid ""
@@ -198,16 +174,12 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1599
-#, fuzzy
-#| msgid ""
-#| " Failed to detect an unplug event!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " Could not detect an unplug event!\n"
 "The device will shut down in 90 sec."
 msgstr ""
-" Не обнаружено событие отключения провода!\n"
-"Устройство будет выключено через 90 секунд."
+" Не удалось обнаружить событие отключения!\n"
+"Устройство выключится через 90 секунд."
 
 #: usbms.c:1611
 msgid "Ending USBMS session…"
@@ -215,16 +187,12 @@ msgstr "Останов сессии USBMS…"
 
 #. @translators: First Unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1622
-#, fuzzy
-#| msgid ""
-#| " Failed to end the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " Could not end the USBMS session!\n"
 "The device will shut down in 90 sec."
 msgstr ""
-" Ошибка при останове сессии USBMS!\n"
-"Устройство будет отключено через 90 секунд."
+" Не удалось завершить сеанс USBMS!\n"
+"Устройство выключится через 90 секунд."
 
 #: usbms.c:1763
 msgid ""
