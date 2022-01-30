@@ -79,7 +79,7 @@
 #endif
 
 // Apparently the libevdev version string isn't available anywhere, so, fake it
-#define LIBEVDEV_VERSION "1.11.0"
+#define LIBEVDEV_VERSION "1.12.0"
 
 // Gettext
 #define _(String) gettext(String)
