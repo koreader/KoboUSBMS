@@ -1464,7 +1464,19 @@ int
 	rc = system(resource_path);
 	if (rc != EXIT_SUCCESS) {
 		// Hu oh… Print a giant warning, and abort. KOReader will shut down the device after a while.
-		LOG(LOG_CRIT, "Could not start the USBMS session (%d)!", rc);
+		if (rc == -1) {
+			LOG(LOG_CRIT, "Could not start the USBMS session (system: %m)!");
+		} else {
+			if (WIFEXITED(rc)) {
+				LOG(LOG_CRIT,
+				    "Could not start the USBMS session (script exited with status %d)!",
+				    WEXITSTATUS(rc));
+			} else if (WIFSIGNALED(rc)) {
+				LOG(LOG_CRIT,
+				    "Could not start the USBMS session (script was terminated by signal %s)!",
+				    strsignal(WTERMSIG(rc)));
+			}
+		}
 		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
 			       // @translators: First unicode codepoint is an icon, leave it as-is.
@@ -1615,7 +1627,19 @@ int
 	rc = system(resource_path);
 	if (rc != EXIT_SUCCESS) {
 		// Hu oh… Print a giant warning, and abort. KOReader will shut down the device after a while.
-		LOG(LOG_CRIT, "Could not end the USBMS session (%d)!", rc);
+		if (rc == -1) {
+			LOG(LOG_CRIT, "Could not end the USBMS session (system: %m)!");
+		} else {
+			if (WIFEXITED(rc)) {
+				LOG(LOG_CRIT,
+				    "Could not end the USBMS session (script exited with status %d)!",
+				    WEXITSTATUS(rc));
+			} else if (WIFSIGNALED(rc)) {
+				LOG(LOG_CRIT,
+				    "Could not end the USBMS session (script was terminated by signal %s)!",
+				    strsignal(WTERMSIG(rc)));
+			}
+		}
 		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
 		fbink_print_ot(fbfd,
 			       // @translators: First Unicode codepoint is an icon, leave it as-is.
