@@ -491,10 +491,10 @@ static void
 
 // We'll want to regularly update a display of the plug/charge status, and whether Wi-Fi is on or not
 static void
-    print_status(int fbfd, const FBInkConfig* fbink_cfg, const FBInkOTConfig* ot_cfg, int ntxfd, DEVICE_ID_T device_code)
+    print_status(const USBMSContext* ctx)
 {
 	// Check if we're plugged in…
-	bool usb_plugged = (*fxpIsUSBPlugged)(ntxfd);
+	bool usb_plugged = (*fxpIsUSBPlugged)(ctx->ntxfd);
 
 	// Get the battery charge %
 	uint8_t batt_perc = 0U;
@@ -518,7 +518,7 @@ static void
 	// Check if there's a PowerCover
 	bool    has_aux_battery = false;
 	uint8_t aux_batt_perc   = 0U;
-	if (device_code == DEVICE_KOBO_SAGE) {
+	if (ctx->fbink_state.device_id == DEVICE_KOBO_SAGE) {
 		f = fopen(CILIX_CONNECTED_SYSFS, "re");
 		if (f) {
 			char   cilix_conn[8] = { 0 };
@@ -591,9 +591,9 @@ static void
 	strftime(sz_time, sizeof(sz_time), "%H:%M", lt);
 
 	if (has_aux_battery) {
-		fbink_printf(fbfd,
-			     ot_cfg,
-			     fbink_cfg,
+		fbink_printf(ctx->fbfd,
+			     &ctx->ot_cfg,
+			     &ctx->fbink_cfg,
 			     "%s • \uf017 %s • %s (%hhu%%) + %s (%hhu%%) • %s",
 			     usb_plugged ? "\ufba3" : "\ufba4",
 			     sz_time,
@@ -603,9 +603,9 @@ static void
 			     aux_batt_perc,
 			     wifi_up ? "\ufaa8" : "\ufaa9");
 	} else {
-		fbink_printf(fbfd,
-			     ot_cfg,
-			     fbink_cfg,
+		fbink_printf(ctx->fbfd,
+			     &ctx->ot_cfg,
+			     &ctx->fbink_cfg,
 			     "%s • \uf017 %s • %s (%hhu%%) • %s",
 			     usb_plugged ? "\ufba3" : "\ufba4",
 			     sz_time,
@@ -616,11 +616,11 @@ static void
 }
 
 static void
-    print_icon(int fbfd, const char* string, FBInkConfig* fbink_cfg, const FBInkOTConfig* ot_cfg)
+    print_icon(const char* string, USBMSContext* ctx)
 {
-	fbink_cfg->is_halfway = true;
-	fbink_print_ot(fbfd, string, ot_cfg, fbink_cfg, NULL);
-	fbink_cfg->is_halfway = false;
+	ctx->fbink_cfg.is_halfway = true;
+	fbink_print_ot(ctx->fbfd, string, &ctx->ot_cfg, &ctx->fbink_cfg, NULL);
+	ctx->fbink_cfg.is_halfway = false;
 }
 
 // Poor man's grep in /proc/modules
@@ -711,15 +711,11 @@ int
 	int                    pwd      = -1;
 	char*                  abs_pwd  = NULL;
 	bool                   is_CJK   = false;
-	int                    fbfd     = -1;
-	FBInkOTConfig          ot_cfg   = { 0 };
-	FBInkOTConfig          icon_cfg = { 0 };
-	FBInkOTConfig          msg_cfg  = { 0 };
 	struct uevent_listener listener = { 0 };
 	listener.pfd.fd                 = -1;
 	struct libevdev* dev            = NULL;
+	USBMSContext     ctx            = { 0 };
 	int              evfd           = -1;
-	int              ntxfd          = -1;
 	int              clockfd        = -1;
 
 	// We'll be chatting exclusively over syslog, because duh.
@@ -802,20 +798,19 @@ int
 	bind_textdomain_codeset("usbms", "UTF-8");
 
 	// Setup FBInk
-	FBInkConfig fbink_cfg = { 0 };
-	fbink_cfg.row         = -5;
-	fbink_cfg.is_centered = true;
-	fbink_cfg.is_padded   = true;
-	fbink_cfg.to_syslog   = true;
+	ctx.fbink_cfg.row         = -5;
+	ctx.fbink_cfg.is_centered = true;
+	ctx.fbink_cfg.is_padded   = true;
+	ctx.fbink_cfg.to_syslog   = true;
 	// We'll want early errors to already go to syslog
-	fbink_update_verbosity(&fbink_cfg);
+	fbink_update_verbosity(&ctx.fbink_cfg);
 
-	if ((fbfd = fbink_open()) == ERRCODE(EXIT_FAILURE)) {
+	if ((ctx.fbfd = fbink_open()) == ERRCODE(EXIT_FAILURE)) {
 		LOG(LOG_CRIT, "Could not open the framebuffer, aborting…");
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
-	if (fbink_init(fbfd, &fbink_cfg) == ERRCODE(EXIT_FAILURE)) {
+	if (fbink_init(ctx.fbfd, &ctx.fbink_cfg) == ERRCODE(EXIT_FAILURE)) {
 		LOG(LOG_CRIT, "Could not initialize FBInk, aborting…");
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
@@ -823,12 +818,11 @@ int
 	LOG(LOG_INFO, "Initialized FBInk %s", fbink_version());
 
 	// Now that FBInk has been initialized, setup the USB product ID for the current device
-	FBInkState fbink_state = { 0 };
-	fbink_get_state(&fbink_cfg, &fbink_state);
-	setup_usb_ids(fbink_state.device_id);
+	fbink_get_state(&ctx.fbink_cfg, &ctx.fbink_state);
+	setup_usb_ids(ctx.fbink_state.device_id);
 
 	// And setup the sysfs paths & usb check based on the device…
-	if (fbink_state.is_sunxi) {
+	if (ctx.fbink_state.is_sunxi) {
 		NTX_KEYS_EVDEV     = SUNXI_NTX_KEYS_EVDEV;
 		TOUCHPAD_EVDEV     = SUNXI_TOUCHPAD_EVDEV;
 		BATT_CAP_SYSFS     = SUNXI_BATT_CAP_SYSFS;
@@ -838,7 +832,7 @@ int
 		fxpIsUSBPlugged = &sysfs_is_usb_plugged;
 
 		// Enforce REAGL, since AUTO is not recommended on sunxi
-		fbink_cfg.wfm_mode = WFM_REAGL;
+		ctx.fbink_cfg.wfm_mode = WFM_REAGL;
 	} else {
 		NTX_KEYS_EVDEV     = NXP_NTX_KEYS_EVDEV;
 		TOUCHPAD_EVDEV     = NXP_TOUCHPAD_EVDEV;
@@ -895,8 +889,8 @@ int
 	}
 
 	// Setup the fd for ntx_io ioctls
-	ntxfd = open("/dev/ntx_io", O_RDONLY | O_NONBLOCK | O_CLOEXEC);
-	if (ntxfd == -1) {
+	ctx.ntxfd = open("/dev/ntx_io", O_RDONLY | O_NONBLOCK | O_CLOEXEC);
+	if (ctx.ntxfd == -1) {
 		PFLOG(LOG_CRIT, "open: %m");
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
@@ -930,12 +924,12 @@ int
 	}
 
 	// Display our header
-	fbink_cfg.no_refresh = true;
-	fbink_cls(fbfd, &fbink_cfg, NULL, false);
-	ot_cfg.margins.top = (short int) fbink_state.font_h;
-	ot_cfg.size_px     = (unsigned short int) (fbink_state.font_h * 2U);
+	ctx.fbink_cfg.no_refresh = true;
+	fbink_cls(ctx.fbfd, &ctx.fbink_cfg, NULL, false);
+	ctx.ot_cfg.margins.top = (short int) ctx.fbink_state.font_h;
+	ctx.ot_cfg.size_px     = (unsigned short int) (ctx.fbink_state.font_h * 2U);
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/CaskaydiaCove_NF.otf", abs_pwd);
-	if (fbink_add_ot_font_v2(resource_path, FNT_REGULAR, &icon_cfg) != EXIT_SUCCESS) {
+	if (fbink_add_ot_font_v2(resource_path, FNT_REGULAR, &ctx.icon_cfg) != EXIT_SUCCESS) {
 		PFLOG(LOG_CRIT, "Could not load main font!");
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
@@ -945,57 +939,57 @@ int
 	if (is_CJK) {
 		snprintf(
 		    resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/NotoSansCJKsc-Regular.otf", abs_pwd);
-		if (fbink_add_ot_font_v2(resource_path, FNT_REGULAR, &msg_cfg) != EXIT_SUCCESS) {
+		if (fbink_add_ot_font_v2(resource_path, FNT_REGULAR, &ctx.msg_cfg) != EXIT_SUCCESS) {
 			PFLOG(LOG_CRIT, "Could not load CJK font!");
 			rv = USBMS_EARLY_EXIT;
 			goto cleanup;
 		}
 		// The first ot_cfg print (title bar) actually requires CJK support, so point it at our CJK font…
-		ot_cfg.font = msg_cfg.font;
+		ctx.ot_cfg.font = ctx.msg_cfg.font;
 	} else {
 		// If we don't need CJK support, we simply use the main font everywhere
-		ot_cfg.font  = icon_cfg.font;
-		msg_cfg.font = icon_cfg.font;
+		ctx.ot_cfg.font  = ctx.icon_cfg.font;
+		ctx.msg_cfg.font = ctx.icon_cfg.font;
 	}
-	fbink_print_ot(fbfd, _("USB Mass Storage"), &ot_cfg, &fbink_cfg, NULL);
+	fbink_print_ot(ctx.fbfd, _("USB Mass Storage"), &ctx.ot_cfg, &ctx.fbink_cfg, NULL);
 	if (is_CJK) {
 		// Back to the main font, as this will only be used for the status bar from now on
-		ot_cfg.font = icon_cfg.font;
+		ctx.ot_cfg.font = ctx.icon_cfg.font;
 	}
-	fbink_cfg.ignore_alpha  = true;
-	fbink_cfg.halign        = CENTER;
-	fbink_cfg.scaled_height = (short int) (fbink_state.screen_height / 10U);
-	fbink_cfg.row           = 3;
+	ctx.fbink_cfg.ignore_alpha  = true;
+	ctx.fbink_cfg.halign        = CENTER;
+	ctx.fbink_cfg.scaled_height = (short int) (ctx.fbink_state.screen_height / 10U);
+	ctx.fbink_cfg.row           = 3;
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/img/koreader.png", abs_pwd);
-	fbink_print_image(fbfd, resource_path, 0, 0, &fbink_cfg);
-	fbink_cfg.no_refresh  = false;
-	fbink_cfg.is_flashing = true;
-	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
-	fbink_cfg.is_flashing = false;
+	fbink_print_image(ctx.fbfd, resource_path, 0, 0, &ctx.fbink_cfg);
+	ctx.fbink_cfg.no_refresh  = false;
+	ctx.fbink_cfg.is_flashing = true;
+	fbink_refresh(ctx.fbfd, 0, 0, 0, 0, &ctx.fbink_cfg);
+	ctx.fbink_cfg.is_flashing = false;
 
 	// Display a minimal status bar on screen
 	tzset();
-	fbink_cfg.row      = -3;
-	ot_cfg.margins.top = (short int) -(fbink_state.font_h * 3U);
-	ot_cfg.padding     = HORI_PADDING;
-	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
+	ctx.fbink_cfg.row      = -3;
+	ctx.ot_cfg.margins.top = (short int) -(ctx.fbink_state.font_h * 3U);
+	ctx.ot_cfg.padding     = HORI_PADDING;
+	print_status(&ctx);
 
 	// Setup the center icon display
-	icon_cfg.size_px = (unsigned short int) (fbink_state.font_h * 30U);
-	icon_cfg.padding = HORI_PADDING;
+	ctx.icon_cfg.size_px = (unsigned short int) (ctx.fbink_state.font_h * 30U);
+	ctx.icon_cfg.padding = HORI_PADDING;
 
 	// The various lsmod checks will take a while, so, start with the initial cable status…
-	bool usb_plugged = (*fxpIsUSBPlugged)(ntxfd);
-	print_icon(fbfd, usb_plugged ? "\uf700" : "\uf701", &fbink_cfg, &icon_cfg);
+	bool usb_plugged = (*fxpIsUSBPlugged)(ctx.ntxfd);
+	print_icon(usb_plugged ? "\uf700" : "\uf701", &ctx);
 
 	// Setup the message area
-	msg_cfg.size_px        = ot_cfg.size_px;
-	msg_cfg.padding        = icon_cfg.padding;
-	fbink_cfg.row          = -14;
-	msg_cfg.margins.top    = (short int) -(fbink_state.font_h * 14U);
+	ctx.msg_cfg.size_px        = ctx.ot_cfg.size_px;
+	ctx.msg_cfg.padding        = ctx.icon_cfg.padding;
+	ctx.fbink_cfg.row          = -14;
+	ctx.msg_cfg.margins.top    = (short int) -(ctx.fbink_state.font_h * 14U);
 	// We want enough space for 4 lines (+/- metrics shenanigans)
-	msg_cfg.margins.bottom = (short int) (fbink_state.font_h * (14U - (4U * 2U) - 1U));
-	msg_cfg.padding        = FULL_PADDING;
+	ctx.msg_cfg.margins.bottom = (short int) (ctx.fbink_state.font_h * (14U - (4U * 2U) - 1U));
+	ctx.msg_cfg.padding        = FULL_PADDING;
 
 	// And now, on to the fun stuff!
 	bool need_early_abort = false;
@@ -1006,12 +1000,12 @@ int
 		LOG(LOG_ERR, "Device is in USBNet mode, aborting");
 		need_early_abort = true;
 
-		print_icon(fbfd, "\uf6ff", &fbink_cfg, &icon_cfg);
-		fbink_print_ot(fbfd,
+		print_icon("\uf6ff", &ctx);
+		fbink_print_ot(ctx.fbfd,
 			       // @translators: First unicode codepoint is an icon, leave it as-is.
 			       _("\uf071 Please disable USBNet manually!\nPress the power button to exit."),
-			       &msg_cfg,
-			       &fbink_cfg,
+			       &ctx.msg_cfg,
+			       &ctx.fbink_cfg,
 			       NULL);
 	}
 
@@ -1021,12 +1015,12 @@ int
 		need_early_abort = true;
 
 		// NOTE: There's also U+fb5b for a serial cable icon
-		print_icon(fbfd, "\ue795", &fbink_cfg, &icon_cfg);
-		fbink_print_ot(fbfd,
+		print_icon("\ue795", &ctx);
+		fbink_print_ot(ctx.fbfd,
 			       // @translators: First unicode codepoint is an icon, leave it as-is.
 			       _("\uf071 Please disable USBSerial manually!\nPress the power button to exit."),
-			       &msg_cfg,
-			       &fbink_cfg,
+			       &ctx.msg_cfg,
+			       &ctx.fbink_cfg,
 			       NULL);
 	}
 
@@ -1054,27 +1048,24 @@ int
 				    mount_points[i].name);
 			} else if (errno == EBUSY) {
 				LOG(LOG_WARNING, "%s storage partition is busy, can't export it!", mount_points[i].name);
-				print_icon(fbfd,
-					   mount_points[i].id == PARTITION_INTERNAL ? "\uf7c9" : "\ufcda",
-					   &fbink_cfg,
-					   &icon_cfg);
+				print_icon(mount_points[i].id == PARTITION_INTERNAL ? "\uf7c9" : "\ufcda", &ctx);
 
 				// Start a little bit higher than usual to leave us some room…
-				fbink_cfg.row       = -16;
-				msg_cfg.margins.top = (short int) -(fbink_state.font_h * 16U);
-				rc                  = fbink_print_ot(fbfd,
+				ctx.fbink_cfg.row       = -16;
+				ctx.msg_cfg.margins.top = (short int) -(ctx.fbink_state.font_h * 16U);
+				rc                      = fbink_print_ot(ctx.fbfd,
                                                     // @translators: First unicode codepoint is an icon, leave it as-is.
                                                     _("\uf071 Filesystem is busy! Offending processes:"),
-                                                    &msg_cfg,
-                                                    &fbink_cfg,
+                                                    &ctx.msg_cfg,
+                                                    &ctx.fbink_cfg,
                                                     NULL);
 
 				// And now, switch to a smaller font size when consuming the script's output…
-				msg_cfg.padding        = HORI_PADDING;
-				msg_cfg.size_px        = fbink_state.font_h;
-				msg_cfg.margins.top    = (short int) rc;
+				ctx.msg_cfg.padding        = HORI_PADDING;
+				ctx.msg_cfg.size_px        = ctx.fbink_state.font_h;
+				ctx.msg_cfg.margins.top    = (short int) rc;
 				// Drop the bottom margin to allow stomping over the status bar…
-				msg_cfg.margins.bottom = 0;
+				ctx.msg_cfg.margins.bottom = 0;
 
 				LOG(LOG_WARNING, "Listing all offending processes…");
 				snprintf(resource_path,
@@ -1086,43 +1077,44 @@ int
 				if (f) {
 					char line[PIPE_BUF];
 					while (fgets(line, sizeof(line), f)) {
-						rc = fbink_print_ot(fbfd, line, &msg_cfg, &fbink_cfg, NULL);
-						msg_cfg.margins.top = (short int) rc;
+						rc = fbink_print_ot(ctx.fbfd, line, &ctx.msg_cfg, &ctx.fbink_cfg, NULL);
+						ctx.msg_cfg.margins.top = (short int) rc;
 					}
 
 					// Back to normal :)
-					msg_cfg.size_px = ot_cfg.size_px;
+					ctx.msg_cfg.size_px = ctx.ot_cfg.size_px;
 
 					rc = pclose(f);
 					if (rc != EXIT_SUCCESS) {
 						// Hu oh… Print a giant warning, and abort.
 						LOG(LOG_CRIT, "The fuser script failed (%d)!", rc);
-						print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
+						print_icon("\uf06a", &ctx);
 						rc = fbink_print_ot(
-						    fbfd,
+						    ctx.fbfd,
 						    // @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
 						    _("\uf071 The fuser script failed!"),
-						    &msg_cfg,
-						    &fbink_cfg,
+						    &ctx.msg_cfg,
+						    &ctx.fbink_cfg,
 						    NULL);
-						msg_cfg.margins.top = (short int) rc;
+						ctx.msg_cfg.margins.top = (short int) rc;
 					}
 				} else {
 					// Hu oh… Print a giant warning, and abort.
 					LOG(LOG_CRIT, "Could not run fuser script!");
-					print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
+					print_icon("\uf06a", &ctx);
 					rc = fbink_print_ot(
-					    fbfd,
+					    ctx.fbfd,
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
 					    _("\uf071 Could not run the fuser script!"),
-					    &msg_cfg,
-					    &fbink_cfg,
+					    &ctx.msg_cfg,
+					    &ctx.fbink_cfg,
 					    NULL);
-					msg_cfg.margins.top = (short int) rc;
+					ctx.msg_cfg.margins.top = (short int) rc;
 				}
 
 				// We can still exit safely at that point
-				fbink_print_ot(fbfd, _("Press the power button to exit."), &msg_cfg, &fbink_cfg, NULL);
+				fbink_print_ot(
+				    ctx.fbfd, _("Press the power button to exit."), &ctx.msg_cfg, &ctx.fbink_cfg, NULL);
 				need_early_abort = true;
 				break;
 			} else {
@@ -1171,33 +1163,33 @@ int
 				if (pfds[0].revents & POLLIN) {
 					if (handle_evdev(dev)) {
 						// Refresh the status bar
-						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
+						print_status(&ctx);
 						LOG(LOG_NOTICE, "Caught a power button release");
 						if (early_unmount) {
 							fbink_print_ot(
-							    fbfd,
+							    ctx.fbfd,
 							    // @translators: First unicode codepoint is an icon, leave it as-is.
 							    _("\uf071 The device will shut down in 30 sec."),
-							    &msg_cfg,
-							    &fbink_cfg,
+							    &ctx.msg_cfg,
+							    &ctx.fbink_cfg,
 							    NULL);
 						} else {
 							fbink_print_ot(
-							    fbfd,
+							    ctx.fbfd,
 							    // @translators: First unicode codepoint is an icon, leave it as-is.
 							    _("\uf05a KOReader will now restart…"),
-							    &msg_cfg,
-							    &fbink_cfg,
+							    &ctx.msg_cfg,
+							    &ctx.fbink_cfg,
 							    NULL);
 						}
-						fbink_wait_for_complete(fbfd, LAST_MARKER);
+						fbink_wait_for_complete(ctx.fbfd, LAST_MARKER);
 						break;
 					}
 				}
 
 				if (pfds[1].revents & POLLIN) {
 					// Refresh the status bar
-					print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
+					print_status(&ctx);
 					// We don't actually care about the expiration count, so just read to clear the event
 					uint64_t exp;
 					read(clockfd, &exp, sizeof(exp));
@@ -1217,23 +1209,23 @@ int
 				LOG(LOG_NOTICE, "It's been 30 sec, giving up");
 				if (early_unmount) {
 					fbink_print_ot(
-					    fbfd,
+					    ctx.fbfd,
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
 					    _("\uf05a Gave up after 30 sec.\nThe device will shut down in 30 sec."),
-					    &msg_cfg,
-					    &fbink_cfg,
+					    &ctx.msg_cfg,
+					    &ctx.fbink_cfg,
 					    NULL);
 				} else {
 					fbink_print_ot(
-					    fbfd,
+					    ctx.fbfd,
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
 					    _("\uf05a Gave up after 30 sec.\nKOReader will now restart…"),
-					    &msg_cfg,
-					    &fbink_cfg,
+					    &ctx.msg_cfg,
+					    &ctx.fbink_cfg,
 					    NULL);
 				}
 				// Make sure this message will be visible…
-				fbink_wait_for_complete(fbfd, LAST_MARKER);
+				fbink_wait_for_complete(ctx.fbfd, LAST_MARKER);
 				const struct timespec zzz = { 2L, 500000000L };
 				nanosleep(&zzz, NULL);
 				break;
@@ -1248,12 +1240,12 @@ int
 	LOG(LOG_INFO, "Starting USBMS shenanigans");
 	bool sleep_on_abort = true;
 	// If we're not plugged in, wait for it (or abort early)
-	usb_plugged         = (*fxpIsUSBPlugged)(ntxfd);
+	usb_plugged         = (*fxpIsUSBPlugged)(ctx.ntxfd);
 	if (!usb_plugged) {
-		fbink_print_ot(fbfd,
+		fbink_print_ot(ctx.fbfd,
 			       _("Waiting to be plugged in…\nOr, press the power button to exit."),
-			       &msg_cfg,
-			       &fbink_cfg,
+			       &ctx.msg_cfg,
+			       &ctx.fbink_cfg,
 			       NULL);
 
 		LOG(LOG_INFO, "Waiting for a plug in event or a power button press…");
@@ -1290,23 +1282,23 @@ int
 				if (pfds[0].revents & POLLIN) {
 					if (handle_evdev(dev)) {
 						// Refresh the status bar
-						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
+						print_status(&ctx);
 						LOG(LOG_NOTICE, "Caught a power button release");
 						if (early_unmount) {
 							fbink_print_ot(
-							    fbfd,
+							    ctx.fbfd,
 							    // @translators: First unicode codepoint is an icon, leave it as-is.
 							    _("\uf071 The device will shut down in 30 sec."),
-							    &msg_cfg,
-							    &fbink_cfg,
+							    &ctx.msg_cfg,
+							    &ctx.fbink_cfg,
 							    NULL);
 						} else {
 							fbink_print_ot(
-							    fbfd,
+							    ctx.fbfd,
 							    // @translators: First unicode codepoint is an icon, leave it as-is.
 							    _("\uf05a KOReader will now restart…"),
-							    &msg_cfg,
-							    &fbink_cfg,
+							    &ctx.msg_cfg,
+							    &ctx.fbink_cfg,
 							    NULL);
 						}
 						need_early_abort = true;
@@ -1323,25 +1315,24 @@ int
 						if (uev.action == UEVENT_ACTION_ADD && uev.devpath &&
 						    UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_PLUG)) {
 							// Refresh the status bar
-							print_status(
-							    fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
+							print_status(&ctx);
 							LOG(LOG_WARNING,
 							    "Caught a plug in event, but to a plain power source, not a USB host");
 							if (early_unmount) {
 								fbink_print_ot(
-								    fbfd,
+								    ctx.fbfd,
 								    // @translators: First unicode codepoint is an icon, leave it as-is.
 								    _("\uf071 The device was plugged into a plain power source, not a USB host!\nThe device will shut down in 30 sec."),
-								    &msg_cfg,
-								    &fbink_cfg,
+								    &ctx.msg_cfg,
+								    &ctx.fbink_cfg,
 								    NULL);
 							} else {
 								fbink_print_ot(
-								    fbfd,
+								    ctx.fbfd,
 								    // @translators: First unicode codepoint is an icon, leave it as-is.
 								    _("\uf071 The device was plugged into a plain power source, not a USB host!\nKOReader will now restart…"),
-								    &msg_cfg,
-								    &fbink_cfg,
+								    &ctx.msg_cfg,
+								    &ctx.fbink_cfg,
 								    NULL);
 							}
 							need_early_abort = true;
@@ -1349,8 +1340,7 @@ int
 						} else if (uev.action == UEVENT_ACTION_ADD && uev.devpath &&
 							   UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_HOST)) {
 							// Refresh the status bar
-							print_status(
-							    fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
+							print_status(&ctx);
 							LOG(LOG_NOTICE, "Caught a plug in event (to a USB host)");
 							break;
 						}
@@ -1363,7 +1353,7 @@ int
 
 				if (pfds[2].revents & POLLIN) {
 					// Refresh the status bar
-					print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
+					print_status(&ctx);
 					// We don't actually care about the expiration count, so just read to clear the event
 					uint64_t exp;
 					read(clockfd, &exp, sizeof(exp));
@@ -1383,19 +1373,19 @@ int
 				LOG(LOG_NOTICE, "It's been 90 sec, giving up");
 				if (early_unmount) {
 					fbink_print_ot(
-					    fbfd,
+					    ctx.fbfd,
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
 					    _("\uf05a Gave up after 90 sec.\nThe device will shut down in 30 sec."),
-					    &msg_cfg,
-					    &fbink_cfg,
+					    &ctx.msg_cfg,
+					    &ctx.fbink_cfg,
 					    NULL);
 				} else {
 					fbink_print_ot(
-					    fbfd,
+					    ctx.fbfd,
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
 					    _("\uf05a Gave up after 90 sec.\nKOReader will now restart…"),
-					    &msg_cfg,
-					    &fbink_cfg,
+					    &ctx.msg_cfg,
+					    &ctx.fbink_cfg,
 					    NULL);
 				}
 				need_early_abort = true;
@@ -1477,19 +1467,19 @@ int
 					LOG(LOG_ERR, "Charger type is not SDP PC, aborting");
 					if (early_unmount) {
 						fbink_print_ot(
-						    fbfd,
+						    ctx.fbfd,
 						    // @translators: First unicode codepoint is an icon, leave it as-is.
 						    _("\uf071 The device is plugged into a plain power source, not a USB host!\nThe device will shut down in 30 sec."),
-						    &msg_cfg,
-						    &fbink_cfg,
+						    &ctx.msg_cfg,
+						    &ctx.fbink_cfg,
 						    NULL);
 					} else {
 						fbink_print_ot(
-						    fbfd,
+						    ctx.fbfd,
 						    // @translators: First unicode codepoint is an icon, leave it as-is.
 						    _("\uf071 The device is plugged into a plain power source, not a USB host!\nKOReader will now restart…"),
-						    &msg_cfg,
-						    &fbink_cfg,
+						    &ctx.msg_cfg,
+						    &ctx.fbink_cfg,
 						    NULL);
 					}
 				}
@@ -1504,7 +1494,7 @@ int
 	// If we aborted before plug in, we can (usually) still exit safely…
 	if (need_early_abort) {
 		// Make sure the final message will be visible…
-		fbink_wait_for_complete(fbfd, LAST_MARKER);
+		fbink_wait_for_complete(ctx.fbfd, LAST_MARKER);
 		if (sleep_on_abort) {
 			const struct timespec zzz = { 2L, 500000000L };
 			nanosleep(&zzz, NULL);
@@ -1515,8 +1505,8 @@ int
 
 	// We're plugged in, here comes the fun…
 	LOG(LOG_INFO, "Starting USBMS session…");
-	print_icon(fbfd, "\uf287", &fbink_cfg, &icon_cfg);
-	fbink_print_ot(fbfd, _("Starting USBMS session…"), &msg_cfg, &fbink_cfg, NULL);
+	print_icon("\uf287", &ctx);
+	fbink_print_ot(ctx.fbfd, _("Starting USBMS session…"), &ctx.msg_cfg, &ctx.fbink_cfg, NULL);
 
 	// NOTE: We need to figure out the frontlight intensity *before* we unmount onboard,
 	//       because, on < Mk. 7 devices, we'll have to get that from KOReader's config file…
@@ -1541,12 +1531,12 @@ int
 				    strsignal(WTERMSIG(rc)));
 			}
 		}
-		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
-		fbink_print_ot(fbfd,
+		print_icon("\uf06a", &ctx);
+		fbink_print_ot(ctx.fbfd,
 			       // @translators: First unicode codepoint is an icon, leave it as-is.
 			       _("\uf071 Could not start the USBMS session!\nThe device will shut down in 90 sec."),
-			       &msg_cfg,
-			       &fbink_cfg,
+			       &ctx.msg_cfg,
+			       &ctx.fbink_cfg,
 			       NULL);
 
 		rv = EXIT_FAILURE;
@@ -1556,26 +1546,26 @@ int
 	// Now we're cooking with gas!
 	LOG(LOG_INFO, "USBMS session in progress");
 	// Switch to nightmode for the duration of the session, as a nod to the stock behavior ;).
-	fbink_cfg.no_refresh = true;
-	if (fbink_state.can_hw_invert) {
-		fbink_cfg.is_nightmode = true;
+	ctx.fbink_cfg.no_refresh = true;
+	if (ctx.fbink_state.can_hw_invert) {
+		ctx.fbink_cfg.is_nightmode = true;
 	} else {
 		// Fake it ;).
-		fbink_cfg.is_inverted = true;
-		fbink_invert_screen(fbfd, &fbink_cfg);
+		ctx.fbink_cfg.is_inverted = true;
+		fbink_invert_screen(ctx.fbfd, &ctx.fbink_cfg);
 	}
-	fbink_print_ot(fbfd,
+	fbink_print_ot(ctx.fbfd,
 		       _("USBMS session in progress.\nPlease eject your device safely before unplugging it."),
-		       &msg_cfg,
-		       &fbink_cfg,
+		       &ctx.msg_cfg,
+		       &ctx.fbink_cfg,
 		       NULL);
-	fbink_cfg.no_refresh = false;
-	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
+	ctx.fbink_cfg.no_refresh = false;
+	fbink_refresh(ctx.fbfd, 0, 0, 0, 0, &ctx.fbink_cfg);
 
 	// And much like Nickel, gently turn the light off for the duration…
 	if (fl_intensity != 0U) {
 		LOG(LOG_INFO, "Turning frontlight off…");
-		toggle_frontlight(false, fl_intensity, ntxfd);
+		toggle_frontlight(false, fl_intensity, ctx.ntxfd);
 	}
 
 	// And now we just have to wait until an unplug…
@@ -1616,20 +1606,20 @@ int
 					     (uev.modalias && UE_STR_EQ(uev.modalias, KOBO_USB_MODALIAS_CI)) ||
 					     UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_UDC))) {
 						// Refresh the status bar
-						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
+						print_status(&ctx);
 						LOG(LOG_NOTICE, "Caught an eject event");
 						break;
 					} else if (uev.action == UEVENT_ACTION_REMOVE && uev.devpath &&
 						   (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_PLUG) ||
 						    UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_HOST))) {
 						// Refresh the status bar
-						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
+						print_status(&ctx);
 						LOG(LOG_NOTICE, "Caught an unplug event");
 						break;
 					} else if (uev.action == UEVENT_ACTION_CHANGE && uev.subsystem &&
 						   UE_STR_EQ(uev.subsystem, "power_supply")) {
 						// Refresh the status bar
-						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
+						print_status(&ctx);
 						LOG(LOG_NOTICE, "Caught a charge tick");
 					}
 				} else if (ue_rc == ERR_LISTENER_RECV) {
@@ -1641,7 +1631,7 @@ int
 
 			if (pfds[1].revents & POLLIN) {
 				// Refresh the status bar
-				print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
+				print_status(&ctx);
 				// We don't actually care about the expiration count, so just read to clear the event
 				uint64_t exp;
 				read(clockfd, &exp, sizeof(exp));
@@ -1652,29 +1642,29 @@ int
 	struct timespec eject_ts = { 0 };
 	clock_gettime(CLOCK_REALTIME, &eject_ts);
 
-	if (fbink_state.can_hw_invert) {
-		fbink_cfg.is_nightmode = false;
-		fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
+	if (ctx.fbink_state.can_hw_invert) {
+		ctx.fbink_cfg.is_nightmode = false;
+		fbink_refresh(ctx.fbfd, 0, 0, 0, 0, &ctx.fbink_cfg);
 	} else {
-		fbink_cfg.is_inverted = false;
-		fbink_invert_screen(fbfd, &fbink_cfg);
+		ctx.fbink_cfg.is_inverted = false;
+		fbink_invert_screen(ctx.fbfd, &ctx.fbink_cfg);
 	}
 
 	// Turn frontlight back on
 	if (fl_intensity != 0U) {
 		LOG(LOG_INFO, "Turning frontlight back on…");
-		toggle_frontlight(true, fl_intensity, ntxfd);
+		toggle_frontlight(true, fl_intensity, ctx.ntxfd);
 	}
 
 	// If ue_wait_for_event failed for some reason, abort with extreme prejudice…
 	if (rc != EXIT_SUCCESS) {
 		LOG(LOG_CRIT, "Could not detect an unlug event!");
-		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
-		fbink_print_ot(fbfd,
+		print_icon("\uf06a", &ctx);
+		fbink_print_ot(ctx.fbfd,
 			       // @translators: First unicode codepoint is an icon, leave it as-is.
 			       _("\uf071 Could not detect an unplug event!\nThe device will shut down in 90 sec."),
-			       &msg_cfg,
-			       &fbink_cfg,
+			       &ctx.msg_cfg,
+			       &ctx.fbink_cfg,
 			       NULL);
 
 		rv = EXIT_FAILURE;
@@ -1683,8 +1673,8 @@ int
 
 	// And now remount all the things!
 	LOG(LOG_INFO, "Ending USBMS session…");
-	print_icon(fbfd, "\ufa52", &fbink_cfg, &icon_cfg);
-	fbink_print_ot(fbfd, _("Ending USBMS session…"), &msg_cfg, &fbink_cfg, NULL);
+	print_icon("\ufa52", &ctx);
+	fbink_print_ot(ctx.fbfd, _("Ending USBMS session…"), &ctx.msg_cfg, &ctx.fbink_cfg, NULL);
 
 	// Nearly there…
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/scripts/end-usbms.sh", abs_pwd);
@@ -1704,12 +1694,12 @@ int
 				    strsignal(WTERMSIG(rc)));
 			}
 		}
-		print_icon(fbfd, "\uf06a", &fbink_cfg, &icon_cfg);
-		fbink_print_ot(fbfd,
+		print_icon("\uf06a", &ctx);
+		fbink_print_ot(ctx.fbfd,
 			       // @translators: First Unicode codepoint is an icon, leave it as-is.
 			       _("\uf071 Could not end the USBMS session!\nThe device will shut down in 90 sec."),
-			       &msg_cfg,
-			       &fbink_cfg,
+			       &ctx.msg_cfg,
+			       &ctx.fbink_cfg,
 			       NULL);
 
 		rv = EXIT_FAILURE;
@@ -1846,30 +1836,30 @@ int
 	// NOTE: We batch the final screen, make it flash, and wait for completion of the refresh,
 	//       all in order to make sure we won't lose a race with the refresh induced by KOReader's restart…
 	//       (i.e., don't let it get optimized out by the EPDC).
-	fbink_cfg.no_refresh = true;
-	print_icon(fbfd, "\uf058", &fbink_cfg, &icon_cfg);
-	fbink_print_ot(fbfd, _("Done!\nKOReader will now restart…"), &msg_cfg, &fbink_cfg, NULL);
+	ctx.fbink_cfg.no_refresh = true;
+	print_icon("\uf058", &ctx);
+	fbink_print_ot(ctx.fbfd, _("Done!\nKOReader will now restart…"), &ctx.msg_cfg, &ctx.fbink_cfg, NULL);
 	// Refresh the status bar one last time
-	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
-	fbink_cfg.no_refresh  = false;
-	fbink_cfg.is_flashing = true;
-	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
-	fbink_cfg.is_flashing = false;
-	fbink_wait_for_complete(fbfd, LAST_MARKER);
+	print_status(&ctx);
+	ctx.fbink_cfg.no_refresh  = false;
+	ctx.fbink_cfg.is_flashing = true;
+	fbink_refresh(ctx.fbfd, 0, 0, 0, 0, &ctx.fbink_cfg);
+	ctx.fbink_cfg.is_flashing = false;
+	fbink_wait_for_complete(ctx.fbfd, LAST_MARKER);
 
 cleanup:
 	LOG(LOG_INFO, "Bye!");
 
-	fbink_free_ot_fonts_v2(&icon_cfg);
+	fbink_free_ot_fonts_v2(&ctx.icon_cfg);
 	if (is_CJK) {
-		fbink_free_ot_fonts_v2(&msg_cfg);
-		ot_cfg.font = NULL;
+		fbink_free_ot_fonts_v2(&ctx.msg_cfg);
+		ctx.ot_cfg.font = NULL;
 	} else {
 		// We share the same font everywhere, so just avoid dangling pointers
-		msg_cfg.font = NULL;
-		ot_cfg.font  = NULL;
+		ctx.msg_cfg.font = NULL;
+		ctx.ot_cfg.font  = NULL;
 	}
-	fbink_close(fbfd);
+	fbink_close(ctx.fbfd);
 
 	ue_destroy_listener(&listener);
 
@@ -1878,8 +1868,8 @@ cleanup:
 		close(evfd);
 	}
 
-	if (ntxfd != -1) {
-		close(ntxfd);
+	if (ctx.ntxfd != -1) {
+		close(ctx.ntxfd);
 	}
 
 	if (clockfd != -1) {

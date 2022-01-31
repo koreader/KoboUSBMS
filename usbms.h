@@ -158,6 +158,17 @@ typedef struct
 	const char*    mountpoint;
 } USBMSPartition;
 
+typedef struct
+{
+	FBInkConfig   fbink_cfg;
+	FBInkOTConfig ot_cfg;
+	FBInkOTConfig icon_cfg;
+	FBInkOTConfig msg_cfg;
+	FBInkState    fbink_state;
+	int           fbfd;
+	int           ntxfd;
+} USBMSContext;
+
 // c.f., arch/arm/mach-imx/imx_ntx_io.c or arch/arm/mach-sunxi/sunxi_ntx_io.c in a Kobo kernel
 #define CM_USB_Plug_IN        108
 #define CM_CHARGE_STATUS      204    // Mapped to CM_USB_Plug_IN on Mk. 7+...
