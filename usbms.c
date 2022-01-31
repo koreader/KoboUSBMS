@@ -619,8 +619,14 @@ static void
     print_icon(const char* string, USBMSContext* ctx)
 {
 	ctx->fbink_cfg.is_halfway = true;
-	fbink_print_ot(ctx->fbfd, string, &ctx->ot_cfg, &ctx->fbink_cfg, NULL);
+	fbink_print_ot(ctx->fbfd, string, &ctx->icon_cfg, &ctx->fbink_cfg, NULL);
 	ctx->fbink_cfg.is_halfway = false;
+}
+
+static int
+    print_msg(const char* string, USBMSContext* ctx)
+{
+	return fbink_print_ot(ctx->fbfd, string, &ctx->msg_cfg, &ctx->fbink_cfg, NULL);
 }
 
 // Poor man's grep in /proc/modules
@@ -1001,12 +1007,9 @@ int
 		need_early_abort = true;
 
 		print_icon("\uf6ff", &ctx);
-		fbink_print_ot(ctx.fbfd,
-			       // @translators: First unicode codepoint is an icon, leave it as-is.
-			       _("\uf071 Please disable USBNet manually!\nPress the power button to exit."),
-			       &ctx.msg_cfg,
-			       &ctx.fbink_cfg,
-			       NULL);
+		print_msg(    // @translators: First unicode codepoint is an icon, leave it as-is.
+		    _("\uf071 Please disable USBNet manually!\nPress the power button to exit."),
+		    &ctx);
 	}
 
 	// Same deal for USBSerial…
@@ -1016,12 +1019,9 @@ int
 
 		// NOTE: There's also U+fb5b for a serial cable icon
 		print_icon("\ue795", &ctx);
-		fbink_print_ot(ctx.fbfd,
-			       // @translators: First unicode codepoint is an icon, leave it as-is.
-			       _("\uf071 Please disable USBSerial manually!\nPress the power button to exit."),
-			       &ctx.msg_cfg,
-			       &ctx.fbink_cfg,
-			       NULL);
+		print_msg(    // @translators: First unicode codepoint is an icon, leave it as-is.
+		    _("\uf071 Please disable USBSerial manually!\nPress the power button to exit."),
+		    &ctx);
 	}
 
 	// We'll want to check both the internal storage and the SD card, as both get exported.
@@ -1053,12 +1053,9 @@ int
 				// Start a little bit higher than usual to leave us some room…
 				ctx.fbink_cfg.row       = -16;
 				ctx.msg_cfg.margins.top = (short int) -(ctx.fbink_state.font_h * 16U);
-				rc                      = fbink_print_ot(ctx.fbfd,
-                                                    // @translators: First unicode codepoint is an icon, leave it as-is.
-                                                    _("\uf071 Filesystem is busy! Offending processes:"),
-                                                    &ctx.msg_cfg,
-                                                    &ctx.fbink_cfg,
-                                                    NULL);
+				rc = print_msg(    // @translators: First unicode codepoint is an icon, leave it as-is.
+				    _("\uf071 Filesystem is busy! Offending processes:"),
+				    &ctx);
 
 				// And now, switch to a smaller font size when consuming the script's output…
 				ctx.msg_cfg.padding        = HORI_PADDING;
@@ -1077,7 +1074,7 @@ int
 				if (f) {
 					char line[PIPE_BUF];
 					while (fgets(line, sizeof(line), f)) {
-						rc = fbink_print_ot(ctx.fbfd, line, &ctx.msg_cfg, &ctx.fbink_cfg, NULL);
+						rc                      = print_msg(line, &ctx);
 						ctx.msg_cfg.margins.top = (short int) rc;
 					}
 
@@ -1089,32 +1086,25 @@ int
 						// Hu oh… Print a giant warning, and abort.
 						LOG(LOG_CRIT, "The fuser script failed (%d)!", rc);
 						print_icon("\uf06a", &ctx);
-						rc = fbink_print_ot(
-						    ctx.fbfd,
+						rc = print_msg(
 						    // @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
 						    _("\uf071 The fuser script failed!"),
-						    &ctx.msg_cfg,
-						    &ctx.fbink_cfg,
-						    NULL);
+						    &ctx);
 						ctx.msg_cfg.margins.top = (short int) rc;
 					}
 				} else {
 					// Hu oh… Print a giant warning, and abort.
 					LOG(LOG_CRIT, "Could not run fuser script!");
 					print_icon("\uf06a", &ctx);
-					rc = fbink_print_ot(
-					    ctx.fbfd,
+					rc = print_msg(
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
 					    _("\uf071 Could not run the fuser script!"),
-					    &ctx.msg_cfg,
-					    &ctx.fbink_cfg,
-					    NULL);
+					    &ctx);
 					ctx.msg_cfg.margins.top = (short int) rc;
 				}
 
 				// We can still exit safely at that point
-				fbink_print_ot(
-				    ctx.fbfd, _("Press the power button to exit."), &ctx.msg_cfg, &ctx.fbink_cfg, NULL);
+				print_msg(_("Press the power button to exit."), &ctx);
 				need_early_abort = true;
 				break;
 			} else {
@@ -1166,21 +1156,15 @@ int
 						print_status(&ctx);
 						LOG(LOG_NOTICE, "Caught a power button release");
 						if (early_unmount) {
-							fbink_print_ot(
-							    ctx.fbfd,
+							print_msg(
 							    // @translators: First unicode codepoint is an icon, leave it as-is.
 							    _("\uf071 The device will shut down in 30 sec."),
-							    &ctx.msg_cfg,
-							    &ctx.fbink_cfg,
-							    NULL);
+							    &ctx);
 						} else {
-							fbink_print_ot(
-							    ctx.fbfd,
+							print_msg(
 							    // @translators: First unicode codepoint is an icon, leave it as-is.
 							    _("\uf05a KOReader will now restart…"),
-							    &ctx.msg_cfg,
-							    &ctx.fbink_cfg,
-							    NULL);
+							    &ctx);
 						}
 						fbink_wait_for_complete(ctx.fbfd, LAST_MARKER);
 						break;
@@ -1208,21 +1192,15 @@ int
 			if (done) {
 				LOG(LOG_NOTICE, "It's been 30 sec, giving up");
 				if (early_unmount) {
-					fbink_print_ot(
-					    ctx.fbfd,
+					print_msg(
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
 					    _("\uf05a Gave up after 30 sec.\nThe device will shut down in 30 sec."),
-					    &ctx.msg_cfg,
-					    &ctx.fbink_cfg,
-					    NULL);
+					    &ctx);
 				} else {
-					fbink_print_ot(
-					    ctx.fbfd,
+					print_msg(
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
 					    _("\uf05a Gave up after 30 sec.\nKOReader will now restart…"),
-					    &ctx.msg_cfg,
-					    &ctx.fbink_cfg,
-					    NULL);
+					    &ctx);
 				}
 				// Make sure this message will be visible…
 				fbink_wait_for_complete(ctx.fbfd, LAST_MARKER);
@@ -1242,11 +1220,7 @@ int
 	// If we're not plugged in, wait for it (or abort early)
 	usb_plugged         = (*fxpIsUSBPlugged)(ctx.ntxfd);
 	if (!usb_plugged) {
-		fbink_print_ot(ctx.fbfd,
-			       _("Waiting to be plugged in…\nOr, press the power button to exit."),
-			       &ctx.msg_cfg,
-			       &ctx.fbink_cfg,
-			       NULL);
+		print_msg(_("Waiting to be plugged in…\nOr, press the power button to exit."), &ctx);
 
 		LOG(LOG_INFO, "Waiting for a plug in event or a power button press…");
 		struct pollfd pfds[3] = { 0 };
@@ -1285,21 +1259,15 @@ int
 						print_status(&ctx);
 						LOG(LOG_NOTICE, "Caught a power button release");
 						if (early_unmount) {
-							fbink_print_ot(
-							    ctx.fbfd,
+							print_msg(
 							    // @translators: First unicode codepoint is an icon, leave it as-is.
 							    _("\uf071 The device will shut down in 30 sec."),
-							    &ctx.msg_cfg,
-							    &ctx.fbink_cfg,
-							    NULL);
+							    &ctx);
 						} else {
-							fbink_print_ot(
-							    ctx.fbfd,
+							print_msg(
 							    // @translators: First unicode codepoint is an icon, leave it as-is.
 							    _("\uf05a KOReader will now restart…"),
-							    &ctx.msg_cfg,
-							    &ctx.fbink_cfg,
-							    NULL);
+							    &ctx);
 						}
 						need_early_abort = true;
 						// That's a direct user interaction with an expected result, don't dawdle.
@@ -1319,21 +1287,15 @@ int
 							LOG(LOG_WARNING,
 							    "Caught a plug in event, but to a plain power source, not a USB host");
 							if (early_unmount) {
-								fbink_print_ot(
-								    ctx.fbfd,
+								print_msg(
 								    // @translators: First unicode codepoint is an icon, leave it as-is.
 								    _("\uf071 The device was plugged into a plain power source, not a USB host!\nThe device will shut down in 30 sec."),
-								    &ctx.msg_cfg,
-								    &ctx.fbink_cfg,
-								    NULL);
+								    &ctx);
 							} else {
-								fbink_print_ot(
-								    ctx.fbfd,
+								print_msg(
 								    // @translators: First unicode codepoint is an icon, leave it as-is.
 								    _("\uf071 The device was plugged into a plain power source, not a USB host!\nKOReader will now restart…"),
-								    &ctx.msg_cfg,
-								    &ctx.fbink_cfg,
-								    NULL);
+								    &ctx);
 							}
 							need_early_abort = true;
 							break;
@@ -1372,21 +1334,15 @@ int
 			if (done) {
 				LOG(LOG_NOTICE, "It's been 90 sec, giving up");
 				if (early_unmount) {
-					fbink_print_ot(
-					    ctx.fbfd,
+					print_msg(
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
 					    _("\uf05a Gave up after 90 sec.\nThe device will shut down in 30 sec."),
-					    &ctx.msg_cfg,
-					    &ctx.fbink_cfg,
-					    NULL);
+					    &ctx);
 				} else {
-					fbink_print_ot(
-					    ctx.fbfd,
+					print_msg(
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
 					    _("\uf05a Gave up after 90 sec.\nKOReader will now restart…"),
-					    &ctx.msg_cfg,
-					    &ctx.fbink_cfg,
-					    NULL);
+					    &ctx);
 				}
 				need_early_abort = true;
 				break;
@@ -1466,21 +1422,15 @@ int
 				if (need_early_abort) {
 					LOG(LOG_ERR, "Charger type is not SDP PC, aborting");
 					if (early_unmount) {
-						fbink_print_ot(
-						    ctx.fbfd,
+						print_msg(
 						    // @translators: First unicode codepoint is an icon, leave it as-is.
 						    _("\uf071 The device is plugged into a plain power source, not a USB host!\nThe device will shut down in 30 sec."),
-						    &ctx.msg_cfg,
-						    &ctx.fbink_cfg,
-						    NULL);
+						    &ctx);
 					} else {
-						fbink_print_ot(
-						    ctx.fbfd,
+						print_msg(
 						    // @translators: First unicode codepoint is an icon, leave it as-is.
 						    _("\uf071 The device is plugged into a plain power source, not a USB host!\nKOReader will now restart…"),
-						    &ctx.msg_cfg,
-						    &ctx.fbink_cfg,
-						    NULL);
+						    &ctx);
 					}
 				}
 			} else {
@@ -1506,7 +1456,7 @@ int
 	// We're plugged in, here comes the fun…
 	LOG(LOG_INFO, "Starting USBMS session…");
 	print_icon("\uf287", &ctx);
-	fbink_print_ot(ctx.fbfd, _("Starting USBMS session…"), &ctx.msg_cfg, &ctx.fbink_cfg, NULL);
+	print_msg(_("Starting USBMS session…"), &ctx);
 
 	// NOTE: We need to figure out the frontlight intensity *before* we unmount onboard,
 	//       because, on < Mk. 7 devices, we'll have to get that from KOReader's config file…
@@ -1532,12 +1482,10 @@ int
 			}
 		}
 		print_icon("\uf06a", &ctx);
-		fbink_print_ot(ctx.fbfd,
-			       // @translators: First unicode codepoint is an icon, leave it as-is.
-			       _("\uf071 Could not start the USBMS session!\nThe device will shut down in 90 sec."),
-			       &ctx.msg_cfg,
-			       &ctx.fbink_cfg,
-			       NULL);
+		print_msg(
+		    // @translators: First unicode codepoint is an icon, leave it as-is.
+		    _("\uf071 Could not start the USBMS session!\nThe device will shut down in 90 sec."),
+		    &ctx);
 
 		rv = EXIT_FAILURE;
 		goto cleanup;
@@ -1554,11 +1502,7 @@ int
 		ctx.fbink_cfg.is_inverted = true;
 		fbink_invert_screen(ctx.fbfd, &ctx.fbink_cfg);
 	}
-	fbink_print_ot(ctx.fbfd,
-		       _("USBMS session in progress.\nPlease eject your device safely before unplugging it."),
-		       &ctx.msg_cfg,
-		       &ctx.fbink_cfg,
-		       NULL);
+	print_msg(_("USBMS session in progress.\nPlease eject your device safely before unplugging it."), &ctx);
 	ctx.fbink_cfg.no_refresh = false;
 	fbink_refresh(ctx.fbfd, 0, 0, 0, 0, &ctx.fbink_cfg);
 
@@ -1660,12 +1604,10 @@ int
 	if (rc != EXIT_SUCCESS) {
 		LOG(LOG_CRIT, "Could not detect an unlug event!");
 		print_icon("\uf06a", &ctx);
-		fbink_print_ot(ctx.fbfd,
-			       // @translators: First unicode codepoint is an icon, leave it as-is.
-			       _("\uf071 Could not detect an unplug event!\nThe device will shut down in 90 sec."),
-			       &ctx.msg_cfg,
-			       &ctx.fbink_cfg,
-			       NULL);
+		print_msg(
+		    // @translators: First unicode codepoint is an icon, leave it as-is.
+		    _("\uf071 Could not detect an unplug event!\nThe device will shut down in 90 sec."),
+		    &ctx);
 
 		rv = EXIT_FAILURE;
 		goto cleanup;
@@ -1674,7 +1616,7 @@ int
 	// And now remount all the things!
 	LOG(LOG_INFO, "Ending USBMS session…");
 	print_icon("\ufa52", &ctx);
-	fbink_print_ot(ctx.fbfd, _("Ending USBMS session…"), &ctx.msg_cfg, &ctx.fbink_cfg, NULL);
+	print_msg(_("Ending USBMS session…"), &ctx);
 
 	// Nearly there…
 	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/scripts/end-usbms.sh", abs_pwd);
@@ -1695,12 +1637,10 @@ int
 			}
 		}
 		print_icon("\uf06a", &ctx);
-		fbink_print_ot(ctx.fbfd,
-			       // @translators: First Unicode codepoint is an icon, leave it as-is.
-			       _("\uf071 Could not end the USBMS session!\nThe device will shut down in 90 sec."),
-			       &ctx.msg_cfg,
-			       &ctx.fbink_cfg,
-			       NULL);
+		print_msg(
+		    // @translators: First Unicode codepoint is an icon, leave it as-is.
+		    _("\uf071 Could not end the USBMS session!\nThe device will shut down in 90 sec."),
+		    &ctx);
 
 		rv = EXIT_FAILURE;
 		goto cleanup;
@@ -1838,7 +1778,7 @@ int
 	//       (i.e., don't let it get optimized out by the EPDC).
 	ctx.fbink_cfg.no_refresh = true;
 	print_icon("\uf058", &ctx);
-	fbink_print_ot(ctx.fbfd, _("Done!\nKOReader will now restart…"), &ctx.msg_cfg, &ctx.fbink_cfg, NULL);
+	print_msg(_("Done!\nKOReader will now restart…"), &ctx);
 	// Refresh the status bar one last time
 	print_status(&ctx);
 	ctx.fbink_cfg.no_refresh  = false;
