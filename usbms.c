@@ -56,7 +56,7 @@ __attribute__((format(printf, 7, 0))) static void
 }
 
 static void
-    setup_usb_ids(unsigned short int device_code)
+    setup_usb_ids(DEVICE_ID_T device_code)
 {
 	// Map device IDs to USB Product IDs, as we're going to need that in the scripts
 	// c.f., https://github.com/kovidgoyal/calibre/blob/9d881ed2fcff219887579571f1bb48bdf41437d4/src/calibre/devices/kobo/driver.py#L1402-L1416
@@ -491,7 +491,7 @@ static void
 
 // We'll want to regularly update a display of the plug/charge status, and whether Wi-Fi is on or not
 static void
-    print_status(int fbfd, const FBInkConfig* fbink_cfg, const FBInkOTConfig* ot_cfg, int ntxfd)
+    print_status(int fbfd, const FBInkConfig* fbink_cfg, const FBInkOTConfig* ot_cfg, int ntxfd, DEVICE_ID_T device_code)
 {
 	// Check if we're plugged in…
 	bool usb_plugged = (*fxpIsUSBPlugged)(ntxfd);
@@ -512,6 +512,51 @@ static void
 
 		if (strtoul_hhu(batt_charge, &batt_perc) < 0) {
 			PFLOG(LOG_WARNING, "Could not convert battery charge value `%s` to an uint8_t!", batt_charge);
+		}
+	}
+
+	// Check if there's a PowerCover
+	bool    has_aux_battery = false;
+	uint8_t aux_batt_perc   = 0U;
+	if (device_code == DEVICE_KOBO_SAGE) {
+		f = fopen(CILIX_CONNECTED_SYSFS, "re");
+		if (f) {
+			char   cilix_conn[8] = { 0 };
+			size_t size          = fread(cilix_conn, sizeof(*cilix_conn), sizeof(cilix_conn) - 1U, f);
+			fclose(f);
+			f = NULL;
+			if (size > 0) {
+				// Strip trailing LF
+				if (cilix_conn[size - 1U] == '\n') {
+					cilix_conn[size - 1U] = '\0';
+				}
+			}
+
+			// Check if the PowerCover is currently connected
+			if (cilix_conn[0] == '1') {
+				has_aux_battery = true;
+			}
+		}
+
+		if (has_aux_battery) {
+			f = fopen(CILIX_BATT_CAP_SYSFS, "re");
+			if (f) {
+				char   cilix_charge[8] = { 0 };
+				size_t size = fread(cilix_charge, sizeof(*cilix_charge), sizeof(cilix_charge) - 1U, f);
+				fclose(f);
+				if (size > 0) {
+					// Strip trailing LF
+					if (cilix_charge[size - 1U] == '\n') {
+						cilix_charge[size - 1U] = '\0';
+					}
+				}
+
+				if (strtoul_hhu(cilix_charge, &aux_batt_perc) < 0) {
+					PFLOG(LOG_WARNING,
+					      "Could not convert cilix charge value `%s` to an uint8_t!",
+					      cilix_charge);
+				}
+			}
 		}
 	}
 
@@ -545,15 +590,29 @@ static void
 	char       sz_time[6] = { 0 };
 	strftime(sz_time, sizeof(sz_time), "%H:%M", lt);
 
-	fbink_printf(fbfd,
-		     ot_cfg,
-		     fbink_cfg,
-		     "%s • \uf017 %s • %s (%hhu%%) • %s",
-		     usb_plugged ? "\ufba3" : "\ufba4",
-		     sz_time,
-		     get_battery_icon(batt_perc),
-		     batt_perc,
-		     wifi_up ? "\ufaa8" : "\ufaa9");
+	if (has_aux_battery) {
+		fbink_printf(fbfd,
+			     ot_cfg,
+			     fbink_cfg,
+			     "%s • \uf017 %s • %s (%hhu%%) + %s (%hhu%%) • %s",
+			     usb_plugged ? "\ufba3" : "\ufba4",
+			     sz_time,
+			     get_battery_icon(batt_perc),
+			     batt_perc,
+			     get_battery_icon(aux_batt_perc),
+			     aux_batt_perc,
+			     wifi_up ? "\ufaa8" : "\ufaa9");
+	} else {
+		fbink_printf(fbfd,
+			     ot_cfg,
+			     fbink_cfg,
+			     "%s • \uf017 %s • %s (%hhu%%) • %s",
+			     usb_plugged ? "\ufba3" : "\ufba4",
+			     sz_time,
+			     get_battery_icon(batt_perc),
+			     batt_perc,
+			     wifi_up ? "\ufaa8" : "\ufaa9");
+	}
 }
 
 static void
@@ -919,7 +978,7 @@ int
 	fbink_cfg.row      = -3;
 	ot_cfg.margins.top = (short int) -(fbink_state.font_h * 3U);
 	ot_cfg.padding     = HORI_PADDING;
-	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
 
 	// Setup the center icon display
 	icon_cfg.size_px = (unsigned short int) (fbink_state.font_h * 30U);
@@ -1112,7 +1171,7 @@ int
 				if (pfds[0].revents & POLLIN) {
 					if (handle_evdev(dev)) {
 						// Refresh the status bar
-						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
 						LOG(LOG_NOTICE, "Caught a power button release");
 						if (early_unmount) {
 							fbink_print_ot(
@@ -1138,7 +1197,7 @@ int
 
 				if (pfds[1].revents & POLLIN) {
 					// Refresh the status bar
-					print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+					print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
 					// We don't actually care about the expiration count, so just read to clear the event
 					uint64_t exp;
 					read(clockfd, &exp, sizeof(exp));
@@ -1231,7 +1290,7 @@ int
 				if (pfds[0].revents & POLLIN) {
 					if (handle_evdev(dev)) {
 						// Refresh the status bar
-						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
 						LOG(LOG_NOTICE, "Caught a power button release");
 						if (early_unmount) {
 							fbink_print_ot(
@@ -1264,7 +1323,8 @@ int
 						if (uev.action == UEVENT_ACTION_ADD && uev.devpath &&
 						    UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_PLUG)) {
 							// Refresh the status bar
-							print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+							print_status(
+							    fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
 							LOG(LOG_WARNING,
 							    "Caught a plug in event, but to a plain power source, not a USB host");
 							if (early_unmount) {
@@ -1289,7 +1349,8 @@ int
 						} else if (uev.action == UEVENT_ACTION_ADD && uev.devpath &&
 							   UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_HOST)) {
 							// Refresh the status bar
-							print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+							print_status(
+							    fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
 							LOG(LOG_NOTICE, "Caught a plug in event (to a USB host)");
 							break;
 						}
@@ -1302,7 +1363,7 @@ int
 
 				if (pfds[2].revents & POLLIN) {
 					// Refresh the status bar
-					print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+					print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
 					// We don't actually care about the expiration count, so just read to clear the event
 					uint64_t exp;
 					read(clockfd, &exp, sizeof(exp));
@@ -1351,6 +1412,9 @@ int
 		//       So, do what we can here, otherwise, the state may need to be tracked by the frontend,
 		//       assuming it *also* got a chance to catch the event: i.e., it started *before* the plug in…
 		// NOTE: Unfortunately, the only platform where we can do that appears to be Mk. 7…
+		// NOTE: On the Sage, if the PowerCover is plugged, another thing to look out for
+		//       is that crossing the Cilix charge thresholds *may* reset the USB connection...
+		//       I have no idea how well an active data transfer would take that...
 		if (access(CHARGER_TYPE_SYSFS, F_OK) == 0) {
 			LOG(LOG_INFO, "Checking charger type");
 			FILE* f = fopen(CHARGER_TYPE_SYSFS, "re");
@@ -1552,20 +1616,20 @@ int
 					     (uev.modalias && UE_STR_EQ(uev.modalias, KOBO_USB_MODALIAS_CI)) ||
 					     UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_UDC))) {
 						// Refresh the status bar
-						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
 						LOG(LOG_NOTICE, "Caught an eject event");
 						break;
 					} else if (uev.action == UEVENT_ACTION_REMOVE && uev.devpath &&
 						   (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_PLUG) ||
 						    UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_HOST))) {
 						// Refresh the status bar
-						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
 						LOG(LOG_NOTICE, "Caught an unplug event");
 						break;
 					} else if (uev.action == UEVENT_ACTION_CHANGE && uev.subsystem &&
 						   UE_STR_EQ(uev.subsystem, "power_supply")) {
 						// Refresh the status bar
-						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+						print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
 						LOG(LOG_NOTICE, "Caught a charge tick");
 					}
 				} else if (ue_rc == ERR_LISTENER_RECV) {
@@ -1577,7 +1641,7 @@ int
 
 			if (pfds[1].revents & POLLIN) {
 				// Refresh the status bar
-				print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+				print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
 				// We don't actually care about the expiration count, so just read to clear the event
 				uint64_t exp;
 				read(clockfd, &exp, sizeof(exp));
@@ -1786,7 +1850,7 @@ int
 	print_icon(fbfd, "\uf058", &fbink_cfg, &icon_cfg);
 	fbink_print_ot(fbfd, _("Done!\nKOReader will now restart…"), &msg_cfg, &fbink_cfg, NULL);
 	// Refresh the status bar one last time
-	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd);
+	print_status(fbfd, &fbink_cfg, &ot_cfg, ntxfd, fbink_state.device_id);
 	fbink_cfg.no_refresh  = false;
 	fbink_cfg.is_flashing = true;
 	fbink_refresh(fbfd, 0, 0, 0, 0, &fbink_cfg);
