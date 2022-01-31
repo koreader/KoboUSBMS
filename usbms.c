@@ -1464,7 +1464,10 @@ int
 	LOG(LOG_INFO, "Frontlight intensity is currently set to %hhu%%", fl_intensity);
 
 	// Here goes nothing…
-	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/scripts/start-usbms.sh", abs_pwd);
+	snprintf(resource_path,
+		 sizeof(resource_path) - 1U,
+		 "%s/scripts/start-usbms.sh >/usr/local/KoboUSBMS.log 2>&1",
+		 abs_pwd);
 	rc = system(resource_path);
 	if (rc != EXIT_SUCCESS) {
 		// Hu oh… Print a giant warning, and abort. KOReader will shut down the device after a while.
@@ -1619,7 +1622,8 @@ int
 	print_msg(_("Ending USBMS session…"), &ctx);
 
 	// Nearly there…
-	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/scripts/end-usbms.sh", abs_pwd);
+	snprintf(
+	    resource_path, sizeof(resource_path) - 1U, "%s/scripts/end-usbms.sh >/usr/local/KoboUSBMS.log 2>&1", abs_pwd);
 	rc = system(resource_path);
 	if (rc != EXIT_SUCCESS) {
 		// Hu oh… Print a giant warning, and abort. KOReader will shut down the device after a while.
