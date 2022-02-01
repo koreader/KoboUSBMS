@@ -19,20 +19,25 @@ if ! grep -q -e "^g_file_storage" -e "^g_mass_storage" "/proc/modules" ; then
 	exit 1
 fi
 
+# On some devices/FW versions, some of the modules are builtins, so we can't just fire'n forget...
+checked_rmmod() {
+	grep -q "^${1}" "/proc/modules" && rmmod "${1}"
+}
+
 MODULES_PATH="/drivers/${PLATFORM}"
 if [ -e "${MODULES_PATH}/g_mass_storage.ko" ] ; then
-	rmmod g_mass_storage
+	rmmod "g_mass_storage"
 else
-	rmmod g_file_storage
+	rmmod "g_file_storage"
 
 	if [ "${PLATFORM}" = "mx6sll-ntx" ] || [ "${PLATFORM}" = "mx6ull-ntx" ] ; then
 		# Since FW 4.31.19086, these may be builtins...
-		grep -q "^usb_f_mass_storage" "/proc/modules" && rmmod usb_f_mass_storage
-		grep -q "^libcomposite" "/proc/modules" && rmmod libcomposite
-		grep -q "^configfs" "/proc/modules" && rmmod configfs
+		checked_rmmod "usb_f_mass_storage"
+		checked_rmmod "libcomposite"
+		checked_rmmod "configfs"
 	else
 		# NOTE: See start-usbms.sh for why we have to double-check this one...
-		grep -q "^arcotg_udc" "/proc/modules" && rmmod arcotg_udc
+		checked_rmmod "arcotg_udc"
 	fi
 fi
 
