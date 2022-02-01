@@ -73,7 +73,8 @@ if [ -e "${MODULES_PATH}/g_mass_storage.ko" ] ; then
 else
 	if [ "${PLATFORM}" = "mx6sll-ntx" ] || [ "${PLATFORM}" = "mx6ull-ntx" ] ; then
 		PARAMS="idVendor=${USB_VENDOR_ID} idProduct=${USB_PRODUCT_ID} iManufacturer=Kobo iProduct=eReader-${FW_VERSION} iSerialNumber=${SERIAL_NUMBER}"
-		# NOTE: The weird chaining is for FW 4.31.19086's benefit...
+		# NOTE: The weird chaining is for FW 4.31.19086's benefit,
+		#       which made these builtins (at least on *some* devices)...
 		insmod "${GADGETS_PATH}/configfs.ko" && \
 		insmod "${GADGETS_PATH}/libcomposite.ko" && \
 		insmod "${GADGETS_PATH}/usb_f_mass_storage.ko"

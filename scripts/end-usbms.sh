@@ -26,9 +26,10 @@ else
 	rmmod g_file_storage
 
 	if [ "${PLATFORM}" = "mx6sll-ntx" ] || [ "${PLATFORM}" = "mx6ull-ntx" ] ; then
-		rmmod usb_f_mass_storage
-		rmmod libcomposite
-		rmmod configfs
+		# Since FW 4.31.19086, these may be builtins...
+		grep -q "^usb_f_mass_storage" "/proc/modules" && rmmod usb_f_mass_storage
+		grep -q "^libcomposite" "/proc/modules" && rmmod libcomposite
+		grep -q "^configfs" "/proc/modules" && rmmod configfs
 	else
 		# NOTE: See start-usbms.sh for why we have to double-check this one...
 		grep -q "^arcotg_udc" "/proc/modules" && rmmod arcotg_udc
