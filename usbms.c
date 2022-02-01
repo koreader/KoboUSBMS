@@ -1483,6 +1483,7 @@ int
 				    "Could not start the USBMS session (script was terminated by signal %s)!",
 				    strsignal(WTERMSIG(rc)));
 			}
+			LOG(LOG_DEBUG, "Check `/usr/local/KoboUSBMS.log` for more details");
 		}
 		print_icon("\uf06a", &ctx);
 		print_msg(
@@ -1639,6 +1640,7 @@ int
 				    "Could not end the USBMS session (script was terminated by signal %s)!",
 				    strsignal(WTERMSIG(rc)));
 			}
+			LOG(LOG_DEBUG, "Check `/usr/local/KoboUSBMS.log` for more details");
 		}
 		print_icon("\uf06a", &ctx);
 		print_msg(
