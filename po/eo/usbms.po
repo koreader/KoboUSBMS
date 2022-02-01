@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-31 02:17+0100\n"
+"POT-Creation-Date: 2022-02-01 20:37+0100\n"
 "PO-Revision-Date: 2022-01-31 01:24+0000\n"
 "Last-Translator: phlostically <phlostically@mailinator.com>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/koreader/"
@@ -165,7 +165,7 @@ msgid "Starting USBMS session…"
 msgstr "Komencante seancon de USBMS…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1490
+#: usbms.c:1491
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -177,14 +177,14 @@ msgstr ""
 " Malsukcesis komenci la seancon de USBMS!\n"
 "La aparato haltos en 90 sekundoj."
 
-#: usbms.c:1508
+#: usbms.c:1509
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
 msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1612
+#: usbms.c:1613
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -196,12 +196,12 @@ msgstr ""
 " Malsukcesis komenci la seancon de USBMS!\n"
 "La aparato haltos en 90 sekundoj."
 
-#: usbms.c:1622
+#: usbms.c:1623
 msgid "Ending USBMS session…"
 msgstr ""
 
 #. @translators: First Unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1646
+#: usbms.c:1648
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -213,7 +213,7 @@ msgstr ""
 " Malsukcesis komenci la seancon de USBMS!\n"
 "La aparato haltos en 90 sekundoj."
 
-#: usbms.c:1785
+#: usbms.c:1787
 msgid ""
 "Done!\n"
 "KOReader will now restart…"

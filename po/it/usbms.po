@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-31 02:17+0100\n"
+"POT-Creation-Date: 2022-02-01 20:37+0100\n"
 "PO-Revision-Date: 2022-01-31 01:24+0000\n"
 "Last-Translator: Gianluca Boiano <morf3089@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/koreader/"
@@ -157,7 +157,7 @@ msgid "Starting USBMS session…"
 msgstr "Avvio sessione USBMS …"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1490
+#: usbms.c:1491
 msgid ""
 " Could not start the USBMS session!\n"
 "The device will shut down in 90 sec."
@@ -165,7 +165,7 @@ msgstr ""
 " Impossibile avviare la sessione USBMS!\n"
 "Il dispositivo si spegnerà entro 90 secondi."
 
-#: usbms.c:1508
+#: usbms.c:1509
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
@@ -174,7 +174,7 @@ msgstr ""
 "Si prega di espellere il dispositivo in modo sicuro prima di scollegarlo."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1612
+#: usbms.c:1613
 msgid ""
 " Could not detect an unplug event!\n"
 "The device will shut down in 90 sec."
@@ -182,12 +182,12 @@ msgstr ""
 " Impossibile rilevare evento di scollegamento!\n"
 "Il dispositivo si spegnerà entro 90 sec."
 
-#: usbms.c:1622
+#: usbms.c:1623
 msgid "Ending USBMS session…"
 msgstr "Chiusura della sessione USBMS in corso…"
 
 #. @translators: First Unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1646
+#: usbms.c:1648
 msgid ""
 " Could not end the USBMS session!\n"
 "The device will shut down in 90 sec."
@@ -195,7 +195,7 @@ msgstr ""
 " Impossibile terminare la sessione USBMS!\n"
 "Il dispositivo si spegnerà entro 90 sec."
 
-#: usbms.c:1785
+#: usbms.c:1787
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
