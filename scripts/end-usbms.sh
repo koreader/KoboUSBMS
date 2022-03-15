@@ -37,7 +37,9 @@ else
 		checked_rmmod "configfs"
 	else
 		# NOTE: See start-usbms.sh for why we have to double-check this one...
-		checked_rmmod "arcotg_udc"
+		if [ "${PLATFORM}" != "mx6sl-ntx" ] ; then
+			checked_rmmod "arcotg_udc"
+		fi
 	fi
 fi
 
