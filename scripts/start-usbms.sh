@@ -75,9 +75,11 @@ else
 		PARAMS="idVendor=${USB_VENDOR_ID} idProduct=${USB_PRODUCT_ID} iManufacturer=Kobo iProduct=eReader-${FW_VERSION} iSerialNumber=${SERIAL_NUMBER}"
 		# NOTE: The weird chaining is for FW 4.31.19086's benefit,
 		#       which made these builtins (at least on *some* devices)...
-		insmod "${GADGETS_PATH}/configfs.ko" && \
-		insmod "${GADGETS_PATH}/libcomposite.ko" && \
-		insmod "${GADGETS_PATH}/usb_f_mass_storage.ko"
+		if insmod "${GADGETS_PATH}/configfs.ko" ; then
+			if insmod "${GADGETS_PATH}/libcomposite.ko" ; then
+				insmod "${GADGETS_PATH}/usb_f_mass_storage.ko"
+			fi
+		fi
 	else
 		PARAMS="vendor=${USB_VENDOR_ID} product=${USB_PRODUCT_ID} vendor_id=Kobo product_id=eReader-${FW_VERSION} SN=${SERIAL_NUMBER}"
 		# NOTE: arcotg_udc is builtin on Mk. 6, but old FW may have been shipping a broken module!

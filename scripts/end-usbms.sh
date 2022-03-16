@@ -21,7 +21,9 @@ fi
 
 # On some devices/FW versions, some of the modules are builtins, so we can't just fire'n forget...
 checked_rmmod() {
-	grep -q "^${1}" "/proc/modules" && rmmod "${1}"
+	if grep -q "^${1}" "/proc/modules" ; then
+		rmmod "${1}"
+	fi
 }
 
 MODULES_PATH="/drivers/${PLATFORM}"
