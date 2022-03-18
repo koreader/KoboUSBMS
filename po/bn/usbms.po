@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-01 20:37+0100\n"
-"PO-Revision-Date: 2022-01-31 01:24+0000\n"
-"Last-Translator: Tushar Bakshi <tusharbakshi6@gmail.com>\n"
+"PO-Revision-Date: 2022-03-18 13:47+0000\n"
+"Last-Translator: Utsob Roy <roy@utsob.me>\n"
 "Language-Team: Bengali <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/bn/>\n"
 "Language: bn\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.11-dev\n"
+"X-Generator: Weblate 4.12-dev\n"
 
 #: usbms.c:960
 msgid "USB Mass Storage"
@@ -64,8 +64,6 @@ msgstr "প্রস্থান করতে পাওয়ার বোতা
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1161 usbms.c:1264
-#, fuzzy
-#| msgid " The device will shutdown in 30 sec."
 msgid " The device will shut down in 30 sec."
 msgstr " ডিভাইসটি ৩০ সেকেন্ডে বন্ধ হয়ে যাবে।"
 
