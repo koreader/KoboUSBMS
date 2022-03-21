@@ -52,16 +52,12 @@ DISK="/dev/mmcblk"
 PARTITION="${DISK}0p3"
 MOUNT_ARGS="noatime,nodiratime,shortname=mixed,utf8"
 
-FS_CORRUPT=0
 # NOTE: Be a tad less heavy-handed than the stock script with the amount of fscks, but do abort if it's not recoverable...
 if ! dosfsck -a -w "${PARTITION}" ; then
 	if ! dosfsck -a -w "${PARTITION}" ; then
-		FS_CORRUPT=1
+		logger -p "DAEMON.CRIT" -t "${SCRIPT_NAME}[$$]" "Unrecoverable filesystem corruption on ${PARTITION}, aborting!"
+		exit 1
 	fi
-fi
-if [ "${FS_CORRUPT}" -eq 1 ] ; then
-	logger -p "DAEMON.CRIT" -t "${SCRIPT_NAME}[$$]" "Unrecoverable filesystem corruption on ${PARTITION}, aborting!"
-	exit 1
 fi
 mount -t vfat -o "${MOUNT_ARGS}" "${PARTITION}" "/mnt/onboard"
 
@@ -69,5 +65,7 @@ mount -t vfat -o "${MOUNT_ARGS}" "${PARTITION}" "/mnt/onboard"
 PARTITION="${DISK}1p1"
 if [ -e "${PARTITION}" ] ; then
 	# NOTE: Mimic the stock script and never check the external SD card...
+	#       While I'm not necessarily a fan of this approach,
+	#       one of the benefits is that we avoid a potentially time consuming process for larger cards.
 	mount -t vfat -o "${MOUNT_ARGS}" "${PARTITION}" "/mnt/sd"
 fi
