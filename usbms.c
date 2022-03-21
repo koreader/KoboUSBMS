@@ -1420,8 +1420,7 @@ int
 				need_early_abort = true;
 			} else if (strncmp(charger_type, "SDP_OVRLIM", 8U) == 0U) {
 				// NOTE: Currently commented out, so we end up in the default case anyway.
-				LOG(LOG_WARNING,
-					"SDP OVRLIM (Standard Downstream Port, > 500mA) charger detected");
+				LOG(LOG_WARNING, "SDP OVRLIM (Standard Downstream Port, > 500mA) charger detected");
 				need_early_abort = true;
 			} else if (strncmp(charger_type, "NO", 2U) == 0U) {
 				// NOTE: Despite being in a usb_plugged branch,
@@ -1451,14 +1450,14 @@ int
 				LOG(LOG_ERR, "Charger type is not SDP PC, aborting");
 				if (early_unmount) {
 					print_msg(
-						// @translators: First unicode codepoint is an icon, leave it as-is.
-						_("\uf071 The device is plugged into a plain power source, not a USB host!\nThe device will shut down in 30 sec."),
-						&ctx);
+					    // @translators: First unicode codepoint is an icon, leave it as-is.
+					    _("\uf071 The device is plugged into a plain power source, not a USB host!\nThe device will shut down in 30 sec."),
+					    &ctx);
 				} else {
 					print_msg(
-						// @translators: First unicode codepoint is an icon, leave it as-is.
-						_("\uf071 The device is plugged into a plain power source, not a USB host!\nKOReader will now restart…"),
-						&ctx);
+					    // @translators: First unicode codepoint is an icon, leave it as-is.
+					    _("\uf071 The device is plugged into a plain power source, not a USB host!\nKOReader will now restart…"),
+					    &ctx);
 				}
 
 				// We still haven't switched to USBMS, so we can (usually) exit safely…
