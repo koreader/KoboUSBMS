@@ -1219,7 +1219,7 @@ int
 	bool sleep_on_abort = true;
 	// If we're not plugged in, wait for it (or abort early)
 	usb_plugged         = (*fxpIsUSBPlugged)(ctx.ntxfd);
-	if (!usb_plugged) {
+	while (!usb_plugged) {
 		print_msg(_("Waiting to be plugged in…\nOr, press the power button to exit."), &ctx);
 
 		LOG(LOG_INFO, "Waiting for a plug in event or a power button press…");
@@ -1348,109 +1348,133 @@ int
 				break;
 			}
 		}
-	} else {
-		// NOTE: usb_plugged will be true if usbms was started while *already* plugged in,
-		//       even if it's to a plain power source, and not a USB host…
-		//       On some devices, POWER_SUPPLY_PROP_ONLINE is smart enough to be able to tell the difference,
-		//       which means we can read it from sysfs (c.f., ricoh61x_batt_get_prop @ drivers/power/ricoh619-battery.c),
-		//       but on older devices, it isn't, and the discrimination is *only* done during the plug in event…
-		//       (c.f., drivers/input/misc/usb_plug.c).
-		//       So, do what we can here, otherwise, the state may need to be tracked by the frontend,
-		//       assuming it *also* got a chance to catch the event: i.e., it started *before* the plug in…
-		// NOTE: Unfortunately, the only platform where we can do that appears to be Mk. 7…
-		// NOTE: On the Sage, if the PowerCover is plugged, another thing to look out for
-		//       is that crossing the Cilix charge thresholds *may* reset the USB connection...
-		//       I have no idea how well an active data transfer would take that...
-		if (access(CHARGER_TYPE_SYSFS, F_OK) == 0) {
-			LOG(LOG_INFO, "Checking charger type");
-			FILE* f = fopen(CHARGER_TYPE_SYSFS, "re");
-			if (f) {
-				char   charger_type[16] = { 0 };
-				size_t size = fread(charger_type, sizeof(*charger_type), sizeof(charger_type) - 1U, f);
-				fclose(f);
-				if (size > 0) {
-					// Strip trailing LF
-					if (charger_type[size - 1U] == '\n') {
-						charger_type[size - 1U] = '\0';
-					}
-				} else {
-					LOG(LOG_WARNING, "Could not read the charger type from sysfs!");
-				}
 
-				// c.f., charger_type_read @ drivers/power/ricoh619-battery.c
-				if (strncmp(charger_type, "CDP", 3U) == 0U) {
-					LOG(LOG_WARNING, "CDP (Charging Downstream Port) charger detected");
-					need_early_abort = true;
-				} else if (strncmp(charger_type, "DCP", 3U) == 0U) {
-					LOG(LOG_WARNING, "DCP (Dedicated Charging Port) charger detected");
-					need_early_abort = true;
-				} else if (strncmp(charger_type, "SDP_PC", 6U) == 0U) {
-					// That's the only one we can go through with ;)
-					LOG(LOG_INFO, "SDP PC (Standard Downstream Port, 500mA) charger detected");
-				} else if (strncmp(charger_type, "SDP_ADPT", 8U) == 0U) {
-					LOG(LOG_WARNING, "SDP ADPT (Standard Downstream Port, 800mA) charger detected");
-					need_early_abort = true;
-				} else if (strncmp(charger_type, "SDP_OVRLIM", 8U) == 0U) {
-					// NOTE: Currently commented out, so we end up in the default case anyway.
-					LOG(LOG_WARNING,
-					    "SDP OVRLIM (Standard Downstream Port, > 500mA) charger detected");
-					need_early_abort = true;
-				} else if (strncmp(charger_type, "NO", 2U) == 0U) {
-					// NOTE: Despite being in a usb_plugged branch,
-					//       this *may* happen if the device is fully charged.
-					//       In which case,
-					//       /sys/class/power_supply/mc13892_bat/status will *also* say "Not charging".
-					//       I'm not double-checking capacity here, but it ought to be 100 in these cases ;).
-					//       Thankfully, that's only true when connected to a SDP, which suits us just fine.
-					//       If you hit 100% while connected to a DCP, while the rest of this note holds true,
-					//       the charger type keeps saying DCP :).
-					LOG(LOG_INFO, "No charger detected! Fully charged?");
-				} else if (strncmp(charger_type, "DISABLE", 7U) == 0U) {
-					LOG(LOG_WARNING, "Charger is disabled!");
-					need_early_abort = true;
-				} else {
-					LOG(LOG_ERR, "Unknown charger type!");
-					need_early_abort = true;
-				}
-
-				// While a CDP could technically enumerate,
-				// the discrimination between usb_plug and usb_host is only based on detecting an SDP PC
-				// in drivers/input/misc/usb_plug.c, so, do the same thing here.
-				// (c.f., ricoh619_charger_detect @ drivers/mfd/ricoh619.c)
-				// NOTE: SDP_CHARGER == SDP_PC_CHARGER != SDP_ADPT_CHARGER
-				//       c.f., include/linux/power/ricoh619_battery.h
-				if (need_early_abort) {
-					LOG(LOG_ERR, "Charger type is not SDP PC, aborting");
-					if (early_unmount) {
-						print_msg(
-						    // @translators: First unicode codepoint is an icon, leave it as-is.
-						    _("\uf071 The device is plugged into a plain power source, not a USB host!\nThe device will shut down in 30 sec."),
-						    &ctx);
-					} else {
-						print_msg(
-						    // @translators: First unicode codepoint is an icon, leave it as-is.
-						    _("\uf071 The device is plugged into a plain power source, not a USB host!\nKOReader will now restart…"),
-						    &ctx);
-					}
-				}
-			} else {
-				LOG(LOG_WARNING, "Could not open the sysfs entry for charger type (%m)!");
+		// If we abort before plug in, we can (usually) still exit safely…
+		if (need_early_abort) {
+			// Make sure the final message will be visible…
+			fbink_wait_for_complete(ctx.fbfd, LAST_MARKER);
+			if (sleep_on_abort) {
+				const struct timespec zzz = { 2L, 500000000L };
+				nanosleep(&zzz, NULL);
 			}
-		} else {
-			LOG(LOG_INFO, "Device generation is older than Mk. 7, can't check charger type!");
+			rv = early_unmount ? EXIT_FAILURE : USBMS_EARLY_EXIT;
+			goto cleanup;
 		}
+
+		// We've supposedly been plugged to a USB host...
+		print_icon("\ufa1e", &ctx);
+		// Let things settle for a while, and actually double-check that...
+		// Timing matches UIManager:_beforeCharging, but is somewhat arbitrary in the first place ;).
+		const struct timespec zzz = { 1L, 0L };
+		nanosleep(&zzz, NULL);
+		usb_plugged = (*fxpIsUSBPlugged)(ctx.ntxfd);
+		if (usb_plugged) {
+			LOG(LOG_NOTICE, "Device is now plugged in");
+		} else {
+			LOG(LOG_WARNING, "Device appears to still be unplugged despite the plug event!");
+		}
+		print_icon(usb_plugged ? "\uf700" : "\uf701", &ctx);
 	}
 
-	// If we aborted before plug in, we can (usually) still exit safely…
-	if (need_early_abort) {
-		// Make sure the final message will be visible…
-		fbink_wait_for_complete(ctx.fbfd, LAST_MARKER);
-		if (sleep_on_abort) {
-			const struct timespec zzz = { 2L, 500000000L };
-			nanosleep(&zzz, NULL);
+	// NOTE: usb_plugged will be true if usbms was started while *already* plugged in,
+	//       even if it's to a plain power source, and not a USB host…
+	//       On some devices, POWER_SUPPLY_PROP_ONLINE is smart enough to be able to tell the difference,
+	//       which means we can read it from sysfs (c.f., ricoh61x_batt_get_prop @ drivers/power/ricoh619-battery.c),
+	//       but on older devices, it isn't, and the discrimination is *only* done during the plug in event…
+	//       (c.f., drivers/input/misc/usb_plug.c).
+	//       So, do what we can here, otherwise, the state may need to be tracked by the frontend,
+	//       assuming it *also* got a chance to catch the event: i.e., it started *before* the plug in…
+	// NOTE: Regardless, we want to double-check the charger type in *every* scenario...
+	// NOTE: Unfortunately, the only platform where we can do that appears to be Mk. 7…
+	// NOTE: On the Sage, if the PowerCover is plugged, another thing to look out for
+	//       is that crossing the Cilix charge thresholds *may* reset the USB connection...
+	//       I have no idea how well an active data transfer would take that...
+	if (access(CHARGER_TYPE_SYSFS, F_OK) == 0) {
+		LOG(LOG_INFO, "Checking charger type");
+		FILE* f = fopen(CHARGER_TYPE_SYSFS, "re");
+		if (f) {
+			char   charger_type[16] = { 0 };
+			size_t size = fread(charger_type, sizeof(*charger_type), sizeof(charger_type) - 1U, f);
+			fclose(f);
+			if (size > 0) {
+				// Strip trailing LF
+				if (charger_type[size - 1U] == '\n') {
+					charger_type[size - 1U] = '\0';
+				}
+			} else {
+				LOG(LOG_WARNING, "Could not read the charger type from sysfs!");
+			}
+
+			// c.f., charger_type_read @ drivers/power/ricoh619-battery.c
+			if (strncmp(charger_type, "CDP", 3U) == 0U) {
+				LOG(LOG_WARNING, "CDP (Charging Downstream Port) charger detected");
+				need_early_abort = true;
+			} else if (strncmp(charger_type, "DCP", 3U) == 0U) {
+				LOG(LOG_WARNING, "DCP (Dedicated Charging Port) charger detected");
+				need_early_abort = true;
+			} else if (strncmp(charger_type, "SDP_PC", 6U) == 0U) {
+				// That's the only one we can go through with ;)
+				LOG(LOG_INFO, "SDP PC (Standard Downstream Port, 500mA) charger detected");
+			} else if (strncmp(charger_type, "SDP_ADPT", 8U) == 0U) {
+				LOG(LOG_WARNING, "SDP ADPT (Standard Downstream Port, 800mA) charger detected");
+				need_early_abort = true;
+			} else if (strncmp(charger_type, "SDP_OVRLIM", 8U) == 0U) {
+				// NOTE: Currently commented out, so we end up in the default case anyway.
+				LOG(LOG_WARNING,
+					"SDP OVRLIM (Standard Downstream Port, > 500mA) charger detected");
+				need_early_abort = true;
+			} else if (strncmp(charger_type, "NO", 2U) == 0U) {
+				// NOTE: Despite being in a usb_plugged branch,
+				//       this *may* happen if the device is fully charged.
+				//       In which case,
+				//       /sys/class/power_supply/mc13892_bat/status will *also* say "Not charging".
+				//       I'm not double-checking capacity here, but it ought to be 100 in these cases ;).
+				//       Thankfully, that's only true when connected to a SDP, which suits us just fine.
+				//       If you hit 100% while connected to a DCP, while the rest of this note holds true,
+				//       the charger type keeps saying DCP :).
+				LOG(LOG_INFO, "No charger detected! Fully charged?");
+			} else if (strncmp(charger_type, "DISABLE", 7U) == 0U) {
+				LOG(LOG_WARNING, "Charger is disabled!");
+				need_early_abort = true;
+			} else {
+				LOG(LOG_ERR, "Unknown charger type!");
+				need_early_abort = true;
+			}
+
+			// While a CDP could technically enumerate,
+			// the discrimination between usb_plug and usb_host is only based on detecting an SDP PC
+			// in drivers/input/misc/usb_plug.c, so, do the same thing here.
+			// (c.f., ricoh619_charger_detect @ drivers/mfd/ricoh619.c)
+			// NOTE: SDP_CHARGER == SDP_PC_CHARGER != SDP_ADPT_CHARGER
+			//       c.f., include/linux/power/ricoh619_battery.h
+			if (need_early_abort) {
+				LOG(LOG_ERR, "Charger type is not SDP PC, aborting");
+				if (early_unmount) {
+					print_msg(
+						// @translators: First unicode codepoint is an icon, leave it as-is.
+						_("\uf071 The device is plugged into a plain power source, not a USB host!\nThe device will shut down in 30 sec."),
+						&ctx);
+				} else {
+					print_msg(
+						// @translators: First unicode codepoint is an icon, leave it as-is.
+						_("\uf071 The device is plugged into a plain power source, not a USB host!\nKOReader will now restart…"),
+						&ctx);
+				}
+
+				// We still haven't switched to USBMS, so we can (usually) exit safely…
+				// Make sure the final message will be visible…
+				fbink_wait_for_complete(ctx.fbfd, LAST_MARKER);
+				const struct timespec zzz = { 2L, 500000000L };
+				nanosleep(&zzz, NULL);
+				rv = early_unmount ? EXIT_FAILURE : USBMS_EARLY_EXIT;
+				goto cleanup;
+			}
+		} else {
+			// That... shouldn't really ever happen ;).
+			LOG(LOG_WARNING, "Could not open the sysfs entry for charger type (%m)!");
 		}
-		rv = early_unmount ? EXIT_FAILURE : USBMS_EARLY_EXIT;
-		goto cleanup;
+	} else {
+		LOG(LOG_INFO, "Device generation is older than Mk. 7, can't check charger type!");
 	}
 
 	// We're plugged in, here comes the fun…
