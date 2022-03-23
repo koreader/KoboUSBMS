@@ -64,6 +64,13 @@ done
 MODULES_PATH="/drivers/${PLATFORM}"
 GADGETS_PATH="${MODULES_PATH}/usb/gadget"
 
+# On some devices/FW versions, some of the modules are builtins, so we can't just fire'n forget...
+checked_insmod() {
+	if ! insmod "${1}" ; then
+		logger -p "DAEMON.NOTICE" -t "${SCRIPT_NAME}[$$]" "Could not load $(basename "${1}") (it might be built-in on your device)"
+	fi
+}
+
 # NOTE: Disabling stalling appears to be necessary to avoid compatibility issues (usually on Windows)...
 #       But even on Linux, things were sometimes a bit wonky if left enabled on devices with a sunxi SoC...
 if [ -e "${MODULES_PATH}/g_mass_storage.ko" ] ; then
@@ -73,18 +80,17 @@ if [ -e "${MODULES_PATH}/g_mass_storage.ko" ] ; then
 else
 	if [ "${PLATFORM}" = "mx6sll-ntx" ] || [ "${PLATFORM}" = "mx6ull-ntx" ] ; then
 		PARAMS="idVendor=${USB_VENDOR_ID} idProduct=${USB_PRODUCT_ID} iManufacturer=Kobo iProduct=eReader-${FW_VERSION} iSerialNumber=${SERIAL_NUMBER}"
-		# NOTE: The weird chaining is for FW 4.31.19086's benefit,
-		#       which made these builtins (at least on *some* devices)...
-		if insmod "${GADGETS_PATH}/configfs.ko" ; then
-			if insmod "${GADGETS_PATH}/libcomposite.ko" ; then
-				insmod "${GADGETS_PATH}/usb_f_mass_storage.ko"
-			fi
-		fi
+
+		# NOTE: FW 4.31.19086 made these builtins (at least on *some* devices), hence the defensive approach...
+		checked_insmod "${GADGETS_PATH}/configfs.ko"
+		checked_insmod "${GADGETS_PATH}/libcomposite.ko"
+		checked_insmod "${GADGETS_PATH}/usb_f_mass_storage.ko"
 	else
 		PARAMS="vendor=${USB_VENDOR_ID} product=${USB_PRODUCT_ID} vendor_id=Kobo product_id=eReader-${FW_VERSION} SN=${SERIAL_NUMBER}"
+
 		# NOTE: arcotg_udc is builtin on Mk. 6, but old FW may have been shipping a broken module!
 		if [ "${PLATFORM}" != "mx6sl-ntx" ] ; then
-			insmod "${GADGETS_PATH}/arcotg_udc.ko"
+			checked_insmod "${GADGETS_PATH}/arcotg_udc.ko"
 			sleep 2
 		fi
 	fi
