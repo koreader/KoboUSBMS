@@ -66,7 +66,7 @@ GADGETS_PATH="${MODULES_PATH}/usb/gadget"
 
 # On some devices/FW versions, some of the modules are builtins, so we can't just fire'n forget...
 checked_insmod() {
-	if ! insmod "${1}" ; then
+	if ! insmod "${@}" ; then
 		logger -p "DAEMON.NOTICE" -t "${SCRIPT_NAME}[$$]" "Could not load $(basename "${1}") (it might be built-in on your device)"
 	fi
 }
