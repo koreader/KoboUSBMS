@@ -1408,20 +1408,21 @@ int
 			// c.f., charger_type_read @ drivers/power/ricoh619-battery.c
 			if (strncmp(charger_type, "CDP", 3U) == 0U) {
 				LOG(LOG_WARNING, "CDP (Charging Downstream Port) charger detected");
-				need_early_abort = true;
 			} else if (strncmp(charger_type, "DCP", 3U) == 0U) {
 				LOG(LOG_WARNING, "DCP (Dedicated Charging Port) charger detected");
 				need_early_abort = true;
 			} else if (strncmp(charger_type, "SDP_PC", 6U) == 0U) {
-				// That's the only one we can go through with ;)
 				LOG(LOG_INFO, "SDP PC (Standard Downstream Port, 500mA) charger detected");
 			} else if (strncmp(charger_type, "SDP_ADPT", 8U) == 0U) {
 				LOG(LOG_WARNING, "SDP ADPT (Standard Downstream Port, 800mA) charger detected");
+				// NOTE: ricoh619_charger_detect_ex @ drivers/mfd/ricoh619.c currently never returns that.
 				need_early_abort = true;
 			} else if (strncmp(charger_type, "SDP_OVRLIM", 8U) == 0U) {
-				// NOTE: Currently commented out, so we end up in the default case anyway.
+				// NOTE: While it is supported in ricoh619_charger_detect,
+				//       this will currently never make it to the sysfs attribute file,
+				//       as it's currently commented out
+				//       (c.f.,charger_type_read @ drivers/power/supply/ricoh619-battery.c).
 				LOG(LOG_WARNING, "SDP OVRLIM (Standard Downstream Port, > 500mA) charger detected");
-				need_early_abort = true;
 			} else if (strncmp(charger_type, "NO", 2U) == 0U) {
 				// NOTE: Despite being in a usb_plugged branch,
 				//       this *may* happen if the device is fully charged.
@@ -1433,6 +1434,8 @@ int
 				//       the charger type keeps saying DCP :).
 				LOG(LOG_INFO, "No charger detected! Fully charged?");
 			} else if (strncmp(charger_type, "DISABLE", 7U) == 0U) {
+				// NOTE: We might want to let this one through,
+				//       especially once https://github.com/koreader/koreader/pull/8934 lands...
 				LOG(LOG_WARNING, "Charger is disabled!");
 				need_early_abort = true;
 			} else {
@@ -1440,14 +1443,18 @@ int
 				need_early_abort = true;
 			}
 
-			// While a CDP could technically enumerate,
-			// the discrimination between usb_plug and usb_host is only based on detecting an SDP PC
-			// in drivers/input/misc/usb_plug.c, so, do the same thing here.
-			// (c.f., ricoh619_charger_detect @ drivers/mfd/ricoh619.c)
+			// NOTE: A CDP can enumerate. On older devices (<= Mk. 7),
+			//       the discrimination between usb_plug and usb_host was only based on detecting an SDP PC
+			//       in drivers/input/misc/usb_plug.c
+			//       (c.f., ricoh619_charger_detect @ drivers/mfd/ricoh619.c).
+			//       This changed on the Elipsa, which started allowing SDP OVRLIM,
+			//       and on the Sage, which added CDP to the list (the Libra 2 followed suit).
+			//       We do the most sensible thing here (i.e., continue if the port can enumerate),
+			//       by following the latest code ;).
 			// NOTE: SDP_CHARGER == SDP_PC_CHARGER != SDP_ADPT_CHARGER
 			//       c.f., include/linux/power/ricoh619_battery.h
 			if (need_early_abort) {
-				LOG(LOG_ERR, "Charger type is not SDP PC, aborting");
+				LOG(LOG_ERR, "Charger type cannot enumerate, aborting");
 				if (early_unmount) {
 					print_msg(
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
