@@ -1364,8 +1364,9 @@ int
 		// We've supposedly been plugged to a USB host...
 		print_icon("\ufa1e", &ctx);
 		// Let things settle for a while, and actually double-check that...
-		// Timing matches UIManager:_beforeCharging, but is somewhat arbitrary in the first place ;).
-		const struct timespec zzz = { 1L, 0L };
+		// NOTE: We're being way more defensive than UIManager:_beforeCharging here,
+		//       because we have less granularity and precision than drivers/input/misc/usb_plug.c...
+		const struct timespec zzz = { 2L, 0L };
 		nanosleep(&zzz, NULL);
 		usb_plugged = (*fxpIsUSBPlugged)(ctx.ntxfd);
 		if (usb_plugged) {
