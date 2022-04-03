@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-21 02:46+0100\n"
+"POT-Creation-Date: 2022-04-03 16:01+0200\n"
 "PO-Revision-Date: 2022-01-31 01:24+0000\n"
 "Last-Translator: phlostically <phlostically@mailinator.com>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/koreader/"
@@ -141,7 +141,7 @@ msgid ""
 msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1454
+#: usbms.c:1461
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -154,18 +154,18 @@ msgstr ""
 "La aparato haltos en 90 sekundoj."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1459
+#: usbms.c:1466
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
 
-#: usbms.c:1482
+#: usbms.c:1489
 msgid "Starting USBMS session…"
 msgstr "Komencante seancon de USBMS…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1514
+#: usbms.c:1521
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -177,14 +177,14 @@ msgstr ""
 " Malsukcesis komenci la seancon de USBMS!\n"
 "La aparato haltos en 90 sekundoj."
 
-#: usbms.c:1532
+#: usbms.c:1539
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
 msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1636
+#: usbms.c:1643
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -196,12 +196,12 @@ msgstr ""
 " Malsukcesis komenci la seancon de USBMS!\n"
 "La aparato haltos en 90 sekundoj."
 
-#: usbms.c:1646
+#: usbms.c:1653
 msgid "Ending USBMS session…"
 msgstr ""
 
 #. @translators: First Unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1671
+#: usbms.c:1678
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -213,7 +213,7 @@ msgstr ""
 " Malsukcesis komenci la seancon de USBMS!\n"
 "La aparato haltos en 90 sekundoj."
 
-#: usbms.c:1810
+#: usbms.c:1817
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
