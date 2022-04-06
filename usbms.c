@@ -1366,6 +1366,11 @@ int
 		// Let things settle for a while, and actually double-check that...
 		// NOTE: We're being way more defensive than UIManager:_beforeCharging here,
 		//       because we have less granularity and precision than drivers/input/misc/usb_plug.c...
+		// NOTE: We're currently double-checking usb_host add events, but *NOT* usb_plug add events!
+		//       So far, this hasn't been an issue, but do note that, on plug,
+		//       the kernel ought to have better accuracy than the charger type check we'll do later...
+		//       (Specifically, right now, it makes the right decision if the charger type is SDP OVRLIM,
+		//       while that info is lost in the sysfs attribute).
 		const struct timespec zzz = { 2L, 0L };
 		nanosleep(&zzz, NULL);
 		usb_plugged = (*fxpIsUSBPlugged)(ctx.ntxfd);
