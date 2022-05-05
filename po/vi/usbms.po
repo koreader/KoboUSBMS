@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-03 16:18+0200\n"
-"PO-Revision-Date: 2022-01-31 01:24+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2022-05-06 13:14+0000\n"
+"Last-Translator: Dinh Phong <phongdinh9991@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/vi/>\n"
 "Language: vi\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.11-dev\n"
+"X-Generator: Weblate 4.12.1\n"
 
 #: usbms.c:960
 msgid "USB Mass Storage"
-msgstr ""
+msgstr "Bộ nhớ USB"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1011
@@ -29,6 +29,8 @@ msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
 msgstr ""
+" Ngắt kết nối mạng USB thủ công!\n"
+"Nhấn phím nguồn để thoát."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1023
@@ -36,35 +38,37 @@ msgid ""
 " Please disable USBSerial manually!\n"
 "Press the power button to exit."
 msgstr ""
+" Tắt USBSerial thủ công!\n"
+"Nhấn phím nguồn để thoát."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1057
 msgid " Filesystem is busy! Offending processes:"
-msgstr ""
+msgstr " Hệ thống file bận! Quá trình lỗi:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
 #: usbms.c:1091
 msgid " The fuser script failed!"
-msgstr ""
+msgstr " Fuser script thất bại!"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1101
 msgid " Could not run the fuser script!"
-msgstr ""
+msgstr " Không thể chạy fuser script!"
 
 #: usbms.c:1107
 msgid "Press the power button to exit."
-msgstr ""
+msgstr "Nhấn phím nguồn để thoát."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1161 usbms.c:1264
 msgid " The device will shut down in 30 sec."
-msgstr ""
+msgstr " Tắt nguồn sau 30s."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1166 usbms.c:1269
 msgid " KOReader will now restart…"
-msgstr ""
+msgstr " KOReader sẽ khởi động lại…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1197
@@ -72,6 +76,8 @@ msgid ""
 " Gave up after 30 sec.\n"
 "The device will shut down in 30 sec."
 msgstr ""
+" Hủy bỏ sau 30s.\n"
+"Tắt nguồn sau 30 sec."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1202
@@ -79,12 +85,16 @@ msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
 msgstr ""
+" Hủy bỏ sau 30s.\n"
+"KOReader sẽ khởi động lại…"
 
 #: usbms.c:1223
 msgid ""
 "Waiting to be plugged in…\n"
 "Or, press the power button to exit."
 msgstr ""
+"Đang chờ được gắn vào…\n"
+"Hoặc nhấn phím nguồn để thoát."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1292
@@ -92,6 +102,8 @@ msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 30 sec."
 msgstr ""
+" Không có kết nối USB, chỉ sạc!\n"
+"Thiết bị sẽ tắt nguồn sau 30s."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1297
@@ -99,6 +111,8 @@ msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
+" Không có kết nối USB, chỉ sạc!\n"
+"KOReader sẽ khởi động lại…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1339
@@ -106,6 +120,8 @@ msgid ""
 " Gave up after 90 sec.\n"
 "The device will shut down in 30 sec."
 msgstr ""
+" Hủy bỏ sau 90s.\n"
+"Tắt nguồn sau 30 sec."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1344
@@ -113,6 +129,8 @@ msgid ""
 " Gave up after 90 sec.\n"
 "KOReader will now restart…"
 msgstr ""
+" Hủy bỏ sau 90s.\n"
+"KOReader sẽ khởi động lại…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1462
@@ -120,6 +138,8 @@ msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 30 sec."
 msgstr ""
+" Không có kết nối USB, chỉ sạc!\n"
+"Thiết bị sẽ tắt nguồn sau 30s."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1467
@@ -127,10 +147,12 @@ msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
+" Không có kết nối USB, chỉ sạc!\n"
+"KOReader sẽ khởi động lại…"
 
 #: usbms.c:1490
 msgid "Starting USBMS session…"
-msgstr ""
+msgstr "Khởi động kết nối USB…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1522
@@ -138,12 +160,16 @@ msgid ""
 " Could not start the USBMS session!\n"
 "The device will shut down in 90 sec."
 msgstr ""
+" Không thể khởi động kết nối USB!\n"
+"Thiết bị sẽ tắt sau 90s."
 
 #: usbms.c:1540
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
 msgstr ""
+"Đang kết nối bằng USB\n"
+"Ngắt kết nối USB trước khi rút cáp."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1644
@@ -151,10 +177,12 @@ msgid ""
 " Could not detect an unplug event!\n"
 "The device will shut down in 90 sec."
 msgstr ""
+" Không phát hiện rút cáp!\n"
+"Thiết bị sẽ tắt nguồn sau 90s."
 
 #: usbms.c:1654
 msgid "Ending USBMS session…"
-msgstr ""
+msgstr "Kết thúc kết nối USB…"
 
 #. @translators: First Unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1679
@@ -162,9 +190,13 @@ msgid ""
 " Could not end the USBMS session!\n"
 "The device will shut down in 90 sec."
 msgstr ""
+" Không thể ngắt kết nối USB!\n"
+"Thiết bị sẽ tắt sau 90s."
 
 #: usbms.c:1818
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
 msgstr ""
+"Hoàn thành!\n"
+"KOReader sẽ khởi động lại…"
