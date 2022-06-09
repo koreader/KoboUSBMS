@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-03 16:18+0200\n"
-"PO-Revision-Date: 2022-05-06 13:14+0000\n"
+"PO-Revision-Date: 2022-06-09 16:19+0000\n"
 "Last-Translator: Dinh Phong <phongdinh9991@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/vi/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.12.1\n"
+"X-Generator: Weblate 4.13-dev\n"
 
 #: usbms.c:960
 msgid "USB Mass Storage"
@@ -30,7 +30,7 @@ msgid ""
 "Press the power button to exit."
 msgstr ""
 " Ngắt kết nối mạng USB thủ công!\n"
-"Nhấn phím nguồn để thoát."
+"Ấn phím nguồn để thoát."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1023
@@ -39,7 +39,7 @@ msgid ""
 "Press the power button to exit."
 msgstr ""
 " Tắt USBSerial thủ công!\n"
-"Nhấn phím nguồn để thoát."
+"Ấn phím nguồn để thoát."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1057
@@ -58,7 +58,7 @@ msgstr " Không thể chạy fuser script!"
 
 #: usbms.c:1107
 msgid "Press the power button to exit."
-msgstr "Nhấn phím nguồn để thoát."
+msgstr "Ấn phím nguồn để thoát."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1161 usbms.c:1264
@@ -76,8 +76,8 @@ msgid ""
 " Gave up after 30 sec.\n"
 "The device will shut down in 30 sec."
 msgstr ""
-" Hủy bỏ sau 30s.\n"
-"Tắt nguồn sau 30 sec."
+" Hủy bỏ sau 30 giây.\n"
+"Tắt nguồn sau 30 giây."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1202
@@ -85,7 +85,7 @@ msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-" Hủy bỏ sau 30s.\n"
+" Hủy bỏ sau 30 giây.\n"
 "KOReader sẽ khởi động lại…"
 
 #: usbms.c:1223
@@ -93,8 +93,8 @@ msgid ""
 "Waiting to be plugged in…\n"
 "Or, press the power button to exit."
 msgstr ""
-"Đang chờ được gắn vào…\n"
-"Hoặc nhấn phím nguồn để thoát."
+"Đang chờ gắn vào…\n"
+"Hoặc ấn phím nguồn để thoát."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1292
