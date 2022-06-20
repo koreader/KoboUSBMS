@@ -830,7 +830,7 @@ int
 	// And setup the sysfs paths & usb check based on the device…
 	if (ctx.fbink_state.is_sunxi) {
 		NTX_KEYS_EVDEV     = SUNXI_NTX_KEYS_EVDEV;
-		TOUCHPAD_EVDEV     = SUNXI_TOUCHPAD_EVDEV;
+		TOUCHPAD_EVDEV     = ELAN_TOUCHPAD_EVDEV;
 		BATT_CAP_SYSFS     = SUNXI_BATT_CAP_SYSFS;
 		CHARGER_TYPE_SYSFS = SUNXI_CHARGER_TYPE_SYSFS;
 
@@ -846,6 +846,31 @@ int
 		CHARGER_TYPE_SYSFS = NXP_CHARGER_TYPE_SYSFS;
 
 		fxpIsUSBPlugged = &ioctl_is_usb_plugged;
+
+		// The Libra 2 has a funky new hardware revision...
+		if (ctx.fbink_state.device_id == DEVICE_KOBO_LIBRA_2) {
+			// Using an Elan touch panel
+			if (access(ELAN_TOUCHPAD_EVDEV, F_OK) == 0) {
+				TOUCHPAD_EVDEV = ELAN_TOUCHPAD_EVDEV;
+			}
+
+			// Using a dedicated power button input device
+			if (access(BD71828_POWERBUTTON_EVDEV, F_OK) == 0) {
+				NTX_KEYS_EVDEV = BD71828_POWERBUTTON_EVDEV;
+			}
+
+			// Using the new battery & charger sysfs paths
+			if (access(SUNXI_BATT_CAP_SYSFS, F_OK) == 0) {
+				BATT_CAP_SYSFS = SUNXI_BATT_CAP_SYSFS;
+
+				// NOTE: I'm going to assume this means the ioctl is similarly broken...
+				fxpIsUSBPlugged = &sysfs_is_usb_plugged;
+			}
+
+			if (access(SUNXI_CHARGER_TYPE_SYSFS, F_OK) == 0) {
+				CHARGER_TYPE_SYSFS = SUNXI_CHARGER_TYPE_SYSFS;
+			}
+		}
 	}
 
 	// Setup libue

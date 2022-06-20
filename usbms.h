@@ -110,7 +110,9 @@
 #define NXP_TOUCHPAD_EVDEV   "/dev/input/event1"
 // ... but sunxi & SMP changed that ;).
 #define SUNXI_NTX_KEYS_EVDEV "/dev/input/by-path/platform-ntx_event0-event"
-#define SUNXI_TOUCHPAD_EVDEV "/dev/input/by-path/platform-0-0010-event"
+#define ELAN_TOUCHPAD_EVDEV "/dev/input/by-path/platform-0-0010-event"
+// ... and a new hardware revision of the Libra 2 made it even more fun!
+#define BD71828_POWERBUTTON_EVDEV "/dev/input/by-path/platform-bd71828-pwrkey-event"
 const char* NTX_KEYS_EVDEV = NULL;
 const char* TOUCHPAD_EVDEV = NULL;
 #define NXP_BATT_CAP_SYSFS    "/sys/class/power_supply/mc13892_bat/capacity"
