@@ -106,11 +106,11 @@
 #define KOBO_USB_DEVPATH_UDC  "/devices/platform/soc/5100000.udc-controller"    // OK
 
 // Those had been set in stone so far...
-#define NXP_NTX_KEYS_EVDEV   "/dev/input/event0"
-#define NXP_TOUCHPAD_EVDEV   "/dev/input/event1"
+#define NXP_NTX_KEYS_EVDEV        "/dev/input/event0"
+#define NXP_TOUCHPAD_EVDEV        "/dev/input/event1"
 // ... but sunxi & SMP changed that ;).
-#define SUNXI_NTX_KEYS_EVDEV "/dev/input/by-path/platform-ntx_event0-event"
-#define ELAN_TOUCHPAD_EVDEV "/dev/input/by-path/platform-0-0010-event"
+#define SUNXI_NTX_KEYS_EVDEV      "/dev/input/by-path/platform-ntx_event0-event"
+#define ELAN_TOUCHPAD_EVDEV       "/dev/input/by-path/platform-0-0010-event"
 // ... and a new hardware revision of the Libra 2 made it even more fun!
 #define BD71828_POWERBUTTON_EVDEV "/dev/input/by-path/platform-bd71828-pwrkey-event"
 const char* NTX_KEYS_EVDEV = NULL;
