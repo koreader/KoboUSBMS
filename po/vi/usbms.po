@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-06-20 16:54+0200\n"
-"PO-Revision-Date: 2022-07-04 15:22+0000\n"
+"PO-Revision-Date: 2022-07-05 16:20+0000\n"
 "Last-Translator: Dinh Phong <phongdinh9991@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/vi/>\n"
@@ -49,12 +49,12 @@ msgstr " Tệp hệ thống bận! Quá trình lỗi:"
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
 #: usbms.c:1116
 msgid " The fuser script failed!"
-msgstr " Fuser script thất bại!"
+msgstr " Tập lệnh Fuser thất bại!"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1126
 msgid " Could not run the fuser script!"
-msgstr " Không thể chạy fuser script!"
+msgstr " Không thể chạy tập lệnh fuser!"
 
 #: usbms.c:1132
 msgid "Press the power button to exit."
@@ -68,7 +68,7 @@ msgstr " Tắt nguồn sau 30s."
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1191 usbms.c:1294
 msgid " KOReader will now restart…"
-msgstr " KOReader sẽ khởi động lại…"
+msgstr " Khởi động lại KOReader…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1222
@@ -76,8 +76,8 @@ msgid ""
 " Gave up after 30 sec.\n"
 "The device will shut down in 30 sec."
 msgstr ""
-" Hủy bỏ sau 30 giây.\n"
-"Tắt nguồn sau 30 giây."
+" Hủy sau 30s.\n"
+"Tắt nguồn sau 30s."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1227
@@ -85,8 +85,8 @@ msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-" Hủy bỏ sau 30 giây.\n"
-"KOReader sẽ khởi động lại…"
+" Hủy sau 30s.\n"
+"Khởi động lại KOReader…"
 
 #: usbms.c:1248
 msgid ""
@@ -94,7 +94,7 @@ msgid ""
 "Or, press the power button to exit."
 msgstr ""
 "Đang chờ gắn vào…\n"
-"Hoặc ấn phím nguồn để thoát."
+"Ấn phím nguồn để thoát."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1317
@@ -103,7 +103,7 @@ msgid ""
 "The device will shut down in 30 sec."
 msgstr ""
 " Không có kết nối USB, chỉ sạc!\n"
-"Thiết bị sẽ tắt nguồn sau 30s."
+"Tắt nguồn sau 30s."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1322
@@ -112,7 +112,7 @@ msgid ""
 "KOReader will now restart…"
 msgstr ""
 " Không có kết nối USB, chỉ sạc!\n"
-"KOReader sẽ khởi động lại…"
+"Khởi động lại KOReader…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1364
@@ -121,7 +121,7 @@ msgid ""
 "The device will shut down in 30 sec."
 msgstr ""
 " Hủy bỏ sau 90s.\n"
-"Tắt nguồn sau 30 sec."
+"Tắt nguồn sau 30s."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1369
@@ -130,7 +130,7 @@ msgid ""
 "KOReader will now restart…"
 msgstr ""
 " Hủy bỏ sau 90s.\n"
-"KOReader sẽ khởi động lại…"
+"Khởi động lại KOReader…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1492
@@ -139,7 +139,7 @@ msgid ""
 "The device will shut down in 30 sec."
 msgstr ""
 " Không có kết nối USB, chỉ sạc!\n"
-"Thiết bị sẽ tắt nguồn sau 30s."
+"Tắt nguồn sau 30s."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1497
@@ -148,11 +148,11 @@ msgid ""
 "KOReader will now restart…"
 msgstr ""
 " Không có kết nối USB, chỉ sạc!\n"
-"KOReader sẽ khởi động lại…"
+"Khởi động lại KOReader…"
 
 #: usbms.c:1520
 msgid "Starting USBMS session…"
-msgstr "Khởi động kết nối USB…"
+msgstr "Bắt đầu kết nối USB…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1552
@@ -160,15 +160,15 @@ msgid ""
 " Could not start the USBMS session!\n"
 "The device will shut down in 90 sec."
 msgstr ""
-" Không thể khởi động kết nối USB!\n"
-"Thiết bị sẽ tắt sau 90s."
+" Không thể kết nối USB!\n"
+"Tắt nguồn sau 90s."
 
 #: usbms.c:1570
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
 msgstr ""
-"Đang kết nối bằng USB\n"
+"Kết nối USB.\n"
 "Ngắt kết nối USB trước khi rút cáp."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -178,11 +178,11 @@ msgid ""
 "The device will shut down in 90 sec."
 msgstr ""
 " Không phát hiện rút cáp!\n"
-"Thiết bị sẽ tắt nguồn sau 90s."
+"Tắt nguồn sau 90s."
 
 #: usbms.c:1684
 msgid "Ending USBMS session…"
-msgstr "Kết thúc kết nối USB…"
+msgstr "Ngắt kết nối USB…"
 
 #. @translators: First Unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1709
@@ -191,12 +191,12 @@ msgid ""
 "The device will shut down in 90 sec."
 msgstr ""
 " Không thể ngắt kết nối USB!\n"
-"Thiết bị sẽ tắt sau 90s."
+"Tắt nguồn sau 90s."
 
 #: usbms.c:1848
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
 msgstr ""
-"Hoàn thành!\n"
-"KOReader sẽ khởi động lại…"
+"Hoàn tất!\n"
+"Khởi động lại KOReader…"
