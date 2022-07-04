@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-06-20 16:54+0200\n"
-"PO-Revision-Date: 2022-06-09 16:19+0000\n"
+"PO-Revision-Date: 2022-07-04 15:22+0000\n"
 "Last-Translator: Dinh Phong <phongdinh9991@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/vi/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.13-dev\n"
+"X-Generator: Weblate 4.13.1-dev\n"
 
 #: usbms.c:985
 msgid "USB Mass Storage"
@@ -29,7 +29,7 @@ msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
 msgstr ""
-" Ngắt kết nối mạng USB thủ công!\n"
+" Tắt USBNet thủ công!\n"
 "Ấn phím nguồn để thoát."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -44,7 +44,7 @@ msgstr ""
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1082
 msgid " Filesystem is busy! Offending processes:"
-msgstr " Hệ thống file bận! Quá trình lỗi:"
+msgstr " Tệp hệ thống bận! Quá trình lỗi:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
 #: usbms.c:1116
