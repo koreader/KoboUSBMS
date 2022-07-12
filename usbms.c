@@ -830,7 +830,7 @@ int
 	// And setup the sysfs paths & usb check based on the device…
 	if (ctx.fbink_state.is_sunxi) {
 		NTX_KEYS_EVDEV     = SUNXI_NTX_KEYS_EVDEV;
-		TOUCHPAD_EVDEV     = ELAN_TOUCHPAD_EVDEV;
+		TOUCHPAD_EVDEV     = ELAN_BUS0_TOUCHPAD_EVDEV;
 		BATT_CAP_SYSFS     = SUNXI_BATT_CAP_SYSFS;
 		CHARGER_TYPE_SYSFS = SUNXI_CHARGER_TYPE_SYSFS;
 
@@ -850,8 +850,8 @@ int
 		// The Libra 2 has a funky new hardware revision...
 		if (ctx.fbink_state.device_id == DEVICE_KOBO_LIBRA_2) {
 			// Using an Elan touch panel
-			if (access(ELAN_TOUCHPAD_EVDEV, F_OK) == 0) {
-				TOUCHPAD_EVDEV = ELAN_TOUCHPAD_EVDEV;
+			if (access(ELAN_BUS1_TOUCHPAD_EVDEV, F_OK) == 0) {
+				TOUCHPAD_EVDEV = ELAN_BUS1_TOUCHPAD_EVDEV;
 			}
 
 			// Using a dedicated power button input device
