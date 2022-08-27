@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-06-20 16:54+0200\n"
-"PO-Revision-Date: 2022-01-31 01:24+0000\n"
+"PO-Revision-Date: 2022-08-28 15:24+0000\n"
 "Last-Translator: Mihai Vasiliu <mihai.vasiliu.93@gmail.com>\n"
 "Language-Team: Moldavian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/ro_MD/>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n == 0 || n % 100 >= 2 && "
 "n % 100 <= 19) ? 1 : 2);\n"
-"X-Generator: Weblate 4.11-dev\n"
+"X-Generator: Weblate 4.14.1-dev\n"
 
 #: usbms.c:985
 msgid "USB Mass Storage"
-msgstr "Dispozitiv de stocare în masă USB"
+msgstr "Stocare în masă USB"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1036
