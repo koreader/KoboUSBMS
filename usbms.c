@@ -284,10 +284,12 @@ static char*
 	}
 	char* a = s;
 	char* b = s + strlen(s);
-	for (; a < b && isspace((unsigned char) (*a)); a++)
+	for (; a < b && isspace((unsigned char) (*a)); a++) {
 		;
-	for (; b > a && isspace((unsigned char) (*(b - 1))); b--)
+	}
+	for (; b > a && isspace((unsigned char) (*(b - 1))); b--) {
 		;
+	}
 	*b = '\0';
 	return a;
 }
@@ -1732,8 +1734,9 @@ int
 			}
 
 			// Replace all occurences of a space by an underscore
-			for (char* p = tzname; (p = strchr(p, ' ')) != NULL; *p = '_')
+			for (char* p = tzname; (p = strchr(p, ' ')) != NULL; *p = '_') {
 				;
+			}
 
 			// Start by checking if we actually *can* use it…
 			bool tz_available = false;
