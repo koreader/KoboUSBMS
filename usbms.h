@@ -129,6 +129,7 @@ bool (*fxpIsUSBPlugged)(int) = NULL;
 // These, on the other hand, are only available on Mk. 7+
 #define NXP_CHARGER_TYPE_SYSFS   "/sys/class/power_supply/mc13892_charger/device/charger_type"
 #define SUNXI_CHARGER_TYPE_SYSFS "/sys/class/power_supply/charger/device/charger_type"
+// For ref., on mainline w/ @akemnade's driver: /sys/class/power_supply/rn5t618-usb/usb_type
 const char* CHARGER_TYPE_SYSFS = NULL;
 #define FL_INTENSITY_SYSFS "/sys/class/backlight/mxc_msp430.0/actual_brightness"
 
