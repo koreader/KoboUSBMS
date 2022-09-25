@@ -494,6 +494,32 @@ static void
 	}
 }
 
+// Check if there's an auxiliary battery connected (e.g., the Sage's PowerCover).
+static bool
+    is_aux_battery_connected(void)
+{
+	FILE* f = fopen(CILIX_CONNECTED_SYSFS, "re");
+	if (f) {
+		char   cilix_conn[8] = { 0 };
+		size_t size          = fread(cilix_conn, sizeof(*cilix_conn), sizeof(cilix_conn) - 1U, f);
+		fclose(f);
+		f = NULL;
+		if (size > 0) {
+			// Strip trailing LF
+			if (cilix_conn[size - 1U] == '\n') {
+				cilix_conn[size - 1U] = '\0';
+			}
+		}
+
+		// Check if the PowerCover is currently connected
+		if (cilix_conn[0] == '1') {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 // We'll want to regularly update a display of the plug/charge status, and whether Wi-Fi is on or not
 static void
     print_status(const USBMSContext* ctx)
@@ -524,24 +550,7 @@ static void
 	bool    has_aux_battery = false;
 	uint8_t aux_batt_perc   = 0U;
 	if (ctx->fbink_state.device_id == DEVICE_KOBO_SAGE) {
-		f = fopen(CILIX_CONNECTED_SYSFS, "re");
-		if (f) {
-			char   cilix_conn[8] = { 0 };
-			size_t size          = fread(cilix_conn, sizeof(*cilix_conn), sizeof(cilix_conn) - 1U, f);
-			fclose(f);
-			f = NULL;
-			if (size > 0) {
-				// Strip trailing LF
-				if (cilix_conn[size - 1U] == '\n') {
-					cilix_conn[size - 1U] = '\0';
-				}
-			}
-
-			// Check if the PowerCover is currently connected
-			if (cilix_conn[0] == '1') {
-				has_aux_battery = true;
-			}
-		}
+		has_aux_battery = is_aux_battery_connected();
 
 		if (has_aux_battery) {
 			f = fopen(CILIX_BATT_CAP_SYSFS, "re");
@@ -1054,6 +1063,22 @@ int
 		    &ctx);
 	}
 
+	// NOTE: On the Sage, if the PowerCover is plugged, crossing the Cilix charge thresholds *may* reset the USB connection…
+	//       This *will* break I/O, and there's a threshold at 99% which is *very* easy to trip on a recently charged device.
+	//       To avoid any potential issues, abort if we're connected to the PowerCover.
+	if (ctx.fbink_state.device_id == DEVICE_KOBO_SAGE) {
+		if (is_aux_battery_connected()) {
+			LOG(LOG_ERR, "Device is inside a PowerCover, aborting");
+			need_early_abort = true;
+
+			// NOTE: Shh, nobody can tell it's actually a sign-out icon... :D.
+			print_icon("\uf426", &ctx);
+			print_msg(    // @translators: First unicode codepoint is an icon, leave it as-is.
+			    _("\uf071 Please take the device out of the PowerCover!\nPress the power button to exit."),
+			    &ctx);
+		}
+	}
+
 	// We'll want to check both the internal storage and the SD card, as both get exported.
 	const USBMSPartition mount_points[] = {
 		{PARTITION_INTERNAL, "Internal",    KOBO_PARTITION,    KOBO_MOUNTPOINT},
@@ -1422,9 +1447,6 @@ int
 	//       assuming it *also* got a chance to catch the event: i.e., it started *before* the plug in…
 	// NOTE: Regardless, we want to double-check the charger type in *every* scenario...
 	// NOTE: Unfortunately, the only platform where we can do that appears to be Mk. 7…
-	// NOTE: On the Sage, if the PowerCover is plugged, another thing to look out for
-	//       is that crossing the Cilix charge thresholds *may* reset the USB connection...
-	//       I have no idea how well an active data transfer would take that...
 	if (access(CHARGER_TYPE_SYSFS, F_OK) == 0) {
 		LOG(LOG_INFO, "Checking charger type");
 		FILE* f = fopen(CHARGER_TYPE_SYSFS, "re");
