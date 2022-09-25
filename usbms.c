@@ -143,7 +143,7 @@ static void
 }
 
 static bool
-    ioctl_is_usb_plugged(int ntxfd)
+    ioctl_is_usb_plugged(int ntxfd, bool foo __attribute__((unused)))
 {
 	// Check if we're plugged in…
 	unsigned long ptr = 0U;
@@ -155,7 +155,7 @@ static bool
 }
 
 static bool
-    sysfs_is_usb_plugged(int foo __attribute__((unused)))
+    sysfs_is_usb_plugged(int foo __attribute__((unused)), bool log_status)
 {
 	bool is_plugged = false;
 
@@ -169,7 +169,9 @@ static bool
 			if (status[size - 1U] == '\n') {
 				status[size - 1U] = '\0';
 			}
-			LOG(LOG_DEBUG, "Battery status: %s", status);
+			if (log_status) {
+				LOG(LOG_DEBUG, "Battery status: %s", status);
+			}
 		} else {
 			LOG(LOG_WARNING, "Could not read the battery status from sysfs!");
 		}
@@ -525,7 +527,7 @@ static void
     print_status(const USBMSContext* ctx)
 {
 	// Check if we're plugged in…
-	bool usb_plugged = (*fxpIsUSBPlugged)(ctx->ntxfd);
+	bool usb_plugged = (*fxpIsUSBPlugged)(ctx->ntxfd, false);
 
 	// Get the battery charge %
 	uint8_t batt_perc = 0U;
@@ -1024,7 +1026,7 @@ int
 	ctx.icon_cfg.padding = HORI_PADDING;
 
 	// The various lsmod checks will take a while, so, start with the initial cable status…
-	bool usb_plugged = (*fxpIsUSBPlugged)(ctx.ntxfd);
+	bool usb_plugged = (*fxpIsUSBPlugged)(ctx.ntxfd, true);
 	print_icon(usb_plugged ? "\uf700" : "\uf701", &ctx);
 
 	// Setup the message area
@@ -1273,7 +1275,7 @@ int
 	LOG(LOG_INFO, "Starting USBMS shenanigans");
 	bool sleep_on_abort = true;
 	// If we're not plugged in, wait for it (or abort early)
-	usb_plugged         = (*fxpIsUSBPlugged)(ctx.ntxfd);
+	usb_plugged         = (*fxpIsUSBPlugged)(ctx.ntxfd, true);
 	while (!usb_plugged) {
 		print_msg(_("Waiting to be plugged in…\nOr, press the power button to exit."), &ctx);
 
@@ -1428,7 +1430,7 @@ int
 		//       while that info is lost in the sysfs attribute).
 		const struct timespec zzz = { 2L, 0L };
 		nanosleep(&zzz, NULL);
-		usb_plugged = (*fxpIsUSBPlugged)(ctx.ntxfd);
+		usb_plugged = (*fxpIsUSBPlugged)(ctx.ntxfd, true);
 		if (usb_plugged) {
 			LOG(LOG_NOTICE, "Device is now plugged in");
 		} else {
