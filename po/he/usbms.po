@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-25 23:29+0200\n"
-"PO-Revision-Date: 2022-01-31 01:24+0000\n"
-"Last-Translator: Enrico Segre <enricoalbertoernestosegre@gmail.com>\n"
+"PO-Revision-Date: 2022-10-04 09:20+0000\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/he/>\n"
 "Language: he\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 4.11-dev\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #: usbms.c:1001
 msgid "USB Mass Storage"
@@ -44,16 +44,12 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1079
-#, fuzzy
-#| msgid ""
-#| " Please disable USBNet manually!\n"
-#| "Press the power button to exit."
 msgid ""
 " Please take the device out of the PowerCover!\n"
 "Press the power button to exit."
 msgstr ""
-" השבת USBNet באופן ידני!\n"
-"לחץ על לחצן ההפעלה כדי לצאת."
+" נא להוציא את המכשיר מה־PowerCover (כיסוי חכם)!\n"
+"יש ללחוץ על לחצן ההפעלה כדי לצאת."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1114
