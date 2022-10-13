@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-25 23:29+0200\n"
-"PO-Revision-Date: 2022-09-27 06:24+0000\n"
-"Last-Translator: Eric <hamburger1024@mailbox.org>\n"
+"PO-Revision-Date: 2022-10-17 00:42+0000\n"
+"Last-Translator: 翻译请尽量做到简洁通顺 <1049614369@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "koreader/kobousbms/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 4.15-dev\n"
 
 #: usbms.c:1001
 msgid "USB Mass Storage"
@@ -178,7 +178,7 @@ msgid ""
 "Please eject your device safely before unplugging it."
 msgstr ""
 "USBMS 会话正在进行中。\n"
-"请在拔出 USB 线之前将此设备弹出。"
+"请先将此设备弹出再拔掉 USB 线。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1703
