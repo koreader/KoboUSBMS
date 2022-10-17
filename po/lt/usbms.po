@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-25 23:29+0200\n"
-"PO-Revision-Date: 2022-01-31 01:24+0000\n"
-"Last-Translator: g <muziejusinfo@gmail.com>\n"
+"PO-Revision-Date: 2022-10-18 19:06+0000\n"
+"Last-Translator: Gediminas Murauskas <muziejusinfo@gmail.com>\n"
 "Language-Team: Lithuanian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/lt/>\n"
 "Language: lt\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > "
 "19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? "
 "1 : 2);\n"
-"X-Generator: Weblate 4.11-dev\n"
+"X-Generator: Weblate 4.15-dev\n"
 
 #: usbms.c:1001
 msgid "USB Mass Storage"
@@ -45,16 +45,12 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1079
-#, fuzzy
-#| msgid ""
-#| " Please disable USBNet manually!\n"
-#| "Press the power button to exit."
 msgid ""
 " Please take the device out of the PowerCover!\n"
 "Press the power button to exit."
 msgstr ""
-" Išjunkite USBSerial rankiniu būdu!\n"
-"Norėdami išeiti, paspauskite įrenginio išjungimo mygtuką."
+" Išimkite įrenginį iš PowerCover!\n"
+"Norėdami išeiti, paspauskite maitinimo mygtuką."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1114
