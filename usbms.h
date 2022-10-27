@@ -133,6 +133,9 @@ bool (*fxpIsUSBPlugged)(int, bool) = NULL;
 const char* CHARGER_TYPE_SYSFS = NULL;
 #define FL_INTENSITY_SYSFS "/sys/class/backlight/mxc_msp430.0/actual_brightness"
 
+// Because MXCFB_WAIT_FOR_UPDATE_COMPLETE is unreliable on a few NTX boards...
+int (*fxpWaitForUpdateComplete)(int, uint32_t) = NULL;
+
 // Internal storage
 #define KOBO_PARTITION     "/dev/mmcblk0p3"
 #define KOBO_MOUNTPOINT    "/mnt/onboard"

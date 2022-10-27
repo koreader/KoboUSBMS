@@ -327,6 +327,15 @@ static time_t
 	return td.tv_sec;
 }
 
+// Yield for a bit on devices where we can't rely on MXCFB_WAIT_FOR_UPDATE_COMPLETE...
+static int
+    stub_wait_for_update_complete(int fbfd __attribute__((unused)), uint32_t marker __attribute__((unused)))
+{
+	// c.f., https://github.com/koreader/koreader-base/blob/21f4b974c7ab64a149075adc32318f87bf71dcdc/ffi/framebuffer_mxcfb.lua#L230-L235
+	const struct timespec zzz = { 0L, 250 * 1000000L };    // 250ms
+	return nanosleep(&zzz, NULL);
+}
+
 // Attempt to figure out the current frontlight intensity…
 static uint8_t
     get_frontlight_intensity(void)
@@ -888,6 +897,12 @@ int
 			}
 		}
 	}
+	// Deal with devices where fbink_wait_for_complete may timeout...
+	if (ctx.fbink_state.unreliable_wait_for) {
+		fxpWaitForUpdateComplete = &stub_wait_for_update_complete;
+	} else {
+		fxpWaitForUpdateComplete = &fbink_wait_for_complete;
+	}
 
 	// Setup libue
 	int rc = -1;
@@ -1223,7 +1238,7 @@ int
 							    _("\uf05a KOReader will now restart…"),
 							    &ctx);
 						}
-						fbink_wait_for_complete(ctx.fbfd, LAST_MARKER);
+						(*fxpWaitForUpdateComplete)(ctx.fbfd, LAST_MARKER);
 						break;
 					}
 				}
@@ -1260,7 +1275,7 @@ int
 					    &ctx);
 				}
 				// Make sure this message will be visible…
-				fbink_wait_for_complete(ctx.fbfd, LAST_MARKER);
+				(*fxpWaitForUpdateComplete)(ctx.fbfd, LAST_MARKER);
 				const struct timespec zzz = { 2L, 500000000L };
 				nanosleep(&zzz, NULL);
 				break;
@@ -1409,7 +1424,7 @@ int
 		// If we abort before plug in, we can (usually) still exit safely…
 		if (need_early_abort) {
 			// Make sure the final message will be visible…
-			fbink_wait_for_complete(ctx.fbfd, LAST_MARKER);
+			(*fxpWaitForUpdateComplete)(ctx.fbfd, LAST_MARKER);
 			if (sleep_on_abort) {
 				const struct timespec zzz = { 2L, 500000000L };
 				nanosleep(&zzz, NULL);
@@ -1529,7 +1544,7 @@ int
 
 				// We still haven't switched to USBMS, so we can (usually) exit safely…
 				// Make sure the final message will be visible…
-				fbink_wait_for_complete(ctx.fbfd, LAST_MARKER);
+				(*fxpWaitForUpdateComplete)(ctx.fbfd, LAST_MARKER);
 				const struct timespec zzz = { 2L, 500000000L };
 				nanosleep(&zzz, NULL);
 				rv = early_unmount ? EXIT_FAILURE : USBMS_EARLY_EXIT;
@@ -1882,7 +1897,7 @@ int
 	ctx.fbink_cfg.is_flashing = true;
 	fbink_refresh(ctx.fbfd, 0, 0, 0, 0, &ctx.fbink_cfg);
 	ctx.fbink_cfg.is_flashing = false;
-	fbink_wait_for_complete(ctx.fbfd, LAST_MARKER);
+	(*fxpWaitForUpdateComplete)(ctx.fbfd, LAST_MARKER);
 
 cleanup:
 	LOG(LOG_INFO, "Bye!");
