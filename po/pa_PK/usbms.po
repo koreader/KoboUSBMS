@@ -8,17 +8,20 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-27 23:03+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-11-03 16:06+0000\n"
+"Last-Translator: bgo-eiu <huyaqoob+toolforge@gmail.com>\n"
+"Language-Team: Punjabi (Pakistan) <https://hosted.weblate.org/projects/"
+"koreader/kobousbms/pa_PK/>\n"
 "Language: pa_PK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.14.2-dev\n"
 
 #: usbms.c:1016
 msgid "USB Mass Storage"
-msgstr ""
+msgstr "یوایس‌بی سٹوریج"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1067
@@ -26,6 +29,8 @@ msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
 msgstr ""
+" یوایس‌بی نیٹ ہتھیں چالو اُلٹایو!\n"
+"بند کرن لئی پاور بٹن چھیڑو۔"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1079
@@ -33,6 +38,8 @@ msgid ""
 " Please disable USBSerial manually!\n"
 "Press the power button to exit."
 msgstr ""
+" یوایس‌بی سیریال ہتھیں چالو اُلٹایو!\n"
+"بند کرن لئی پاور بٹن چھیڑو۔"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1094
@@ -40,25 +47,27 @@ msgid ""
 " Please take the device out of the PowerCover!\n"
 "Press the power button to exit."
 msgstr ""
+" پاورکور توں ڈیوائس ہٹایو!\n"
+"بند کرن لئی پور بٹن چھیڑو۔"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1129
 msgid " Filesystem is busy! Offending processes:"
-msgstr ""
+msgstr " فائل سِسٹم رُجھیا ہویا اے! حالیہ لگدے:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
 #: usbms.c:1163
 msgid " The fuser script failed!"
-msgstr ""
+msgstr " مِلاوݨ والا پھلن لگ نہیں سکدا!"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1173
 msgid " Could not run the fuser script!"
-msgstr ""
+msgstr " مِلاوݨ والا پھلن لگ نہیں سکدا!"
 
 #: usbms.c:1179
 msgid "Press the power button to exit."
-msgstr ""
+msgstr "بند کرن لئی پور بٹن چھیڑو۔"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1233 usbms.c:1336
