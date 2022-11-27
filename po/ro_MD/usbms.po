@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-27 23:03+0200\n"
-"PO-Revision-Date: 2022-08-28 15:24+0000\n"
+"PO-Revision-Date: 2022-11-28 19:47+0000\n"
 "Last-Translator: Mihai Vasiliu <mihai.vasiliu.93@gmail.com>\n"
 "Language-Team: Moldavian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/ro_MD/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n == 0 || n % 100 >= 2 && "
 "n % 100 <= 19) ? 1 : 2);\n"
-"X-Generator: Weblate 4.14.1-dev\n"
+"X-Generator: Weblate 4.15-dev\n"
 
 #: usbms.c:1016
 msgid "USB Mass Storage"
@@ -44,15 +44,11 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1094
-#, fuzzy
-#| msgid ""
-#| " Please disable USBNet manually!\n"
-#| "Press the power button to exit."
 msgid ""
 " Please take the device out of the PowerCover!\n"
 "Press the power button to exit."
 msgstr ""
-" Te rog dezactivează USBNet manual!\n"
+" Te rog scoate dispozitivul din coperta cu baterie!\n"
 "Apasă butonul de pornire pentru a ieși."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
