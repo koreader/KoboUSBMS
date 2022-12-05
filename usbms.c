@@ -65,8 +65,9 @@ static void
 
 	uint32_t pid = 0xDEAD;
 	switch (device_code) {
-		case DEVICE_KOBO_TOUCH_AB:    // Touch A/B (trilogy)
-		case DEVICE_KOBO_TOUCH_C:     // Touch C (trilogy)
+		case DEVICE_KOBO_TOUCH_A:    // Touch A (trilogy)
+		case DEVICE_KOBO_TOUCH_B:    // Touch B (trilogy)
+		case DEVICE_KOBO_TOUCH_C:    // Touch C (trilogy)
 			pid = 0x4163;
 			break;
 		case DEVICE_KOBO_MINI:    // Mini (pixie)
