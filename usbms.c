@@ -865,6 +865,14 @@ int
 
 		// Enforce REAGL, since AUTO is not recommended on sunxi
 		ctx.fbink_cfg.wfm_mode = WFM_REAGL;
+
+		// The Sage has a new hardware revision w/ a BD71828 PMIC (as opposed to its original RC5T619)
+		// c.f., https://github.com/koreader/koreader/pull/9896?#issuecomment-1345477814
+		if (ctx.fbink_state.device_id == DEVICE_KOBO_SAGE) {
+			if (access(BD71828_BIS_POWERBUTTON_EVDEV, F_OK) == 0) {
+				NTX_KEYS_EVDEV = BD71828_BIS_POWERBUTTON_EVDEV;
+			}
+		}
 	} else {
 		NTX_KEYS_EVDEV     = NXP_NTX_KEYS_EVDEV;
 		TOUCHPAD_EVDEV     = NXP_TOUCHPAD_EVDEV;

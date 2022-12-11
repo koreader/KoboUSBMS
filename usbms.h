@@ -115,6 +115,8 @@
 #define ELAN_BUS1_TOUCHPAD_EVDEV  "/dev/input/by-path/platform-1-0010-event"
 // ... and a new hardware revision of the Libra 2 made it even more fun!
 #define BD71828_POWERBUTTON_EVDEV "/dev/input/by-path/platform-bd71828-pwrkey-event"
+// ... The Sage also got a PCB revision w/ a BD71828 PMIC
+#define BD71828_BIS_POWERBUTTON_EVDEV "/dev/input/by-path/platform-bd71828-pwrkey.4.auto-event"
 const char* NTX_KEYS_EVDEV = NULL;
 const char* TOUCHPAD_EVDEV = NULL;
 #define NXP_BATT_CAP_SYSFS    "/sys/class/power_supply/mc13892_bat/capacity"
