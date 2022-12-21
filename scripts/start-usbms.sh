@@ -49,7 +49,7 @@ echo 3 > "/proc/sys/vm/drop_caches"
 # And now, unmount it
 for mountpoint in sd onboard ; do
 	DIR="/mnt/${mountpoint}"
-	if grep -q "${DIR}" "/proc/mounts" ; then
+	if grep -q " ${DIR} " "/proc/mounts" ; then
 		# NOTE: Unlike the stock script (which only does a lazy unmount) and Plato (which does both),
 		#       we're extremely paranoid and will only try a proper umount.
 		#       If it fails, we're done. We'll log the error, the usbms tool will print a warning for a bit, and KOReader will then shutdown the device.
