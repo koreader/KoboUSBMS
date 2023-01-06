@@ -855,7 +855,13 @@ int
 
 	// And setup the sysfs paths & usb check based on the device…
 	if (ctx.fbink_state.is_sunxi) {
-		NTX_KEYS_EVDEV     = SUNXI_NTX_KEYS_EVDEV;
+		// The Sage has a new hardware revision w/ a BD71828 PMIC (as opposed to its original RC5T619)
+		// c.f., https://github.com/koreader/koreader/pull/9896?#issuecomment-1345477814
+		if (access(BD71828_SUNXI_POWERBUTTON_EVDEV, F_OK) == 0) {
+			NTX_KEYS_EVDEV = BD71828_SUNXI_POWERBUTTON_EVDEV;
+		} else {
+			NTX_KEYS_EVDEV = SUNXI_NTX_KEYS_EVDEV;
+		}
 		TOUCHPAD_EVDEV     = ELAN_BUS0_TOUCHPAD_EVDEV;
 		BATT_CAP_SYSFS     = SUNXI_BATT_CAP_SYSFS;
 		CHARGER_TYPE_SYSFS = SUNXI_CHARGER_TYPE_SYSFS;
@@ -865,55 +871,48 @@ int
 
 		// Enforce REAGL, since AUTO is not recommended on sunxi
 		ctx.fbink_cfg.wfm_mode = WFM_REAGL;
-
-		// The Sage has a new hardware revision w/ a BD71828 PMIC (as opposed to its original RC5T619)
-		// c.f., https://github.com/koreader/koreader/pull/9896?#issuecomment-1345477814
-		if (ctx.fbink_state.device_id == DEVICE_KOBO_SAGE) {
-			if (access(BD71828_BIS_POWERBUTTON_EVDEV, F_OK) == 0) {
-				NTX_KEYS_EVDEV = BD71828_BIS_POWERBUTTON_EVDEV;
-			}
-		}
 	} else {
-		NTX_KEYS_EVDEV     = NXP_NTX_KEYS_EVDEV;
-		TOUCHPAD_EVDEV     = NXP_TOUCHPAD_EVDEV;
-		BATT_CAP_SYSFS     = NXP_BATT_CAP_SYSFS;
-		CHARGER_TYPE_SYSFS = NXP_CHARGER_TYPE_SYSFS;
+		// NOTE: Mk. 9 devices may have different hardware revisions with meaningful changes,
+		//       and/or different hardware than earlier NTX boards, period;
+		//       so we'll just auyto-detect everything...
+		// Using a dedicated power button input device
+		if (access(BD71828_NXP_POWERBUTTON_EVDEV, F_OK) == 0) {
+			NTX_KEYS_EVDEV = BD71828_NXP_POWERBUTTON_EVDEV;
+		} else if (access(BD71828_NTX_KEYS_EVDEV, F_OK) == 0) {
+			// Since we only care about the Power button, we should never reach this w/ a BD71828 PMIC
+			NTX_KEYS_EVDEV = BD71828_NTX_KEYS_EVDEV;
+		} else if (access(IMX5_NTX_KEYS_EVDEV, F_OK) == 0) {
+			NTX_KEYS_EVDEV = IMX5_NTX_KEYS_EVDEV;
+		} else {
+			NTX_KEYS_EVDEV = NXP_NTX_KEYS_EVDEV;
+		}
 
-		fxpIsUSBPlugged = &ioctl_is_usb_plugged;
+		// Touch panel
+		if (access(ELAN_BUS1_TOUCHPAD_EVDEV, F_OK) == 0) {
+			// Elan on I²C bus 1
+			TOUCHPAD_EVDEV = ELAN_BUS1_TOUCHPAD_EVDEV;
+		} else if (access(ELAN_BUS0_TOUCHPAD_EVDEV, F_OK) == 0) {
+			// Elan on I²C bus 0 (so far unseen outside of sunxi)
+			TOUCHPAD_EVDEV = ELAN_BUS0_TOUCHPAD_EVDEV;
+		} else {
+			TOUCHPAD_EVDEV = NXP_TOUCHPAD_EVDEV;
+		}
 
-		// The Libra 2 has a funky new hardware revision...
-		if (ctx.fbink_state.device_id == DEVICE_KOBO_LIBRA_2) {
-			// Using an Elan touch panel
-			if (access(ELAN_BUS1_TOUCHPAD_EVDEV, F_OK) == 0) {
-				TOUCHPAD_EVDEV = ELAN_BUS1_TOUCHPAD_EVDEV;
-			}
+		// Using the new battery & charger sysfs paths
+		if (access(SUNXI_BATT_CAP_SYSFS, F_OK) == 0) {
+			BATT_CAP_SYSFS = SUNXI_BATT_CAP_SYSFS;
 
-			// Using a dedicated power button input device
-			if (access(BD71828_POWERBUTTON_EVDEV, F_OK) == 0) {
-				NTX_KEYS_EVDEV = BD71828_POWERBUTTON_EVDEV;
-			}
+			// NOTE: I'm going to assume this means the ioctl is similarly broken...
+			fxpIsUSBPlugged = &sysfs_is_usb_plugged;
+		} else {
+			BATT_CAP_SYSFS  = NXP_BATT_CAP_SYSFS;
+			fxpIsUSBPlugged = &ioctl_is_usb_plugged;
+		}
 
-			// Using the new battery & charger sysfs paths
-			if (access(SUNXI_BATT_CAP_SYSFS, F_OK) == 0) {
-				BATT_CAP_SYSFS = SUNXI_BATT_CAP_SYSFS;
-
-				// NOTE: I'm going to assume this means the ioctl is similarly broken...
-				fxpIsUSBPlugged = &sysfs_is_usb_plugged;
-			}
-
-			if (access(SUNXI_CHARGER_TYPE_SYSFS, F_OK) == 0) {
-				CHARGER_TYPE_SYSFS = SUNXI_CHARGER_TYPE_SYSFS;
-			}
-		} else if (ctx.fbink_state.device_id == DEVICE_KOBO_CLARA_2E) {
-			// Like the Libra 2, uses the new battery & charger sysfs paths
-			BATT_CAP_SYSFS     = SUNXI_BATT_CAP_SYSFS;
+		if (access(SUNXI_CHARGER_TYPE_SYSFS, F_OK) == 0) {
 			CHARGER_TYPE_SYSFS = SUNXI_CHARGER_TYPE_SYSFS;
-			fxpIsUSBPlugged    = &sysfs_is_usb_plugged;
-
-			// Using a dedicated power button input device
-			if (access(BD71828_POWERBUTTON_EVDEV, F_OK) == 0) {
-				NTX_KEYS_EVDEV = BD71828_POWERBUTTON_EVDEV;
-			}
+		} else {
+			CHARGER_TYPE_SYSFS = NXP_CHARGER_TYPE_SYSFS;
 		}
 	}
 	// Deal with devices where fbink_wait_for_complete may timeout...
