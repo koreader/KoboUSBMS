@@ -862,7 +862,6 @@ int
 		} else {
 			NTX_KEYS_EVDEV = SUNXI_NTX_KEYS_EVDEV;
 		}
-		TOUCHPAD_EVDEV     = ELAN_BUS0_TOUCHPAD_EVDEV;
 		BATT_CAP_SYSFS     = SUNXI_BATT_CAP_SYSFS;
 		CHARGER_TYPE_SYSFS = SUNXI_CHARGER_TYPE_SYSFS;
 
@@ -885,17 +884,6 @@ int
 			NTX_KEYS_EVDEV = IMX5_NTX_KEYS_EVDEV;
 		} else {
 			NTX_KEYS_EVDEV = NXP_NTX_KEYS_EVDEV;
-		}
-
-		// Touch panel
-		if (access(ELAN_BUS1_TOUCHPAD_EVDEV, F_OK) == 0) {
-			// Elan on I²C bus 1
-			TOUCHPAD_EVDEV = ELAN_BUS1_TOUCHPAD_EVDEV;
-		} else if (access(ELAN_BUS0_TOUCHPAD_EVDEV, F_OK) == 0) {
-			// Elan on I²C bus 0 (so far unseen outside of sunxi)
-			TOUCHPAD_EVDEV = ELAN_BUS0_TOUCHPAD_EVDEV;
-		} else {
-			TOUCHPAD_EVDEV = NXP_TOUCHPAD_EVDEV;
 		}
 
 		// Using the new battery & charger sysfs paths

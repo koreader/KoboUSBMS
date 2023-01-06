@@ -122,7 +122,6 @@
 // ... The Sage also got a PCB revision w/ a BD71828 PMIC
 #define BD71828_SUNXI_POWERBUTTON_EVDEV "/dev/input/by-path/platform-bd71828-pwrkey.4.auto-event"
 const char* NTX_KEYS_EVDEV = NULL;
-const char* TOUCHPAD_EVDEV = NULL;
 #define NXP_BATT_CAP_SYSFS    "/sys/class/power_supply/mc13892_bat/capacity"
 #define SUNXI_BATT_CAP_SYSFS  "/sys/class/power_supply/battery/capacity"
 #define CILIX_CONNECTED_SYSFS "/sys/class/misc/cilix/cilix_conn"
