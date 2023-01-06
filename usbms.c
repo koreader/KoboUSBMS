@@ -873,7 +873,7 @@ int
 	} else {
 		// NOTE: Mk. 9 devices may have different hardware revisions with meaningful changes,
 		//       and/or different hardware than earlier NTX boards, period;
-		//       so we'll just auyto-detect everything...
+		//       so we'll just auto-detect everything...
 		// Using a dedicated power button input device
 		if (access(BD71828_NXP_POWERBUTTON_EVDEV, F_OK) == 0) {
 			NTX_KEYS_EVDEV = BD71828_NXP_POWERBUTTON_EVDEV;
