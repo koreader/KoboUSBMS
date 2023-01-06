@@ -906,8 +906,9 @@ int
 			}
 		} else if (ctx.fbink_state.device_id == DEVICE_KOBO_CLARA_2E) {
 			// Like the Libra 2, uses the new battery & charger sysfs paths
-			BATT_CAP_SYSFS  = SUNXI_BATT_CAP_SYSFS;
-			fxpIsUSBPlugged = &sysfs_is_usb_plugged;
+			BATT_CAP_SYSFS     = SUNXI_BATT_CAP_SYSFS;
+			CHARGER_TYPE_SYSFS = SUNXI_CHARGER_TYPE_SYSFS;
+			fxpIsUSBPlugged    = &sysfs_is_usb_plugged;
 
 			// Using a dedicated power button input device
 			if (access(BD71828_POWERBUTTON_EVDEV, F_OK) == 0) {
