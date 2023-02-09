@@ -1038,6 +1038,7 @@ int
 	// Display a minimal status bar on screen
 	tzset();
 	ctx.fbink_cfg.row      = -3;
+	ctx.ot_cfg.size_px     = (unsigned short int) (ctx.fbink_state.font_h * 2.2f);
 	ctx.ot_cfg.margins.top = (short int) -(ctx.fbink_state.font_h * 3U);
 	ctx.ot_cfg.padding     = HORI_PADDING;
 	print_status(&ctx);
