@@ -1042,15 +1042,26 @@ int
 	ctx.ot_cfg.padding     = HORI_PADDING;
 	// Compute a best-fit (barring has_aux_battery) for our status line...
 	FBInkOTFit fit = { 0 };
+	size_t fit_pass = 0U;
 	//"I • I HH:MM • I (100%) • I"
 	ctx.fbink_cfg.no_refresh = true;
-	fbink_print_ot(ctx.fbfd, "M", &ctx.ot_cfg, &ctx.fbink_cfg, &fit);
+	while (fit_pass < 50U && fit.rendered_lines < 2) {
+		fit_pass++;
+		fbink_print_ot(ctx.fbfd, "\ufba3 • \uf017 00:00 • \uf578 (100%) • \ufaa9", &ctx.ot_cfg, &ctx.fbink_cfg, &fit);
+		LOG(LOG_DEBUG, "fit_pass=%zu", fit_pass);
+		LOG(LOG_DEBUG, "size_px=%hu", ctx.ot_cfg.size_px);
+		LOG(LOG_DEBUG, "bbox.width=%hu", fit.bbox.width);
+		LOG(LOG_DEBUG, "bbox.height=%hu", fit.bbox.height);
+		LOG(LOG_DEBUG, "screen_width=%u", ctx.fbink_state.screen_height);
+		LOG(LOG_DEBUG, "rendered_lines=%hu", fit.rendered_lines);
+
+		if (fit.truncated) {
+			ctx.ot_cfg.size_px -= 1;
+			break;
+		}
+		ctx.ot_cfg.size_px += 1U;
+	}
 	ctx.fbink_cfg.no_refresh = false;
-	LOG(LOG_DEBUG, "size_px=%hu", ctx.ot_cfg.size_px);
-	LOG(LOG_DEBUG, "bbox.width=%hu", fit.bbox.width);
-	LOG(LOG_DEBUG, "bbox.height=%hu", fit.bbox.height);
-	LOG(LOG_DEBUG, "sizeof(status)=%zu", sizeof("I • I HH:MM • I (100%) • I"));
-	LOG(LOG_DEBUG, "screen_width=%u", ctx.fbink_state.screen_height);
 	print_status(&ctx);
 
 	// Setup the center icon display
