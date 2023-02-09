@@ -1043,7 +1043,6 @@ int
 	// Compute a best-fit (barring has_aux_battery) for our status line...
 	FBInkOTFit fit = { 0 };
 	size_t fit_pass = 0U;
-	//"I • I HH:MM • I (100%) • I"
 	ctx.fbink_cfg.no_refresh = true;
 	while (fit_pass < 50U && fit.rendered_lines < 2) {
 		fit_pass++;
@@ -1055,6 +1054,9 @@ int
 		LOG(LOG_DEBUG, "screen_width=%u", ctx.fbink_state.screen_height);
 		LOG(LOG_DEBUG, "rendered_lines=%hu", fit.rendered_lines);
 
+		// If that didn't fit, rewind
+		// NOTE: We're most likely to run our of *vertical* space than *horizontal*
+		//       (which is fine by me, tht leaves us some margins, and prevents the font from getting gigantic).
 		if (fit.truncated) {
 			ctx.ot_cfg.size_px -= 1;
 			break;
@@ -1073,7 +1075,7 @@ int
 	print_icon(usb_plugged ? "\uf700" : "\uf701", &ctx);
 
 	// Setup the message area
-	ctx.msg_cfg.size_px        = ctx.ot_cfg.size_px;
+	ctx.msg_cfg.size_px        = (unsigned short int) (ctx.fbink_state.font_h * 2U);
 	ctx.msg_cfg.padding        = ctx.icon_cfg.padding;
 	ctx.fbink_cfg.row          = -14;
 	ctx.msg_cfg.margins.top    = (short int) -(ctx.fbink_state.font_h * 14U);
@@ -1159,6 +1161,7 @@ int
 
 				// And now, switch to a smaller font size when consuming the script's output…
 				ctx.msg_cfg.padding        = HORI_PADDING;
+				unsigned short int size_px = ctx.msg_cfg.size_px;
 				ctx.msg_cfg.size_px        = ctx.fbink_state.font_h;
 				ctx.msg_cfg.margins.top    = (short int) rc;
 				// Drop the bottom margin to allow stomping over the status bar…
@@ -1179,7 +1182,7 @@ int
 					}
 
 					// Back to normal :)
-					ctx.msg_cfg.size_px = ctx.ot_cfg.size_px;
+					ctx.msg_cfg.size_px = size_px;
 
 					rc = pclose(f);
 					if (rc != EXIT_SUCCESS) {
