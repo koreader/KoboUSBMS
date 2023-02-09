@@ -1040,6 +1040,17 @@ int
 	ctx.fbink_cfg.row      = -3;
 	ctx.ot_cfg.margins.top = (short int) -(ctx.fbink_state.font_h * 3U);
 	ctx.ot_cfg.padding     = HORI_PADDING;
+	// Compute a best-fit (barring has_aux_battery) for our status line...
+	FBInkOTFit fit = { 0 };
+	//"I • I HH:MM • I (100%) • I"
+	ctx.fbink_cfg.no_refresh = true;
+	fbink_print_ot(ctx.fbfd, "M", &ctx.ot_cfg, &ctx.fbink_cfg, &fit);
+	ctx.fbink_cfg.no_refresh = false;
+	LOG(LOG_DEBUG, "size_px=%hu", ctx.ot_cfg.size_px);
+	LOG(LOG_DEBUG, "bbox.width=%hu", fit.bbox.width);
+	LOG(LOG_DEBUG, "bbox.height=%hu", fit.bbox.height);
+	LOG(LOG_DEBUG, "sizeof(status)=%zu", sizeof("I • I HH:MM • I (100%) • I"));
+	LOG(LOG_DEBUG, "screen_width=%u", ctx.fbink_state.screen_height);
 	print_status(&ctx);
 
 	// Setup the center icon display
