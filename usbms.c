@@ -1037,34 +1037,9 @@ int
 
 	// Display a minimal status bar on screen
 	tzset();
-	ctx.fbink_cfg.row       = -3;
-	ctx.ot_cfg.margins.top  = (short int) -(ctx.fbink_state.font_h * 3U);
-	ctx.ot_cfg.padding      = HORI_PADDING;
-	// Compute a best-fit (barring has_aux_battery) for our status line...
-	FBInkOTFit fit          = { 0 };
-	size_t     fit_pass     = 0U;
-	ctx.ot_cfg.compute_only = true;
-	while (fit_pass < 50U && fit.computed_lines < 2) {
-		fit_pass++;
-		fbink_print_ot(
-		    ctx.fbfd, "\ufba3 • \uf017 00:00 • \uf578 (100%) • \ufaa9", &ctx.ot_cfg, &ctx.fbink_cfg, &fit);
-		LOG(LOG_DEBUG, "fit_pass=%zu", fit_pass);
-		LOG(LOG_DEBUG, "size_px=%hu", ctx.ot_cfg.size_px);
-		LOG(LOG_DEBUG, "bbox.width=%hu", fit.bbox.width);
-		LOG(LOG_DEBUG, "bbox.height=%hu", fit.bbox.height);
-		LOG(LOG_DEBUG, "screen_width=%u", ctx.fbink_state.screen_height);
-		LOG(LOG_DEBUG, "computed_lines=%hu", fit.computed_lines);
-
-		// If that didn't fit, rewind
-		// NOTE: We're most likely to run our of *vertical* space than *horizontal*
-		//       (which is fine by me, tht leaves us some margins, and prevents the font from getting gigantic).
-		if (fit.truncated) {
-			ctx.ot_cfg.size_px -= 1;
-			break;
-		}
-		ctx.ot_cfg.size_px += 1U;
-	}
-	ctx.ot_cfg.compute_only = false;
+	ctx.fbink_cfg.row      = -3;
+	ctx.ot_cfg.margins.top = (short int) -(ctx.fbink_state.font_h * 3U);
+	ctx.ot_cfg.padding     = HORI_PADDING;
 	print_status(&ctx);
 
 	// Setup the center icon display
@@ -1161,12 +1136,12 @@ int
 				    &ctx);
 
 				// And now, switch to a smaller font size when consuming the script's output…
-				ctx.msg_cfg.padding        = HORI_PADDING;
-				unsigned short int size_px = ctx.msg_cfg.size_px;
-				ctx.msg_cfg.size_px        = ctx.fbink_state.font_h;
-				ctx.msg_cfg.margins.top    = (short int) rc;
+				ctx.msg_cfg.padding              = HORI_PADDING;
+				const unsigned short int size_px = ctx.msg_cfg.size_px;
+				ctx.msg_cfg.size_px              = ctx.fbink_state.font_h;
+				ctx.msg_cfg.margins.top          = (short int) rc;
 				// Drop the bottom margin to allow stomping over the status bar…
-				ctx.msg_cfg.margins.bottom = 0;
+				ctx.msg_cfg.margins.bottom       = 0;
 
 				LOG(LOG_WARNING, "Listing all offending processes…");
 				snprintf(resource_path,
