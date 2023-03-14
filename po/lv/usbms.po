@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-06 21:19+0100\n"
-"PO-Revision-Date: 2023-03-13 15:37+0000\n"
+"PO-Revision-Date: 2023-03-15 22:41+0000\n"
 "Last-Translator: Einars Sprugis <einars8@gmail.com>\n"
 "Language-Team: Latvian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/lv/>\n"
@@ -72,8 +72,6 @@ msgstr "Spiediet ieslēgšanas pogu lai izietu."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1239 usbms.c:1342
-#, fuzzy
-#| msgid " The device will shutdown in 30 sec."
 msgid " The device will shut down in 30 sec."
 msgstr " Ierīce tiks izslēgta pēc 30 sekundēm."
 
