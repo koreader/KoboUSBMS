@@ -1,0 +1,174 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-01-06 21:19+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: usbms.c:1022
+msgid "USB Mass Storage"
+msgstr ""
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:1073
+msgid ""
+" Please disable USBNet manually!\n"
+"Press the power button to exit."
+msgstr ""
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:1085
+msgid ""
+" Please disable USBSerial manually!\n"
+"Press the power button to exit."
+msgstr ""
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:1100
+msgid ""
+" Please take the device out of the PowerCover!\n"
+"Press the power button to exit."
+msgstr ""
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:1135
+msgid " Filesystem is busy! Offending processes:"
+msgstr ""
+
+#. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
+#: usbms.c:1169
+msgid " The fuser script failed!"
+msgstr ""
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:1179
+msgid " Could not run the fuser script!"
+msgstr ""
+
+#: usbms.c:1185
+msgid "Press the power button to exit."
+msgstr ""
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:1239 usbms.c:1342
+msgid " The device will shut down in 30 sec."
+msgstr ""
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:1244 usbms.c:1347
+msgid " KOReader will now restart…"
+msgstr ""
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:1275
+msgid ""
+" Gave up after 30 sec.\n"
+"The device will shut down in 30 sec."
+msgstr ""
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:1280
+msgid ""
+" Gave up after 30 sec.\n"
+"KOReader will now restart…"
+msgstr ""
+
+#: usbms.c:1301
+msgid ""
+"Waiting to be plugged in…\n"
+"Or, press the power button to exit."
+msgstr ""
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:1370
+msgid ""
+" The device was plugged into a plain power source, not a USB host!\n"
+"The device will shut down in 30 sec."
+msgstr ""
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:1375
+msgid ""
+" The device was plugged into a plain power source, not a USB host!\n"
+"KOReader will now restart…"
+msgstr ""
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:1417
+msgid ""
+" Gave up after 90 sec.\n"
+"The device will shut down in 30 sec."
+msgstr ""
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:1422
+msgid ""
+" Gave up after 90 sec.\n"
+"KOReader will now restart…"
+msgstr ""
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:1542
+msgid ""
+" The device is plugged into a plain power source, not a USB host!\n"
+"The device will shut down in 30 sec."
+msgstr ""
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:1547
+msgid ""
+" The device is plugged into a plain power source, not a USB host!\n"
+"KOReader will now restart…"
+msgstr ""
+
+#: usbms.c:1570
+msgid "Starting USBMS session…"
+msgstr ""
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:1602
+msgid ""
+" Could not start the USBMS session!\n"
+"The device will shut down in 90 sec."
+msgstr ""
+
+#: usbms.c:1620
+msgid ""
+"USBMS session in progress.\n"
+"Please eject your device safely before unplugging it."
+msgstr ""
+
+#. @translators: First unicode codepoint is an icon, leave it as-is.
+#: usbms.c:1724
+msgid ""
+" Could not detect an unplug event!\n"
+"The device will shut down in 90 sec."
+msgstr ""
+
+#: usbms.c:1734
+msgid "Ending USBMS session…"
+msgstr ""
+
+#. @translators: First Unicode codepoint is an icon, leave it as-is.
+#: usbms.c:1759
+msgid ""
+" Could not end the USBMS session!\n"
+"The device will shut down in 90 sec."
+msgstr ""
+
+#: usbms.c:1899
+msgid ""
+"Done!\n"
+"KOReader will now restart…"
+msgstr ""
