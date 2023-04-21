@@ -104,6 +104,7 @@
 #define KOBO_USB_DEVPATH_FSL  "/devices/platform/fsl-usb2-udc"                  // OK
 #define KOBO_USB_MODALIAS_CI  "platform:ci_hdrc"                                // OK
 #define KOBO_USB_DEVPATH_UDC  "/devices/platform/soc/5100000.udc-controller"    // OK
+// TBD on MTK, 11211000.usb
 
 // Those had been set in stone so far...
 #define NXP_NTX_KEYS_EVDEV              "/dev/input/event0"
@@ -124,16 +125,19 @@
 const char* NTX_KEYS_EVDEV = NULL;
 #define NXP_BATT_CAP_SYSFS    "/sys/class/power_supply/mc13892_bat/capacity"
 #define SUNXI_BATT_CAP_SYSFS  "/sys/class/power_supply/battery/capacity"
+#define MTK_BATT_CAP_SYSFS    "/sys/class/power_supply/bd71827_bat/capacity"
 #define CILIX_CONNECTED_SYSFS "/sys/class/misc/cilix/cilix_conn"
 #define CILIX_BATT_CAP_SYSFS  "/sys/class/misc/cilix/cilix_bat_capacity"
 const char* BATT_CAP_SYSFS = NULL;
 // NOTE: On sunxi, the CM_USB_Plug_IN ioctl is currently broken (it's poking at "mc13892_bat" instead of "battery"),
 //       so, rely on sysfs ourselves instead...
 #define SUNXI_BATT_STATUS_SYSFS "/sys/class/power_supply/battery/status"
+#define MTK_BATT_STATUS_SYSFS   "/sys/class/power_supply/bd71827_bat/status"
 bool (*fxpIsUSBPlugged)(int, bool) = NULL;
 // These, on the other hand, are only available on Mk. 7+
 #define NXP_CHARGER_TYPE_SYSFS   "/sys/class/power_supply/mc13892_charger/device/charger_type"
 #define SUNXI_CHARGER_TYPE_SYSFS "/sys/class/power_supply/charger/device/charger_type"
+// TBD on MTK!
 // For ref., on mainline w/ @akemnade's driver: /sys/class/power_supply/rn5t618-usb/usb_type
 const char* CHARGER_TYPE_SYSFS = NULL;
 #define FL_INTENSITY_SYSFS "/sys/class/backlight/mxc_msp430.0/actual_brightness"
