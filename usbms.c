@@ -128,6 +128,9 @@ static void
 		case DEVICE_KOBO_CLARA_2E:    // Clara 2E (goldfinch)
 			pid = 0x4235;
 			break;
+		case DEVICE_KOBO_ELIPSA_2E:    // Elipsa 2E (condor)
+			pid = 0x4236;
+			break;
 		case 0U:
 			pid = 0x4163;
 			break;
