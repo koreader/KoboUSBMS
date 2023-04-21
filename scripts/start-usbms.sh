@@ -36,6 +36,7 @@ fi
 
 # NOTE: The stock script is a bit wonky: when exporting, it does an ugly dynamic detection of vfat partitions, but it's hard-coded when remounting...
 #       Follow Plato's lead, and hard-code in both cases.
+# NOTE: This won't apply to devices on an MTK SoC.
 DISK="/dev/mmcblk"
 PARTITIONS="${DISK}0p3"
 
@@ -71,33 +72,67 @@ checked_insmod() {
 	fi
 }
 
-# NOTE: Disabling stalling appears to be necessary to avoid compatibility issues (usually on Windows)...
-#       But even on Linux, things were sometimes a bit wonky if left enabled on devices with a sunxi SoC...
-if [ -e "${MODULES_PATH}/g_mass_storage.ko" ] ; then
-	PARAMS="idVendor=${USB_VENDOR_ID} idProduct=${USB_PRODUCT_ID} iManufacturer=Kobo iProduct=eReader-${FW_VERSION} iSerialNumber=${SERIAL_NUMBER}"
-	# shellcheck disable=SC2086
-	insmod "${MODULES_PATH}/g_mass_storage.ko" file="${PARTITIONS}" stall=0 removable=1 ${PARAMS}
-else
-	if [ "${PLATFORM}" = "mx6sll-ntx" ] || [ "${PLATFORM}" = "mx6ull-ntx" ] ; then
+# NXP & Sunxi SoCs
+legacy_usb() {
+	# NOTE: Disabling stalling appears to be necessary to avoid compatibility issues (usually on Windows)...
+	#       But even on Linux, things were sometimes a bit wonky if left enabled on devices with a sunxi SoC...
+	if [ -e "${MODULES_PATH}/g_mass_storage.ko" ] ; then
 		PARAMS="idVendor=${USB_VENDOR_ID} idProduct=${USB_PRODUCT_ID} iManufacturer=Kobo iProduct=eReader-${FW_VERSION} iSerialNumber=${SERIAL_NUMBER}"
-
-		# NOTE: FW 4.31.19086 made these builtins (at least on *some* devices), hence the defensive approach...
-		checked_insmod "${GADGETS_PATH}/configfs.ko"
-		checked_insmod "${GADGETS_PATH}/libcomposite.ko"
-		checked_insmod "${GADGETS_PATH}/usb_f_mass_storage.ko"
+		# shellcheck disable=SC2086
+		insmod "${MODULES_PATH}/g_mass_storage.ko" file="${PARTITIONS}" stall=0 removable=1 ${PARAMS}
 	else
-		PARAMS="vendor=${USB_VENDOR_ID} product=${USB_PRODUCT_ID} vendor_id=Kobo product_id=eReader-${FW_VERSION} SN=${SERIAL_NUMBER}"
+		if [ "${PLATFORM}" = "mx6sll-ntx" ] || [ "${PLATFORM}" = "mx6ull-ntx" ] ; then
+			PARAMS="idVendor=${USB_VENDOR_ID} idProduct=${USB_PRODUCT_ID} iManufacturer=Kobo iProduct=eReader-${FW_VERSION} iSerialNumber=${SERIAL_NUMBER}"
 
-		# NOTE: arcotg_udc is builtin on Mk. 6, but old FW may have been shipping a broken module!
-		if [ "${PLATFORM}" != "mx6sl-ntx" ] ; then
-			checked_insmod "${GADGETS_PATH}/arcotg_udc.ko"
-			sleep 2
+			# NOTE: FW 4.31.19086 made these builtins (at least on *some* devices), hence the defensive approach...
+			checked_insmod "${GADGETS_PATH}/configfs.ko"
+			checked_insmod "${GADGETS_PATH}/libcomposite.ko"
+			checked_insmod "${GADGETS_PATH}/usb_f_mass_storage.ko"
+		else
+			PARAMS="vendor=${USB_VENDOR_ID} product=${USB_PRODUCT_ID} vendor_id=Kobo product_id=eReader-${FW_VERSION} SN=${SERIAL_NUMBER}"
+
+			# NOTE: arcotg_udc is builtin on Mk. 6, but old FW may have been shipping a broken module!
+			if [ "${PLATFORM}" != "mx6sl-ntx" ] ; then
+				checked_insmod "${GADGETS_PATH}/arcotg_udc.ko"
+				sleep 2
+			fi
 		fi
+
+		# shellcheck disable=SC2086
+		insmod "${GADGETS_PATH}/g_file_storage.ko" file="${PARTITIONS}" stall=0 removable=1 ${PARAMS}
 	fi
 
-	# shellcheck disable=SC2086
-	insmod "${GADGETS_PATH}/g_file_storage.ko" file="${PARTITIONS}" stall=0 removable=1 ${PARAMS}
-fi
+	# Let's keep the mysterious NTX sleep... Given our experience with Wi-Fi modules, it's probably there for a reason ;p.
+	sleep 1
+}
 
-# Let's keep the mysterious NTX sleep... Given our experience with Wi-Fi modules, it's probably there for a reason ;p.
-sleep 1
+# MTK SoCs, via configfs
+mtk_usb() {
+	# Common
+	mkdir -p /sys/kernel/config/usb_gadget/g1
+	mkdir -p /sys/kernel/config/usb_gadget/g1/strings/0x409
+	PARTITION="/dev/${DISK}0p12"
+
+	# Add
+	echo "${USB_VENDOR_ID}"      > /sys/kernel/config/usb_gadget/g1/idVendor
+	echo "${USB_PRODUCT_ID}"     > /sys/kernel/config/usb_gadget/g1/idProduct
+	echo "${SERIAL_NUMBER}"      > /sys/kernel/config/usb_gadget/g1/strings/0x409/serialnumber
+	echo "Kobo"                  > /sys/kernel/config/usb_gadget/g1/strings/0x409/manufacturer
+	echo "eReader-${FW_VERSION}" > /sys/kernel/config/usb_gadget/g1/strings/0x409/product
+	mkdir -p /sys/kernel/config/usb_gadget/g1/configs/c.1/strings/0x409
+	echo "KOBOeReader"           > /sys/kernel/config/usb_gadget/g1/configs/c.1/strings/0x409/configuration
+
+	mkdir -p /sys/kernel/config/usb_gadget/g1/functions/mass_storage.0/lun.0
+	echo "${PARTITION}" > /sys/kernel/config/usb_gadget/g1/functions/mass_storage.0/lun.0/file
+	ln -s /sys/kernel/config/usb_gadget/g1/functions/mass_storage.0 /sys/kernel/config/usb_gadget/g1/configs/c.1
+	echo "11211000.usb" > /sys/kernel/config/usb_gadget/g1/UDC
+}
+
+case "${PLATFORM}" in
+	"mt8113t-ntx" )
+		mtk_usb
+	;;
+	* )
+		legacy_usb
+	;;
+esac

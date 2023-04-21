@@ -26,30 +26,55 @@ checked_rmmod() {
 	fi
 }
 
-MODULES_PATH="/drivers/${PLATFORM}"
-if [ -e "${MODULES_PATH}/g_mass_storage.ko" ] ; then
-	rmmod "g_mass_storage"
-else
-	rmmod "g_file_storage"
+DISK="/dev/mmcblk"
 
-	if [ "${PLATFORM}" = "mx6sll-ntx" ] || [ "${PLATFORM}" = "mx6ull-ntx" ] ; then
-		# Since FW 4.31.19086, these may be builtins...
-		checked_rmmod "usb_f_mass_storage"
-		checked_rmmod "libcomposite"
-		checked_rmmod "configfs"
+# NXP & Sunxi SoCs
+legacy_usb() {
+	MODULES_PATH="/drivers/${PLATFORM}"
+	if [ -e "${MODULES_PATH}/g_mass_storage.ko" ] ; then
+		rmmod "g_mass_storage"
 	else
-		# NOTE: See start-usbms.sh for why we have to double-check this one...
-		if [ "${PLATFORM}" != "mx6sl-ntx" ] ; then
-			checked_rmmod "arcotg_udc"
+		rmmod "g_file_storage"
+
+		if [ "${PLATFORM}" = "mx6sll-ntx" ] || [ "${PLATFORM}" = "mx6ull-ntx" ] ; then
+			# Since FW 4.31.19086, these may be builtins...
+			checked_rmmod "usb_f_mass_storage"
+			checked_rmmod "libcomposite"
+			checked_rmmod "configfs"
+		else
+			# NOTE: See start-usbms.sh for why we have to double-check this one...
+			if [ "${PLATFORM}" != "mx6sl-ntx" ] ; then
+				checked_rmmod "arcotg_udc"
+			fi
 		fi
 	fi
-fi
 
-# Let's keep the mysterious NTX sleep... Given our experience with Wi-Fi modules, it's probably there for a reason ;p.
-sleep 1
+	# Let's keep the mysterious NTX sleep... Given our experience with Wi-Fi modules, it's probably there for a reason ;p.
+	sleep 1
 
-DISK="/dev/mmcblk"
-PARTITION="${DISK}0p3"
+	PARTITION="${DISK}0p3"
+}
+
+# MTK SoCs, via configfs
+mtk_usb() {
+	# Common
+	mkdir -p /sys/kernel/config/usb_gadget/g1
+	mkdir -p /sys/kernel/config/usb_gadget/g1/strings/0x409
+	PARTITION="/dev/${DISK}0p12"
+
+	# Remove
+	echo "" > /sys/kernel/config/usb_gadget/g1/UDC
+}
+
+case "${PLATFORM}" in
+	"mt8113t-ntx" )
+		mtk_usb
+	;;
+	* )
+		legacy_usb
+	;;
+esac
+
 MOUNT_ARGS="noatime,nodiratime,shortname=mixed,utf8"
 
 # NOTE: Be a tad less heavy-handed than the stock script with the amount of fscks, but do abort if it's not recoverable...
