@@ -229,4 +229,7 @@ distclean: clean libevdevclean fbinkclean
 	rm -rf libevdev.built
 	rm -rf fbink.built
 
-.PHONY: default outdir all vendored usbms strip armcheck kobo pot debug clean release fbinkclean libevdevclean distclean
+format:
+	clang-format -style=file -i *.c *.h libue/*.h
+
+.PHONY: default outdir all vendored usbms strip armcheck kobo pot debug clean release fbinkclean libevdevclean distclean format
