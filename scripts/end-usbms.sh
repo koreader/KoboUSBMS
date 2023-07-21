@@ -14,14 +14,14 @@ fi
 SCRIPT_NAME="$(basename "${0}")"
 
 # If we're NOT in the middle of an USBMS session, something went wrong...
-if ! grep -q -e "^g_file_storage" -e "^g_mass_storage" "/proc/modules" ; then
+if ! grep -q -e "^g_file_storage " -e "^g_mass_storage " "/proc/modules" ; then
 	logger -p "DAEMON.ERR" -t "${SCRIPT_NAME}[$$]" "Not in an USBMS session?!"
 	exit 1
 fi
 
 # On some devices/FW versions, some of the modules are builtins, so we can't just fire'n forget...
 checked_rmmod() {
-	if grep -q "^${1}" "/proc/modules" ; then
+	if grep -q "^${1} " "/proc/modules" ; then
 		rmmod "${1}"
 	fi
 }

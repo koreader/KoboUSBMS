@@ -1068,7 +1068,7 @@ int
 	bool early_unmount    = false;
 	// If we're in USBNet mode, abort!
 	// (tearing it down properly is out of our scope, since we can't really know how the user enabled it in the first place).
-	if (is_module_loaded("g_ether")) {
+	if (is_module_loaded("g_ether ")) {
 		LOG(LOG_ERR, "Device is in USBNet mode, aborting");
 		need_early_abort = true;
 
@@ -1079,7 +1079,7 @@ int
 	}
 
 	// Same deal for USBSerial…
-	if (is_module_loaded("g_serial")) {
+	if (is_module_loaded("g_serial ")) {
 		LOG(LOG_ERR, "Device is in USBSerial mode, aborting");
 		need_early_abort = true;
 
