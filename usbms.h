@@ -135,6 +135,7 @@ const char* BATT_CAP_SYSFS = NULL;
 //       so, rely on sysfs ourselves instead...
 #define SUNXI_BATT_STATUS_SYSFS "/sys/class/power_supply/battery/status"
 #define MTK_BATT_STATUS_SYSFS   "/sys/class/power_supply/bd71827_bat/status"
+const char* BATT_STATUS_SYSFS      = NULL;
 bool (*fxpIsUSBPlugged)(int, bool) = NULL;
 // These, on the other hand, are only available on Mk. 7+
 #define NXP_CHARGER_TYPE_SYSFS   "/sys/class/power_supply/mc13892_charger/device/charger_type"

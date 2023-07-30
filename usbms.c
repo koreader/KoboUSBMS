@@ -163,7 +163,7 @@ static bool
 {
 	bool is_plugged = false;
 
-	FILE* f = fopen(SUNXI_BATT_STATUS_SYSFS, "re");
+	FILE* f = fopen(BATT_STATUS_SYSFS, "re");
 	if (f) {
 		char   status[16] = { 0 };
 		size_t size       = fread(status, sizeof(*status), sizeof(status) - 1U, f);
@@ -865,7 +865,8 @@ int
 		CHARGER_TYPE_SYSFS = MTK_CHARGER_TYPE_SYSFS;
 
 		// The CM_USB_Plug_IN ioctl still doesn't look at the right power supplies...
-		fxpIsUSBPlugged = &sysfs_is_usb_plugged;
+		BATT_STATUS_SYSFS = MTK_BATT_STATUS_SYSFS;
+		fxpIsUSBPlugged   = &sysfs_is_usb_plugged;
 	} else if (ctx.fbink_state.is_sunxi) {
 		// The Sage has a new hardware revision w/ a BD71828 PMIC (as opposed to its original RC5T619)
 		// c.f., https://github.com/koreader/koreader/pull/9896?#issuecomment-1345477814
@@ -878,7 +879,8 @@ int
 		CHARGER_TYPE_SYSFS = SUNXI_CHARGER_TYPE_SYSFS;
 
 		// The CM_USB_Plug_IN ioctl is currently unreliable…
-		fxpIsUSBPlugged = &sysfs_is_usb_plugged;
+		BATT_STATUS_SYSFS = SUNXI_BATT_STATUS_SYSFS;
+		fxpIsUSBPlugged   = &sysfs_is_usb_plugged;
 
 		// Enforce REAGL, since AUTO is not recommended on sunxi
 		ctx.fbink_cfg.wfm_mode = WFM_REAGL;
@@ -903,7 +905,8 @@ int
 			BATT_CAP_SYSFS = SUNXI_BATT_CAP_SYSFS;
 
 			// NOTE: I'm going to assume this means the ioctl is similarly broken...
-			fxpIsUSBPlugged = &sysfs_is_usb_plugged;
+			BATT_STATUS_SYSFS = SUNXI_BATT_STATUS_SYSFS;
+			fxpIsUSBPlugged   = &sysfs_is_usb_plugged;
 		} else {
 			BATT_CAP_SYSFS  = NXP_BATT_CAP_SYSFS;
 			fxpIsUSBPlugged = &ioctl_is_usb_plugged;
