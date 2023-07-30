@@ -857,7 +857,16 @@ int
 	setup_usb_ids(ctx.fbink_state.device_id);
 
 	// And setup the sysfs paths & usb check based on the device…
-	if (ctx.fbink_state.is_sunxi) {
+	if (ctx.fbink_state.is_mtk) {
+		// We've only got a single device so far ;o)
+		NTX_KEYS_EVDEV     = BD71828_MTK_POWERBUTTON_EVDEV;
+		BATT_CAP_SYSFS     = MTK_BATT_CAP_SYSFS;
+		// FIXME: Double-check that one
+		CHARGER_TYPE_SYSFS = MTK_CHARGER_TYPE_SYSFS;
+
+		// The CM_USB_Plug_IN ioctl still doesn't look at the right power supplies...
+		fxpIsUSBPlugged = &sysfs_is_usb_plugged;
+	} else if (ctx.fbink_state.is_sunxi) {
 		// The Sage has a new hardware revision w/ a BD71828 PMIC (as opposed to its original RC5T619)
 		// c.f., https://github.com/koreader/koreader/pull/9896?#issuecomment-1345477814
 		if (access(BD71828_SUNXI_POWERBUTTON_EVDEV, F_OK) == 0) {
@@ -1510,6 +1519,7 @@ int
 				//       (c.f.,charger_type_read @ drivers/power/supply/ricoh619-battery.c).
 				LOG(LOG_WARNING, "SDP OVRLIM (Standard Downstream Port, > 500mA) charger detected");
 			} else if (strncmp(charger_type, "NO", 2U) == 0U) {
+				// NOTE: Is actually "NONE" on bd71827, where it possibly means unplugged?
 				// NOTE: Despite being in a usb_plugged branch,
 				//       this *may* happen if the device is fully charged.
 				//       In which case,
@@ -1520,8 +1530,7 @@ int
 				//       the charger type keeps saying DCP :).
 				LOG(LOG_INFO, "No charger detected! Fully charged?");
 			} else if (strncmp(charger_type, "DISABLE", 7U) == 0U) {
-				// NOTE: We might want to let this one through,
-				//       especially once https://github.com/koreader/koreader/pull/8934 lands...
+				// NOTE: We might want to let this one through?
 				LOG(LOG_WARNING, "Charger is disabled!");
 				need_early_abort = true;
 			} else {
