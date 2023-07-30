@@ -206,27 +206,27 @@ static const char*
     get_battery_icon(uint8_t charge)
 {
 	if (charge >= 100) {
-		return "\uf578";
+		return "\U000f0079";
 	} else if (charge >= 90) {
-		return "\uf581";
+		return "\U000f0082";
 	} else if (charge >= 80) {
-		return "\uf580";
+		return "\U000f0081";
 	} else if (charge >= 70) {
-		return "\uf57f";
+		return "\U000f0080";
 	} else if (charge >= 60) {
-		return "\uf57e";
+		return "\U000f007f";
 	} else if (charge >= 50) {
-		return "\uf57d";
+		return "\U000f007e";
 	} else if (charge >= 40) {
-		return "\uf57c";
+		return "\U000f007d";
 	} else if (charge >= 30) {
-		return "\uf57b";
+		return "\U000f007c";
 	} else if (charge >= 20) {
-		return "\uf57a";
+		return "\U000f007b";
 	} else if (charge >= 10) {
-		return "\uf579";
+		return "\U000f007a";
 	} else {
-		return "\uf582";
+		return "\U000f0083";
 	}
 }
 
@@ -624,23 +624,23 @@ static void
 			     &ctx->ot_cfg,
 			     &ctx->fbink_cfg,
 			     "%s • \uf017 %s • %s (%hhu%%) + %s (%hhu%%) • %s",
-			     usb_plugged ? "\ufba3" : "\ufba4",
+			     usb_plugged ? "\U000f06a5" : "\U000f06a6",
 			     sz_time,
 			     get_battery_icon(batt_perc),
 			     batt_perc,
 			     get_battery_icon(aux_batt_perc),
 			     aux_batt_perc,
-			     wifi_up ? "\ufaa8" : "\ufaa9");
+			     wifi_up ? "\U000f05a9" : "\U000f05aa");
 	} else {
 		fbink_printf(ctx->fbfd,
 			     &ctx->ot_cfg,
 			     &ctx->fbink_cfg,
 			     "%s • \uf017 %s • %s (%hhu%%) • %s",
-			     usb_plugged ? "\ufba3" : "\ufba4",
+			     usb_plugged ? "\U000f06a5" : "\U000f06a6",
 			     sz_time,
 			     get_battery_icon(batt_perc),
 			     batt_perc,
-			     wifi_up ? "\ufaa8" : "\ufaa9");
+			     wifi_up ? "\U000f05a9" : "\U000f05aa");
 	}
 }
 
@@ -1064,7 +1064,7 @@ int
 
 	// The various lsmod checks will take a while, so, start with the initial cable status…
 	bool usb_plugged = (*fxpIsUSBPlugged)(ctx.ntxfd, true);
-	print_icon(usb_plugged ? "\uf700" : "\uf701", &ctx);
+	print_icon(usb_plugged ? "\U000f0201" : "\U000f0202", &ctx);
 
 	// Setup the message area
 	ctx.msg_cfg.size_px        = (unsigned short int) (ctx.fbink_state.font_h * 2U);
@@ -1084,7 +1084,7 @@ int
 		LOG(LOG_ERR, "Device is in USBNet mode, aborting");
 		need_early_abort = true;
 
-		print_icon("\uf6ff", &ctx);
+		print_icon("\U000f0200", &ctx);
 		print_msg(    // @translators: First unicode codepoint is an icon, leave it as-is.
 		    _("\uf071 Please disable USBNet manually!\nPress the power button to exit."),
 		    &ctx);
@@ -1142,7 +1142,7 @@ int
 				    mount_points[i].name);
 			} else if (errno == EBUSY) {
 				LOG(LOG_WARNING, "%s storage partition is busy, can't export it!", mount_points[i].name);
-				print_icon(mount_points[i].id == PARTITION_INTERNAL ? "\uf7c9" : "\ufcda", &ctx);
+				print_icon(mount_points[i].id == PARTITION_INTERNAL ? "\U000f02ca" : "\U000f07dc", &ctx);
 
 				// Start a little bit higher than usual to leave us some room…
 				ctx.fbink_cfg.row       = -16;
@@ -1457,7 +1457,7 @@ int
 		}
 
 		// We've supposedly been plugged to a USB host...
-		print_icon("\ufa1e", &ctx);
+		print_icon("\U000f051f", &ctx);
 		// Let things settle for a while, and actually double-check that...
 		// NOTE: We're being way more defensive than UIManager:_beforeCharging here,
 		//       because we have less granularity and precision than drivers/input/misc/usb_plug.c...
@@ -1474,7 +1474,7 @@ int
 		} else {
 			LOG(LOG_WARNING, "Device appears to still be unplugged despite the plug event!");
 		}
-		print_icon(usb_plugged ? "\uf700" : "\uf701", &ctx);
+		print_icon(usb_plugged ? "\U000f0201" : "\U000f0202", &ctx);
 	}
 
 	// NOTE: usb_plugged will be true if usbms was started while *already* plugged in,
@@ -1747,7 +1747,7 @@ int
 
 	// And now remount all the things!
 	LOG(LOG_INFO, "Ending USBMS session…");
-	print_icon("\ufa52", &ctx);
+	print_icon("\U000f0553", &ctx);
 	print_msg(_("Ending USBMS session…"), &ctx);
 
 	// Nearly there…
