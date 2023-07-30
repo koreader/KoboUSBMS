@@ -1011,7 +1011,7 @@ int
 	fbink_cls(ctx.fbfd, &ctx.fbink_cfg, NULL, false);
 	ctx.ot_cfg.margins.top = (short int) ctx.fbink_state.font_h;
 	ctx.ot_cfg.size_px     = (unsigned short int) (ctx.fbink_state.font_h * 2U);
-	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/CaskaydiaCove_NF.otf", abs_pwd);
+	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/resources/fonts/CaskaydiaCove_NF.ttf", abs_pwd);
 	if (fbink_add_ot_font_v2(resource_path, FNT_REGULAR, &ctx.icon_cfg) != EXIT_SUCCESS) {
 		PFLOG(LOG_CRIT, "Could not load main font!");
 		rv = USBMS_EARLY_EXIT;
