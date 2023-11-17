@@ -107,24 +107,29 @@ legacy_usb() {
 }
 
 # MTK SoCs, via configfs
+# c.f., https://elinux.org/images/e/ef/USB_Gadget_Configfs_API_0.pdf
 mtk_usb() {
-	# Common
+	# Common (create a gadget template named g1, and allow us to setup the required English strings)
 	mkdir -p /sys/kernel/config/usb_gadget/g1
 	mkdir -p /sys/kernel/config/usb_gadget/g1/strings/0x409
 	PARTITION="/dev/${DISK}0p12"
 
-	# Add
+	# Fill out vID/pID & said English strings
 	echo "${USB_VENDOR_ID}"      > /sys/kernel/config/usb_gadget/g1/idVendor
 	echo "${USB_PRODUCT_ID}"     > /sys/kernel/config/usb_gadget/g1/idProduct
 	echo "${SERIAL_NUMBER}"      > /sys/kernel/config/usb_gadget/g1/strings/0x409/serialnumber
 	echo "Kobo"                  > /sys/kernel/config/usb_gadget/g1/strings/0x409/manufacturer
 	echo "eReader-${FW_VERSION}" > /sys/kernel/config/usb_gadget/g1/strings/0x409/product
+	# Setup a configuration instance & its description
 	mkdir -p /sys/kernel/config/usb_gadget/g1/configs/c.1/strings/0x409
 	echo "KOBOeReader"           > /sys/kernel/config/usb_gadget/g1/configs/c.1/strings/0x409/configuration
 
+	# Setup a mass storage function instance
 	mkdir -p /sys/kernel/config/usb_gadget/g1/functions/mass_storage.0/lun.0
 	echo "${PARTITION}" > /sys/kernel/config/usb_gadget/g1/functions/mass_storage.0/lun.0/file
+	# Bind function to config
 	ln -s /sys/kernel/config/usb_gadget/g1/functions/mass_storage.0 /sys/kernel/config/usb_gadget/g1/configs/c.1
+	# Attach our new gadget device to the right USB Device Controller (c.f., /sys/class/udc)
 	echo "11211000.usb" > /sys/kernel/config/usb_gadget/g1/UDC
 }
 
