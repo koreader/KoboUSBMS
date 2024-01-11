@@ -1488,7 +1488,7 @@ int
 	//       So, do what we can here, otherwise, the state may need to be tracked by the frontend,
 	//       assuming it *also* got a chance to catch the event: i.e., it started *before* the plug in…
 	// NOTE: Regardless, we want to double-check the charger type in *every* scenario...
-	// NOTE: Unfortunately, the only platform where we can do that appears to be Mk. 7…
+	// NOTE: Unfortunately, the only platforms where we can do that appears to be Mk. 7+…
 	if (access(CHARGER_TYPE_SYSFS, F_OK) == 0) {
 		LOG(LOG_INFO, "Checking charger type");
 		FILE* f = fopen(CHARGER_TYPE_SYSFS, "re");
@@ -1521,7 +1521,7 @@ int
 				// NOTE: While it is supported in ricoh619_charger_detect,
 				//       this will currently never make it to the sysfs attribute file,
 				//       as it's currently commented out
-				//       (c.f.,charger_type_read @ drivers/power/supply/ricoh619-battery.c).
+				//       (c.f., charger_type_read @ drivers/power/supply/ricoh619-battery.c).
 				LOG(LOG_WARNING, "SDP OVRLIM (Standard Downstream Port, > 500mA) charger detected");
 			} else if (strncmp(charger_type, "NO", 2U) == 0U) {
 				// NOTE: Is actually "NONE" on bd71827, where it possibly means unplugged?
@@ -1539,7 +1539,7 @@ int
 				LOG(LOG_WARNING, "Charger is disabled!");
 				need_early_abort = true;
 			} else {
-				LOG(LOG_ERR, "Unknown charger type!");
+				LOG(LOG_ERR, "Unknown charger type (`%.*s`)!", 15, charger_type);
 				need_early_abort = true;
 			}
 
