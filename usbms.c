@@ -1539,7 +1539,10 @@ int
 				LOG(LOG_WARNING, "Charger is disabled!");
 				need_early_abort = true;
 			} else {
-				LOG(LOG_ERR, "Unknown charger type (`%.*s`)!", 15, charger_type);
+				LOG(LOG_ERR,
+				    "Unknown charger type (`%.*s`)!",
+				    (int) (sizeof(charger_type) - 1U),
+				    charger_type);
 				need_early_abort = true;
 			}
 
