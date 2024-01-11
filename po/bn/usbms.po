@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-11 23:52+0100\n"
+"POT-Creation-Date: 2024-01-11 23:57+0100\n"
 "PO-Revision-Date: 2022-03-18 13:47+0000\n"
 "Last-Translator: Utsob Roy <roy@utsob.me>\n"
 "Language-Team: Bengali <https://hosted.weblate.org/projects/koreader/"
@@ -160,7 +160,7 @@ msgstr ""
 "কেওরিডার এখন পুনরায় শুরু হবে…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1561
+#: usbms.c:1564
 #, fuzzy
 #| msgid ""
 #| " The device is plugged into a plain power source, not a USB host!\n"
@@ -173,7 +173,7 @@ msgstr ""
 "ডিভাইসটি ৩০ সেকেন্ডের মধ্যে বন্ধ হয়ে যাবে।"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1566
+#: usbms.c:1569
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
@@ -181,12 +181,12 @@ msgstr ""
 " ডিভাইসটি একটি সাধারণ পাওয়ার সোর্সে প্লাগ করা হয়েছে, কোনও ইউএসবি হোস্টে নয়!\n"
 "কেওরিডার এখন পুনরায় শুরু হবে…"
 
-#: usbms.c:1590
+#: usbms.c:1593
 msgid "Starting USBMS session…"
 msgstr "ইউএসবিএমএস সেশন শুরু হচ্ছে…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1622
+#: usbms.c:1625
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -198,7 +198,7 @@ msgstr ""
 " ইউএসবিএমএস সেশন শুরু করতে ব্যর্থ!\n"
 "ডিভাইসটি ৯০ সেকেন্ডে বন্ধ হয়ে যাবে।"
 
-#: usbms.c:1640
+#: usbms.c:1643
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
@@ -207,7 +207,7 @@ msgstr ""
 "আপনার ডিভাইসটি আনপ্লাগ করার আগে অনুগ্রহ করে নিরাপদে বের করুন।"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1744
+#: usbms.c:1747
 #, fuzzy
 #| msgid ""
 #| " Failed to detect an unplug event!\n"
@@ -219,12 +219,12 @@ msgstr ""
 " একটি আনপ্লাগ ঘটনা শনাক্ত করতে ব্যর্থ হয়েছে!\n"
 "ডিভাইসটি ৯০ সেকেন্ডে বন্ধ হয়ে যাবে।"
 
-#: usbms.c:1754
+#: usbms.c:1757
 msgid "Ending USBMS session…"
 msgstr "ইউএসবিএমএস সেশন শেষ হচ্ছে…"
 
 #. @translators: First Unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1779
+#: usbms.c:1782
 #, fuzzy
 #| msgid ""
 #| " Failed to end the USBMS session!\n"
@@ -236,7 +236,7 @@ msgstr ""
 " ইউএসবিএমএস সেশন শুরু করতে ব্যর্থ!\n"
 "ডিভাইসটি ৯০ সেকেন্ডে বন্ধ হয়ে যাবে।"
 
-#: usbms.c:1919
+#: usbms.c:1922
 msgid ""
 "Done!\n"
 "KOReader will now restart…"

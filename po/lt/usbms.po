@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-11 23:52+0100\n"
+"POT-Creation-Date: 2024-01-11 23:57+0100\n"
 "PO-Revision-Date: 2022-10-18 19:06+0000\n"
 "Last-Translator: Gediminas Murauskas <muziejusinfo@gmail.com>\n"
 "Language-Team: Lithuanian <https://hosted.weblate.org/projects/koreader/"
@@ -146,7 +146,7 @@ msgstr ""
 "KOReader bus paleistas iš naujo…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1561
+#: usbms.c:1564
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 30 sec."
@@ -156,7 +156,7 @@ msgstr ""
 "Įrenginys išsijungs po 30 sek."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1566
+#: usbms.c:1569
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
@@ -165,12 +165,12 @@ msgstr ""
 "šaltinio!\n"
 "KOReader dabar bus paleistas iš naujo…"
 
-#: usbms.c:1590
+#: usbms.c:1593
 msgid "Starting USBMS session…"
 msgstr "Pradedama USBMS sesija…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1622
+#: usbms.c:1625
 msgid ""
 " Could not start the USBMS session!\n"
 "The device will shut down in 90 sec."
@@ -178,7 +178,7 @@ msgstr ""
 " Nepavyko paleisti USBMS sesijos!\n"
 "Įrenginys išsijungs po 90 sek."
 
-#: usbms.c:1640
+#: usbms.c:1643
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
@@ -187,7 +187,7 @@ msgstr ""
 "Prieš atjungdami, pasirinkite saugų įrenginio atjungimą."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1744
+#: usbms.c:1747
 msgid ""
 " Could not detect an unplug event!\n"
 "The device will shut down in 90 sec."
@@ -195,12 +195,12 @@ msgstr ""
 " Nepavyko aptikti atjungimo įvykio!\n"
 "Įrenginys išsijungs po 90 sek."
 
-#: usbms.c:1754
+#: usbms.c:1757
 msgid "Ending USBMS session…"
 msgstr "Baigiama USBMS sesija…"
 
 #. @translators: First Unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1779
+#: usbms.c:1782
 msgid ""
 " Could not end the USBMS session!\n"
 "The device will shut down in 90 sec."
@@ -208,7 +208,7 @@ msgstr ""
 " Nepavyko užbaigti USBMS sesijos!\n"
 "Įrenginys išsijungs po 90 sek."
 
-#: usbms.c:1919
+#: usbms.c:1922
 msgid ""
 "Done!\n"
 "KOReader will now restart…"

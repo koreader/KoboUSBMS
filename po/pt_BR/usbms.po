@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-11 23:52+0100\n"
+"POT-Creation-Date: 2024-01-11 23:57+0100\n"
 "PO-Revision-Date: 2022-09-29 04:16+0000\n"
 "Last-Translator: Denilson Sousa <deni.sousa09@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
@@ -144,7 +144,7 @@ msgstr ""
 "O KOReader vai reiniciar agora…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1561
+#: usbms.c:1564
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 30 sec."
@@ -154,7 +154,7 @@ msgstr ""
 "O dispositivo vai se desligar em 30 segundos."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1566
+#: usbms.c:1569
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
@@ -163,12 +163,12 @@ msgstr ""
 "host USB!\n"
 "O KOReader vai reiniciar agora…"
 
-#: usbms.c:1590
+#: usbms.c:1593
 msgid "Starting USBMS session…"
 msgstr "Iniciando a sessão USBMS…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1622
+#: usbms.c:1625
 msgid ""
 " Could not start the USBMS session!\n"
 "The device will shut down in 90 sec."
@@ -176,7 +176,7 @@ msgstr ""
 " Não foi possível iniciar a sessão USBMS!\n"
 "O dispositivo vai se desligar em 90 segundos."
 
-#: usbms.c:1640
+#: usbms.c:1643
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
@@ -185,7 +185,7 @@ msgstr ""
 "Por favor ejete seu dispositivo de modo seguro antes de desconectá-lo."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1744
+#: usbms.c:1747
 msgid ""
 " Could not detect an unplug event!\n"
 "The device will shut down in 90 sec."
@@ -193,12 +193,12 @@ msgstr ""
 " Não foi possível detectar um evento de desconexão!\n"
 "O dispositivo vai se desligar em 90 segundos."
 
-#: usbms.c:1754
+#: usbms.c:1757
 msgid "Ending USBMS session…"
 msgstr "Encerrando a sessão USBMS…"
 
 #. @translators: First Unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1779
+#: usbms.c:1782
 msgid ""
 " Could not end the USBMS session!\n"
 "The device will shut down in 90 sec."
@@ -206,7 +206,7 @@ msgstr ""
 " Não foi possível encerrar a sessão USBMS!\n"
 "O dispositivo vai se desligar em 90 segundos."
 
-#: usbms.c:1919
+#: usbms.c:1922
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
