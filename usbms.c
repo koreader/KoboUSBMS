@@ -914,6 +914,8 @@ int
 
 		if (access(SUNXI_CHARGER_TYPE_SYSFS, F_OK) == 0) {
 			CHARGER_TYPE_SYSFS = SUNXI_CHARGER_TYPE_SYSFS;
+		} else if (access(STD_CHARGER_TYPE_SYSFS, F_OK) == 0) {
+			CHARGER_TYPE_SYSFS = STD_CHARGER_TYPE_SYSFS;
 		} else {
 			CHARGER_TYPE_SYSFS = NXP_CHARGER_TYPE_SYSFS;
 		}
@@ -1578,7 +1580,8 @@ int
 			LOG(LOG_WARNING, "Could not open the sysfs entry for charger type (%m)!");
 		}
 	} else {
-		LOG(LOG_INFO, "Device generation is older than Mk. 7, can't check charger type!");
+		LOG(LOG_INFO,
+		    "Unable to check charger type on your device (please report this issue if your device is actually newer than Mk. 7).");
 	}
 
 	// We're plugged in, here comes the fun…
