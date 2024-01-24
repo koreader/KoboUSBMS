@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-11 23:57+0100\n"
-"PO-Revision-Date: 2023-11-04 16:34+0000\n"
+"PO-Revision-Date: 2024-01-25 01:01+0000\n"
 "Last-Translator: ngocanhtve <ngocanh.tve@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/vi/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.2-dev\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: usbms.c:1039
 msgid "USB Mass Storage"
@@ -29,8 +29,8 @@ msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
 msgstr ""
-" Tắt USBNet thủ công!\n"
-"Ấn phím nguồn để thoát."
+" Vui lòng tắt USBNet theo cách thủ công!\n"
+"Nhấn nút nguồn để thoát."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1103
