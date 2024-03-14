@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-11 23:57+0100\n"
-"PO-Revision-Date: 2022-10-01 04:15+0000\n"
+"PO-Revision-Date: 2024-03-15 16:01+0000\n"
 "Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/ko/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: usbms.c:1039
 msgid "USB Mass Storage"
@@ -72,7 +72,7 @@ msgstr "끝내려면 전원 버튼을 누르세요."
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1258 usbms.c:1361
 msgid " The device will shut down in 30 sec."
-msgstr " 장치가 30초 후에 종료됩니다."
+msgstr " 장치가 30초 후에 시스템 종료됩니다."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1263 usbms.c:1366
@@ -85,8 +85,8 @@ msgid ""
 " Gave up after 30 sec.\n"
 "The device will shut down in 30 sec."
 msgstr ""
-" 30초만에 포기합니다.\n"
-"장치가 30초 후에 종료됩니다."
+" 30초 후에 그만둡니다.\n"
+"장치가 30초 후에 시스템 종료됩니다."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1299
@@ -112,7 +112,7 @@ msgid ""
 "The device will shut down in 30 sec."
 msgstr ""
 " 장치가 USB 호스트가 아닌 일반 전원에 연결되었습니다!\n"
-"장치는 30초 후에 종료됩니다."
+"장치가 30초 후에 시스템 종료됩니다."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1394
@@ -129,8 +129,8 @@ msgid ""
 " Gave up after 90 sec.\n"
 "The device will shut down in 30 sec."
 msgstr ""
-" 90초만에 포기합니다.\n"
-"장치가 30초 후에 종료됩니다."
+" 90초 후에 그만둡니다.\n"
+"장치가 30초 후에 시스템 종료됩니다."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1441
@@ -148,7 +148,7 @@ msgid ""
 "The device will shut down in 30 sec."
 msgstr ""
 " 장치가 USB 호스트가 아닌 일반 전원에 연결되어 있습니다!\n"
-"장치는 30초 후에 종료됩니다."
+"장치가 30초 후에 시스템 종료됩니다."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1569
@@ -170,7 +170,7 @@ msgid ""
 "The device will shut down in 90 sec."
 msgstr ""
 " USBMS 세션을 시작할 수 없습니다!\n"
-"이 장치는 90초 후에 종료됩니다."
+"이 장치가 90초 후에 시스템 종료됩니다."
 
 #: usbms.c:1643
 msgid ""
@@ -187,7 +187,7 @@ msgid ""
 "The device will shut down in 90 sec."
 msgstr ""
 " 플러그 분리 이벤트를 감지하지 못했습니다!\n"
-"장치는 90초 후에 종료됩니다."
+"장치가 90초 후에 시스템 종료됩니다."
 
 #: usbms.c:1757
 msgid "Ending USBMS session…"
@@ -200,7 +200,7 @@ msgid ""
 "The device will shut down in 90 sec."
 msgstr ""
 " USBMS 세션을 끝낼 수 없습니다!\n"
-"장치는 90초 후에 종료됩니다."
+"장치가 90초 후에 시스템 종료됩니다."
 
 #: usbms.c:1922
 msgid ""
