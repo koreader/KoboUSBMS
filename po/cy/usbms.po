@@ -8,17 +8,21 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-11 23:57+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2024-03-17 07:02+0000\n"
+"Last-Translator: fin-w <fin-w@tutanota.com>\n"
+"Language-Team: Welsh <https://hosted.weblate.org/projects/koreader/kobousbms/"
+"cy/>\n"
 "Language: cy\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n==0) ? 0 : (n==1) ? 1 : (n==2) ? 2 : "
+"(n==3) ? 3 :(n==6) ? 4 : 5;\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: usbms.c:1039
 msgid "USB Mass Storage"
-msgstr ""
+msgstr "Storfa USB Crynswth"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1091
@@ -26,6 +30,8 @@ msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
 msgstr ""
+" Analluogwch USBNet â llaw!\n"
+"Pwyswch y botwm pŵer i adael."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1103
@@ -33,6 +39,8 @@ msgid ""
 " Please disable USBSerial manually!\n"
 "Press the power button to exit."
 msgstr ""
+" Analluogwch USBSerial â llaw!\n"
+"Pwyswch y botwm pŵer i adael."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1118
@@ -40,35 +48,37 @@ msgid ""
 " Please take the device out of the PowerCover!\n"
 "Press the power button to exit."
 msgstr ""
+" Tynnwch y ddyfais allan o'r PowerCover!\n"
+"Pwyswch y botwm pŵer i adael."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1153
 msgid " Filesystem is busy! Offending processes:"
-msgstr ""
+msgstr " Mae'r system ffeiliau yn brysur! Prosesau problematig:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
 #: usbms.c:1188
 msgid " The fuser script failed!"
-msgstr ""
+msgstr " Mae'r sgript fuser wedi methu!"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1198
 msgid " Could not run the fuser script!"
-msgstr ""
+msgstr " Methodd redeg sgript y fuser!"
 
 #: usbms.c:1204
 msgid "Press the power button to exit."
-msgstr ""
+msgstr "Pwyswch y botwm pŵer i adael."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1258 usbms.c:1361
 msgid " The device will shut down in 30 sec."
-msgstr ""
+msgstr " Bydd y ddyfais yn cau mewn 30 eiliad."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1263 usbms.c:1366
 msgid " KOReader will now restart…"
-msgstr ""
+msgstr " Bydd KOReader yn ailgychwyn nawr…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1294
@@ -76,6 +86,8 @@ msgid ""
 " Gave up after 30 sec.\n"
 "The device will shut down in 30 sec."
 msgstr ""
+" Wedi rhoi i fyny ar ôl 30 eiliad.\n"
+"Bydd y ddyfais yn cau mewn 30 eiliad."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1299
@@ -83,12 +95,16 @@ msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
 msgstr ""
+" Wedi rhoi i fyny ar ôl 30 eiliad.\n"
+"Bydd KOReader yn ailgychwyn nawr…"
 
 #: usbms.c:1320
 msgid ""
 "Waiting to be plugged in…\n"
 "Or, press the power button to exit."
 msgstr ""
+"Yn aros i gael ei phlygio i mewn…\n"
+"Neu, pwyswch y botwm pŵer i adael."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1389
@@ -96,6 +112,9 @@ msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 30 sec."
 msgstr ""
+" Cafodd y ddyfais ei chysylltu â ffynhonnell pŵer cyffredin, yn lle "
+"gwesteiwr USB!\n"
+"Bydd y ddyfais yn cau mewn 30 eiliad."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1394
@@ -103,6 +122,9 @@ msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
+" Cafodd y ddyfais ei chysylltu â ffynhonnell pŵer cyffredin, yn lle "
+"gwesteiwr USB!\n"
+"Bydd KOReader ailgychwyn nawr…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1436
@@ -110,6 +132,8 @@ msgid ""
 " Gave up after 90 sec.\n"
 "The device will shut down in 30 sec."
 msgstr ""
+" Wedi rhoi i fyny ar ôl 90 eiliad.\n"
+"Bydd y ddyfais yn cau mewn 30 eiliad."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1441
@@ -117,6 +141,8 @@ msgid ""
 " Gave up after 90 sec.\n"
 "KOReader will now restart…"
 msgstr ""
+" Wedi rhoi i fyny ar ôl 90 eiliad.\n"
+"Bydd KOReader yn ailgychwyn nawr…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1564
@@ -124,6 +150,9 @@ msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 30 sec."
 msgstr ""
+" Mae'r ddyfais yn cael ei chysylltu â ffynhonnell pŵer cyffredin, yn lle "
+"gwesteiwr USB!\n"
+"Bydd y ddyfais yn cau mewn 30 eiliad."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1569
@@ -131,10 +160,13 @@ msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
+" Mae'r ddyfais yn cael ei chysylltu â ffynhonnell pŵer cyffredin, yn lle "
+"gwesteiwr USB!\n"
+"Bydd KOReader ailgychwyn nawr…"
 
 #: usbms.c:1593
 msgid "Starting USBMS session…"
-msgstr ""
+msgstr "Yn dechrau sesiwn USBMS…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1625
@@ -142,12 +174,16 @@ msgid ""
 " Could not start the USBMS session!\n"
 "The device will shut down in 90 sec."
 msgstr ""
+" Methodd ddechrau y sesiwn USBMS!\n"
+"Bydd y ddyfais yn cau mewn 90 eiliad."
 
 #: usbms.c:1643
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
 msgstr ""
+"Mae sesiwn USBMS yn rhedeg nawr.\n"
+"Cyn ichi ei dad-blygio, dad-fowntiwch eich dyfais yn ddiogel."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1747
@@ -155,10 +191,12 @@ msgid ""
 " Could not detect an unplug event!\n"
 "The device will shut down in 90 sec."
 msgstr ""
+" Methodd sylwi digwyddiad dad-blygio!\n"
+"Bydd y ddyfais yn cau mewn 90 eiliad."
 
 #: usbms.c:1757
 msgid "Ending USBMS session…"
-msgstr ""
+msgstr "Yn cwblhau sesiwn USBMS…"
 
 #. @translators: First Unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1782
@@ -166,9 +204,13 @@ msgid ""
 " Could not end the USBMS session!\n"
 "The device will shut down in 90 sec."
 msgstr ""
+" Methodd orffen y sesiwn USBMS!\n"
+"Bydd y ddyfais yn cau mewn 90 eiliad."
 
 #: usbms.c:1922
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
 msgstr ""
+"Wedi'i wneud!\n"
+"Bydd KOReader yn ailgychwyn nawr…"
