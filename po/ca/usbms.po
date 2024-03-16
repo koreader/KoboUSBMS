@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-11 23:57+0100\n"
-"PO-Revision-Date: 2023-04-25 05:18+0000\n"
-"Last-Translator: Vila <vila@hackermail.com>\n"
+"PO-Revision-Date: 2024-03-17 07:01+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/ca/>\n"
 "Language: ca\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: usbms.c:1039
 msgid "USB Mass Storage"
@@ -29,8 +29,8 @@ msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
 msgstr ""
-" Deshabilitar manualment USBNet!\n"
-"Pressionar el botó d'engegada per a eixir."
+" Desactiveu USBNet manualment.\n"
+"Premeu el botó d’engegada per a eixir."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1103
@@ -38,8 +38,8 @@ msgid ""
 " Please disable USBSerial manually!\n"
 "Press the power button to exit."
 msgstr ""
-" Deshabilitar manualment USBSerial!\n"
-"Prèmer el botó d'engegada per a eixir."
+" Desactiveu USBSerial manualment.\n"
+"Premeu el botó d’engegada per a eixir."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1118
@@ -53,21 +53,21 @@ msgstr ""
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1153
 msgid " Filesystem is busy! Offending processes:"
-msgstr " El sistema d'arxius està ocupat. Processos infractors:"
+msgstr " El sistema de fitxers està ocupat. Processos infractors:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
 #: usbms.c:1188
 msgid " The fuser script failed!"
-msgstr " S'ha produït un error en el fusor script!"
+msgstr " Ha fallat l’script «fuser»."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1198
 msgid " Could not run the fuser script!"
-msgstr " No s'ha pogut executar l'script fuser!"
+msgstr " No s’ha pogut executar l’script «fuser»."
 
 #: usbms.c:1204
 msgid "Press the power button to exit."
-msgstr "Prèmer el botó d'engegada per a eixir."
+msgstr "Premeu el botó d’engegada per a eixir."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1258 usbms.c:1361
@@ -192,7 +192,7 @@ msgstr ""
 
 #: usbms.c:1757
 msgid "Ending USBMS session…"
-msgstr "Finalitzant sessió USBMS…"
+msgstr "S’està finalitzant la sessió USBMS…"
 
 #. @translators: First Unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1782
@@ -208,5 +208,5 @@ msgid ""
 "Done!\n"
 "KOReader will now restart…"
 msgstr ""
-"Fet!\n"
-"Ara KOReader es reiniciarà…"
+"Fet.\n"
+"El KOReader es reiniciarà en breu…"
