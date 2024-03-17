@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-11 23:57+0100\n"
-"PO-Revision-Date: 2024-03-17 07:01+0000\n"
+"PO-Revision-Date: 2024-03-18 13:43+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/ca/>\n"
@@ -85,8 +85,8 @@ msgid ""
 " Gave up after 30 sec.\n"
 "The device will shut down in 30 sec."
 msgstr ""
-" Han transcorregut 30 segons, abandonar.\n"
-"El dispositiu s'apagarà en 30 segons."
+" Es desisteix després de 30 segons.\n"
+"El dispositiu s’apagarà en 30 segons."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1299
@@ -94,8 +94,8 @@ msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-" Han transcorregut 30 segons, abandonar.\n"
-"Ara KOReader es reiniciarà…"
+" Es desisteix després de 30 segons.\n"
+"El KOReader es reiniciarà en breu…"
 
 #: usbms.c:1320
 msgid ""
@@ -129,8 +129,8 @@ msgid ""
 " Gave up after 90 sec.\n"
 "The device will shut down in 30 sec."
 msgstr ""
-" Han transcorregut 90 segons, abandonar.\n"
-"El dispositiu s'apagarà en 30 segons."
+" Es desisteix després de 90 segons.\n"
+"El dispositiu s’apagarà en 30 segons."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1441
@@ -138,8 +138,8 @@ msgid ""
 " Gave up after 90 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-" Han transcorregut 90 segons, abandonar.\n"
-"Ara KOReader es reiniciarà…"
+" Es desisteix després de 90 segons.\n"
+"El KOReader es reiniciarà en breu…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1564
