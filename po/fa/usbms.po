@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-11 23:57+0100\n"
-"PO-Revision-Date: 2023-03-31 23:40+0000\n"
+"PO-Revision-Date: 2024-04-16 16:02+0000\n"
 "Last-Translator: Kakaeo <monirzadeh@gmail.com>\n"
 "Language-Team: Persian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/fa/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.17-dev\n"
+"X-Generator: Weblate 5.5-dev\n"
 
 #: usbms.c:1039
 msgid "USB Mass Storage"
@@ -29,6 +29,8 @@ msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
 msgstr ""
+" لطفا USBNet را به صورت دستی غیرفعال کنید!\n"
+"برای خروج دکمه روشن خاموش را فشار دهید."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1103
@@ -36,6 +38,8 @@ msgid ""
 " Please disable USBSerial manually!\n"
 "Press the power button to exit."
 msgstr ""
+" لطفا USBSerial را به صورت دستی غیرفعال کنید!\n"
+"برای خروج دکمه پاور را فشار دهید."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1118
@@ -47,17 +51,17 @@ msgstr ""
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1153
 msgid " Filesystem is busy! Offending processes:"
-msgstr ""
+msgstr "فایل سیستم مشغول است! فرایند‌های به مشکل خورده‌:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
 #: usbms.c:1188
 msgid " The fuser script failed!"
-msgstr ""
+msgstr " اسکریپت fuser ناموفق بود!"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1198
 msgid " Could not run the fuser script!"
-msgstr ""
+msgstr " اسکریپت fuser اجرا نشد!"
 
 #: usbms.c:1204
 msgid "Press the power button to exit."
@@ -79,6 +83,8 @@ msgid ""
 " Gave up after 30 sec.\n"
 "The device will shut down in 30 sec."
 msgstr ""
+" بعد از ۳۰ ثانیه منصرف شد.\n"
+"دستگاه ۳۰ ثانیه دیگر خاموش می شود."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1299
@@ -86,12 +92,16 @@ msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
 msgstr ""
+" بعد از ۳۰ ثانیه منصرف شد.\n"
+"کوریدر حالا راه‌اندازی مجدد خواهد شد…"
 
 #: usbms.c:1320
 msgid ""
 "Waiting to be plugged in…\n"
 "Or, press the power button to exit."
 msgstr ""
+"در انتظار وصل شدن…\n"
+"یا برای خروج دکمه خاموش را فشار دهید."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1389
@@ -99,6 +109,8 @@ msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 30 sec."
 msgstr ""
+" دستگاه به یک منبع برق معمولی وصل شده است، نه یک میزبان USB!\n"
+"دستگاه بعد از ۳۰ ثانیه خاموش می شود."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1394
@@ -106,6 +118,8 @@ msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
+" دستگاه به یک منبع برق معمولی وصل شده است، نه یک میزبان USB!\n"
+"کوریدر اکنون راه اندازی مجدد می‌شود…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1436
@@ -113,6 +127,8 @@ msgid ""
 " Gave up after 90 sec.\n"
 "The device will shut down in 30 sec."
 msgstr ""
+" بعد از ۹۰ ثانیه منصرف شد.\n"
+"دستگاه بعد از ۳۰ ثانیه خاموش می شود."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1441
@@ -120,6 +136,8 @@ msgid ""
 " Gave up after 90 sec.\n"
 "KOReader will now restart…"
 msgstr ""
+" بعد از ۹۰ ثانیه منصرف شد.\n"
+"کوریدر اکنون راه اندازی مجدد می‌شود…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1564
@@ -127,6 +145,8 @@ msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 30 sec."
 msgstr ""
+" دستگاه به یک منبع برق معمولی وصل شده است، نه یک میزبان USB!\n"
+"دستگاه بعد از ۳۰ ثانیه خاموش می‌شود."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1569
@@ -134,6 +154,8 @@ msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
+" دستگاه به یک منبع برق معمولی وصل شده است، نه یک میزبان USB!\n"
+"کوریدر اکنون راه اندازی مجدد می‌شود…"
 
 #: usbms.c:1593
 msgid "Starting USBMS session…"
@@ -158,6 +180,8 @@ msgid ""
 " Could not detect an unplug event!\n"
 "The device will shut down in 90 sec."
 msgstr ""
+" نمی توان یک رویداد قطع برق را تشخیص داد!\n"
+"دستگاه بعد از ۹۰ ثانیه خاموش می شود."
 
 #: usbms.c:1757
 msgid "Ending USBMS session…"
