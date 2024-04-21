@@ -131,6 +131,15 @@ static void
 		case DEVICE_KOBO_ELIPSA_2E:    // Elipsa 2E (condor)
 			pid = 0x4236;
 			break;
+		// FIXME: TBC!
+		case DEVICE_KOBO_LIBRA_COLOUR:      // Kobo Libra Colour (monza)
+		case DEVICE_TOLINO_VISION_COLOR:    // Tolino Vision Color (monza)
+		case DEVICE_KOBO_CLARA_BW:          // Kobo Clara B&W (spa)
+		case DEVICE_TOLINO_SHINE_BW:        // Tolino Shine B&W (spa)
+		case DEVICE_KOBO_CLARA_COLOUR:      // Kobo Clara Colour (spa)
+		case DEVICE_TOLINO_SHINE_COLOR:     // Tolino Shine Color (spa)
+			pid = 0x4237;
+			break;
 		case 0U:
 			pid = 0x4163;
 			break;
@@ -1122,9 +1131,9 @@ int
 
 	// We'll want to check both the internal storage and the SD card, as both get exported.
 	const USBMSPartition mount_points[] = {
-		{PARTITION_INTERNAL, "Internal",    KOBO_PARTITION,    KOBO_MOUNTPOINT},
-		{PARTITION_EXTERNAL, "External", KOBO_SD_PARTITION, KOBO_SD_MOUNTPOINT},
-		{    PARTITION_NONE,       NULL,              NULL,               NULL}
+		{ PARTITION_INTERNAL, "Internal",    KOBO_PARTITION,    KOBO_MOUNTPOINT },
+		{ PARTITION_EXTERNAL, "External", KOBO_SD_PARTITION, KOBO_SD_MOUNTPOINT },
+		{     PARTITION_NONE,       NULL,              NULL,               NULL }
 	};
 	for (size_t i = 0U; !need_early_abort && mount_points[i].name; i++) {
 		// Check if the character device actually exists, because SD cards ;).
