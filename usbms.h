@@ -104,7 +104,7 @@
 #define KOBO_USB_DEVPATH_FSL  "/devices/platform/fsl-usb2-udc"                  // OK
 #define KOBO_USB_MODALIAS_CI  "platform:ci_hdrc"                                // OK
 #define KOBO_USB_DEVPATH_UDC  "/devices/platform/soc/5100000.udc-controller"    // OK
-// FIXME on MTK, 11211000.usb
+#define KOBO_USB_DEVPATH_MTK  "/devices/platform/11211000.usb"                  // OK
 
 // Those had been set in stone so far...
 #define NXP_NTX_KEYS_EVDEV              "/dev/input/event0"

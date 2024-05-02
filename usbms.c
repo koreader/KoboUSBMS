@@ -1695,7 +1695,8 @@ int
 					if (uev.action == UEVENT_ACTION_OFFLINE && uev.devpath &&
 					    (UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_FSL) ||
 					     (uev.modalias && UE_STR_EQ(uev.modalias, KOBO_USB_MODALIAS_CI)) ||
-					     UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_UDC))) {
+					     UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_UDC) ||
+					     UE_STR_EQ(uev.devpath, KOBO_USB_DEVPATH_MTK))) {
 						// Refresh the status bar
 						print_status(&ctx);
 						LOG(LOG_NOTICE, "Caught an eject event");
