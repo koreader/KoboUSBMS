@@ -112,7 +112,7 @@ mtk_usb() {
 	# Common (create a gadget template named g1, and allow us to setup the required English strings)
 	mkdir -p /sys/kernel/config/usb_gadget/g1
 	mkdir -p /sys/kernel/config/usb_gadget/g1/strings/0x409
-	PARTITION="/dev/${DISK}0p12"
+	PARTITION="${DISK}0p12"
 
 	# Fill out vID/pID & said English strings
 	echo "${USB_VENDOR_ID}"      > /sys/kernel/config/usb_gadget/g1/idVendor

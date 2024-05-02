@@ -60,7 +60,7 @@ mtk_usb() {
 	# Common
 	mkdir -p /sys/kernel/config/usb_gadget/g1
 	mkdir -p /sys/kernel/config/usb_gadget/g1/strings/0x409
-	PARTITION="/dev/${DISK}0p12"
+	PARTITION="${DISK}0p12"
 
 	# Remove
 	echo "" > /sys/kernel/config/usb_gadget/g1/UDC
