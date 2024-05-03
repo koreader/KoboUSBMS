@@ -142,8 +142,7 @@ bool (*fxpIsUSBPlugged)(int, bool) = NULL;
 #define SUNXI_CHARGER_TYPE_SYSFS "/sys/class/power_supply/charger/device/charger_type"
 // Finally, we're also starting to see more standard stuff... (e.g., on Mk. 10)
 #define STD_CHARGER_TYPE_SYSFS   "/sys/class/power_supply/ac/device/charger_type"
-// TBD
-#define MTK_CHARGER_TYPE_SYSFS   "/sys/class/power_supply/bd71827_ac/device/charger_type"
+#define MTK_CHARGER_TYPE_SYSFS   "/sys/class/power_supply/bd71827_bat/charger_type"
 // For ref., on mainline w/ @akemnade's driver: /sys/class/power_supply/rn5t618-usb/usb_type
 const char* CHARGER_TYPE_SYSFS = NULL;
 #define FL_INTENSITY_SYSFS "/sys/class/backlight/mxc_msp430.0/actual_brightness"

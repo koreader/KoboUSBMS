@@ -131,7 +131,6 @@ static void
 		case DEVICE_KOBO_ELIPSA_2E:    // Elipsa 2E (condor)
 			pid = 0x4236;
 			break;
-		// FIXME: TBC!
 		case DEVICE_KOBO_LIBRA_COLOUR:      // Kobo Libra Colour (monza)
 		case DEVICE_TOLINO_VISION_COLOR:    // Tolino Vision Color (monza)
 		case DEVICE_KOBO_CLARA_BW:          // Kobo Clara B&W (spa)
@@ -867,10 +866,8 @@ int
 
 	// And setup the sysfs paths & usb check based on the device…
 	if (ctx.fbink_state.is_mtk) {
-		// We've only got a single device so far ;o)
 		NTX_KEYS_EVDEV     = BD71828_MTK_POWERBUTTON_EVDEV;
 		BATT_CAP_SYSFS     = MTK_BATT_CAP_SYSFS;
-		// FIXME: Double-check that one
 		CHARGER_TYPE_SYSFS = MTK_CHARGER_TYPE_SYSFS;
 
 		// The CM_USB_Plug_IN ioctl still doesn't look at the right power supplies...
