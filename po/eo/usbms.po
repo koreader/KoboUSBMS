@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-11 23:57+0100\n"
+"POT-Creation-Date: 2024-05-05 21:14+0200\n"
 "PO-Revision-Date: 2022-01-31 01:24+0000\n"
 "Last-Translator: phlostically <phlostically@mailinator.com>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/koreader/"
@@ -19,54 +19,54 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.11-dev\n"
 
-#: usbms.c:1039
+#: usbms.c:1045
 msgid "USB Mass Storage"
 msgstr "Amasa Konservejo per USB"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1091
+#: usbms.c:1097
 msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
 msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1103
+#: usbms.c:1109
 msgid ""
 " Please disable USBSerial manually!\n"
 "Press the power button to exit."
 msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1118
+#: usbms.c:1124
 msgid ""
 " Please take the device out of the PowerCover!\n"
 "Press the power button to exit."
 msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1153
+#: usbms.c:1159
 msgid " Filesystem is busy! Offending processes:"
 msgstr " Dosiersistemo estas okupata! Okupantaj procezoj:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
-#: usbms.c:1188
+#: usbms.c:1194
 msgid " The fuser script failed!"
 msgstr " La fuser-programeto malsukcesis!"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1198
+#: usbms.c:1204
 #, fuzzy
 #| msgid " Failed to run the fuser script!"
 msgid " Could not run the fuser script!"
 msgstr " Malsukcesis ruli la fuser-programeton!"
 
-#: usbms.c:1204
+#: usbms.c:1210
 msgid "Press the power button to exit."
 msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1258 usbms.c:1361
+#: usbms.c:1264 usbms.c:1367
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -77,12 +77,12 @@ msgstr ""
 "La aparato haltos en 90 sekundoj."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1263 usbms.c:1366
+#: usbms.c:1269 usbms.c:1372
 msgid " KOReader will now restart…"
 msgstr " KOReader nun relanĉiĝos…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1294
+#: usbms.c:1300
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -95,20 +95,20 @@ msgstr ""
 "La aparato haltos en 90 sekundoj."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1299
+#: usbms.c:1305
 msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
 msgstr ""
 
-#: usbms.c:1320
+#: usbms.c:1326
 msgid ""
 "Waiting to be plugged in…\n"
 "Or, press the power button to exit."
 msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1389
+#: usbms.c:1395
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -121,14 +121,14 @@ msgstr ""
 "La aparato haltos en 90 sekundoj."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1394
+#: usbms.c:1400
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1436
+#: usbms.c:1442
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -141,14 +141,14 @@ msgstr ""
 "La aparato haltos en 90 sekundoj."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1441
+#: usbms.c:1447
 msgid ""
 " Gave up after 90 sec.\n"
 "KOReader will now restart…"
 msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1564
+#: usbms.c:1570
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -161,18 +161,18 @@ msgstr ""
 "La aparato haltos en 90 sekundoj."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1569
+#: usbms.c:1575
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
 
-#: usbms.c:1593
+#: usbms.c:1599
 msgid "Starting USBMS session…"
 msgstr "Komencante seancon de USBMS…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1625
+#: usbms.c:1631
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -184,14 +184,14 @@ msgstr ""
 " Malsukcesis komenci la seancon de USBMS!\n"
 "La aparato haltos en 90 sekundoj."
 
-#: usbms.c:1643
+#: usbms.c:1649
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
 msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1747
+#: usbms.c:1754
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -203,12 +203,12 @@ msgstr ""
 " Malsukcesis komenci la seancon de USBMS!\n"
 "La aparato haltos en 90 sekundoj."
 
-#: usbms.c:1757
+#: usbms.c:1764
 msgid "Ending USBMS session…"
 msgstr ""
 
 #. @translators: First Unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1782
+#: usbms.c:1789
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -220,7 +220,7 @@ msgstr ""
 " Malsukcesis komenci la seancon de USBMS!\n"
 "La aparato haltos en 90 sekundoj."
 
-#: usbms.c:1922
+#: usbms.c:1929
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
