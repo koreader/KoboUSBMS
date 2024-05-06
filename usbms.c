@@ -1517,7 +1517,8 @@ int
 			} else if (strncmp(charger_type, "DCP", 3U) == 0U) {
 				LOG(LOG_WARNING, "DCP (Dedicated Charging Port) charger detected");
 				need_early_abort = true;
-			} else if (strncmp(charger_type, "SDP_PC", 6U) == 0U) {
+			} else if ((strncmp(charger_type, "SDP_PC", 6U) == 0U) || (strcmp(charger_type, "SDP") == 0U)) {
+				// NOTE: The bd71827 PMIC found on some devices only reports "SDP" or "DCP"
 				LOG(LOG_INFO, "SDP PC (Standard Downstream Port, 500mA) charger detected");
 			} else if (strncmp(charger_type, "SDP_ADPT", 8U) == 0U) {
 				LOG(LOG_WARNING, "SDP ADPT (Standard Downstream Port, 800mA) charger detected");
