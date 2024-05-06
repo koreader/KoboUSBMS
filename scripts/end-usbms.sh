@@ -68,8 +68,21 @@ mtk_usb() {
 	mkdir -p /sys/kernel/config/usb_gadget/g1/strings/0x409
 	PARTITION="${DISK}0p12"
 
-	# Remove
+	# Disable the gadget
 	echo "" > /sys/kernel/config/usb_gadget/g1/UDC
+
+	# Unbind function from config
+	rm /sys/kernel/config/usb_gadget/g1/configs/c.1/mass_storage.0
+	# Remove the config's strings
+	rmdir /sys/kernel/config/usb_gadget/g1/configs/c.1/strings/0x409
+	# Remove the config
+	rmdir /sys/kernel/config/usb_gadget/g1/configs/c.1
+	# Remove the function
+	rmdir /sys/kernel/config/usb_gadget/g1/functions/mass_storage.0
+	# Remove the gadget's strings
+	rmdir /sys/kernel/config/usb_gadget/g1/strings/0x409
+	# And remove the gadget
+	rmdir /sys/kernel/config/usb_gadget/g1
 }
 
 case "${PLATFORM}" in

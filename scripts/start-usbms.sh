@@ -107,7 +107,7 @@ legacy_usb() {
 }
 
 # MTK SoCs, via configfs
-# c.f., https://elinux.org/images/e/ef/USB_Gadget_Configfs_API_0.pdf
+# c.f., https://elinux.org/images/e/ef/USB_Gadget_Configfs_API_0.pdf & https://docs.kernel.org/usb/gadget_configfs.html
 mtk_usb() {
 	# Common (create a gadget template named g1, and allow us to setup the required English strings)
 	mkdir -p /sys/kernel/config/usb_gadget/g1
