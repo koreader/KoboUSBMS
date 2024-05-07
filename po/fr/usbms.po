@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-07 18:30+0200\n"
-"PO-Revision-Date: 2022-09-25 21:12+0000\n"
+"PO-Revision-Date: 2024-05-07 23:26+0000\n"
 "Last-Translator: NiLuJe <ninuje@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/fr/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 5.5.4-rc\n"
 
 #: usbms.c:1045
 msgid "USB Mass Storage"
@@ -44,15 +44,11 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1141
-#, fuzzy
-#| msgid ""
-#| " Please disable USBNet manually!\n"
-#| "Press the power button to exit."
 msgid ""
 " Please disable your custom USB gadget manually!\n"
 "Press the power button to exit."
 msgstr ""
-" Merci de désactiver USBNet manuellement !\n"
+" Merci de désactiver votre gadget USB non-standard manuellement !\n"
 "Appuyer sur le bouton d'alimentation pour quitter."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
