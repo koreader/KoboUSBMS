@@ -106,6 +106,9 @@
 #define KOBO_USB_DEVPATH_UDC  "/devices/platform/soc/5100000.udc-controller"    // OK
 #define KOBO_USB_DEVPATH_MTK  "/devices/platform/11211000.usb"                  // OK
 
+// It sure would be nice if the kernel was recent enough that we had the `function` devattr in there...
+#define KOBO_USB_GADGET_STATE_MTK "/sys/class/udc/11211000.usb/state"
+
 // Those had been set in stone so far...
 #define NXP_NTX_KEYS_EVDEV              "/dev/input/event0"
 #define NXP_TOUCHPAD_EVDEV              "/dev/input/event1"

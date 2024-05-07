@@ -1110,6 +1110,40 @@ int
 		    &ctx);
 	}
 
+	// Try to cobble something together for configfs devices...
+	if (access(KOBO_USB_GADGET_STATE_MTK, F_OK) == 0) {
+		LOG(LOG_INFO, "Checking MTK USB gadget state");
+		FILE* f = fopen(KOBO_USB_GADGET_STATE_MTK, "re");
+		if (f) {
+			// The longest possible string happens to be exactly 15 characters
+			char   gadget_state[16] = { 0 };
+			size_t size = fread(gadget_state, sizeof(*gadget_state), sizeof(gadget_state) - 1U, f);
+			fclose(f);
+			if (size > 0) {
+				// Strip trailing LF (there shouldn't be any here)
+				if (gadget_state[size - 1U] == '\n') {
+					gadget_state[size - 1U] = '\0';
+				}
+			} else {
+				LOG(LOG_WARNING, "Could not read the gadget type from sysfs!");
+			}
+
+			// c.f., usb_state_string @ drivers/usb/common/common.c
+			if (strcmp(gadget_state, "not attached") != 0U) {
+				LOG(LOG_ERR,
+				    "Device already has a USB gadget attached to the UDC, aborting (current state: `%.*s`)",
+				    (int) (sizeof(gadget_state) - 1U),
+				    gadget_state);
+				need_early_abort = true;
+
+				print_icon("\U000f11f0", &ctx);
+				print_msg(    // @translators: First unicode codepoint is an icon, leave it as-is.
+				    _("\uf071 Please disable your custom USB gadget manually!\nPress the power button to exit."),
+				    &ctx);
+			}
+		}
+	}
+
 	// NOTE: On the Sage, if the PowerCover is plugged, crossing the Cilix charge thresholds *may* reset the USB connection…
 	//       This *will* break I/O, and there's a threshold at 99% which is *very* easy to trip on a recently charged device.
 	//       To avoid any potential issues, abort if we're connected to the PowerCover.
