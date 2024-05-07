@@ -128,7 +128,8 @@ mtk_usb() {
 	mkdir -p /sys/kernel/config/usb_gadget/g1/functions/mass_storage.0/lun.0
 	echo "${PARTITION}" > /sys/kernel/config/usb_gadget/g1/functions/mass_storage.0/lun.0/file
 	# Bind function to config
-	ln -s /sys/kernel/config/usb_gadget/g1/functions/mass_storage.0 /sys/kernel/config/usb_gadget/g1/configs/c.1
+	# NOTE: Nickel never cleans up its own USBMS gadget, so we need to let ln potentially unlink it first.
+	ln -sf /sys/kernel/config/usb_gadget/g1/functions/mass_storage.0 /sys/kernel/config/usb_gadget/g1/configs/c.1
 	# Attach our new gadget device to the right USB Device Controller (c.f., /sys/class/udc)
 	echo "11211000.usb" > /sys/kernel/config/usb_gadget/g1/UDC
 }
