@@ -109,7 +109,7 @@ legacy_usb() {
 # MTK SoCs, via configfs
 # c.f., https://elinux.org/images/e/ef/USB_Gadget_Configfs_API_0.pdf & https://docs.kernel.org/usb/gadget_configfs.html
 mtk_usb() {
-	# Common (create a gadget template named g1, and allow us to setup the required English strings)
+	# Common (create a gadget template named g1 (same name as Nickel's), and allow us to setup the required English strings)
 	mkdir -p /sys/kernel/config/usb_gadget/g1
 	mkdir -p /sys/kernel/config/usb_gadget/g1/strings/0x409
 	PARTITION="${DISK}0p12"
@@ -128,8 +128,10 @@ mtk_usb() {
 	mkdir -p /sys/kernel/config/usb_gadget/g1/functions/mass_storage.0/lun.0
 	echo "${PARTITION}" > /sys/kernel/config/usb_gadget/g1/functions/mass_storage.0/lun.0/file
 	# Bind function to config
-	# NOTE: Nickel never cleans up its own USBMS gadget, so we need to let ln potentially unlink it first.
-	ln -sf /sys/kernel/config/usb_gadget/g1/functions/mass_storage.0 /sys/kernel/config/usb_gadget/g1/configs/c.1
+	# NOTE: Nickel never cleans up its own USBMS gadget, and we don't want to force an unlink, so make this conditional...
+	if [ ! -L "/sys/kernel/config/usb_gadget/g1/configs/c.1/mass_storage.0" ] ; then
+		ln -s /sys/kernel/config/usb_gadget/g1/functions/mass_storage.0 /sys/kernel/config/usb_gadget/g1/configs/c.1
+	fi
 	# Attach our new gadget device to the right USB Device Controller (c.f., /sys/class/udc)
 	echo "11211000.usb" > /sys/kernel/config/usb_gadget/g1/UDC
 }
