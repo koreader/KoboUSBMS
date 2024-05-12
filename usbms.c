@@ -866,16 +866,30 @@ int
 
 	// Auto-detect the input device for the power button
 	size_t            dev_count;
+	size_t            matches = 0U;
 	// Look for a power button that isn't hanging out inside a touchscreen (because some panels have *extremely* weird caps...).
 	FBInkInputDevice* devices = fbink_input_scan(INPUT_POWER_BUTTON, INPUT_TOUCHSCREEN, SCAN_ONLY, &dev_count);
 	if (devices) {
+		FBInkInputDevice* matched_device = NULL;
 		for (FBInkInputDevice* device = devices; device < devices + dev_count; device++) {
-			// We... *should* only have one match ;D
+			// We *should* only ever get one match, but let's be extra cautious...
 			if (device->matched) {
-				NTX_KEYS_EVDEV = strdup(device->path);
+				matches++;
+				matched_device = device;
 			}
 		}
+		if (matches > 1U) {
+			LOG(LOG_WARNING,
+			    "Found more that one potential match for the power button's input device, picking the last one...");
+		}
+		if (matched_device) {
+			NTX_KEYS_EVDEV = strdup(matched_device->path);
+		}
 		free(devices);
+	}
+	if (matches == 0U) {
+		LOG(LOG_WARNING, "Couldn't auto-detect the power button's input device, assuming event0...");
+		NTX_KEYS_EVDEV = strdup("/dev/input/event0");
 	}
 
 	// And setup the sysfs paths & usb check based on the device…
