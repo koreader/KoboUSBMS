@@ -864,9 +864,22 @@ int
 	fbink_get_state(&ctx.fbink_cfg, &ctx.fbink_state);
 	setup_usb_ids(ctx.fbink_state.device_id);
 
+	// Auto-detect the input device for the power button
+	size_t            dev_count;
+	// Look for a power button that isn't hanging out inside a touchscreen (because some panels have *extremely* weird caps...).
+	FBInkInputDevice* devices = fbink_input_scan(INPUT_POWER_BUTTON, INPUT_TOUCHSCREEN, SCAN_ONLY, &dev_count);
+	if (devices) {
+		for (FBInkInputDevice* device = devices; device < devices + dev_count; device++) {
+			// We... *should* only have one match ;D
+			if (device->matched) {
+				NTX_KEYS_EVDEV = strdup(device->path);
+			}
+		}
+		free(devices);
+	}
+
 	// And setup the sysfs paths & usb check based on the device…
 	if (ctx.fbink_state.is_mtk) {
-		NTX_KEYS_EVDEV     = BD71828_MTK_POWERBUTTON_EVDEV;
 		BATT_CAP_SYSFS     = MTK_BATT_CAP_SYSFS;
 		CHARGER_TYPE_SYSFS = MTK_CHARGER_TYPE_SYSFS;
 
@@ -874,13 +887,6 @@ int
 		BATT_STATUS_SYSFS = MTK_BATT_STATUS_SYSFS;
 		fxpIsUSBPlugged   = &sysfs_is_usb_plugged;
 	} else if (ctx.fbink_state.is_sunxi) {
-		// The Sage has a new hardware revision w/ a BD71828 PMIC (as opposed to its original RC5T619)
-		// c.f., https://github.com/koreader/koreader/pull/9896?#issuecomment-1345477814
-		if (access(BD71828_SUNXI_POWERBUTTON_EVDEV, F_OK) == 0) {
-			NTX_KEYS_EVDEV = BD71828_SUNXI_POWERBUTTON_EVDEV;
-		} else {
-			NTX_KEYS_EVDEV = SUNXI_NTX_KEYS_EVDEV;
-		}
 		BATT_CAP_SYSFS     = SUNXI_BATT_CAP_SYSFS;
 		CHARGER_TYPE_SYSFS = SUNXI_CHARGER_TYPE_SYSFS;
 
@@ -894,17 +900,6 @@ int
 		// NOTE: Mk. 9 devices may have different hardware revisions with meaningful changes,
 		//       and/or different hardware than earlier NTX boards, period;
 		//       so we'll just auto-detect everything...
-		// Using a dedicated power button input device
-		if (access(BD71828_NXP_POWERBUTTON_EVDEV, F_OK) == 0) {
-			NTX_KEYS_EVDEV = BD71828_NXP_POWERBUTTON_EVDEV;
-		} else if (access(BD71828_NTX_KEYS_EVDEV, F_OK) == 0) {
-			// Since we only care about the Power button, we should never reach this w/ a BD71828 PMIC
-			NTX_KEYS_EVDEV = BD71828_NTX_KEYS_EVDEV;
-		} else if (access(IMX5_NTX_KEYS_EVDEV, F_OK) == 0) {
-			NTX_KEYS_EVDEV = IMX5_NTX_KEYS_EVDEV;
-		} else {
-			NTX_KEYS_EVDEV = NXP_NTX_KEYS_EVDEV;
-		}
 
 		// Using the new battery & charger sysfs paths
 		if (access(SUNXI_BATT_CAP_SYSFS, F_OK) == 0) {
@@ -1990,6 +1985,7 @@ cleanup:
 	if (evfd != -1) {
 		close(evfd);
 	}
+	free(NTX_KEYS_EVDEV);
 
 	if (ctx.ntxfd != -1) {
 		close(ctx.ntxfd);

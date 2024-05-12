@@ -109,25 +109,7 @@
 // It sure would be nice if the kernel was recent enough that we had the `function` devattr in there...
 #define KOBO_USB_GADGET_STATE_MTK "/sys/class/udc/11211000.usb/state"
 
-// Those had been set in stone so far...
-#define NXP_NTX_KEYS_EVDEV              "/dev/input/event0"
-#define NXP_TOUCHPAD_EVDEV              "/dev/input/event1"
-// ... but sunxi & SMP changed that ;).
-#define SUNXI_NTX_KEYS_EVDEV            "/dev/input/by-path/platform-ntx_event0-event"
-// That's for everything except the Power button w/ a BD71828 PMIC (we should *not* need this one)
-#define BD71828_NTX_KEYS_EVDEV          "/dev/input/by-path/platform-gpio-keys-event"
-// That's for everything on ca. i.MX5 SoCs
-#define IMX5_NTX_KEYS_EVDEV             "/dev/input/by-path/platform-mxckpd-event"
-// NOTE: Beware! It's on bus 0 on the Elipsa & Sage, but on bus 1 on the Libra 2!
-#define ELAN_BUS0_TOUCHPAD_EVDEV        "/dev/input/by-path/platform-0-0010-event"
-#define ELAN_BUS1_TOUCHPAD_EVDEV        "/dev/input/by-path/platform-1-0010-event"
-// ... and a new hardware revision of the Libra 2 made it even more fun!
-#define BD71828_NXP_POWERBUTTON_EVDEV   "/dev/input/by-path/platform-bd71828-pwrkey-event"
-// ... The Sage also got a PCB revision w/ a BD71828 PMIC
-#define BD71828_SUNXI_POWERBUTTON_EVDEV "/dev/input/by-path/platform-bd71828-pwrkey.4.auto-event"
-// And it has yet another name on MTK...
-#define BD71828_MTK_POWERBUTTON_EVDEV   "/dev/input/by-path/platform-bd71828-pwrkey.6.auto-event"
-const char* NTX_KEYS_EVDEV = NULL;
+char* NTX_KEYS_EVDEV = NULL;
 #define NXP_BATT_CAP_SYSFS    "/sys/class/power_supply/mc13892_bat/capacity"
 #define SUNXI_BATT_CAP_SYSFS  "/sys/class/power_supply/battery/capacity"
 #define MTK_BATT_CAP_SYSFS    "/sys/class/power_supply/bd71827_bat/capacity"
