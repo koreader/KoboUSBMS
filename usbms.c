@@ -867,7 +867,7 @@ int
 	// Auto-detect the input device for the power button
 	size_t            dev_count;
 	size_t            matches = 0U;
-	// Look for a power button that isn't hanging out inside a touchscreen (because some panels have *extremely* weird caps...).
+	// Look for a power button that isn't featured by a touchscreen (because some panels have *extremely* weird caps...).
 	FBInkInputDevice* devices = fbink_input_scan(INPUT_POWER_BUTTON, INPUT_TOUCHSCREEN, SCAN_ONLY, &dev_count);
 	if (devices) {
 		FBInkInputDevice* matched_device = NULL;
@@ -879,6 +879,8 @@ int
 			}
 		}
 		if (matches > 1U) {
+			// We pick the last one by virtue of event0 being fairly solidly set in stone as the main NTX key hub.
+			// If there's a dedicated power button, it'll come later.
 			LOG(LOG_WARNING,
 			    "Found more that one potential match for the power button's input device, picking the last one...");
 		}
