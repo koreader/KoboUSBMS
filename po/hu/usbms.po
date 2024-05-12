@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-12 07:56+0200\n"
+"POT-Creation-Date: 2024-05-12 19:43+0200\n"
 "PO-Revision-Date: 2022-09-27 06:24+0000\n"
 "Last-Translator: Sari Gabor <sari.gabor@gmail.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/koreader/"
@@ -19,12 +19,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.14.1\n"
 
-#: usbms.c:1054
+#: usbms.c:1056
 msgid "USB Mass Storage"
 msgstr "USB tárhely üzemmód"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1106
+#: usbms.c:1108
 msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
@@ -33,7 +33,7 @@ msgstr ""
 "Kilépéshez nyomja meg a Power gombot."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1118
+#: usbms.c:1120
 msgid ""
 " Please disable USBSerial manually!\n"
 "Press the power button to exit."
@@ -42,7 +42,7 @@ msgstr ""
 "Kilépéshez nyomja meg a Power gombot."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1150
+#: usbms.c:1152
 #, fuzzy
 #| msgid ""
 #| " Please disable USBNet manually!\n"
@@ -55,7 +55,7 @@ msgstr ""
 "Kilépéshez nyomja meg a Power gombot."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1167
+#: usbms.c:1169
 msgid ""
 " Please take the device out of the PowerCover!\n"
 "Press the power button to exit."
@@ -64,36 +64,36 @@ msgstr ""
 "Kilépéshez nyomja meg a Power gombot."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1202
+#: usbms.c:1204
 msgid " Filesystem is busy! Offending processes:"
 msgstr " A fájlrendszer foglalt! Kapcsolódó folyamatok:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
-#: usbms.c:1237
+#: usbms.c:1239
 msgid " The fuser script failed!"
 msgstr " Az fuser szkript hibára futott!"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1247
+#: usbms.c:1249
 msgid " Could not run the fuser script!"
 msgstr " Az fuser szkript nem futtatható!"
 
-#: usbms.c:1253
+#: usbms.c:1255
 msgid "Press the power button to exit."
 msgstr "Kilépéshez nyomja meg a Power gombot."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1307 usbms.c:1410
+#: usbms.c:1309 usbms.c:1412
 msgid " The device will shut down in 30 sec."
 msgstr " Az eszköz 30 mp múlva kikapcsol."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1312 usbms.c:1415
+#: usbms.c:1314 usbms.c:1417
 msgid " KOReader will now restart…"
 msgstr " A KOReader újraindul…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1343
+#: usbms.c:1345
 msgid ""
 " Gave up after 30 sec.\n"
 "The device will shut down in 30 sec."
@@ -102,7 +102,7 @@ msgstr ""
 "Az eszköz 30 mp-en belül kikapcsol."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1348
+#: usbms.c:1350
 msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
@@ -110,7 +110,7 @@ msgstr ""
 " 30 mp múlva megszakítás.\n"
 "A KOReader újraindul…"
 
-#: usbms.c:1369
+#: usbms.c:1371
 msgid ""
 "Waiting to be plugged in…\n"
 "Or, press the power button to exit."
@@ -119,7 +119,7 @@ msgstr ""
 "Vagy, kilépéshez nyomja meg a Power gombot."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1438
+#: usbms.c:1440
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 30 sec."
@@ -128,7 +128,7 @@ msgstr ""
 "A készülék 30 mp-en belül leáll."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1443
+#: usbms.c:1445
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
@@ -137,7 +137,7 @@ msgstr ""
 "A KOReader újraindul…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1485
+#: usbms.c:1487
 msgid ""
 " Gave up after 90 sec.\n"
 "The device will shut down in 30 sec."
@@ -146,7 +146,7 @@ msgstr ""
 "Az eszköz 30 mp-en belül kikapcsol."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1490
+#: usbms.c:1492
 msgid ""
 " Gave up after 90 sec.\n"
 "KOReader will now restart…"
@@ -155,7 +155,7 @@ msgstr ""
 "A KOReader újraindul…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1614
+#: usbms.c:1616
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 30 sec."
@@ -164,7 +164,7 @@ msgstr ""
 "A készülék 30 mp-en belül leáll."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1619
+#: usbms.c:1621
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
@@ -172,12 +172,12 @@ msgstr ""
 " A készülék egy sima áramforráshoz csatlakozott, nem egy USB hosthoz!\n"
 "A KOReader újraindul…"
 
-#: usbms.c:1643
+#: usbms.c:1645
 msgid "Starting USBMS session…"
 msgstr "USBMS üzemmód indítása…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1675
+#: usbms.c:1677
 msgid ""
 " Could not start the USBMS session!\n"
 "The device will shut down in 90 sec."
@@ -185,7 +185,7 @@ msgstr ""
 " Az USBMS üzemmód indítása sikertelen!\n"
 "Az eszköz 90mp múlva kikapcsol."
 
-#: usbms.c:1693
+#: usbms.c:1695
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
@@ -194,7 +194,7 @@ msgstr ""
 "Biztonságosan távolítsa el az eszközt, mielőtt leválasztaná."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1798
+#: usbms.c:1800
 msgid ""
 " Could not detect an unplug event!\n"
 "The device will shut down in 90 sec."
@@ -202,12 +202,12 @@ msgstr ""
 " Nem érzékelt lecsatlakoztatási esemény!\n"
 "Az eszköz 90mp múlva leáll."
 
-#: usbms.c:1808
+#: usbms.c:1810
 msgid "Ending USBMS session…"
 msgstr "USBMS üzemmód befejezése…"
 
 #. @translators: First Unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1833
+#: usbms.c:1835
 msgid ""
 " Could not end the USBMS session!\n"
 "The device will shut down in 90 sec."
@@ -215,7 +215,7 @@ msgstr ""
 " Hiba USBMS mód befejezése közben!\n"
 "Az eszköz 90mp múlva leáll."
 
-#: usbms.c:1973
+#: usbms.c:1975
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
