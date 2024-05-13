@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-12 19:43+0200\n"
-"PO-Revision-Date: 2022-09-27 06:24+0000\n"
-"Last-Translator: Sari Gabor <sari.gabor@gmail.com>\n"
+"PO-Revision-Date: 2024-05-14 18:01+0000\n"
+"Last-Translator: Sari Gabor <sarigaborj@gmail.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/hu/>\n"
 "Language: hu\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 5.6-dev\n"
 
 #: usbms.c:1056
 msgid "USB Mass Storage"
@@ -43,16 +43,12 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1152
-#, fuzzy
-#| msgid ""
-#| " Please disable USBNet manually!\n"
-#| "Press the power button to exit."
 msgid ""
 " Please disable your custom USB gadget manually!\n"
 "Press the power button to exit."
 msgstr ""
-" Kapcsolja ki az USBNet funkciót!!\n"
-"Kilépéshez nyomja meg a Power gombot."
+" Manuálisan tiltsa le az egyéni USB-eszközét!\n"
+"Kilépéshez nyomja meg a bekapcsológombot."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1169
