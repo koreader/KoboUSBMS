@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-12 19:43+0200\n"
-"PO-Revision-Date: 2024-07-03 12:47+0000\n"
+"PO-Revision-Date: 2024-07-04 13:09+0000\n"
 "Last-Translator: Mihai Vasiliu <mihai.vasiliu.93@gmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/ro/>\n"
@@ -57,7 +57,7 @@ msgid ""
 " Please take the device out of the PowerCover!\n"
 "Press the power button to exit."
 msgstr ""
-" Te rog dezactivează scoate dispozitivul din PowerCover!\n"
+" Te rog scoate dispozitivul din coperta cu baterie!\n"
 "Apasă butonul de pornire pentru a ieși."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -82,7 +82,7 @@ msgstr "Apasă butonul de pornire pentru a ieși."
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1309 usbms.c:1412
 msgid " The device will shut down in 30 sec."
-msgstr " Dispozitivul se va închide în 30 de secunde."
+msgstr " Dispozitivul se va închide în 30 sec."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1314 usbms.c:1417
@@ -95,8 +95,8 @@ msgid ""
 " Gave up after 30 sec.\n"
 "The device will shut down in 30 sec."
 msgstr ""
-" S-a renunțat după 30 de secunde.\n"
-"Dispozitivul se va închide în 30 de secunde."
+" S-a renunțat după 30 sec.\n"
+"Dispozitivul se va închide în 30 sec."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1350
@@ -104,7 +104,7 @@ msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-" S-a renunțat după 30 de secunde.\n"
+"S-a renunțat după 30 sec.\n"
 "KOReader va reporni acum…"
 
 #: usbms.c:1371
