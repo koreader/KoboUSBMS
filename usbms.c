@@ -772,6 +772,7 @@ static int
 		} else if (rc == LIBEVDEV_READ_STATUS_SUCCESS) {
 			// If it's a SW_DOCK switch, return the value
 			if (libevdev_event_is_code(&ev, EV_SW, SW_DOCK) == 1) {
+				LOG(LOG_NOTICE, "Caught a USB-C plug %s event", ev.value ? "in" : "out");
 				return ev.value;
 			}
 		}
@@ -1617,17 +1618,12 @@ int
 				}
 
 				if (pfds[2].revents & POLLIN) {
-					int is_usbc_plugged = handle_usbc_evdev(usbc_dev);
-					if (is_usbc_plugged != -1) {
-						LOG(LOG_NOTICE,
-						    "Caught a USB-C plug %s event",
-						    is_usbc_plugged ? "in" : "out");
-						// TODO: I would *much* rather wait for a proper usb_host uevent,
-						//       so I'm wary of just signing off on a go-ahead based solely on this,
-						//       but we might remember this state, and act on it only in case of a timeout?
-						//       c.f., https://github.com/koreader/koreader/issues/12128 for a potential host/device
-						//       combo where things get confused...
-					}
+					handle_usbc_evdev(usbc_dev);
+					// TODO: I would *much* rather wait for a proper usb_host uevent,
+					//       so I'm wary of just signing off on a go-ahead based solely on this,
+					//       but we might remember this state, and act on it only in case of a timeout?
+					//       c.f., https://github.com/koreader/koreader/issues/12128 for a potential host/device
+					//       combo where things get confused...
 				}
 
 				if (pfds[3].revents & POLLIN) {
@@ -1940,12 +1936,9 @@ int
 			}
 
 			if (pfds[1].revents & POLLIN) {
-				int is_usbc_plugged = handle_usbc_evdev(usbc_dev);
-				if (is_usbc_plugged != -1) {
-					LOG(LOG_NOTICE, "Caught a USB-C plug %s event", is_usbc_plugged ? "in" : "out");
-					// NOTE: Unlike with the plug-in detection, this one is purely informal,
-					//       I don't intend to *ever* trust it over uevent for anything...
-				}
+				handle_usbc_evdev(usbc_dev);
+				// NOTE: Unlike with the plug-in detection, this one is purely informal,
+				//       I don't intend to *ever* trust it over uevent for anything...
 			}
 
 			if (pfds[2].revents & POLLIN) {
