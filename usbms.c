@@ -224,7 +224,7 @@ static int
 		return -1;
 	}
 
-	bool is_plugged = false;
+	bool   is_plugged   = false;
 	char   usbc_conn[8] = { 0 };
 	size_t size         = fread(usbc_conn, sizeof(*usbc_conn), sizeof(usbc_conn) - 1U, f);
 	fclose(f);
@@ -951,12 +951,16 @@ int
 				LOG(LOG_INFO, "Found a standalone USB-C controller input device @ `%s`", USBC_EVDEV);
 				// We need to poke at a dev_attr of this virtual input device, which means we need its number...
 				char* p = NULL;
-				int n = snprintf(p, 0, SUNXI_USBC_PLUG_SYSFS_FMT, device->path + strlen("/dev/input/event"));
+				int   n =
+				    snprintf(p, 0, SUNXI_USBC_PLUG_SYSFS_FMT, device->path + strlen("/dev/input/event"));
 				if (n >= 0) {
 					size_t size = (size_t) n + 1U;
-					p = malloc(size);
+					p           = malloc(size);
 					if (p) {
-						n = snprintf(p, size, SUNXI_USBC_PLUG_SYSFS_FMT, device->path + strlen("/dev/input/event"));
+						n = snprintf(p,
+							     size,
+							     SUNXI_USBC_PLUG_SYSFS_FMT,
+							     device->path + strlen("/dev/input/event"));
 						if (n < 0) {
 							free(p);
 						} else {
@@ -967,15 +971,20 @@ int
 				// Double check that we indeed have a sysfs entry at the computed path...
 				if (USBC_PLUG_SYSFS) {
 					if (access(USBC_PLUG_SYSFS, F_OK) == 0) {
-						LOG(LOG_INFO, "Found USB_PLUG sysfs entry for standalone USB-C controller @ `%s`", USBC_PLUG_SYSFS);
+						LOG(LOG_INFO,
+						    "Found USB_PLUG sysfs entry for standalone USB-C controller @ `%s`",
+						    USBC_PLUG_SYSFS);
 					} else {
-						LOG(LOG_WARNING, "Unable to access USB_PLUG sysfs entry for standalone USB-C controller @ `%s`", USBC_PLUG_SYSFS);
+						LOG(LOG_WARNING,
+						    "Unable to access USB_PLUG sysfs entry for standalone USB-C controller @ `%s`",
+						    USBC_PLUG_SYSFS);
 						// We'll have to do without...
 						free(USBC_PLUG_SYSFS);
 						USBC_PLUG_SYSFS = NULL;
 					}
 				} else {
-					LOG(LOG_WARNING, "Failed to compute USB_PLUG sysfs entry for standalone USB-C controller!");
+					LOG(LOG_WARNING,
+					    "Failed to compute USB_PLUG sysfs entry for standalone USB-C controller!");
 				}
 			}
 		}
@@ -1102,7 +1111,7 @@ int
 		// Check that nothing else has grabbed the input device, because that would prevent us from using it…
 		if (libevdev_grab(usbc_dev, LIBEVDEV_GRAB) != 0) {
 			LOG(LOG_CRIT,
-			"Cannot read input eventsfrom USB-C controller because the input device is currently grabbed by something else!");
+			    "Cannot read input eventsfrom USB-C controller because the input device is currently grabbed by something else!");
 			rv = USBMS_EARLY_EXIT;
 			goto cleanup;
 		}
@@ -1599,7 +1608,9 @@ int
 				if (pfds[2].revents & POLLIN) {
 					int is_usbc_plugged = handle_usbc_evdev(usbc_dev);
 					if (is_usbc_plugged != -1) {
-						LOG(LOG_NOTICE, "Caught a USB-C plug %s event", is_usbc_plugged ? "in" : "out");
+						LOG(LOG_NOTICE,
+						    "Caught a USB-C plug %s event",
+						    is_usbc_plugged ? "in" : "out");
 						// TODO: I would *much* rather wait for a proper usb_host uevent,
 						//       so I'm wary of just signing off on a go-ahead based on this only,
 						//       but we might remember this state, and act on it only in case of a timeout?
