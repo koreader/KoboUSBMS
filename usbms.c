@@ -1512,7 +1512,7 @@ int
 	// If we're not plugged in, wait for it (or abort early)
 	usb_plugged         = (*fxpIsUSBPlugged)(ctx.ntxfd, true);
 	// Check the standalone USB-C controller, too...
-	is_usbc_plugged(true);
+	int usb_c_plugged   = is_usbc_plugged(true);
 	while (!usb_plugged) {
 		print_msg(_("Waiting to be plugged in…\nOr, press the power button to exit."), &ctx);
 
@@ -1618,12 +1618,10 @@ int
 				}
 
 				if (pfds[2].revents & POLLIN) {
-					handle_usbc_evdev(usbc_dev);
-					// TODO: I would *much* rather wait for a proper usb_host uevent,
-					//       so I'm wary of just signing off on a go-ahead based solely on this,
-					//       but we might remember this state, and act on it only in case of a timeout?
-					//       c.f., https://github.com/koreader/koreader/issues/12128 for a potential host/device
-					//       combo where things get confused...
+					// I don't trust this very much (even in optimal conditions, it *will* fire multiple times),
+					// but we've seen some weird behavior on some host/device combos,
+					// so, if that's the best we have at the end of the timeout, let the charger type detection figure it out...
+					usb_c_plugged = handle_usbc_evdev(usbc_dev);
 				}
 
 				if (pfds[3].revents & POLLIN) {
@@ -1641,6 +1639,17 @@ int
 			if (elapsed_time(&poll_ts, &start_ts) >= 90) {
 				// We've been polling for more than 90 sec, we're done
 				done = true;
+
+				// NOTE: For janky devices with a standalone USB-C controller, if we failed to detect a proper plug-in event,
+				//       but said controller thinks there's something at the other end of the cable,
+				//       go ahead and let the charger type detection figure things out...
+				//       c.f., https://github.com/koreader/koreader/issues/12128
+				// We happen to know that all the devices with said controller (Mk. 8 & 9) support the charger type detection.
+				if (usb_c_plugged == 1) {
+					LOG(LOG_WARNING,
+					    "It's been 90 sec, and we failed to detect a proper plug-in event, but the USB-C controller thinks there's something at the other end of the cable...");
+					break;
+				}
 			}
 
 			// Give up afer 90 sec
@@ -1693,7 +1702,7 @@ int
 		if (usb_plugged) {
 			LOG(LOG_NOTICE, "Device is now plugged in");
 		} else {
-			LOG(LOG_WARNING, "Device appears to still be unplugged despite the plug event!");
+			LOG(LOG_WARNING, "Device appears to still be unplugged despite the plug-in event!");
 		}
 		print_icon(usb_plugged ? "\U000f0201" : "\U000f0202", &ctx);
 	}
