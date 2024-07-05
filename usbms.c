@@ -752,6 +752,33 @@ static bool
 	return false;
 }
 
+// Parse an evdev event, looking for a SW_DOCK switch
+static int
+    handle_usbc_evdev(struct libevdev* dev)
+{
+	int rc = 1;
+	do {
+		struct input_event ev;
+		rc = libevdev_next_event(dev, LIBEVDEV_READ_FLAG_NORMAL, &ev);
+		if (rc == LIBEVDEV_READ_STATUS_SYNC) {
+			while (rc == LIBEVDEV_READ_STATUS_SYNC) {
+				// NOTE: We're ignoring the sync delta events here.
+				rc = libevdev_next_event(dev, LIBEVDEV_READ_FLAG_SYNC, &ev);
+			}
+		} else if (rc == LIBEVDEV_READ_STATUS_SUCCESS) {
+			// If it's a SW_DOCK switch, return the value
+			if (libevdev_event_is_code(&ev, EV_SW, SW_DOCK) == 1) {
+				return ev.value;
+			}
+		}
+	} while (rc == LIBEVDEV_READ_STATUS_SYNC || rc == LIBEVDEV_READ_STATUS_SUCCESS);
+	if (rc != LIBEVDEV_READ_STATUS_SUCCESS && rc != -EAGAIN) {
+		PFLOG(LOG_ERR, "Failed to handle input events: %s", strerror(-rc));
+	}
+
+	return -1;
+}
+
 // Parse an uevent
 static int
     handle_uevent(struct uevent_listener* l, struct uevent* uevp)
@@ -799,6 +826,8 @@ int
 	USBMSContext     ctx            = { 0 };
 	int              evfd           = -1;
 	int              clockfd        = -1;
+	struct libevdev* usbc_dev       = NULL;
+	int              usbc_fd        = -1;
 
 	// We'll be chatting exclusively over syslog, because duh.
 	openlog("usbms", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_DAEMON);
@@ -1052,6 +1081,35 @@ int
 	// And we ourselves don't need to grab it, so, don't ;).
 	libevdev_grab(dev, LIBEVDEV_UNGRAB);
 	LOG(LOG_INFO, "Initialized libevdev v%s for device `%s`", LIBEVDEV_VERSION, libevdev_get_name(dev));
+
+	// Ditto for the standalone USB-C controller, if any
+	if (USBC_EVDEV) {
+		usbc_fd = open(USBC_EVDEV, O_RDONLY | O_CLOEXEC | O_NONBLOCK);
+		if (usbc_fd == -1) {
+			PFLOG(LOG_CRIT, "open: %m");
+			rv = USBMS_EARLY_EXIT;
+			goto cleanup;
+		}
+
+		usbc_dev = libevdev_new();
+		libevdev_set_device_log_function(usbc_dev, &libevdev_to_syslog, LIBEVDEV_LOG_INFO, NULL);
+		rc = libevdev_set_fd(usbc_dev, usbc_fd);
+		if (rc < 0) {
+			LOG(LOG_CRIT, "Could not initialize libevdev for USB-C controller (%s)", strerror(-rc));
+			rv = USBMS_EARLY_EXIT;
+			goto cleanup;
+		}
+		// Check that nothing else has grabbed the input device, because that would prevent us from using it…
+		if (libevdev_grab(usbc_dev, LIBEVDEV_GRAB) != 0) {
+			LOG(LOG_CRIT,
+			"Cannot read input eventsfrom USB-C controller because the input device is currently grabbed by something else!");
+			rv = USBMS_EARLY_EXIT;
+			goto cleanup;
+		}
+		// And we ourselves don't need to grab it, so, don't ;).
+		libevdev_grab(usbc_dev, LIBEVDEV_UNGRAB);
+		LOG(LOG_INFO, "Initialized libevdev v%s for device `%s`", LIBEVDEV_VERSION, libevdev_get_name(usbc_dev));
+	}
 
 	// Much like in KOReader's OTAManager, check if we can use pipefail in a roundabout way,
 	// because old busybox ash versions will *abort* on set failures…
@@ -1445,17 +1503,20 @@ int
 		print_msg(_("Waiting to be plugged in…\nOr, press the power button to exit."), &ctx);
 
 		LOG(LOG_INFO, "Waiting for a plug in event or a power button press…");
-		struct pollfd pfds[3] = { 0 };
-		nfds_t        nfds    = 3;
+		struct pollfd pfds[4] = { 0 };
+		nfds_t        nfds    = 4;
 		// Input device
 		pfds[0].fd            = evfd;
 		pfds[0].events        = POLLIN;
 		// Uevent socket
 		pfds[1].fd            = listener.pfd.fd;
 		pfds[1].events        = listener.pfd.events;
-		// Clock
-		pfds[2].fd            = clockfd;
+		// USB-C input device (optional)
+		pfds[2].fd            = usbc_fd;
 		pfds[2].events        = POLLIN;
+		// Clock
+		pfds[3].fd            = clockfd;
+		pfds[3].events        = POLLIN;
 
 		// Keep track of the time we've been polling
 		struct timespec start_ts = { 0 };
@@ -1536,6 +1597,16 @@ int
 				}
 
 				if (pfds[2].revents & POLLIN) {
+					int is_usbc_plugged = handle_usbc_evdev(usbc_dev);
+					if (is_usbc_plugged != -1) {
+						LOG(LOG_NOTICE, "Caught a USB-C plug %s event", is_usbc_plugged ? "in" : "out");
+						// TODO: I would *much* rather wait for a proper usb_host uevent,
+						//       so I'm wary of just signing off on a go-ahead based on this only,
+						//       but we might remember this state, and act on it only in case of a timeout?
+					}
+				}
+
+				if (pfds[3].revents & POLLIN) {
 					// Refresh the status bar
 					print_status(&ctx);
 					// We don't actually care about the expiration count, so just read to clear the event
@@ -1570,6 +1641,9 @@ int
 				break;
 			}
 		}
+
+		// Double-check what the USB-C controller thinks is going on...
+		is_usbc_plugged(true);
 
 		// If we abort before plug in, we can (usually) still exit safely…
 		if (need_early_abort) {
@@ -2075,9 +2149,13 @@ cleanup:
 	if (evfd != -1) {
 		close(evfd);
 	}
-	free(USBC_PLUG_SYSFS);
-	free(USBC_EVDEV);
 	free(NTX_KEYS_EVDEV);
+	libevdev_free(usbc_dev);
+	if (usbc_fd != -1) {
+		close(usbc_fd);
+	}
+	free(USBC_EVDEV);
+	free(USBC_PLUG_SYSFS);
 
 	if (ctx.ntxfd != -1) {
 		close(ctx.ntxfd);
