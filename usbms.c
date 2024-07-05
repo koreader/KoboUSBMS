@@ -1597,6 +1597,13 @@ int
 							print_status(&ctx);
 							LOG(LOG_NOTICE, "Caught a plug in event (to a USB host)");
 							break;
+						} else if (uev.action == UEVENT_ACTION_CHANGE && uev.subsystem &&
+							   UE_STR_EQ(uev.subsystem, "power_supply")) {
+							// Refresh the status bar
+							print_status(&ctx);
+							// NOTE: Any meaningful change *should* be accompanied by the relevant usb_host/usb_plug event,
+							//       this one is just for the status bar's sake.
+							LOG(LOG_NOTICE, "Caught a discharge tick");
 						}
 					} else if (ue_rc == ERR_LISTENER_RECV) {
 						// Assume handle_uevent read failures to be fatal
