@@ -1621,6 +1621,8 @@ int
 						// TODO: I would *much* rather wait for a proper usb_host uevent,
 						//       so I'm wary of just signing off on a go-ahead based on this only,
 						//       but we might remember this state, and act on it only in case of a timeout?
+						//       c.f., https://github.com/koreader/koreader/issues/12128 for a potential host/device
+						//       combo where things get confused...
 					}
 				}
 
