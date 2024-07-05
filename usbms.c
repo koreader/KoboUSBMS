@@ -951,7 +951,7 @@ int
 				matched_device = device;
 			}
 			// Also handle the weird input device for the standalone USB-C controller found on some sunxi-era devices...
-			if (strcmp(device->name, "P15USB30216C") == 0) {
+			if (device->type == INPUT_UNKNOWN && strcmp(device->name, "P15USB30216C") == 0) {
 				USBC_EVDEV = strdup(device->path);
 				LOG(LOG_INFO, "Found a standalone USB-C controller input device @ `%s`", USBC_EVDEV);
 				// We need to poke at a dev_attr of this virtual input device, which means we need its number...
