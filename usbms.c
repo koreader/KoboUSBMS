@@ -861,6 +861,10 @@ int
 	}
 	char resource_path[PATH_MAX] = { 0 };
 
+	// Make sure we have a klogd instance redirecting the kernel logs to syslog, so we get some context interleaved with our own logging.
+	snprintf(resource_path, sizeof(resource_path) - 1U, "%s/scripts/launch-klogd.sh", abs_pwd);
+	system(resource_path);
+
 	// NOTE: The font we ship only covers LGC scripts. Blacklist a few languages where we know it won't work,
 	//       based on KOReader's own language list (c.f., frontend/ui/language.lua).
 	//       Because English is better than the replacement character ;p.

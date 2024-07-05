@@ -161,6 +161,7 @@ kobo: armcheck release
 	ln -sf $(CURDIR)/scripts/start-usbms.sh Kobo/scripts/start-usbms.sh
 	ln -sf $(CURDIR)/scripts/end-usbms.sh Kobo/scripts/end-usbms.sh
 	ln -sf $(CURDIR)/scripts/fuser-check.sh Kobo/scripts/fuser-check.sh
+	ln -sf $(CURDIR)/scripts/launch-klogd.sh Kobo/scripts/launch-klogd.sh
 	ln -sf $(CURDIR)/resources/img/koreader.png Kobo/resources/img/koreader.png
 	ln -sf $(CURDIR)/resources/fonts/CaskaydiaCove_NF.ttf Kobo/resources/fonts/CaskaydiaCove_NF.ttf
 	ln -sf $(CURDIR)/$(OUT_DIR)/usbms Kobo/usbms
