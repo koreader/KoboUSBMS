@@ -242,7 +242,7 @@ static int
 	}
 
 	if (log_status) {
-		LOG(LOG_DEBUG, "Standalone USB-C cable detection: %s", is_plugged ? "Connected" : "Disconnected");
+		LOG(LOG_DEBUG, "Standalone USB-C controller cable detection: %s", is_plugged ? "Connected" : "Disconnected");
 	}
 
 	return is_plugged;
