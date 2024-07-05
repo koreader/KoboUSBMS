@@ -950,7 +950,7 @@ int
 				matches++;
 				matched_device = device;
 			}
-			// Also handle the weird input device for the USB-C controller found on some sunxi-era devices...
+			// Also handle the weird input device for the standalone USB-C controller found on some sunxi-era devices...
 			if (strcmp(device->name, "P15USB30216C") == 0) {
 				USBC_EVDEV = strdup(device->path);
 				LOG(LOG_INFO, "Found a standalone USB-C controller input device @ `%s`", USBC_EVDEV);
@@ -997,7 +997,7 @@ int
 			// We pick the last one by virtue of event0 being fairly solidly set in stone as the main NTX key hub.
 			// If there's a dedicated power button, it'll come later.
 			LOG(LOG_WARNING,
-			    "Found more that one potential match for the power button's input device, picking the last one...");
+			    "Found more that one potential match for the power button's input device, picking the last one…");
 		}
 		if (matched_device) {
 			NTX_KEYS_EVDEV = strdup(matched_device->path);
@@ -1005,7 +1005,7 @@ int
 		free(devices);
 	}
 	if (matches == 0U) {
-		LOG(LOG_WARNING, "Couldn't auto-detect the power button's input device, assuming event0...");
+		LOG(LOG_WARNING, "Couldn't auto-detect the power button's input device, assuming event0…");
 		NTX_KEYS_EVDEV = strdup("/dev/input/event0");
 	}
 
@@ -1051,6 +1051,13 @@ int
 		} else {
 			CHARGER_TYPE_SYSFS = NXP_CHARGER_TYPE_SYSFS;
 		}
+	}
+	// Check whether the device actually supports charger_type...
+	if (access(CHARGER_TYPE_SYSFS, F_OK) != 0) {
+		LOG(LOG_INFO,
+		    "Unable to check charger type on your device (please report this issue if your device is actually newer than Mk. 7).");
+		// Lets us quickly check whether this is supported later
+		CHARGER_TYPE_SYSFS = NULL;
 	}
 	// Deal with devices where fbink_wait_for_complete may timeout...
 	if (ctx.fbink_state.unreliable_wait_for) {
@@ -1442,6 +1449,7 @@ int
 			}
 
 			if (poll_num > 0) {
+				// Power button
 				if (pfds[0].revents & POLLIN) {
 					if (handle_evdev(dev)) {
 						// Refresh the status bar
@@ -1463,6 +1471,7 @@ int
 					}
 				}
 
+				// Clock
 				if (pfds[1].revents & POLLIN) {
 					// Refresh the status bar
 					print_status(&ctx);
@@ -1550,6 +1559,7 @@ int
 			}
 
 			if (poll_num > 0) {
+				// Power button
 				if (pfds[0].revents & POLLIN) {
 					if (handle_evdev(dev)) {
 						// Refresh the status bar
@@ -1573,6 +1583,7 @@ int
 					}
 				}
 
+				// Uevent
 				if (pfds[1].revents & POLLIN) {
 					int ue_rc = handle_uevent(&listener, &uev);
 					if (ue_rc == EXIT_SUCCESS) {
@@ -1617,6 +1628,7 @@ int
 					}
 				}
 
+				// Standalone USB-C controller
 				if (pfds[2].revents & POLLIN) {
 					// I don't trust this very much (even in optimal conditions, it *will* fire multiple times),
 					// but we've seen some weird behavior on some host/device combos,
@@ -1624,6 +1636,7 @@ int
 					usb_c_plugged = handle_usbc_evdev(usbc_dev);
 				}
 
+				// Clock
 				if (pfds[3].revents & POLLIN) {
 					// Refresh the status bar
 					print_status(&ctx);
@@ -1640,14 +1653,24 @@ int
 				// We've been polling for more than 90 sec, we're done
 				done = true;
 
-				// NOTE: For janky devices with a standalone USB-C controller, if we failed to detect a proper plug-in event,
+				// Despite the lack of plug in event, check what the kernel thinks the current situation is...
+				usb_plugged = (*fxpIsUSBPlugged)(ctx.ntxfd, true);
+				if (usb_plugged && CHARGER_TYPE_SYSFS) {
+					// And in case it now looks plugged in, and we can verify that via a charger type check, keep going...
+					LOG(LOG_WARNING,
+					    "It's been 90 sec, and we failed to detect a proper plug in event, but the PMIC thinks we might be plugged in…");
+					break;
+				}
+
+				// NOTE: In the same vein, on janky devices with a standalone USB-C controller,
+				//       if we failed to detect a proper plug in event,
 				//       but said controller thinks there's something at the other end of the cable,
 				//       go ahead and let the charger type detection figure things out...
 				//       c.f., https://github.com/koreader/koreader/issues/12128
-				if (usb_c_plugged == 1 && access(CHARGER_TYPE_SYSFS, F_OK) == 0) {
+				if (usb_c_plugged == 1 && CHARGER_TYPE_SYSFS) {
 					// All the devices with said controller *should* support charger type detection, but let's be thorough...
 					LOG(LOG_WARNING,
-					    "It's been 90 sec, and we failed to detect a proper plug-in event, but the USB-C controller thinks there's something at the other end of the cable...");
+					    "It's been 90 sec, and we failed to detect a proper plug in event, but the USB-C controller thinks there's something at the other end of the cable…");
 					break;
 				}
 			}
@@ -1700,9 +1723,12 @@ int
 		nanosleep(&zzz, NULL);
 		usb_plugged = (*fxpIsUSBPlugged)(ctx.ntxfd, true);
 		if (usb_plugged) {
+			// And that's our exit condition for the loop we're in
 			LOG(LOG_NOTICE, "Device is now plugged in");
 		} else {
-			LOG(LOG_WARNING, "Device appears to still be unplugged despite the plug-in event!");
+			// That's... not good? :D. Back to another round of polling!
+			LOG(LOG_WARNING,
+			    "Device appears to still be unplugged despite the plug in event! Going back to square one.");
 		}
 		print_icon(usb_plugged ? "\U000f0201" : "\U000f0202", &ctx);
 	}
@@ -1717,7 +1743,7 @@ int
 	//       assuming it *also* got a chance to catch the event: i.e., it started *before* the plug in…
 	// NOTE: Regardless, we want to double-check the charger type in *every* scenario...
 	// NOTE: Unfortunately, the only platforms where we can do that appears to be Mk. 7+…
-	if (access(CHARGER_TYPE_SYSFS, F_OK) == 0) {
+	if (CHARGER_TYPE_SYSFS) {
 		LOG(LOG_INFO, "Checking charger type");
 		FILE* f = fopen(CHARGER_TYPE_SYSFS, "re");
 		if (f) {
@@ -1811,9 +1837,6 @@ int
 			// That... shouldn't really ever happen ;).
 			LOG(LOG_WARNING, "Could not open the sysfs entry for charger type (%m)!");
 		}
-	} else {
-		LOG(LOG_INFO,
-		    "Unable to check charger type on your device (please report this issue if your device is actually newer than Mk. 7).");
 	}
 
 	// We're plugged in, here comes the fun…
@@ -1911,6 +1934,7 @@ int
 		}
 
 		if (poll_num > 0) {
+			// Uevent
 			if (pfds[0].revents & POLLIN) {
 				int ue_rc = handle_uevent(&listener, &uev);
 				if (ue_rc == EXIT_SUCCESS) {
@@ -1944,12 +1968,14 @@ int
 				}
 			}
 
+			// Standalone USB-C controller
 			if (pfds[1].revents & POLLIN) {
 				handle_usbc_evdev(usbc_dev);
-				// NOTE: Unlike with the plug-in detection, this one is purely informal,
+				// NOTE: Unlike with the plug in detection, this one is purely informal,
 				//       I don't intend to *ever* trust it over uevent for anything...
 			}
 
+			// Clock
 			if (pfds[2].revents & POLLIN) {
 				// Refresh the status bar
 				print_status(&ctx);
