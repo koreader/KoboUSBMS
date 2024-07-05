@@ -1644,8 +1644,8 @@ int
 				//       but said controller thinks there's something at the other end of the cable,
 				//       go ahead and let the charger type detection figure things out...
 				//       c.f., https://github.com/koreader/koreader/issues/12128
-				// We happen to know that all the devices with said controller (Mk. 8 & 9) support the charger type detection.
-				if (usb_c_plugged == 1) {
+				if (usb_c_plugged == 1 && access(CHARGER_TYPE_SYSFS, F_OK) == 0) {
+					// All the devices with said controller *should* support charger type detection, but let's be thorough...
 					LOG(LOG_WARNING,
 					    "It's been 90 sec, and we failed to detect a proper plug-in event, but the USB-C controller thinks there's something at the other end of the cable...");
 					break;
