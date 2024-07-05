@@ -214,7 +214,7 @@ static bool
 static int
     is_usbc_plugged(bool log_status)
 {
-	// Only found on few Mk. 8 & Mk. 9 boards...
+	// Only found on a few Mk. 8 & Mk. 9 boards...
 	if (!USBC_PLUG_SYSFS) {
 		return -1;
 	}
@@ -237,12 +237,16 @@ static int
 	}
 
 	// Should only ever be 0 or 1
+	// NOTE: The i2c read exposes more information about what kind of device is on the other end of the cable,
+	//       but that information is, sadly, lost to us (it *is* printed to dmesg, at least).
 	if (usbc_conn[0] == '1') {
 		is_plugged = true;
 	}
 
 	if (log_status) {
-		LOG(LOG_DEBUG, "Standalone USB-C controller cable detection: %s", is_plugged ? "Connected" : "Disconnected");
+		LOG(LOG_DEBUG,
+		    "Standalone USB-C controller cable detection: %s",
+		    is_plugged ? "Connected" : "Disconnected");
 	}
 
 	return is_plugged;
@@ -1111,7 +1115,7 @@ int
 		// Check that nothing else has grabbed the input device, because that would prevent us from using it…
 		if (libevdev_grab(usbc_dev, LIBEVDEV_GRAB) != 0) {
 			LOG(LOG_CRIT,
-			    "Cannot read input eventsfrom USB-C controller because the input device is currently grabbed by something else!");
+			    "Cannot read input events from USB-C controller because the input device is currently grabbed by something else!");
 			rv = USBMS_EARLY_EXIT;
 			goto cleanup;
 		}
@@ -1619,7 +1623,7 @@ int
 						    "Caught a USB-C plug %s event",
 						    is_usbc_plugged ? "in" : "out");
 						// TODO: I would *much* rather wait for a proper usb_host uevent,
-						//       so I'm wary of just signing off on a go-ahead based on this only,
+						//       so I'm wary of just signing off on a go-ahead based solely on this,
 						//       but we might remember this state, and act on it only in case of a timeout?
 						//       c.f., https://github.com/koreader/koreader/issues/12128 for a potential host/device
 						//       combo where things get confused...
