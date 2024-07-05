@@ -1863,14 +1863,17 @@ int
 
 	// And now we just have to wait until an unplug…
 	LOG(LOG_INFO, "Waiting for an eject or unplug event…");
-	struct pollfd pfds[2] = { 0 };
-	nfds_t        nfds    = 2;
+	struct pollfd pfds[3] = { 0 };
+	nfds_t        nfds    = 3;
 	// Uevent socket
 	pfds[0].fd            = listener.pfd.fd;
 	pfds[0].events        = listener.pfd.events;
-	// Clock
-	pfds[1].fd            = clockfd;
+	// USB-C input device (optional)
+	pfds[1].fd            = usbc_fd;
 	pfds[1].events        = POLLIN;
+	// Clock
+	pfds[2].fd            = clockfd;
+	pfds[2].events        = POLLIN;
 
 	struct uevent uev;
 	// NOTE: This is basically ue_wait_for_event, but with an extra polling on our clock timerfd,
@@ -1924,6 +1927,15 @@ int
 			}
 
 			if (pfds[1].revents & POLLIN) {
+				int is_usbc_plugged = handle_usbc_evdev(usbc_dev);
+				if (is_usbc_plugged != -1) {
+					LOG(LOG_NOTICE, "Caught a USB-C plug %s event", is_usbc_plugged ? "in" : "out");
+					// NOTE: Unlike with the plug-in detection, this one is purely informal,
+					//       I don't intend to *ever* trust it over uevent for anything...
+				}
+			}
+
+			if (pfds[2].revents & POLLIN) {
 				// Refresh the status bar
 				print_status(&ctx);
 				// We don't actually care about the expiration count, so just read to clear the event
