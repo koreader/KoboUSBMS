@@ -130,6 +130,10 @@ bool (*fxpIsUSBPlugged)(int, bool) = NULL;
 #define MTK_CHARGER_TYPE_SYSFS   "/sys/class/power_supply/bd71827_bat/charger_type"
 // For ref., on mainline w/ @akemnade's driver: /sys/class/power_supply/rn5t618-usb/usb_type
 const char* CHARGER_TYPE_SYSFS = NULL;
+// For the weird standalone USB-C controller found on sunxi & Mk. 9...
+#define SUNXI_USBC_PLUG_SYSFS_FMT "/sys/devices/virtual/input/input%s/USB_PLUG"
+char* USBC_PLUG_SYSFS = NULL;
+char* USBC_EVDEV = NULL;
 #define FL_INTENSITY_SYSFS "/sys/class/backlight/mxc_msp430.0/actual_brightness"
 
 // Because MXCFB_WAIT_FOR_UPDATE_COMPLETE is unreliable on a few NTX boards...

@@ -209,6 +209,45 @@ static bool
 	return is_plugged;
 }
 
+// Check if the standalone USB-C controller thinks there's something plugged in
+// c.f., drivers/input/misc/P15USB30216C.c
+static int
+    is_usbc_plugged(bool log_status)
+{
+	// Only found on few Mk. 8 & Mk. 9 boards...
+	if (!USBC_PLUG_SYSFS) {
+		return -1;
+	}
+
+	FILE* f = fopen(USBC_PLUG_SYSFS, "re");
+	if (!f) {
+		return -1;
+	}
+
+	bool is_plugged = false;
+	char   usbc_conn[8] = { 0 };
+	size_t size         = fread(usbc_conn, sizeof(*usbc_conn), sizeof(usbc_conn) - 1U, f);
+	fclose(f);
+	f = NULL;
+	if (size > 0) {
+		// Strip trailing LF
+		if (usbc_conn[size - 1U] == '\n') {
+			usbc_conn[size - 1U] = '\0';
+		}
+	}
+
+	// Should only ever be 0 or 1
+	if (usbc_conn[0] == '1') {
+		is_plugged = true;
+	}
+
+	if (log_status) {
+		LOG(LOG_DEBUG, "Standalone USB-C cable detection: %s", is_plugged ? "Connected" : "Disconnected");
+	}
+
+	return is_plugged;
+}
+
 // Return a fancy battery icon given the charge percentage…
 static const char*
     get_battery_icon(uint8_t charge)
@@ -877,6 +916,39 @@ int
 				matches++;
 				matched_device = device;
 			}
+			// Also handle the weird input device for the USB-C controller found on some sunxi-era devices...
+			if (strcmp(device->name, "P15USB30216C") == 0) {
+				USBC_EVDEV = strdup(device->path);
+				LOG(LOG_INFO, "Found a standalone USB-C controller input device @ `%s`", USBC_EVDEV);
+				// We need to poke at a dev_attr of this virtual input device, which means we need its number...
+				char* p = NULL;
+				int n = snprintf(p, 0, SUNXI_USBC_PLUG_SYSFS_FMT, device->path + strlen("/dev/input/event"));
+				if (n >= 0) {
+					size_t size = (size_t) n + 1U;
+					p = malloc(size);
+					if (p) {
+						n = snprintf(p, size, SUNXI_USBC_PLUG_SYSFS_FMT, device->path + strlen("/dev/input/event"));
+						if (n < 0) {
+							free(p);
+						} else {
+							USBC_PLUG_SYSFS = p;
+						}
+					}
+				}
+				// Double check that we indeed have a sysfs entry at the computed path...
+				if (USBC_PLUG_SYSFS) {
+					if (access(USBC_PLUG_SYSFS, F_OK) == 0) {
+						LOG(LOG_INFO, "Found USB_PLUG sysfs entry for standalone USB-C controller @ `%s`", USBC_PLUG_SYSFS);
+					} else {
+						LOG(LOG_WARNING, "Unable to access USB_PLUG sysfs entry for standalone USB-C controller @ `%s`", USBC_PLUG_SYSFS);
+						// We'll have to do without...
+						free(USBC_PLUG_SYSFS);
+						USBC_PLUG_SYSFS = NULL;
+					}
+				} else {
+					LOG(LOG_WARNING, "Failed to compute USB_PLUG sysfs entry for standalone USB-C controller!");
+				}
+			}
 		}
 		if (matches > 1U) {
 			// We pick the last one by virtue of event0 being fairly solidly set in stone as the main NTX key hub.
@@ -906,7 +978,7 @@ int
 		BATT_CAP_SYSFS     = SUNXI_BATT_CAP_SYSFS;
 		CHARGER_TYPE_SYSFS = SUNXI_CHARGER_TYPE_SYSFS;
 
-		// The CM_USB_Plug_IN ioctl is currently unreliable…
+		// The CM_USB_Plug_IN ioctl is currently unreliable (it pokes at the wrong power supply)…
 		BATT_STATUS_SYSFS = SUNXI_BATT_STATUS_SYSFS;
 		fxpIsUSBPlugged   = &sysfs_is_usb_plugged;
 
@@ -1367,6 +1439,8 @@ int
 	bool sleep_on_abort = true;
 	// If we're not plugged in, wait for it (or abort early)
 	usb_plugged         = (*fxpIsUSBPlugged)(ctx.ntxfd, true);
+	// Check the standalone USB-C controller, too...
+	is_usbc_plugged(true);
 	while (!usb_plugged) {
 		print_msg(_("Waiting to be plugged in…\nOr, press the power button to exit."), &ctx);
 
@@ -2001,6 +2075,8 @@ cleanup:
 	if (evfd != -1) {
 		close(evfd);
 	}
+	free(USBC_PLUG_SYSFS);
+	free(USBC_EVDEV);
 	free(NTX_KEYS_EVDEV);
 
 	if (ctx.ntxfd != -1) {
