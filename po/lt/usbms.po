@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-05 07:44+0200\n"
+"POT-Creation-Date: 2024-07-06 00:07+0200\n"
 "PO-Revision-Date: 2022-10-18 19:06+0000\n"
 "Last-Translator: Gediminas Murauskas <muziejusinfo@gmail.com>\n"
 "Language-Team: Lithuanian <https://hosted.weblate.org/projects/koreader/"
@@ -21,12 +21,12 @@ msgstr ""
 "1 : 2);\n"
 "X-Generator: Weblate 4.15-dev\n"
 
-#: usbms.c:1207
+#: usbms.c:1211
 msgid "USB Mass Storage"
 msgstr "USMB masinė saugykla"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1259
+#: usbms.c:1263
 msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
@@ -35,7 +35,7 @@ msgstr ""
 "Norėdami išeiti, paspauskite įrenginio išjungimo mygtuką."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1271
+#: usbms.c:1275
 msgid ""
 " Please disable USBSerial manually!\n"
 "Press the power button to exit."
@@ -44,7 +44,7 @@ msgstr ""
 "Norėdami išeiti, paspauskite įrenginio išjungimo mygtuką."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1303
+#: usbms.c:1307
 #, fuzzy
 #| msgid ""
 #| " Please disable USBNet manually!\n"
@@ -57,7 +57,7 @@ msgstr ""
 "Norėdami išeiti, paspauskite įrenginio išjungimo mygtuką."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1320
+#: usbms.c:1324
 msgid ""
 " Please take the device out of the PowerCover!\n"
 "Press the power button to exit."
@@ -66,36 +66,36 @@ msgstr ""
 "Norėdami išeiti, paspauskite maitinimo mygtuką."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1355
+#: usbms.c:1359
 msgid " Filesystem is busy! Offending processes:"
 msgstr " Failų sistema užimta! Pažeidžiantys procesai:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
-#: usbms.c:1390
+#: usbms.c:1394
 msgid " The fuser script failed!"
 msgstr " Kaitintuvo scenarijaus nepavyko!"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1400
+#: usbms.c:1404
 msgid " Could not run the fuser script!"
 msgstr " Nepavyko paleisti fuser scenarijaus!"
 
-#: usbms.c:1406
+#: usbms.c:1410
 msgid "Press the power button to exit."
 msgstr "Norėdami išeiti, paspauskite įrenginio išjungimo mygtuką."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1461 usbms.c:1571
+#: usbms.c:1465 usbms.c:1575
 msgid " The device will shut down in 30 sec."
 msgstr " Įrenginys išsijungs po 30 sek."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1466 usbms.c:1576
+#: usbms.c:1470 usbms.c:1580
 msgid " KOReader will now restart…"
 msgstr " KOReader bus paleistas iš naujo…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1498
+#: usbms.c:1502
 msgid ""
 " Gave up after 30 sec.\n"
 "The device will shut down in 30 sec."
@@ -104,7 +104,7 @@ msgstr ""
 "Įrenginys išsijungs po 30 sek."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1503
+#: usbms.c:1507
 msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
@@ -112,7 +112,7 @@ msgstr ""
 " Bandyta 30 sek., veiksmas nepavyko.\n"
 "KOReader bus paleistas iš naujo…"
 
-#: usbms.c:1526
+#: usbms.c:1530
 msgid ""
 "Waiting to be plugged in…\n"
 "Or, press the power button to exit."
@@ -121,7 +121,7 @@ msgstr ""
 "Arba paspauskite įrenginio išjungimo mygtuką, kad išeitumėte."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1600
+#: usbms.c:1604
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 30 sec."
@@ -131,7 +131,7 @@ msgstr ""
 "Įrenginys išsijungs po 30 sek."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1605
+#: usbms.c:1609
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
@@ -141,7 +141,7 @@ msgstr ""
 "KOReader bus paleistas iš naujo…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1684
+#: usbms.c:1688
 msgid ""
 " Gave up after 90 sec.\n"
 "The device will shut down in 30 sec."
@@ -150,7 +150,7 @@ msgstr ""
 "Įrenginys išsijungs po 30 sek."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1689
+#: usbms.c:1693
 msgid ""
 " Gave up after 90 sec.\n"
 "KOReader will now restart…"
@@ -159,7 +159,7 @@ msgstr ""
 "KOReader bus paleistas iš naujo…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1819
+#: usbms.c:1823
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 30 sec."
@@ -169,7 +169,7 @@ msgstr ""
 "Įrenginys išsijungs po 30 sek."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1824
+#: usbms.c:1828
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
@@ -178,12 +178,12 @@ msgstr ""
 "šaltinio!\n"
 "KOReader dabar bus paleistas iš naujo…"
 
-#: usbms.c:1845
+#: usbms.c:1849
 msgid "Starting USBMS session…"
 msgstr "Pradedama USBMS sesija…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1877
+#: usbms.c:1881
 msgid ""
 " Could not start the USBMS session!\n"
 "The device will shut down in 90 sec."
@@ -191,7 +191,7 @@ msgstr ""
 " Nepavyko paleisti USBMS sesijos!\n"
 "Įrenginys išsijungs po 90 sek."
 
-#: usbms.c:1895
+#: usbms.c:1899
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
@@ -200,7 +200,7 @@ msgstr ""
 "Prieš atjungdami, pasirinkite saugų įrenginio atjungimą."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:2012
+#: usbms.c:2016
 msgid ""
 " Could not detect an unplug event!\n"
 "The device will shut down in 90 sec."
@@ -208,12 +208,12 @@ msgstr ""
 " Nepavyko aptikti atjungimo įvykio!\n"
 "Įrenginys išsijungs po 90 sek."
 
-#: usbms.c:2022
+#: usbms.c:2026
 msgid "Ending USBMS session…"
 msgstr "Baigiama USBMS sesija…"
 
 #. @translators: First Unicode codepoint is an icon, leave it as-is.
-#: usbms.c:2047
+#: usbms.c:2051
 msgid ""
 " Could not end the USBMS session!\n"
 "The device will shut down in 90 sec."
@@ -221,7 +221,7 @@ msgstr ""
 " Nepavyko užbaigti USBMS sesijos!\n"
 "Įrenginys išsijungs po 90 sek."
 
-#: usbms.c:2187
+#: usbms.c:2191
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
