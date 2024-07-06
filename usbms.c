@@ -834,6 +834,9 @@ int
 	struct libevdev* usbc_dev       = NULL;
 	int              usbc_fd        = -1;
 
+	// Close any non-standard fds before we open any ourselves (this should be a NOP on sane launchers)
+	bsd_closefrom(3);
+
 	// We'll be chatting exclusively over syslog, because duh.
 	openlog("usbms", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_DAEMON);
 

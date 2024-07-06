@@ -16,22 +16,7 @@
 
 // NOTE: https://github.com/openssh/openssh-portable/blob/master/openbsd-compat/bsd-closefrom.c
 
-// Because we're pretty much Linux-bound ;).
-#ifndef _GNU_SOURCE
-#	define _GNU_SOURCE
-#endif
-
-#include <fts.h>
-#include <limits.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
-
-#ifndef OPEN_MAX
-#	define OPEN_MAX 256
-#endif
+#include "bsd-closefrom.h"
 
 /*
  * Close all file descriptors greater than or equal to lowfd.
@@ -61,21 +46,22 @@ static int
 	return strverscmp((*a)->fts_name, (*b)->fts_name);
 }
 
-static void
+void
     bsd_closefrom(int lowfd)
 {
 // NOTE: I long for the days we'll actually be able to use this... (Linux 5.9+ w/ glibc 2.34+)
 //       c.f., this fantastic recap of how messy achieving this can be: https://stackoverflow.com/a/918469
-#if HAVE_CLOSE_RANGE
+#if defined(HAVE_CLOSE_RANGE)
 	if (close_range(lowfd, ~0U, 0) == 0) {
 		return;
 	}
 #endif
 
-	// NOTE: We use fts because it caches the whole thing *first*.
+	// NOTE: Unlike the original openssh/libbsd implementation, we use fts because it caches the whole thing *first*.
 	//       With a readdir loop, we'd risk missing stuff as procfs doesn't guarantee returning the next entry if we delete the current one,
 	//       c.f., the gymnastics glibc's closefrom_fallback implementation has to deal with.
-	//       This issue was reported in libbsd in https://bugs.freedesktop.org/show_bug.cgi?id=85663, and libbsd now does something fancier:
+	//       This issue was reported in libbsd in https://bugs.freedesktop.org/show_bug.cgi?id=85663,
+	//       and upstream libbsd now does something fancier than the openssh copy:
 	//       https://cgit.freedesktop.org/libbsd/tree/src/closefrom.c
 	//       sudo is still using a standard readdir loop: https://github.com/sudo-project/sudo/blob/main/lib/util/closefrom.c
 #pragma GCC diagnostic push
@@ -87,7 +73,7 @@ static void
 #pragma GCC diagnostic pop
 	FTS* restrict ftsp;
 	if ((ftsp = fts_open(fdpath, FTS_PHYSICAL | FTS_XDEV, &fts_natsort)) == NULL) {
-		// fall back to brute force closure
+		// Fall back to brute force closure
 		return closefrom_fallback(lowfd);
 	}
 	// Initialize ftsp with as many toplevel entries as possible.
