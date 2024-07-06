@@ -16,66 +16,71 @@
 
 // NOTE: https://github.com/openssh/openssh-portable/blob/master/openbsd-compat/bsd-closefrom.c
 
-#include <sys/types.h>
-#include <unistd.h>
-#include <stdio.h>
+#include <dirent.h>
 #include <limits.h>
 #include <stdlib.h>
-#include <stddef.h>
-#include <string.h>
-#include <dirent.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #ifndef OPEN_MAX
-# define OPEN_MAX	256
+#	define OPEN_MAX 256
 #endif
 
 /*
  * Close all file descriptors greater than or equal to lowfd.
  */
 static void
-closefrom_fallback(int lowfd)
+    closefrom_fallback(int lowfd)
 {
-	long fd, maxfd;
-
 	/*
-	 * Fall back on sysconf() or getdtablesize().  We avoid checking
+	 * Fall back on sysconf(). We avoid checking
 	 * resource limits since it is possible to open a file descriptor
 	 * and then drop the rlimit such that it is below the open fd.
 	 */
-	maxfd = sysconf(_SC_OPEN_MAX);
-	if (maxfd < 0)
+	long maxfd = sysconf(_SC_OPEN_MAX);
+	if (maxfd < 0) {
 		maxfd = OPEN_MAX;
+	}
 
-	for (fd = lowfd; fd < maxfd; fd++)
-		(void) close((int) fd);
+	for (long fd = lowfd; fd < maxfd; fd++) {
+		close((int) fd);
+	}
 }
 
-void
-closefrom(int lowfd)
+static void
+    closefrom(int lowfd)
 {
-    long fd;
-    char fdpath[PATH_MAX], *endp;
-    struct dirent *dent;
-    DIR *dirp;
-    int len;
-
-#ifdef HAVE_CLOSE_RANGE
-	if (close_range(lowfd, INT_MAX, 0) == 0)
+// NOTE: I long for the days we'll actually be able to use this... (Linux 5.9+ w/ glibc 2.34+)
+//       c.f., this fantastic recap of how messy achieving this can be: https://stackoverflow.com/a/918469
+#ifdef close_range
+	if (close_range(lowfd, ~0U, 0) == 0) {
 		return;
+	}
 #endif
 
-    /* Check for a /proc/$$/fd directory. */
-    len = snprintf(fdpath, sizeof(fdpath), "/proc/%ld/fd", (long)getpid());
-    if (len > 0 && (size_t)len < sizeof(fdpath) && (dirp = opendir(fdpath))) {
-	while ((dent = readdir(dirp)) != NULL) {
-	    fd = strtol(dent->d_name, &endp, 10);
-	    if (dent->d_name != endp && *endp == '\0' &&
-		fd >= 0 && fd < INT_MAX && fd >= lowfd && fd != dirfd(dirp))
-		(void) close((int) fd);
+	DIR* dirp;
+	/* Check for a /proc/self/fd directory. */
+	if ((dirp = opendir("/proc/self/fd")) != NULL) {
+		struct dirent* dent;
+		while ((dent = readdir(dirp)) != NULL) {
+			char* endp;
+			long  fd = strtol(dent->d_name, &endp, 10);
+			if (dent->d_name != endp && *endp == '\0' && fd >= 0 && fd < INT_MAX && fd >= lowfd &&
+			    fd != dirfd(dirp)) {
+				// NOTE: It's unclear to me whether the procfs implementation of readdir makes this safe...
+				//       libbsd upstream did not think so (https://bugs.freedesktop.org/show_bug.cgi?id=85663),
+				//       but that bug doesn't exactly back up that statement with any kind of data...
+				//       (Conversely, Apple *explicitly*, at least at one point, said that this is unsafe on HFS:
+				//       https://web.archive.org/web/20220122122948/https://support.apple.com/kb/TA21420?locale=en_US).
+				// TL;DR: libbsd upstream does somethinf fancier: https://cgit.freedesktop.org/libbsd/tree/src/closefrom.c
+				//        But sudo still does something similar: https://github.com/sudo-project/sudo/blob/main/lib/util/closefrom.c
+				close((int) fd);
+			}
+		}
+		closedir(dirp);
+		return;
 	}
-	(void) closedir(dirp);
-	return;
-    }
-    /* /proc/$$/fd strategy failed, fall back to brute force closure */
-    closefrom_fallback(lowfd);
+
+	/* /proc/self/fd strategy failed, fall back to brute force closure */
+	closefrom_fallback(lowfd);
 }
