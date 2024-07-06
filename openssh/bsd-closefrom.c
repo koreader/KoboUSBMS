@@ -16,9 +16,16 @@
 
 // NOTE: https://github.com/openssh/openssh-portable/blob/master/openbsd-compat/bsd-closefrom.c
 
-#include <dirent.h>
+// Because we're pretty much Linux-bound ;).
+#ifndef _GNU_SOURCE
+#	define _GNU_SOURCE
+#endif
+
+#include <fts.h>
 #include <limits.h>
 #include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
 
@@ -47,8 +54,15 @@ static void
 	}
 }
 
+// Mimic scandir's alphasort
+static int
+    fts_natsort(const FTSENT** a, const FTSENT** b)
+{
+	return strverscmp((*a)->fts_name, (*b)->fts_name);
+}
+
 static void
-    closefrom(int lowfd)
+    bsd_closefrom(int lowfd)
 {
 // NOTE: I long for the days we'll actually be able to use this... (Linux 5.9+ w/ glibc 2.34+)
 //       c.f., this fantastic recap of how messy achieving this can be: https://stackoverflow.com/a/918469
@@ -58,29 +72,46 @@ static void
 	}
 #endif
 
-	DIR* dirp;
-	/* Check for a /proc/self/fd directory. */
-	if ((dirp = opendir("/proc/self/fd")) != NULL) {
-		struct dirent* dent;
-		while ((dent = readdir(dirp)) != NULL) {
-			char* endp;
-			long  fd = strtol(dent->d_name, &endp, 10);
-			if (dent->d_name != endp && *endp == '\0' && fd >= 0 && fd < INT_MAX && fd >= lowfd &&
-			    fd != dirfd(dirp)) {
-				// NOTE: It's unclear to me whether the procfs implementation of readdir makes this safe...
-				//       libbsd upstream did not think so (https://bugs.freedesktop.org/show_bug.cgi?id=85663),
-				//       but that bug doesn't exactly back up that statement with any kind of data...
-				//       (Conversely, Apple *explicitly*, at least at one point, said that this is unsafe on HFS:
-				//       https://web.archive.org/web/20220122122948/https://support.apple.com/kb/TA21420?locale=en_US).
-				// TL;DR: libbsd upstream does somethinf fancier: https://cgit.freedesktop.org/libbsd/tree/src/closefrom.c
-				//        But sudo still does something similar: https://github.com/sudo-project/sudo/blob/main/lib/util/closefrom.c
-				close((int) fd);
-			}
-		}
-		closedir(dirp);
-		return;
+	// NOTE: We use fts because it caches the whole thing *first*.
+	//       With a readdir loop, we'd risk missing stuff as procfs doesn't guarantee returning the next entry if we delete the current one,
+	//       c.f., the gymnastics glibc's closefrom_fallback implementation has to deal with.
+	//       This issue was reported in libbsd in https://bugs.freedesktop.org/show_bug.cgi?id=85663, and libbsd now does something fancier:
+	//       https://cgit.freedesktop.org/libbsd/tree/src/closefrom.c
+	//       sudo is still using a standard readdir loop: https://github.com/sudo-project/sudo/blob/main/lib/util/closefrom.c
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+#pragma GCC diagnostic ignored "-Wdiscarded-qualifiers"
+#pragma clang diagnostic ignored "-Wincompatible-pointer-types-discards-qualifiers"
+	char* const fdpath[] = { "/proc/self/fd", NULL };
+#pragma GCC diagnostic pop
+	FTS* restrict ftsp;
+	if ((ftsp = fts_open(fdpath, FTS_PHYSICAL | FTS_NOSTAT | FTS_XDEV, &fts_natsort)) == NULL) {
+		// fall back to brute force closure
+		return closefrom_fallback(lowfd);
 	}
-
-	/* /proc/self/fd strategy failed, fall back to brute force closure */
-	closefrom_fallback(lowfd);
+	// Initialize ftsp with as many toplevel entries as possible.
+	FTSENT* restrict chp;
+	chp = fts_children(ftsp, 0);
+	if (chp == NULL) {
+		// No files to traverse! Unlikely in this context...
+		fts_close(ftsp);
+		return closefrom_fallback(lowfd);
+	}
+	FTSENT* restrict p;
+	while ((p = fts_read(ftsp)) != NULL) {
+		char* endp;
+		long  fd;
+		switch (p->fts_info) {
+			case FTS_SL:
+				fd = strtol(p->fts_name, &endp, 10);
+				if (p->fts_name != endp && *endp == '\0' && fd >= 0 && fd < INT_MAX && fd >= lowfd) {
+					close((int) fd);
+				}
+				break;
+			default:
+				break;
+		}
+	}
+	fts_close(ftsp);
 }
