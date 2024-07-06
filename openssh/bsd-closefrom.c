@@ -66,7 +66,7 @@ static void
 {
 // NOTE: I long for the days we'll actually be able to use this... (Linux 5.9+ w/ glibc 2.34+)
 //       c.f., this fantastic recap of how messy achieving this can be: https://stackoverflow.com/a/918469
-#ifdef close_range
+#if HAVE_CLOSE_RANGE
 	if (close_range(lowfd, ~0U, 0) == 0) {
 		return;
 	}
@@ -86,7 +86,7 @@ static void
 	char* const fdpath[] = { "/proc/self/fd", NULL };
 #pragma GCC diagnostic pop
 	FTS* restrict ftsp;
-	if ((ftsp = fts_open(fdpath, FTS_PHYSICAL | FTS_NOSTAT | FTS_XDEV, &fts_natsort)) == NULL) {
+	if ((ftsp = fts_open(fdpath, FTS_PHYSICAL | FTS_XDEV, &fts_natsort)) == NULL) {
 		// fall back to brute force closure
 		return closefrom_fallback(lowfd);
 	}
@@ -105,7 +105,11 @@ static void
 		switch (p->fts_info) {
 			case FTS_SL:
 				fd = strtol(p->fts_name, &endp, 10);
-				if (p->fts_name != endp && *endp == '\0' && fd >= 0 && fd < INT_MAX && fd >= lowfd) {
+				if (p->fts_name != endp && *endp == '\0' && fd >= 0 && fd < INT_MAX && fd >= lowfd &&
+				    fd != ftsp->fts_rfd) {
+					// NOTE: We'll eventually hit a temporary fd caught during the initial walk,
+					//       it was created by fts itself, but is now gone,
+					//       so close will harmlessly fail with EBADF on that one.
 					close((int) fd);
 				}
 				break;
