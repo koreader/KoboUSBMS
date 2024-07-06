@@ -840,6 +840,27 @@ int
 	// Say hello
 	LOG(LOG_INFO, "Initializing USBMS %s (%s)", USBMS_VERSION, USBMS_TIMESTAMP);
 
+	// Redirect stdin/stdout/stderr to /dev/null
+	int fd = open("/dev/null", O_RDONLY);
+	if (fd != -1) {
+		dup2(fd, fileno(stdin));
+		close(fd);
+	} else {
+		PFLOG(LOG_CRIT, "open(\"/dev/null\", O_RDONLY): %m");
+		rv = USBMS_EARLY_EXIT;
+		goto cleanup;
+	}
+	fd = open("/dev/null", O_RDWR);
+	if (fd != -1) {
+		dup2(fd, fileno(stdout));
+		dup2(fd, fileno(stderr));
+		close(fd);
+	} else {
+		PFLOG(LOG_CRIT, "open(\"/dev/null\", O_RDWR): %m");
+		rv = USBMS_EARLY_EXIT;
+		goto cleanup;
+	}
+
 	// We'll want to jump to /, and only get back to our original PWD on exit…
 	// c.f., man getcwd for the fchdir trick, as we can certainly spare the fd ;).
 	// NOTE: While using O_PATH would be nice, the flag itself is Linux 2.6.39+,
@@ -848,14 +869,14 @@ int
 	//       where O_PATH is supported, but not by fchdir ;).
 	pwd = open(".", O_RDONLY | O_DIRECTORY | O_CLOEXEC);
 	if (pwd == -1) {
-		PFLOG(LOG_CRIT, "open: %m");
+		PFLOG(LOG_CRIT, "open(\".\"): %m");
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
 	// We do need the pathname to load resources, though…
 	abs_pwd = get_current_dir_name();
 	if (chdir("/") == -1) {
-		PFLOG(LOG_CRIT, "chdir: %m");
+		PFLOG(LOG_CRIT, "chdir(\"/\"): %m");
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
@@ -1083,7 +1104,7 @@ int
 	// Setup libevdev
 	evfd = open(NTX_KEYS_EVDEV, O_RDONLY | O_CLOEXEC | O_NONBLOCK);
 	if (evfd == -1) {
-		PFLOG(LOG_CRIT, "open: %m");
+		PFLOG(LOG_CRIT, "open(NTX_KEYS_EVDEV): %m");
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
@@ -1111,7 +1132,7 @@ int
 	if (USBC_EVDEV) {
 		usbc_fd = open(USBC_EVDEV, O_RDONLY | O_CLOEXEC | O_NONBLOCK);
 		if (usbc_fd == -1) {
-			PFLOG(LOG_CRIT, "open: %m");
+			PFLOG(LOG_CRIT, "open(USBC_EVDEV): %m");
 			rv = USBMS_EARLY_EXIT;
 			goto cleanup;
 		}
@@ -1148,7 +1169,7 @@ int
 	// Setup the fd for ntx_io ioctls
 	ctx.ntxfd = open("/dev/ntx_io", O_RDONLY | O_NONBLOCK | O_CLOEXEC);
 	if (ctx.ntxfd == -1) {
-		PFLOG(LOG_CRIT, "open: %m");
+		PFLOG(LOG_CRIT, "open(\"/dev/ntx_io\"): %m");
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
@@ -1411,7 +1432,7 @@ int
 				need_early_abort = true;
 				break;
 			} else {
-				PFLOG(LOG_CRIT, "umount2: %m");
+				PFLOG(LOG_CRIT, "umount2(\"%s\"): %m", mount_points[i].mountpoint);
 				rv = USBMS_EARLY_EXIT;
 				goto cleanup;
 			}
@@ -2238,7 +2259,7 @@ cleanup:
 			// NOTE: That would be bad if we were launched from within the internal storage
 			//       (i.e., that'd be a hint that it probably failed to remount properly).
 			//       Which is why you should start this from within a tmpfs, like KOReader ;).
-			PFLOG(LOG_CRIT, "fchdir: %m");
+			PFLOG(LOG_CRIT, "fchdir(pwd): %m");
 			rv = EXIT_FAILURE;
 		}
 		close(pwd);
