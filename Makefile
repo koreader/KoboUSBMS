@@ -116,8 +116,8 @@ endif
 ##
 # Now that we're done fiddling with flags, let's build stuff!
 SRCS:=usbms.c
-# We always need OpenSSH's neat io wrappers
-SSH_SRCS:=openssh/atomicio.c
+# We always need OpenSSH's neat io wrappers & libbsd imps
+SSH_SRCS:=openssh/atomicio.c openssh/bsd-closefrom.c
 
 default: vendored
 
