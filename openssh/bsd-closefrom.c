@@ -65,7 +65,10 @@ void
 	while ((bytes = syscall(SYS_getdents64, dir_fd, buffer, sizeof(buffer))) > 0) {
 		struct linux_dirent64* entry;
 		for (off64_t offset = 0; offset < bytes; offset += entry->d_reclen) {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-align"
 			entry = (struct linux_dirent64*) (buffer + offset);
+#pragma GCC diagnostic pop
 
 			// entry->d_type != DT_LNK would also work, as procfs *should* support setting d_type
 			if (entry->d_name[0] == '.') {
