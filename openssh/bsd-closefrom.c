@@ -49,14 +49,21 @@ static int
 void
     bsd_closefrom(int lowfd)
 {
-// NOTE: I long for the days we'll actually be able to use this... (Linux 5.9+ w/ glibc 2.34+)
-//       c.f., this fantastic recap of how messy achieving this can be: https://stackoverflow.com/a/918469
 #if defined(HAVE_CLOSE_RANGE)
+	// NOTE: I long for the days we'll actually be able to use this... (Linux 5.9+ w/ glibc 2.34+)
+	//       c.f., this fantastic recap of how messy achieving this can be: https://stackoverflow.com/a/918469
 	if (close_range(lowfd, ~0U, 0) == 0) {
 		return;
 	}
 #endif
 
+	// NOTE: Unlike the original openssh/libbsd implementation, we use scandir so as not to disappear stuff *during* the walk.
+	//       With a readdir loop, we'd risk missing stuff as procfs doesn't guarantee returning the next entry if we delete the current one,
+	//       c.f., the gymnastics glibc's closefrom_fallback implementation has to deal with.
+	//       This issue was reported in libbsd in https://bugs.freedesktop.org/show_bug.cgi?id=85663,
+	//       and upstream libbsd now does something fancier than the openssh copy:
+	//       https://cgit.freedesktop.org/libbsd/tree/src/closefrom.c
+	//       sudo is still using a standard readdir loop: https://github.com/sudo-project/sudo/blob/main/lib/util/closefrom.c
 	struct dirent** namelist;
 	int             n = scandir("/proc/self/fd", &namelist, &lnk_only, versionsort);
 	if (n == -1) {
