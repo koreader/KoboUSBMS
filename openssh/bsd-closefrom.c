@@ -29,6 +29,7 @@ static void
 	 * resource limits since it is possible to open a file descriptor
 	 * and then drop the rlimit such that it is below the open fd.
 	 */
+	// NOTE: glibc just brute-forces INT_MAX
 	long maxfd = sysconf(_SC_OPEN_MAX);
 	if (maxfd < 0) {
 		maxfd = OPEN_MAX;
@@ -37,13 +38,6 @@ static void
 	for (long fd = lowfd; fd < maxfd; fd++) {
 		close((int) fd);
 	}
-}
-
-// We only care about symlinks
-static int
-    lnk_only(const struct dirent* d)
-{
-	return d->d_type == DT_LNK;
 }
 
 void
@@ -57,30 +51,43 @@ void
 	}
 #endif
 
-	// NOTE: Unlike the original openssh/libbsd implementation, we use scandir so as not to disappear stuff *during* the walk.
-	//       With a readdir loop, we'd risk missing stuff as procfs doesn't guarantee returning the next entry if we delete the current one,
-	//       c.f., the gymnastics glibc's closefrom_fallback implementation has to deal with.
-	//       This issue was reported in libbsd in https://bugs.freedesktop.org/show_bug.cgi?id=85663,
-	//       and upstream libbsd now does something fancier than the openssh copy:
-	//       https://cgit.freedesktop.org/libbsd/tree/src/closefrom.c
-	//       sudo is still using a standard readdir loop: https://github.com/sudo-project/sudo/blob/main/lib/util/closefrom.c
-	struct dirent** namelist;
-	int             n = scandir("/proc/self/fd", &namelist, &lnk_only, versionsort);
-	if (n == -1) {
+	// NOTE: This is not actually based on the libbsd implementation, but on the CPython & glibc ones.
+	//       c.f., https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=607449506f197cc9514408908f41f22537a47a8c
+	int dir_fd = open("/proc/self/fd", O_RDONLY | O_DIRECTORY);
+	if (dir_fd == -1) {
 		// Fall back to brute force closure
 		return closefrom_fallback(lowfd);
 	}
 
-	while (n--) {
-		char* endp;
-		long  fd = strtol(namelist[n]->d_name, &endp, 10);
-		if (namelist[n]->d_name != endp && *endp == '\0' && fd >= 0 && fd < INT_MAX && fd >= lowfd) {
-			// Note that we'll get to iterate over the temporary fd opened by the initial scandir call.
-			// It's gone now, though, so close will just harmlessly fail with EBADF on that one.
-			close((int) fd);
-		}
+	char    buffer[1024];
+	ssize_t bytes;
+	while ((bytes = getdents64(dir_fd, buffer, sizeof(buffer))) > 0) {
+		struct linux_dirent64* entry;
+		for (off64_t offset = 0; offset < bytes; offset += entry->d_reclen) {
+			entry = (struct linux_dirent64*) (buffer + offset);
 
-		free(namelist[n]);
+			// entry->d_type != DT_LNK would also work, as procfs *should* support setting d_type
+			if (entry->d_name[0] == '.') {
+				continue;
+			}
+
+			int fd = 0;
+			for (const char* s = entry->d_name; (unsigned int) (*s) - '0' < 10; s++) {
+				fd = 10 * fd + (*s - '0');
+			}
+
+			if (fd < lowfd || fd == dir_fd) {
+				continue;
+			}
+
+			close(fd);
+		}
+		// NOTE: At this point, the glibc implementation rewinds dir_fd if we closed something, "to obtain any possible kernel update".
+		//       The commit mentions that getdents64 doesn't appear to return disjointed entries after a close (and I confirmed that),
+		//       so this feels completely unnecessary to me in a single-threaded workflow.
+		//       And even then, since we already read multiple entries per getdents64 call,
+		//       in order to truly always get the latest data from the kernel,
+		//       wouldn't we really need to rewind after *every* close, instead of only after every getdents64 call where we closed something?
 	}
-	free(namelist);
+	close(dir_fd);
 }

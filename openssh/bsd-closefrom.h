@@ -20,10 +20,21 @@
 #define _BSD_CLOSEFROM_H
 
 #include <dirent.h>
+#include <fcntl.h>
 #include <limits.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
+// Not in any public headers, c.f., getdents(2)
+struct linux_dirent64
+{
+	ino64_t            d_ino;
+	off64_t            d_off;
+	unsigned short int d_reclen; /* Length of this linux_dirent */
+	unsigned char      d_type;
+	char               d_name[256]; /* Filename (null-terminated) */
+};
 
 #ifndef OPEN_MAX
 #	define OPEN_MAX 256
