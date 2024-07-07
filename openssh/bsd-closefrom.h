@@ -24,6 +24,7 @@
 #include <limits.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/syscall.h>
 #include <unistd.h>
 
 // Not in any public headers, c.f., getdents(2)

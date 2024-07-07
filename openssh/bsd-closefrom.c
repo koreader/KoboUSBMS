@@ -61,7 +61,8 @@ void
 
 	char    buffer[1024];
 	ssize_t bytes;
-	while ((bytes = getdents64(dir_fd, buffer, sizeof(buffer))) > 0) {
+	// NOTE: glibc implements a getdents64 wrapper, but it's glibc 2.30+...
+	while ((bytes = syscall(SYS_getdents64, dir_fd, buffer, sizeof(buffer))) > 0) {
 		struct linux_dirent64* entry;
 		for (off64_t offset = 0; offset < bytes; offset += entry->d_reclen) {
 			entry = (struct linux_dirent64*) (buffer + offset);
