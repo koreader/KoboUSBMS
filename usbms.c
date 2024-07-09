@@ -712,6 +712,12 @@ static int
 static int
     print_countdown(time_t left, USBMSContext* ctx)
 {
+	if (ctx->fbink_state.device_id == DEVICE_KOBO_NIA) {
+		// NOTE: Device is plagued by the random EPDC hangs, but *doesn't* allow poking the EPDC's PM via sysfs,
+		//       so, skip the whole thing to avoid crashing...
+		return ERRCODE(ENOSYS);
+	}
+
 	const char* icon = NULL;
 	switch (left % 3) {
 		case 0:
