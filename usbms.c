@@ -674,6 +674,7 @@ static void
 		fbink_printf(ctx->fbfd,
 			     &ctx->ot_cfg,
 			     &ctx->fbink_cfg,
+			     NULL,
 			     "%s • \uf017 %s • %s (%hhu%%) + %s (%hhu%%) • %s",
 			     usb_plugged ? "\U000f06a5" : "\U000f06a6",
 			     sz_time,
@@ -686,6 +687,7 @@ static void
 		fbink_printf(ctx->fbfd,
 			     &ctx->ot_cfg,
 			     &ctx->fbink_cfg,
+			     NULL,
 			     "%s • \uf017 %s • %s (%hhu%%) • %s",
 			     usb_plugged ? "\U000f06a5" : "\U000f06a6",
 			     sz_time,
@@ -741,7 +743,7 @@ static int
 	//       (I mean, it took me relatively massive efforts to repro the issue on my Clara 2E when I originally looked into it,
 	//       and this made it crash after 42s on the first try...).
 	fbink_wakeup_epdc();
-	return fbink_printf(ctx->fbfd, &ctx->countdown_cfg, &ctx->fbink_cfg, "%s %lld", icon, (long long int) left);
+	return fbink_printf(ctx->fbfd, &ctx->countdown_cfg, &ctx->fbink_cfg, NULL, "%s %lld", icon, (long long int) left);
 }
 
 static int
