@@ -92,6 +92,14 @@
 // Same, but with __PRETTY_FUNCTION__:__LINE__ right before fmt
 #define PFLOG(prio, fmt, ...) ({ LOG(prio, "[%s:%d] " fmt, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__); })
 
+// c.f., fbink_internal.h
+#define MAX(X, Y)                                                                                                        \
+	({                                                                                                               \
+		__auto_type x__ = (X);                                                                                   \
+		__auto_type y__ = (Y);                                                                                   \
+		(x__ > y__) ? x__ : y__;                                                                                 \
+	})
+
 // FBInk always returns negative error codes
 #define ERRCODE(e) (-(e))
 
@@ -132,6 +140,7 @@ bool (*fxpIsUSBPlugged)(int, bool) = NULL;
 // For ref., on mainline w/ @akemnade's driver: /sys/class/power_supply/rn5t618-usb/usb_type
 const char* CHARGER_TYPE_SYSFS = NULL;
 // For the weird standalone USB-C controller found on sunxi & Mk. 9...
+// Ironically, it doesn't appear to do much on Mk.9, at least as far as cable sense is concerned...
 #define SUNXI_USBC_PLUG_SYSFS_FMT "/sys/devices/virtual/input/input%s/USB_PLUG"
 char* USBC_PLUG_SYSFS = NULL;
 char* USBC_EVDEV      = NULL;
@@ -174,6 +183,7 @@ typedef struct
 {
 	FBInkConfig   fbink_cfg;
 	FBInkOTConfig ot_cfg;
+	FBInkOTConfig countdown_cfg;
 	FBInkOTConfig icon_cfg;
 	FBInkOTConfig msg_cfg;
 	FBInkState    fbink_state;

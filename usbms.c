@@ -709,6 +709,33 @@ static int
 	return fbink_print_ot(ctx->fbfd, string, &ctx->msg_cfg, &ctx->fbink_cfg, NULL);
 }
 
+static int
+    print_countdown(time_t left, USBMSContext* ctx)
+{
+	const char* icon = NULL;
+	switch (left % 3) {
+		case 0:
+			icon = "\U0000f251";
+			break;
+		case 1:
+			icon = "\U0000f253";
+			break;
+		case 2:
+			icon = "\U0000f252";
+			break;
+		default:
+			icon = "\U0000f254";
+			break;
+	}
+	return fbink_printf(ctx->fbfd, &ctx->countdown_cfg, &ctx->fbink_cfg, "%s %lld", icon, (long long int) left);
+}
+
+static int
+    clear_countdown(USBMSContext* ctx)
+{
+	return fbink_print_ot(ctx->fbfd, " ", &ctx->countdown_cfg, &ctx->fbink_cfg, NULL);
+}
+
 // Poor man's grep in /proc/modules
 __attribute((nonnull(1))) static bool
     is_module_loaded(const char* needle)
@@ -1266,12 +1293,17 @@ int
 
 	// Setup the message area
 	ctx.msg_cfg.size_px        = (unsigned short int) (ctx.fbink_state.font_h * 2U);
-	ctx.msg_cfg.padding        = ctx.icon_cfg.padding;
 	ctx.fbink_cfg.row          = -14;
 	ctx.msg_cfg.margins.top    = (short int) -(ctx.fbink_state.font_h * 14U);
 	// We want enough space for 4 lines (+/- metrics shenanigans)
 	ctx.msg_cfg.margins.bottom = (short int) (ctx.fbink_state.font_h * (14U - (4U * 2U) - 1U));
 	ctx.msg_cfg.padding        = FULL_PADDING;
+
+	// Setup the countdown area
+	ctx.countdown_cfg.font        = ctx.ot_cfg.font;
+	ctx.countdown_cfg.size_px     = (unsigned short int) (ctx.fbink_state.font_h * 2U);
+	ctx.countdown_cfg.margins.top = (short int) -(ctx.fbink_state.font_h * 6U);
+	ctx.countdown_cfg.padding     = HORI_PADDING;
 
 	// And now, on to the fun stuff!
 	bool need_early_abort = false;
@@ -1572,10 +1604,12 @@ int
 		// Keep track of the time we've been polling
 		struct timespec start_ts = { 0 };
 		clock_gettime(CLOCK_MONOTONIC_RAW, &start_ts);
+		time_t time_spent_polling = 0;
+		print_countdown(90, &ctx);
 
 		struct uevent uev;
 		while (true) {
-			int poll_num = poll(pfds, nfds, 5 * 1000);
+			int poll_num = poll(pfds, nfds, 1000);
 
 			if (poll_num == -1) {
 				if (errno == EINTR) {
@@ -1593,6 +1627,8 @@ int
 						// Refresh the status bar
 						print_status(&ctx);
 						LOG(LOG_NOTICE, "Caught a power button release");
+						// Clear the countdown, it may be halfway inside msg's margins
+						clear_countdown(&ctx);
 						if (early_unmount) {
 							print_msg(
 							    // @translators: First unicode codepoint is an icon, leave it as-is.
@@ -1622,6 +1658,8 @@ int
 							print_status(&ctx);
 							LOG(LOG_WARNING,
 							    "Caught a plug in event, but to a plain power source, not a USB host");
+							// Clear the countdown, it may be halfway inside msg's margins
+							clear_countdown(&ctx);
 							if (early_unmount) {
 								print_msg(
 								    // @translators: First unicode codepoint is an icon, leave it as-is.
@@ -1677,7 +1715,14 @@ int
 			bool            done    = false;
 			struct timespec poll_ts = { 0 };
 			clock_gettime(CLOCK_MONOTONIC_RAW, &poll_ts);
-			if (elapsed_time(&poll_ts, &start_ts) >= 90) {
+			time_t t = elapsed_time(&poll_ts, &start_ts);
+			if (t != time_spent_polling) {
+				// Refresh countdown
+				time_t left = MAX(0, 90 - t);
+				print_countdown(left, &ctx);
+			}
+			time_spent_polling = t;
+			if (time_spent_polling >= 90) {
 				// We've been polling for more than 90 sec, we're done
 				done = true;
 
@@ -1706,6 +1751,8 @@ int
 			// Give up afer 90 sec
 			if (done) {
 				LOG(LOG_NOTICE, "It's been 90 sec, giving up");
+				// Clear the countdown, it may be halfway inside msg's margins
+				clear_countdown(&ctx);
 				if (early_unmount) {
 					print_msg(
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
