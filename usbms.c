@@ -1518,7 +1518,7 @@ int
 						if (early_unmount) {
 							print_msg(
 							    // @translators: First unicode codepoint is an icon, leave it as-is.
-							    _("\uf071 The device will shut down in 30 sec."),
+							    _("\uf071 The device will shut down in 90 sec."),
 							    &ctx);
 						} else {
 							print_msg(
@@ -1555,7 +1555,7 @@ int
 				if (early_unmount) {
 					print_msg(
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
-					    _("\uf05a Gave up after 30 sec.\nThe device will shut down in 30 sec."),
+					    _("\uf05a Gave up after 30 sec.\nThe device will shut down in 90 sec."),
 					    &ctx);
 				} else {
 					print_msg(
@@ -1632,7 +1632,7 @@ int
 						if (early_unmount) {
 							print_msg(
 							    // @translators: First unicode codepoint is an icon, leave it as-is.
-							    _("\uf071 The device will shut down in 30 sec."),
+							    _("\uf071 The device will shut down in 90 sec."),
 							    &ctx);
 						} else {
 							print_msg(
@@ -1663,7 +1663,7 @@ int
 							if (early_unmount) {
 								print_msg(
 								    // @translators: First unicode codepoint is an icon, leave it as-is.
-								    _("\uf071 The device was plugged into a plain power source, not a USB host!\nThe device will shut down in 30 sec."),
+								    _("\uf071 The device was plugged into a plain power source, not a USB host!\nThe device will shut down in 90 sec."),
 								    &ctx);
 							} else {
 								print_msg(
@@ -1756,7 +1756,7 @@ int
 				if (early_unmount) {
 					print_msg(
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
-					    _("\uf05a Gave up after 60 sec.\nThe device will shut down in 30 sec."),
+					    _("\uf05a Gave up after 60 sec.\nThe device will shut down in 90 sec."),
 					    &ctx);
 				} else {
 					print_msg(
@@ -1891,7 +1891,7 @@ int
 				if (early_unmount) {
 					print_msg(
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
-					    _("\uf071 The device is plugged into a plain power source, not a USB host!\nThe device will shut down in 30 sec."),
+					    _("\uf071 The device is plugged into a plain power source, not a USB host!\nThe device will shut down in 90 sec."),
 					    &ctx);
 				} else {
 					print_msg(
