@@ -1605,7 +1605,7 @@ int
 		struct timespec start_ts = { 0 };
 		clock_gettime(CLOCK_MONOTONIC_RAW, &start_ts);
 		time_t time_spent_polling = 0;
-		print_countdown(90, &ctx);
+		print_countdown(60, &ctx);
 
 		struct uevent uev;
 		while (true) {
@@ -1718,12 +1718,12 @@ int
 			time_t t = elapsed_time(&poll_ts, &start_ts);
 			if (t != time_spent_polling) {
 				// Refresh countdown
-				time_t left = MAX(0, 90 - t);
+				time_t left = MAX(0, 60 - t);
 				print_countdown(left, &ctx);
 			}
 			time_spent_polling = t;
-			if (time_spent_polling >= 90) {
-				// We've been polling for more than 90 sec, we're done
+			if (time_spent_polling >= 60) {
+				// We've been polling for more than 60 sec, we're done
 				done = true;
 
 				// Despite the lack of plug in event, check what the kernel thinks the current situation is...
@@ -1731,7 +1731,7 @@ int
 				if (usb_plugged && CHARGER_TYPE_SYSFS) {
 					// And in case it now looks plugged in, and we can verify that via a charger type check, keep going...
 					LOG(LOG_WARNING,
-					    "It's been 90 sec, and we failed to detect a proper plug in event, but the PMIC thinks we might be plugged in…");
+					    "It's been 60 sec, and we failed to detect a proper plug in event, but the PMIC thinks we might be plugged in…");
 					break;
 				}
 
@@ -1743,25 +1743,25 @@ int
 				if (usb_c_plugged == 1 && CHARGER_TYPE_SYSFS) {
 					// All the devices with said controller *should* support charger type detection, but let's be thorough...
 					LOG(LOG_WARNING,
-					    "It's been 90 sec, and we failed to detect a proper plug in event, but the USB-C controller thinks there's something at the other end of the cable…");
+					    "It's been 60 sec, and we failed to detect a proper plug in event, but the USB-C controller thinks there's something at the other end of the cable…");
 					break;
 				}
 			}
 
-			// Give up afer 90 sec
+			// Give up afer 60 sec
 			if (done) {
-				LOG(LOG_NOTICE, "It's been 90 sec, giving up");
+				LOG(LOG_NOTICE, "It's been 60 sec, giving up");
 				// Clear the countdown, it may be halfway inside msg's margins
 				clear_countdown(&ctx);
 				if (early_unmount) {
 					print_msg(
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
-					    _("\uf05a Gave up after 90 sec.\nThe device will shut down in 30 sec."),
+					    _("\uf05a Gave up after 60 sec.\nThe device will shut down in 30 sec."),
 					    &ctx);
 				} else {
 					print_msg(
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
-					    _("\uf05a Gave up after 90 sec.\nKOReader will now restart…"),
+					    _("\uf05a Gave up after 60 sec.\nKOReader will now restart…"),
 					    &ctx);
 				}
 				need_early_abort = true;
