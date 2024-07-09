@@ -727,6 +727,14 @@ static int
 			icon = "\U0000f254";
 			break;
 	}
+
+	// NOTE: Because this turns out to be a very good test-case for that kernel issue ;).
+	//       Plus, we're essentially a callback running from a timerfd, which offers us perfectly controlled timing.
+	//       And given that we'll be plugged-in most of the rest of the time,
+	//       this is the only place where we're at a *significant* risk of triggering the hang.
+	//       (I mean, it took me relatively massive efforts to repro the issue on my Clara 2E when I originally looked into it,
+	//       and this made it crash after 42s on the first try...).
+	fbink_wakeup_epdc();
 	return fbink_printf(ctx->fbfd, &ctx->countdown_cfg, &ctx->fbink_cfg, "%s %lld", icon, (long long int) left);
 }
 
