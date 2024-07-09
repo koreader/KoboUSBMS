@@ -1495,9 +1495,11 @@ int
 		// Keep track of the time we've been polling
 		struct timespec start_ts = { 0 };
 		clock_gettime(CLOCK_MONOTONIC_RAW, &start_ts);
+		time_t time_spent_polling = 0;
+		print_countdown(30, &ctx);
 
 		while (true) {
-			int poll_num = poll(pfds, nfds, 5 * 1000);
+			int poll_num = poll(pfds, nfds, 1000);
 
 			if (poll_num == -1) {
 				if (errno == EINTR) {
@@ -1515,6 +1517,8 @@ int
 						// Refresh the status bar
 						print_status(&ctx);
 						LOG(LOG_NOTICE, "Caught a power button release");
+						// Clear the countdown, it may be halfway inside msg's margins
+						clear_countdown(&ctx);
 						if (early_unmount) {
 							print_msg(
 							    // @translators: First unicode codepoint is an icon, leave it as-is.
@@ -1544,7 +1548,14 @@ int
 			bool            done    = false;
 			struct timespec poll_ts = { 0 };
 			clock_gettime(CLOCK_MONOTONIC_RAW, &poll_ts);
-			if (elapsed_time(&poll_ts, &start_ts) >= 30) {
+			time_t t = elapsed_time(&poll_ts, &start_ts);
+			if (t != time_spent_polling) {
+				// Refresh countdown
+				time_t left = MAX(0, 30 - t);
+				print_countdown(left, &ctx);
+			}
+			time_spent_polling = t;
+			if (time_spent_polling >= 30) {
 				// We've been polling for more than 30 sec, we're done
 				done = true;
 			}
@@ -1552,6 +1563,8 @@ int
 			// Give up afer 30 sec
 			if (done) {
 				LOG(LOG_NOTICE, "It's been 30 sec, giving up");
+				// Clear the countdown, it may be halfway inside msg's margins
+				clear_countdown(&ctx);
 				if (early_unmount) {
 					print_msg(
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
@@ -1718,6 +1731,8 @@ int
 			time_t t = elapsed_time(&poll_ts, &start_ts);
 			if (t != time_spent_polling) {
 				// Refresh countdown
+				// NOTE: It might get slightly out-of-step because of early returns from poll when we have data to read,
+				//       because this relies solely on the 1s poll timeout, but I don't really want to create a new timerfd...
 				time_t left = MAX(0, 60 - t);
 				print_countdown(left, &ctx);
 			}
