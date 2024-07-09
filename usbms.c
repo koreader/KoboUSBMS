@@ -858,6 +858,7 @@ int
 	USBMSContext     ctx            = { 0 };
 	int              evfd           = -1;
 	int              clockfd        = -1;
+	int              countdown_fd   = -1;
 	struct libevdev* usbc_dev       = NULL;
 	int              usbc_fd        = -1;
 
@@ -1207,7 +1208,7 @@ int
 	// Setup the timer for clock ticks
 	clockfd = timerfd_create(CLOCK_REALTIME, TFD_NONBLOCK | TFD_CLOEXEC);
 	if (clockfd == -1) {
-		PFLOG(LOG_CRIT, "timerfd_create: %m");
+		PFLOG(LOG_CRIT, "timerfd_create (clock): %m");
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
@@ -1226,7 +1227,27 @@ int
 	clock_timer.it_interval.tv_sec  = 60;
 	clock_timer.it_interval.tv_nsec = 0;
 	if (timerfd_settime(clockfd, TFD_TIMER_ABSTIME, &clock_timer, NULL) == -1) {
-		PFLOG(LOG_CRIT, "timerfd_settime: %m");
+		PFLOG(LOG_CRIT, "timerfd_settime (clock): %m");
+		rv = USBMS_EARLY_EXIT;
+		goto cleanup;
+	}
+
+	// And another one for countdown ticks
+	countdown_fd = timerfd_create(CLOCK_REALTIME, TFD_NONBLOCK | TFD_CLOEXEC);
+	if (countdown_fd == -1) {
+		PFLOG(LOG_CRIT, "timerfd_create (countdown): %m");
+		rv = USBMS_EARLY_EXIT;
+		goto cleanup;
+	}
+	// Arm it to get a tick on every second
+	struct itimerspec countdown_timer;
+	countdown_timer.it_value.tv_sec     = now_ts.tv_sec;
+	countdown_timer.it_value.tv_nsec    = 0;
+	// Tick every second
+	countdown_timer.it_interval.tv_sec  = 1;
+	countdown_timer.it_interval.tv_nsec = 0;
+	if (timerfd_settime(countdown_fd, TFD_TIMER_ABSTIME, &countdown_timer, NULL) == -1) {
+		PFLOG(LOG_CRIT, "timerfd_settime (countdown): %m");
 		rv = USBMS_EARLY_EXIT;
 		goto cleanup;
 	}
@@ -1483,23 +1504,27 @@ int
 	// If we need an early abort because of USBNet/USBSerial or a busy mountpoint, do it now…
 	if (need_early_abort) {
 		LOG(LOG_INFO, "Waiting for a power button press…");
-		struct pollfd pfds[2] = { 0 };
-		nfds_t        nfds    = 2;
+		struct pollfd pfds[3] = { 0 };
+		nfds_t        nfds    = 3;
 		// Input device
 		pfds[0].fd            = evfd;
 		pfds[0].events        = POLLIN;
 		// Clock
 		pfds[1].fd            = clockfd;
 		pfds[1].events        = POLLIN;
+		// Countdown
+		pfds[2].fd            = countdown_fd;
+		pfds[2].events        = POLLIN;
 
-		// Keep track of the time we've been polling
-		struct timespec start_ts = { 0 };
-		clock_gettime(CLOCK_MONOTONIC_RAW, &start_ts);
-		time_t time_spent_polling = 0;
+		// Keep track of the time we've been polling via the countdown timerfd
+		// NOTE: Starting at -1 allows us to hold the initial countdown value on screen for slightly longer,
+		//       as the timerfd ticks on the actual second change (e.g., 1.000000),
+		//       while it's unlikely we'll be calling poll in sync with that ;).
+		time_t time_spent_polling = -1;
 		print_countdown(30, &ctx);
 
 		while (true) {
-			int poll_num = poll(pfds, nfds, 1000);
+			int poll_num = poll(pfds, nfds, 5 * 1000);
 
 			if (poll_num == -1) {
 				if (errno == EINTR) {
@@ -1543,18 +1568,19 @@ int
 					uint64_t exp;
 					read(clockfd, &exp, sizeof(exp));
 				}
+
+				// Countdown
+				if (pfds[2].revents & POLLIN) {
+					time_spent_polling += 1;
+					time_t left         = MAX(0, 30 - time_spent_polling);
+					print_countdown(left, &ctx);
+					// We don't actually care about the expiration count, so just read to clear the event
+					uint64_t exp;
+					read(countdown_fd, &exp, sizeof(exp));
+				}
 			}
 
-			bool            done    = false;
-			struct timespec poll_ts = { 0 };
-			clock_gettime(CLOCK_MONOTONIC_RAW, &poll_ts);
-			time_t t = elapsed_time(&poll_ts, &start_ts);
-			if (t != time_spent_polling) {
-				// Refresh countdown
-				time_t left = MAX(0, 30 - t);
-				print_countdown(left, &ctx);
-			}
-			time_spent_polling = t;
+			bool done = false;
 			if (time_spent_polling >= 30) {
 				// We've been polling for more than 30 sec, we're done
 				done = true;
@@ -1599,8 +1625,8 @@ int
 		print_msg(_("Waiting to be plugged in…\nOr, press the power button to exit."), &ctx);
 
 		LOG(LOG_INFO, "Waiting for a plug in event or a power button press…");
-		struct pollfd pfds[4] = { 0 };
-		nfds_t        nfds    = 4;
+		struct pollfd pfds[5] = { 0 };
+		nfds_t        nfds    = 5;
 		// Input device
 		pfds[0].fd            = evfd;
 		pfds[0].events        = POLLIN;
@@ -1613,16 +1639,17 @@ int
 		// Clock
 		pfds[3].fd            = clockfd;
 		pfds[3].events        = POLLIN;
+		// Countdown
+		pfds[4].fd            = countdown_fd;
+		pfds[4].events        = POLLIN;
 
-		// Keep track of the time we've been polling
-		struct timespec start_ts = { 0 };
-		clock_gettime(CLOCK_MONOTONIC_RAW, &start_ts);
-		time_t time_spent_polling = 0;
+		// Keep track of the time we've been polling via the countdown timerfd
+		time_t time_spent_polling = -1;
 		print_countdown(60, &ctx);
 
 		struct uevent uev;
 		while (true) {
-			int poll_num = poll(pfds, nfds, 1000);
+			int poll_num = poll(pfds, nfds, 5 * 1000);
 
 			if (poll_num == -1) {
 				if (errno == EINTR) {
@@ -1723,20 +1750,19 @@ int
 					uint64_t exp;
 					read(clockfd, &exp, sizeof(exp));
 				}
+
+				// Countdown
+				if (pfds[4].revents & POLLIN) {
+					time_spent_polling += 1;
+					time_t left         = MAX(0, 60 - time_spent_polling);
+					print_countdown(left, &ctx);
+					// We don't actually care about the expiration count, so just read to clear the event
+					uint64_t exp;
+					read(countdown_fd, &exp, sizeof(exp));
+				}
 			}
 
-			bool            done    = false;
-			struct timespec poll_ts = { 0 };
-			clock_gettime(CLOCK_MONOTONIC_RAW, &poll_ts);
-			time_t t = elapsed_time(&poll_ts, &start_ts);
-			if (t != time_spent_polling) {
-				// Refresh countdown
-				// NOTE: It might get slightly out-of-step because of early returns from poll when we have data to read,
-				//       because this relies solely on the 1s poll timeout, but I don't really want to create a new timerfd...
-				time_t left = MAX(0, 60 - t);
-				print_countdown(left, &ctx);
-			}
-			time_spent_polling = t;
+			bool done = false;
 			if (time_spent_polling >= 60) {
 				// We've been polling for more than 60 sec, we're done
 				done = true;
@@ -2317,6 +2343,9 @@ cleanup:
 
 	if (clockfd != -1) {
 		close(clockfd);
+	}
+	if (countdown_fd != -1) {
+		close(countdown_fd);
 	}
 
 	if (pwd != -1) {
