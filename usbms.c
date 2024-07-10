@@ -1081,12 +1081,21 @@ int
 		NTX_KEYS_EVDEV = strdup("/dev/input/event0");
 	}
 
+	// Setup the fd for ntx_io ioctls
+	ctx.ntxfd = open("/dev/ntx_io", O_RDONLY | O_NONBLOCK | O_CLOEXEC);
+	if (ctx.ntxfd == -1) {
+		PFLOG(LOG_CRIT, "open(\"/dev/ntx_io\"): %m");
+		rv = USBMS_EARLY_EXIT;
+		goto cleanup;
+	}
+
 	// And setup the sysfs paths & usb check based on the device…
 	if (ctx.fbink_state.is_mtk) {
 		BATT_CAP_SYSFS     = MTK_BATT_CAP_SYSFS;
 		CHARGER_TYPE_SYSFS = MTK_CHARGER_TYPE_SYSFS;
 
 		// The CM_USB_Plug_IN ioctl still doesn't look at the right power supplies...
+		// NOTE: And will actually crash the kernel if you attempt it!
 		BATT_STATUS_SYSFS = MTK_BATT_STATUS_SYSFS;
 		fxpIsUSBPlugged   = &sysfs_is_usb_plugged;
 	} else if (ctx.fbink_state.is_sunxi) {
@@ -1094,6 +1103,7 @@ int
 		CHARGER_TYPE_SYSFS = SUNXI_CHARGER_TYPE_SYSFS;
 
 		// The CM_USB_Plug_IN ioctl is currently unreliable (it pokes at the wrong power supply)…
+		// NOTE: On the upside, it doesn't crash the kernel like on MTK ;o).
 		BATT_STATUS_SYSFS = SUNXI_BATT_STATUS_SYSFS;
 		fxpIsUSBPlugged   = &sysfs_is_usb_plugged;
 
@@ -1108,9 +1118,22 @@ int
 		if (access(SUNXI_BATT_CAP_SYSFS, F_OK) == 0) {
 			BATT_CAP_SYSFS = SUNXI_BATT_CAP_SYSFS;
 
-			// NOTE: I'm going to assume this means the ioctl is similarly broken...
 			BATT_STATUS_SYSFS = SUNXI_BATT_STATUS_SYSFS;
-			fxpIsUSBPlugged   = &sysfs_is_usb_plugged;
+
+			// NOTE: That doesn't necessarily mean the ioctl is broken, though...
+			//       Indeed, to make things spicier, with the BD71828 PMIC, the ioctl will be more accurate,
+			//       because it checks for POWER_SUPPLY_PROP_ONLINE instead of POWER_SUPPLY_PROP_STATUS,
+			//       and we've definitely seen examples where STATUS will say "Discharging" just after a plug-in event...
+			//       c.f., https://github.com/koreader/koreader/issues/12128
+			// As a cheap test, check if the ioctl currently returns 1, which probably means it works...
+			// ...assuming we're already plugged in, of course ;).
+			if (ioctl_is_usb_plugged(ctx.ntxfd, false)) {
+				fxpIsUSBPlugged = &ioctl_is_usb_plugged;
+				LOG(LOG_INFO, "Using the NTX ioctl to handle cable sensing");
+			} else {
+				fxpIsUSBPlugged = &sysfs_is_usb_plugged;
+				LOG(LOG_INFO, "Using the battery status sysfs entry to handle cable sensing");
+			}
 		} else {
 			BATT_CAP_SYSFS  = NXP_BATT_CAP_SYSFS;
 			fxpIsUSBPlugged = &ioctl_is_usb_plugged;
@@ -1211,14 +1234,6 @@ int
 		setenv("WITH_PIPEFAIL", "true", 1);
 	} else {
 		setenv("WITH_PIPEFAIL", "false", 1);
-	}
-
-	// Setup the fd for ntx_io ioctls
-	ctx.ntxfd = open("/dev/ntx_io", O_RDONLY | O_NONBLOCK | O_CLOEXEC);
-	if (ctx.ntxfd == -1) {
-		PFLOG(LOG_CRIT, "open(\"/dev/ntx_io\"): %m");
-		rv = USBMS_EARLY_EXIT;
-		goto cleanup;
 	}
 
 	// Setup the timer for clock ticks
