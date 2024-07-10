@@ -1130,6 +1130,7 @@ int
 		// NOTE: And will actually crash the kernel if you attempt it!
 		BATT_STATUS_SYSFS = MTK_BATT_STATUS_SYSFS;
 		fxpIsUSBPlugged   = &sysfs_is_usb_plugged;
+		LOG(LOG_INFO, "Using the MTK battery status sysfs entry to handle cable sensing");
 	} else if (ctx.fbink_state.is_sunxi) {
 		BATT_CAP_SYSFS     = SUNXI_BATT_CAP_SYSFS;
 		CHARGER_TYPE_SYSFS = SUNXI_CHARGER_TYPE_SYSFS;
@@ -1138,6 +1139,7 @@ int
 		// NOTE: On the upside, it doesn't crash the kernel like on MTK ;o).
 		BATT_STATUS_SYSFS = SUNXI_BATT_STATUS_SYSFS;
 		fxpIsUSBPlugged   = &sysfs_is_usb_plugged;
+		LOG(LOG_INFO, "Using the sunxi battery status sysfs entry to handle cable sensing");
 
 		// Enforce REAGL, since AUTO is not recommended on sunxi
 		ctx.fbink_cfg.wfm_mode = WFM_REAGL;
@@ -1174,6 +1176,7 @@ int
 		} else {
 			BATT_CAP_SYSFS  = NXP_BATT_CAP_SYSFS;
 			fxpIsUSBPlugged = &ioctl_is_usb_plugged;
+			LOG(LOG_INFO, "Using the NTX ioctl to handle cable sensing");
 		}
 
 		if (access(SUNXI_CHARGER_TYPE_SYSFS, F_OK) == 0) {
