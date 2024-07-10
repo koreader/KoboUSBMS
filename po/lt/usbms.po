@@ -8,18 +8,17 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-07-09 22:00+0200\n"
-"PO-Revision-Date: 2022-10-18 19:06+0000\n"
-"Last-Translator: Gediminas Murauskas <muziejusinfo@gmail.com>\n"
+"PO-Revision-Date: 2024-07-10 01:13+0000\n"
+"Last-Translator: NiLuJe <ninuje@gmail.com>\n"
 "Language-Team: Lithuanian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/lt/>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n % 10 == 1 && (n % 100 < 11 || n % 100 > "
-"19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? "
-"1 : 2);\n"
-"X-Generator: Weblate 4.15-dev\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && ("
+"n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Weblate 5.7-dev\n"
 
 #: usbms.c:1283
 msgid "USB Mass Storage"
@@ -86,10 +85,8 @@ msgstr "Norėdami išeiti, paspauskite įrenginio išjungimo mygtuką."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1550 usbms.c:1675
-#, fuzzy
-#| msgid " The device will shut down in 30 sec."
 msgid " The device will shut down in 90 sec."
-msgstr " Įrenginys išsijungs po 30 sek."
+msgstr " Įrenginys išsijungs po 90 sek."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1555 usbms.c:1680
@@ -98,16 +95,12 @@ msgstr " KOReader bus paleistas iš naujo…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1597
-#, fuzzy
-#| msgid ""
-#| " Gave up after 30 sec.\n"
-#| "The device will shut down in 30 sec."
 msgid ""
 " Gave up after 30 sec.\n"
 "The device will shut down in 90 sec."
 msgstr ""
 "Bandyta 30 sek., veiksmas nepavyko.\n"
-"Įrenginys išsijungs po 30 sek."
+"Įrenginys išsijungs po 90 sek."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1602
@@ -128,17 +121,13 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1706
-#, fuzzy
-#| msgid ""
-#| " The device was plugged into a plain power source, not a USB host!\n"
-#| "The device will shut down in 30 sec."
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 90 sec."
 msgstr ""
 " Įrenginys prijungtas prie paprasto maitinimo šaltinio, o ne USB duomenų "
 "šaltinio!\n"
-"Įrenginys išsijungs po 30 sek."
+"Įrenginys išsijungs po 90 sek."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1711
@@ -152,43 +141,31 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1800
-#, fuzzy
-#| msgid ""
-#| " Gave up after 90 sec.\n"
-#| "The device will shut down in 30 sec."
 msgid ""
 " Gave up after 60 sec.\n"
 "The device will shut down in 90 sec."
 msgstr ""
-" Bandyta 90 sek., veiksmas nepavyko.\n"
-"Įrenginys išsijungs po 30 sek."
+" Bandyta 60 sek., veiksmas nepavyko.\n"
+"Įrenginys išsijungs po 90 sek."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1805
-#, fuzzy
-#| msgid ""
-#| " Gave up after 30 sec.\n"
-#| "KOReader will now restart…"
 msgid ""
 " Gave up after 60 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-" Bandyta 30 sek., veiksmas nepavyko.\n"
+" Bandyta 60 sek., veiksmas nepavyko.\n"
 "KOReader bus paleistas iš naujo…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1935
-#, fuzzy
-#| msgid ""
-#| " The device is plugged into a plain power source, not a USB host!\n"
-#| "The device will shut down in 30 sec."
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 90 sec."
 msgstr ""
 " Įrenginys prijungtas prie paprasto maitinimo šaltinio, o ne USB duomenų "
 "šaltinio!\n"
-"Įrenginys išsijungs po 30 sek."
+"Įrenginys išsijungs po 90 sek."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1940
