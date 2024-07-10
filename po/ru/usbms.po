@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-07-09 22:00+0200\n"
-"PO-Revision-Date: 2024-06-07 07:09+0000\n"
-"Last-Translator: Artem Kaznelson <nook.artem@gmail.com>\n"
+"PO-Revision-Date: 2024-07-10 01:13+0000\n"
+"Last-Translator: NiLuJe <ninuje@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/ru/>\n"
 "Language: ru\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.6-dev\n"
+"X-Generator: Weblate 5.7-dev\n"
 
 #: usbms.c:1283
 msgid "USB Mass Storage"
@@ -81,10 +81,8 @@ msgstr "Нажмите кнопку питания, чтобы выйти."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1550 usbms.c:1675
-#, fuzzy
-#| msgid " The device will shut down in 30 sec."
 msgid " The device will shut down in 90 sec."
-msgstr " Устройство будет выключено через 30 секунд."
+msgstr " Устройство будет выключено через 90 секунд."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1555 usbms.c:1680
@@ -93,16 +91,12 @@ msgstr "Сейчас KOReader перезапустится…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1597
-#, fuzzy
-#| msgid ""
-#| " Gave up after 30 sec.\n"
-#| "The device will shut down in 30 sec."
 msgid ""
 " Gave up after 30 sec.\n"
 "The device will shut down in 90 sec."
 msgstr ""
 " Попытки прекращены по истечении 30 секунд.\n"
-"Устройство будет выключено через 30 секунд."
+"Устройство будет выключено через 90 секунд."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1602
@@ -123,16 +117,12 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1706
-#, fuzzy
-#| msgid ""
-#| " The device was plugged into a plain power source, not a USB host!\n"
-#| "The device will shut down in 30 sec."
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 90 sec."
 msgstr ""
 " Устройство было подключено к блоку питания, а не USB-хосту!\n"
-"Устройство выключится через 30 секунд."
+"Устройство выключится через 90 секунд."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1711
@@ -145,42 +135,30 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1800
-#, fuzzy
-#| msgid ""
-#| " Gave up after 90 sec.\n"
-#| "The device will shut down in 30 sec."
 msgid ""
 " Gave up after 60 sec.\n"
 "The device will shut down in 90 sec."
 msgstr ""
-" Попытки прекращены по истечении 90 секунд.\n"
-"Устройство будет отключено через 30 секунд."
+" Попытки прекращены по истечении 60 секунд.\n"
+"Устройство будет отключено через 90 секунд."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1805
-#, fuzzy
-#| msgid ""
-#| " Gave up after 30 sec.\n"
-#| "KOReader will now restart…"
 msgid ""
 " Gave up after 60 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-" Попытки прекращены по истечении 30 секунд.\n"
+" Попытки прекращены по истечении 60 секунд.\n"
 "Сейчас KOReader перезапустится…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1935
-#, fuzzy
-#| msgid ""
-#| " The device is plugged into a plain power source, not a USB host!\n"
-#| "The device will shut down in 30 sec."
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 90 sec."
 msgstr ""
 " Устройство подключено к блоку питания, а не к USB-хосту!\n"
-"Устройство будет отключено через 30 секунд."
+"Устройство будет отключено через 90 секунд."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1940
