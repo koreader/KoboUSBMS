@@ -1796,6 +1796,12 @@ int
 							print_status(&ctx);
 							// NOTE: Any meaningful change *should* be accompanied by the relevant usb_host/usb_plug event,
 							//       this one is just for the status bar's sake.
+							// NOTE: That said, if we ever encounter weird cable sensing failures,
+							//       it *might* make sense to try to check POWER_SUPPLY_STATUS or POWER_SUPPLY_ONLINE
+							//       for specific POWER_SUPPLY_NAME in here?
+							//       Possibly with a bit of buffering to avoid surprises
+							//       (e.g., require two consecutive online > 0 or "Charging",
+							//       and reset the counter if not).
 							LOG(LOG_NOTICE, "Caught a discharge tick");
 						}
 					} else if (ue_rc == ERR_LISTENER_RECV) {
