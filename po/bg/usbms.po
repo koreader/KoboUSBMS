@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-09 22:00+0200\n"
+"POT-Creation-Date: 2024-07-10 03:13+0200\n"
 "PO-Revision-Date: 2022-01-31 01:24+0000\n"
 "Last-Translator: roshavagarga <aonobg@gmail.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/koreader/"
@@ -19,12 +19,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.11-dev\n"
 
-#: usbms.c:1283
+#: usbms.c:1354
 msgid "USB Mass Storage"
 msgstr "Масово USB Хранилище"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1340
+#: usbms.c:1411
 msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
@@ -33,7 +33,7 @@ msgstr ""
 "Натиснете копчето за изключване за да излезете."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1352
+#: usbms.c:1423
 msgid ""
 " Please disable USBSerial manually!\n"
 "Press the power button to exit."
@@ -42,7 +42,7 @@ msgstr ""
 "Натиснете копчето за изключване за да излезете."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1384
+#: usbms.c:1455
 #, fuzzy
 #| msgid ""
 #| " Please disable USBNet manually!\n"
@@ -55,7 +55,7 @@ msgstr ""
 "Натиснете копчето за изключване за да излезете."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1401
+#: usbms.c:1472
 #, fuzzy
 #| msgid ""
 #| " Please disable USBNet manually!\n"
@@ -68,40 +68,40 @@ msgstr ""
 "Натиснете копчето за изключване за да излезете."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1436
+#: usbms.c:1507
 msgid " Filesystem is busy! Offending processes:"
 msgstr " Файловата система е заета! Виновни процеси:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
-#: usbms.c:1471
+#: usbms.c:1542
 msgid " The fuser script failed!"
 msgstr " Fuser скриптът не завърши успешно!"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1481
+#: usbms.c:1552
 #, fuzzy
 #| msgid " Failed to run the fuser script!"
 msgid " Could not run the fuser script!"
 msgstr " Неуспешен опит да се пусне fuser скриптът!"
 
-#: usbms.c:1487
+#: usbms.c:1558
 msgid "Press the power button to exit."
 msgstr "Натиснете копчето за изключване за да излезете."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1550 usbms.c:1675
+#: usbms.c:1621 usbms.c:1746
 #, fuzzy
 #| msgid " The device will shutdown in 30 sec."
 msgid " The device will shut down in 90 sec."
 msgstr " Устройството ще се изключи след 30 сек."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1555 usbms.c:1680
+#: usbms.c:1626 usbms.c:1751
 msgid " KOReader will now restart…"
 msgstr " KOReader сега ще се рестартира…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1597
+#: usbms.c:1668
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -114,7 +114,7 @@ msgstr ""
 "Устройството ще се изключи до 90 секунди."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1602
+#: usbms.c:1673
 #, fuzzy
 #| msgid ""
 #| "Done!\n"
@@ -126,7 +126,7 @@ msgstr ""
 "Готово!\n"
 "Сега KOReader ще се рестартира…"
 
-#: usbms.c:1625
+#: usbms.c:1696
 msgid ""
 "Waiting to be plugged in…\n"
 "Or, press the power button to exit."
@@ -135,7 +135,7 @@ msgstr ""
 "Или натиснете копчето за изключване за да излезете."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1706
+#: usbms.c:1777
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -148,7 +148,7 @@ msgstr ""
 "Устройството ще се изключи до 90 секунди."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1711
+#: usbms.c:1782
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -161,7 +161,7 @@ msgstr ""
 "Устройството ще се изключи до 90 секунди."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1800
+#: usbms.c:1877
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -174,7 +174,7 @@ msgstr ""
 "Устройството ще се изключи до 90 секунди."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1805
+#: usbms.c:1882
 #, fuzzy
 #| msgid ""
 #| "Done!\n"
@@ -187,7 +187,7 @@ msgstr ""
 "Сега KOReader ще се рестартира…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1935
+#: usbms.c:2012
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -200,7 +200,7 @@ msgstr ""
 "Устройството ще се изключи до 90 секунди."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1940
+#: usbms.c:2017
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -212,12 +212,12 @@ msgstr ""
 " Неуспешен опит да се стартира USBMS сесия!\n"
 "Устройството ще се изключи до 90 секунди."
 
-#: usbms.c:1961
+#: usbms.c:2038
 msgid "Starting USBMS session…"
 msgstr "Стартира се USBMS сесия…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1993
+#: usbms.c:2070
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -229,7 +229,7 @@ msgstr ""
 " Неуспешен опит да се стартира USBMS сесия!\n"
 "Устройството ще се изключи до 90 секунди."
 
-#: usbms.c:2011
+#: usbms.c:2088
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
@@ -238,7 +238,7 @@ msgstr ""
 "Моля, отвържете устройството си безопасно преди да прекъснете USB връзката."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:2128
+#: usbms.c:2205
 #, fuzzy
 #| msgid ""
 #| " Failed to detect an unplug event!\n"
@@ -250,12 +250,12 @@ msgstr ""
 " Неуспешно засичане на прекъсване на USB връзката!\n"
 "Устройството ще се изключи до 90 секунди."
 
-#: usbms.c:2138
+#: usbms.c:2215
 msgid "Ending USBMS session…"
 msgstr "Затваряне на USBMS сесията…"
 
 #. @translators: First Unicode codepoint is an icon, leave it as-is.
-#: usbms.c:2163
+#: usbms.c:2240
 #, fuzzy
 #| msgid ""
 #| " Failed to end the USBMS session!\n"
@@ -267,7 +267,7 @@ msgstr ""
 " Неуспешно приключване на USBMS сесията!\n"
 "Устройството ще се изключи до 90 секунди."
 
-#: usbms.c:2303
+#: usbms.c:2380
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
