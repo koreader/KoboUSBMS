@@ -209,6 +209,38 @@ static bool
 	return is_plugged;
 }
 
+static bool
+    sysfs_is_usb_online(int foo __attribute__((unused)), bool bar __attribute__((unused)))
+{
+	bool is_plugged = false;
+
+	FILE* f = fopen(USB_ONLINE_SYSFS, "re");
+	if (f) {
+		char   status[16] = { 0 };
+		size_t size       = fread(status, sizeof(*status), sizeof(status) - 1U, f);
+		fclose(f);
+		if (size > 0) {
+			// Strip trailing LF
+			if (status[size - 1U] == '\n') {
+				status[size - 1U] = '\0';
+			}
+		} else {
+			LOG(LOG_WARNING, "Could not read the usb online entry from sysfs!");
+		}
+
+		// NOTE: Match the behavior of the NXP ntx_io ioctl (c.f., _Is_USB_plugged when HWConfig says PMIC == BD71828):
+		//       false if 0, true otherwise.
+		// NOTE: The charger type check ought to then confirm that…
+		if (status[0] == '0') {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	return is_plugged;
+}
+
 // Check if the standalone USB-C controller thinks there's something plugged in
 // c.f., drivers/input/misc/P15USB30216C.c
 static int
@@ -1125,11 +1157,16 @@ int
 			//       because it checks for POWER_SUPPLY_PROP_ONLINE instead of POWER_SUPPLY_PROP_STATUS,
 			//       and we've definitely seen examples where STATUS will say "Discharging" just after a plug-in event...
 			//       c.f., https://github.com/koreader/koreader/issues/12128
-			// As a cheap test, check if the ioctl currently returns 1, which probably means it works...
+			// As a cheap initial test, check if the ioctl currently returns 1, which probably means it works...
 			// ...assuming we're already plugged in, of course ;).
 			if (ioctl_is_usb_plugged(ctx.ntxfd, false)) {
 				fxpIsUSBPlugged = &ioctl_is_usb_plugged;
 				LOG(LOG_INFO, "Using the NTX ioctl to handle cable sensing");
+			} else if (access(ROHM_USB_ONLINE_SYSFS, F_OK) == 0) {
+				// Otherwise, check if we've actually got a psy named usb...
+				USB_ONLINE_SYSFS = ROHM_USB_ONLINE_SYSFS;
+				fxpIsUSBPlugged  = &sysfs_is_usb_online;
+				LOG(LOG_INFO, "Using the usb online sysfs entry to handle cable sensing");
 			} else {
 				fxpIsUSBPlugged = &sysfs_is_usb_plugged;
 				LOG(LOG_INFO, "Using the battery status sysfs entry to handle cable sensing");

@@ -144,6 +144,10 @@ const char* CHARGER_TYPE_SYSFS = NULL;
 #define SUNXI_USBC_PLUG_SYSFS_FMT "/sys/devices/virtual/input/input%s/USB_PLUG"
 char* USBC_PLUG_SYSFS = NULL;
 char* USBC_EVDEV      = NULL;
+// With the BD71828 PMIC, the battery status *may* report Discharging while plugged in,
+// instead, the PMIC exports a dedicated power_supply named "usb" whose online entry we can check...
+#define ROHM_USB_ONLINE_SYSFS "/sys/class/power_supply/usb/online"
+char* USB_ONLINE_SYSFS = NULL;
 #define FL_INTENSITY_SYSFS "/sys/class/backlight/mxc_msp430.0/actual_brightness"
 
 // Because MXCFB_WAIT_FOR_UPDATE_COMPLETE is unreliable on a few NTX boards...
