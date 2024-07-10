@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-07-09 22:00+0200\n"
-"PO-Revision-Date: 2024-07-04 13:09+0000\n"
-"Last-Translator: Mihai Vasiliu <mihai.vasiliu.93@gmail.com>\n"
+"PO-Revision-Date: 2024-07-10 01:13+0000\n"
+"Last-Translator: NiLuJe <ninuje@gmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/ro/>\n"
 "Language: ro\n"
@@ -81,10 +81,8 @@ msgstr "Apasă butonul de pornire pentru a ieși."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1550 usbms.c:1675
-#, fuzzy
-#| msgid " The device will shut down in 30 sec."
 msgid " The device will shut down in 90 sec."
-msgstr " Dispozitivul se va închide în 30 sec."
+msgstr " Dispozitivul se va închide în 90 sec."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1555 usbms.c:1680
@@ -93,16 +91,12 @@ msgstr " KOReader va reporni acum…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1597
-#, fuzzy
-#| msgid ""
-#| " Gave up after 30 sec.\n"
-#| "The device will shut down in 30 sec."
 msgid ""
 " Gave up after 30 sec.\n"
 "The device will shut down in 90 sec."
 msgstr ""
 " S-a renunțat după 30 sec.\n"
-"Dispozitivul se va închide în 30 sec."
+"Dispozitivul se va închide în 90 sec."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1602
@@ -123,16 +117,12 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1706
-#, fuzzy
-#| msgid ""
-#| " The device was plugged into a plain power source, not a USB host!\n"
-#| "The device will shut down in 30 sec."
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 90 sec."
 msgstr ""
 " Dispozitivul a fost conectat la un încărcător USB, nu la o gazdă USB!\n"
-"Dispozitivul se va închide în 30 sec."
+"Dispozitivul se va închide în 90 sec."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1711
@@ -145,42 +135,30 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1800
-#, fuzzy
-#| msgid ""
-#| " Gave up after 90 sec.\n"
-#| "The device will shut down in 30 sec."
 msgid ""
 " Gave up after 60 sec.\n"
 "The device will shut down in 90 sec."
 msgstr ""
-" S-a renunțat după 90 sec.\n"
-"Dispozitivul se va închide în 30 sec."
+" S-a renunțat după 60 sec.\n"
+"Dispozitivul se va închide în 90 sec."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1805
-#, fuzzy
-#| msgid ""
-#| " Gave up after 30 sec.\n"
-#| "KOReader will now restart…"
 msgid ""
 " Gave up after 60 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-"S-a renunțat după 30 sec.\n"
+"S-a renunțat după 60 sec.\n"
 "KOReader va reporni acum…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1935
-#, fuzzy
-#| msgid ""
-#| " The device is plugged into a plain power source, not a USB host!\n"
-#| "The device will shut down in 30 sec."
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 90 sec."
 msgstr ""
 " Dispozitivul a fost conectat la un încărcător USB, nu la o gazdă USB!\n"
-"Dispozitivul se va închide în 30 sec."
+"Dispozitivul se va închide în 90 sec."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1940
