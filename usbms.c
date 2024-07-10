@@ -1741,8 +1741,6 @@ int
 						// Refresh the status bar
 						print_status(&ctx);
 						LOG(LOG_NOTICE, "Caught a power button release");
-						// Clear the countdown, it may be halfway inside msg's margins
-						clear_countdown(&ctx);
 						if (early_unmount) {
 							print_msg(
 							    // @translators: First unicode codepoint is an icon, leave it as-is.
@@ -1772,8 +1770,6 @@ int
 							print_status(&ctx);
 							LOG(LOG_WARNING,
 							    "Caught a plug in event, but to a plain power source, not a USB host");
-							// Clear the countdown, it may be halfway inside msg's margins
-							clear_countdown(&ctx);
 							if (early_unmount) {
 								print_msg(
 								    // @translators: First unicode codepoint is an icon, leave it as-is.
@@ -1872,8 +1868,6 @@ int
 			// Give up afer 60 sec
 			if (done) {
 				LOG(LOG_NOTICE, "It's been 60 sec, giving up");
-				// Clear the countdown, it may be halfway inside msg's margins
-				clear_countdown(&ctx);
 				if (early_unmount) {
 					print_msg(
 					    // @translators: First unicode codepoint is an icon, leave it as-is.
@@ -1897,12 +1891,19 @@ int
 		if (need_early_abort) {
 			// Make sure the final message will be visible…
 			(*fxpWaitForUpdateComplete)(ctx.fbfd, LAST_MARKER);
+
+			// Clear the countdown, it may be halfway inside msg's margins
+			clear_countdown(&ctx);
+
 			if (sleep_on_abort) {
 				const struct timespec zzz = { 2L, 500000000L };
 				nanosleep(&zzz, NULL);
 			}
 			rv = early_unmount ? EXIT_FAILURE : USBMS_EARLY_EXIT;
 			goto cleanup;
+		} else {
+			// Clear the countdown, it may be halfway inside msg's margins
+			clear_countdown(&ctx);
 		}
 
 		// We've supposedly been plugged to a USB host...
