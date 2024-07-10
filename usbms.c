@@ -225,7 +225,7 @@ static bool
 				status[size - 1U] = '\0';
 			}
 			if (log_status) {
-				LOG(LOG_DEBUG, "USB online: %s", status);
+				LOG(LOG_DEBUG, "USB power supply online: %s", status);
 			}
 		} else {
 			LOG(LOG_WARNING, "Could not read the usb online entry from sysfs!");
