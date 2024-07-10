@@ -210,7 +210,7 @@ static bool
 }
 
 static bool
-    sysfs_is_usb_online(int foo __attribute__((unused)), bool bar __attribute__((unused)))
+    sysfs_is_usb_online(int foo __attribute__((unused)), bool log_status)
 {
 	bool is_plugged = false;
 
@@ -223,6 +223,9 @@ static bool
 			// Strip trailing LF
 			if (status[size - 1U] == '\n') {
 				status[size - 1U] = '\0';
+			}
+			if (log_status) {
+				LOG(LOG_DEBUG, "USB online: %s", status);
 			}
 		} else {
 			LOG(LOG_WARNING, "Could not read the usb online entry from sysfs!");
