@@ -232,9 +232,9 @@ static bool
 		//       false if 0, true otherwise.
 		// NOTE: The charger type check ought to then confirm that…
 		if (status[0] == '0') {
-			return false;
+			is_plugged = false;
 		} else {
-			return true;
+			is_plugged = true;
 		}
 	}
 
