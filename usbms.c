@@ -1852,11 +1852,10 @@ int
 					break;
 				}
 
-				// NOTE: In the same vein, on janky devices with a standalone USB-C controller,
+				// NOTE: In the same vein, on devices with a standalone USB-C controller,
 				//       if we failed to detect a proper plug in event,
 				//       but said controller thinks there's something at the other end of the cable,
 				//       go ahead and let the charger type detection figure things out...
-				//       c.f., https://github.com/koreader/koreader/issues/12128
 				if (usb_c_plugged == 1 && CHARGER_TYPE_SYSFS) {
 					// All the devices with said controller *should* support charger type detection, but let's be thorough...
 					LOG(LOG_WARNING,
