@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-10 03:35+0200\n"
+"POT-Creation-Date: 2024-07-19 02:07+0200\n"
 "PO-Revision-Date: 2024-07-10 01:13+0000\n"
 "Last-Translator: NiLuJe <ninuje@gmail.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
@@ -153,7 +153,7 @@ msgstr ""
 "KOReader vil nå starte på ny …"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1874
+#: usbms.c:1873
 #, fuzzy
 #| msgid ""
 #| " Gave up after 90 sec.\n"
@@ -166,7 +166,7 @@ msgstr ""
 "Enheten vil slås av om 90 sek."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:1879
+#: usbms.c:1878
 #, fuzzy
 #| msgid ""
 #| " Gave up after 30 sec.\n"
@@ -179,7 +179,7 @@ msgstr ""
 "KOReader vil nå starte på ny …"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:2016
+#: usbms.c:2015
 #, fuzzy
 #| msgid ""
 #| " The device is plugged into a plain power source, not a USB host!\n"
@@ -192,7 +192,7 @@ msgstr ""
 "Enheten vil nå slås av om 90 sek."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:2021
+#: usbms.c:2020
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
@@ -200,12 +200,12 @@ msgstr ""
 " Enheten er nå plugget inn i en vanlig ladekilde, ikke en USB-vert.\n"
 "KOReader vil nå starte på ny …"
 
-#: usbms.c:2042
+#: usbms.c:2041
 msgid "Starting USBMS session…"
 msgstr "Starter USBMS-økt …"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:2074
+#: usbms.c:2073
 #, fuzzy
 #| msgid ""
 #| " Failed to start the USBMS session!\n"
@@ -217,7 +217,7 @@ msgstr ""
 " Klarte ikke å starte USBMS-økt.\n"
 "Enheten vil slås av om 90 sek."
 
-#: usbms.c:2092
+#: usbms.c:2091
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
@@ -226,7 +226,7 @@ msgstr ""
 "Løs ut enheten trygt før du plugger den ut."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
-#: usbms.c:2209
+#: usbms.c:2208
 #, fuzzy
 #| msgid ""
 #| " Failed to detect an unplug event!\n"
@@ -238,12 +238,12 @@ msgstr ""
 " Klarte ikke å oppdage utpluggingshendelse.\n"
 "Enheten vil slås av om 90 sek."
 
-#: usbms.c:2219
+#: usbms.c:2218
 msgid "Ending USBMS session…"
 msgstr "Sluttfører USBMS-økt …"
 
 #. @translators: First Unicode codepoint is an icon, leave it as-is.
-#: usbms.c:2244
+#: usbms.c:2243
 #, fuzzy
 #| msgid ""
 #| " Failed to end the USBMS session!\n"
@@ -255,7 +255,7 @@ msgstr ""
 " Klarte ikke å sluttføre USBMS-økt.\n"
 "Enheten vil slås av om 90 sek."
 
-#: usbms.c:2384
+#: usbms.c:2383
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
