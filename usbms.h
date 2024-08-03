@@ -26,6 +26,7 @@
 #endif
 
 #include <ctype.h>
+#include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <limits.h>
@@ -200,5 +201,12 @@ typedef struct
 #define CM_CHARGE_STATUS      204    // Mapped to CM_USB_Plug_IN on Mk. 7+...
 #define CM_GET_BATTERY_STATUS 206
 #define CM_FRONT_LIGHT_SET    241
+
+// For the "checking for custom usb gadget" scandir
+static int
+    is_custom_gadget(const struct dirent* dir)
+{
+	return strcmp("g1", dir->d_name) != 0;
+}
 
 #endif    // __USBMS_H

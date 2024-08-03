@@ -1459,6 +1459,29 @@ int
 				    &ctx);
 			}
 		}
+
+		// Unfortunately, the state will keep saying "not attached",
+		// even with a different gadget setup, until the device is actually plugged in...
+		// So, do something dumb, and check if there *are* unexpected gadgets configured...
+		struct dirent** namelist;
+		int             n = scandir(".", &namelist, is_custom_gadget, alphasort);
+		if (n == -1) {
+			LOG(LOG_WARNING, "Could not scan usb_gadget list: scandir: %m");
+		} else {
+			while (n--) {
+				LOG(LOG_ERR,
+				    "Device has a custom usb gadget configured (`%s`), aborting",
+				    namelist[n]->d_name);
+				need_early_abort = true;
+				print_icon("\U000f11f0", &ctx);
+				print_msg(    // @translators: First unicode codepoint is an icon, leave it as-is.
+				    _("\uf071 Please disable your custom USB gadget manually!\nPress the power button to exit."),
+				    &ctx);
+
+				free(namelist[n]);
+			}
+		}
+		free(namelist);
 	}
 
 	// NOTE: On the Sage, if the PowerCover is plugged, crossing the Cilix charge thresholds *may* reset the USB connection…
