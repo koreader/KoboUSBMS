@@ -1464,7 +1464,7 @@ int
 		// even with a different gadget setup, until the device is actually plugged in...
 		// So, do something dumb, and check if there *are* unexpected gadgets configured...
 		struct dirent** namelist;
-		int             n = scandir(".", &namelist, is_custom_gadget, alphasort);
+		int             n = scandir("/sys/kernel/config/usb_gadget", &namelist, is_custom_gadget, alphasort);
 		if (n == -1) {
 			LOG(LOG_WARNING, "Could not scan usb_gadget list: scandir: %m");
 		} else {
