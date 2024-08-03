@@ -63,11 +63,6 @@ mtk_usb() {
 		exit 1
 	fi
 
-	# Common
-	mkdir -p /sys/kernel/config/usb_gadget/g1
-	mkdir -p /sys/kernel/config/usb_gadget/g1/strings/0x409
-	PARTITION="${DISK}0p12"
-
 	# Disable the gadget
 	echo "" > /sys/kernel/config/usb_gadget/g1/UDC
 
