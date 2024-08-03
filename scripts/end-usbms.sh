@@ -78,6 +78,8 @@ mtk_usb() {
 	rmdir /sys/kernel/config/usb_gadget/g1/strings/0x409
 	# And remove the gadget
 	rmdir /sys/kernel/config/usb_gadget/g1
+
+	PARTITION="${DISK}0p12"
 }
 
 case "${PLATFORM}" in
