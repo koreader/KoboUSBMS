@@ -1462,7 +1462,7 @@ int
 
 		// Unfortunately, the state will keep saying "not attached",
 		// even with a different gadget setup, until the device is actually plugged in...
-		// So, do something dumb, and check if there *are* unexpected gadgets configured...
+		// So, do something dumb, and *also* check if there *are* unexpected gadgets configured...
 		struct dirent** namelist;
 		int             n = scandir("/sys/kernel/config/usb_gadget", &namelist, is_custom_gadget, alphasort);
 		if (n == -1) {
@@ -1470,7 +1470,7 @@ int
 		} else {
 			while (n--) {
 				LOG(LOG_ERR,
-				    "Device has a custom usb gadget configured (`%s`), aborting",
+				    "Device has a custom usb gadget setup (`%s`), aborting",
 				    namelist[n]->d_name);
 				need_early_abort = true;
 				print_icon("\U000f11f0", &ctx);

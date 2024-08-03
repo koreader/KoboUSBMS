@@ -203,10 +203,21 @@ typedef struct
 #define CM_FRONT_LIGHT_SET    241
 
 // For the "checking for custom usb gadget" scandir
+#define DEFAULT_NICKEL_USB_GADGET "g1"
 static int
     is_custom_gadget(const struct dirent* dir)
 {
-	return strcmp("g1", dir->d_name) != 0;
+	// We only care about directories
+	if (dir->d_type != DT_DIR) {
+		return 0;
+	}
+
+	// Skip . & ..
+	if (dir->d_name[0] == '.') {
+		return 0;
+	} else {
+		return strcmp(DEFAULT_NICKEL_USB_GADGET, dir->d_name) != 0;
+	}
 }
 
 #endif    // __USBMS_H
