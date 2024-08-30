@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-08-03 21:28+0200\n"
-"PO-Revision-Date: 2022-10-17 00:42+0000\n"
-"Last-Translator: 翻译请尽量做到简洁通顺 <1049614369@qq.com>\n"
+"PO-Revision-Date: 2024-08-31 04:09+0000\n"
+"Last-Translator: Shawn Z <mardukforever@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "koreader/kobousbms/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.15-dev\n"
+"X-Generator: Weblate 5.7.1-dev\n"
 
 #: usbms.c:1357
 msgid "USB Mass Storage"
-msgstr "USB 大容量存储设备"
+msgstr "USB大容量存储设备"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1414
