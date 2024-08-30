@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-08-03 21:28+0200\n"
 "PO-Revision-Date: 2024-08-31 04:09+0000\n"
-"Last-Translator: Shawn Z <mardukforever@gmail.com>\n"
+"Last-Translator: rerbin <rerbin@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "koreader/kobousbms/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -43,15 +43,11 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1458 usbms.c:1478
-#, fuzzy
-#| msgid ""
-#| " Please disable USBNet manually!\n"
-#| "Press the power button to exit."
 msgid ""
 " Please disable your custom USB gadget manually!\n"
 "Press the power button to exit."
 msgstr ""
-" 请手动关闭 USBNet！\n"
+" 请手动关闭 USB设备！\n"
 "按下电源按钮以退出。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -84,10 +80,8 @@ msgstr "按下电源按钮以退出。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1647 usbms.c:1770
-#, fuzzy
-#| msgid " The device will shut down in 30 sec."
 msgid " The device will shut down in 90 sec."
-msgstr " 设备将在 30 秒内关机。"
+msgstr " 设备将在 90 秒内关机。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1652 usbms.c:1775
@@ -96,16 +90,12 @@ msgstr "☞ KOReader 现在将重启 …"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1694
-#, fuzzy
-#| msgid ""
-#| " Gave up after 30 sec.\n"
-#| "The device will shut down in 30 sec."
 msgid ""
 " Gave up after 30 sec.\n"
 "The device will shut down in 90 sec."
 msgstr ""
 "☞ 30 秒钟后放弃。\n"
-"设备将在 30 秒内关机。"
+"设备将在 90 秒内关机。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1699
@@ -126,16 +116,12 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1799
-#, fuzzy
-#| msgid ""
-#| " The device was plugged into a plain power source, not a USB host!\n"
-#| "The device will shut down in 30 sec."
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 90 sec."
 msgstr ""
 " 该设备插入的是普通电源，而不是 USB 主机！\n"
-"设备将在 30 秒内关闭。"
+"设备将在 90 秒内关闭。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1804
@@ -148,42 +134,30 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1896
-#, fuzzy
-#| msgid ""
-#| " Gave up after 90 sec.\n"
-#| "The device will shut down in 30 sec."
 msgid ""
 " Gave up after 60 sec.\n"
 "The device will shut down in 90 sec."
 msgstr ""
-"☞ 90 秒后放弃。\n"
-"设备将在 30 秒内关机。"
+"☞ 60 秒后放弃。\n"
+"设备将在 90 秒内关机。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1901
-#, fuzzy
-#| msgid ""
-#| " Gave up after 30 sec.\n"
-#| "KOReader will now restart…"
 msgid ""
 " Gave up after 60 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-"☞ 30秒后放弃\n"
+"☞ 60秒后放弃\n"
 "KOReader 现在将重启...…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2038
-#, fuzzy
-#| msgid ""
-#| " The device is plugged into a plain power source, not a USB host!\n"
-#| "The device will shut down in 30 sec."
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 90 sec."
 msgstr ""
 " 设备插入的是普通电源，而不是 USB 主机！\n"
-"设备将在 30 秒内关机。"
+"设备将在 90 秒内关机。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2043
