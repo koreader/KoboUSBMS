@@ -132,12 +132,22 @@ static void
 			pid = 0x4236;
 			break;
 		case DEVICE_KOBO_LIBRA_COLOUR:      // Kobo Libra Colour (monza)
-		case DEVICE_TOLINO_VISION_COLOR:    // Tolino Vision Color (monza)
-		case DEVICE_KOBO_CLARA_BW:          // Kobo Clara B&W (spa)
-		case DEVICE_TOLINO_SHINE_BW:        // Tolino Shine B&W (spa)
-		case DEVICE_KOBO_CLARA_COLOUR:      // Kobo Clara Colour (spa)
-		case DEVICE_TOLINO_SHINE_COLOR:     // Tolino Shine Color (spa)
 			pid = 0x4237;
+			break;
+		case DEVICE_TOLINO_VISION_COLOR:    // Tolino Vision Color (monza)
+			pid = 0x5237;
+			break;
+		case DEVICE_KOBO_CLARA_BW:          // Kobo Clara B&W (spa)
+			pid = 0x4239;
+			break;
+		case DEVICE_TOLINO_SHINE_BW:        // Tolino Shine B&W (spa)
+			pid = 0x5239;
+			break;
+		case DEVICE_KOBO_CLARA_COLOUR:      // Kobo Clara Colour (spa)
+			pid = 0x4238;
+			break;
+		case DEVICE_TOLINO_SHINE_COLOR:     // Tolino Shine Color (spa)
+			pid = 0x5238;
 			break;
 		case 0U:
 			pid = 0x4163;
