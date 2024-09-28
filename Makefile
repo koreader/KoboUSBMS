@@ -42,13 +42,8 @@ EXTRA_CFLAGS+=-Wall
 EXTRA_CFLAGS+=-Wextra -Wunused
 EXTRA_CFLAGS+=-Wformat=2
 EXTRA_CFLAGS+=-Wformat-signedness
-# NOTE: This doesn't really play nice w/ FORTIFY, leading to an assload of false-positives, unless LTO is enabled
-ifneq (,$(findstring flto,$(CFLAGS)))
-	# NOTE: -Wformat-truncation=2 is still a tad too aggressive w/ GCC 9, so, tone it down to avoid false-positives...
-	EXTRA_CFLAGS+=-Wformat-truncation=1
-else
-	EXTRA_CFLAGS+=-Wno-format-truncation
-endif
+# NOTE: -Wformat-truncation=2 is still a tad too aggressive w/ GCC 14, so, tone it down to avoid false-positives...
+EXTRA_CFLAGS+=-Wformat-truncation=1
 EXTRA_CFLAGS+=-Wnull-dereference
 EXTRA_CFLAGS+=-Wuninitialized
 EXTRA_CFLAGS+=-Wduplicated-branches -Wduplicated-cond
