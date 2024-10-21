@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-28 20:36+0200\n"
-"PO-Revision-Date: 2024-07-10 01:13+0000\n"
-"Last-Translator: NiLuJe <ninuje@gmail.com>\n"
+"PO-Revision-Date: 2024-10-21 13:57+0000\n"
+"Last-Translator: Vitalii <stopchan@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/uk/>\n"
 "Language: uk\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.8-rc\n"
 
 #: usbms.c:1367
 msgid "USB Mass Storage"
@@ -82,7 +82,7 @@ msgstr "Натисніть кнопку живлення, щоб вийти."
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1657 usbms.c:1780
 msgid " The device will shut down in 90 sec."
-msgstr " Пристрій вимкнеться за 90 с."
+msgstr " Пристрій вимкнеться через 90 секунд."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1662 usbms.c:1785
@@ -95,8 +95,8 @@ msgid ""
 " Gave up after 30 sec.\n"
 "The device will shut down in 90 sec."
 msgstr ""
-" Не вдалося впродовж 30 сек.\n"
-"Пристрій вимкнеться через 90 сек."
+" Не вдалося впродовж 30 секунд.\n"
+"Пристрій вимкнеться через 90 секунд."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1709
@@ -104,7 +104,7 @@ msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-" Не вдалося впродовж 30 сек.\n"
+" Не вдалося впродовж 30 секунд.\n"
 "KOReader зараз перезапуститься…"
 
 #: usbms.c:1732
@@ -122,7 +122,7 @@ msgid ""
 "The device will shut down in 90 sec."
 msgstr ""
 " Пристрій підʼєднано до простого джерела живлення, а не до розʼєму USB!\n"
-"Пристрій вимкнеться за 90 с."
+"Пристрій вимкнеться через 90 секунд."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1814
@@ -139,8 +139,8 @@ msgid ""
 " Gave up after 60 sec.\n"
 "The device will shut down in 90 sec."
 msgstr ""
-" Не вдалося впродовж 60 с.\n"
-"Пристрій вимкнеться за 90 с."
+" Не вдалося впродовж 60 секунд.\n"
+"Пристрій вимкнеться через 90 секунд."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1911
@@ -148,7 +148,7 @@ msgid ""
 " Gave up after 60 sec.\n"
 "KOReader will now restart…"
 msgstr ""
-" Не вдалося впродовж 60 сек.\n"
+" Не вдалося впродовж 60 секунд.\n"
 "KOReader зараз перезапуститься…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -158,7 +158,7 @@ msgid ""
 "The device will shut down in 90 sec."
 msgstr ""
 " Пристрій підʼєднано до звичайного джерела живлення, а не до розʼєму USB!\n"
-"Пристрій вимкнеться за 90 с."
+"Пристрій вимкнеться через 90 секунд."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2053
@@ -180,7 +180,7 @@ msgid ""
 "The device will shut down in 90 sec."
 msgstr ""
 " Не вдалося запустити сеанс USBMS!\n"
-"Пристрій вимкнеться через 90 сек."
+"Пристрій вимкнеться через 90 секунд."
 
 #: usbms.c:2124
 msgid ""
@@ -197,7 +197,7 @@ msgid ""
 "The device will shut down in 90 sec."
 msgstr ""
 " Не вдалося виявити подію відʼєднання!\n"
-"Пристрій вимкнеться через 90 сек."
+"Пристрій вимкнеться через 90 секунд."
 
 #: usbms.c:2251
 msgid "Ending USBMS session…"
@@ -210,7 +210,7 @@ msgid ""
 "The device will shut down in 90 sec."
 msgstr ""
 " Не вдалося завершити сеанс USBMS!\n"
-"Пристрій вимкнеться через 90 сек."
+"Пристрій вимкнеться через 90 секунд."
 
 #: usbms.c:2416
 msgid ""
