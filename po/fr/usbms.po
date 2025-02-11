@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-28 20:36+0200\n"
-"PO-Revision-Date: 2025-02-11 20:54+0000\n"
+"PO-Revision-Date: 2025-02-11 20:55+0000\n"
 "Last-Translator: Julien Noblet <julien.noblet+github@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/fr/>\n"
@@ -159,13 +159,14 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2048
+#, fuzzy
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 90 sec."
 msgstr ""
-" L'appareil est branché à une simple source de courant, et non un hôte "
-"USB !\n"
-"L'appareil va s'éteindre dans 90 s."
+" L'appareil est branché à une simple source de courant, et non un hôte USB !"
+"\n"
+"L'appareil va s'éteindre dans 90 s."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2053
@@ -183,12 +184,13 @@ msgstr "Lancement de la session USBMS…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2106
+#, fuzzy
 msgid ""
 " Could not start the USBMS session!\n"
 "The device will shut down in 90 sec."
 msgstr ""
-" Échec du lancement de la session USBMS !\n"
-"L'appareil va s'éteindre dans 90 s."
+" Échec du lancement de la session USBMS !\n"
+"L'appareil va s'éteindre dans 90 s."
 
 #: usbms.c:2124
 msgid ""
@@ -200,12 +202,13 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2241
+#, fuzzy
 msgid ""
 " Could not detect an unplug event!\n"
 "The device will shut down in 90 sec."
 msgstr ""
-" Échec de la détection du débranchement !\n"
-"L'appareil va s'éteindre dans 90 s."
+" Échec de la détection du débranchement !\n"
+"L'appareil va s'éteindre dans 90 s."
 
 #: usbms.c:2251
 msgid "Ending USBMS session…"
@@ -213,12 +216,13 @@ msgstr "Clôture de la session USBMS…"
 
 #. @translators: First Unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2276
+#, fuzzy
 msgid ""
 " Could not end the USBMS session!\n"
 "The device will shut down in 90 sec."
 msgstr ""
-" Échec de la clôture de session USBMS !\n"
-"L'appareil va s'éteindre dans 90 s."
+" Échec de la clôture de session USBMS !\n"
+"L'appareil va s'éteindre dans 90 s."
 
 #: usbms.c:2416
 msgid ""
