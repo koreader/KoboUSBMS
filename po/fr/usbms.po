@@ -159,8 +159,8 @@ msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 90 sec."
 msgstr ""
-" L'appareil est branché à une simple source de courant, et non un hôte USB !"
-"\n"
+" L'appareil est branché à une simple source de courant, et non un hôte "
+"USB !\n"
 "L'appareil va s'éteindre dans 90 s."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
