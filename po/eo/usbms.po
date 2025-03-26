@@ -64,7 +64,6 @@ msgstr " La fuser-programeto malsukcesis!"
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1588
 #, fuzzy
-#| msgid " Failed to run the fuser script!"
 msgid " Could not run the fuser script!"
 msgstr " Malsukcesis ruli la fuser-programeton!"
 
@@ -75,9 +74,6 @@ msgstr ""
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1657 usbms.c:1780
 #, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid " The device will shut down in 90 sec."
 msgstr ""
 " Malsukcesis komenci la seancon de USBMS!\n"
@@ -91,9 +87,6 @@ msgstr " KOReader nun relanĉiĝos…"
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1704
 #, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " Gave up after 30 sec.\n"
 "The device will shut down in 90 sec."
@@ -117,9 +110,6 @@ msgstr ""
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1809
 #, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 90 sec."
@@ -137,9 +127,6 @@ msgstr ""
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1906
 #, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " Gave up after 60 sec.\n"
 "The device will shut down in 90 sec."
@@ -150,7 +137,6 @@ msgstr ""
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1911
 #, fuzzy
-#| msgid " KOReader will now restart…"
 msgid ""
 " Gave up after 60 sec.\n"
 "KOReader will now restart…"
@@ -159,9 +145,6 @@ msgstr " KOReader nun relanĉiĝos…"
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2048
 #, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 90 sec."
@@ -183,9 +166,6 @@ msgstr "Komencante seancon de USBMS…"
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2106
 #, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " Could not start the USBMS session!\n"
 "The device will shut down in 90 sec."
@@ -202,9 +182,6 @@ msgstr ""
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2241
 #, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " Could not detect an unplug event!\n"
 "The device will shut down in 90 sec."
@@ -219,9 +196,6 @@ msgstr ""
 #. @translators: First Unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2276
 #, fuzzy
-#| msgid ""
-#| " Failed to start the USBMS session!\n"
-#| "The device will shutdown in 90 sec."
 msgid ""
 " Could not end the USBMS session!\n"
 "The device will shut down in 90 sec."
