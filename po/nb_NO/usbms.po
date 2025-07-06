@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-28 20:36+0200\n"
-"PO-Revision-Date: 2024-07-10 01:13+0000\n"
-"Last-Translator: NiLuJe <ninuje@gmail.com>\n"
+"PO-Revision-Date: 2025-07-07 21:01+0000\n"
+"Last-Translator: L-M-H <lars.magnus@herland.priv.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
 "koreader/kobousbms/nb_NO/>\n"
 "Language: nb_NO\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.13-dev\n"
 
 #: usbms.c:1367
 msgid "USB Mass Storage"
@@ -43,13 +43,12 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1468 usbms.c:1488
-#, fuzzy
 msgid ""
 " Please disable your custom USB gadget manually!\n"
 "Press the power button to exit."
 msgstr ""
-" Skru av USBNet manuelt.\n"
-"Bruk på/av-knappen for å avslutte."
+"  Vennligst deaktiver den egendefinerte USB-gadgeten manuelt!\n"
+"Trykk på av/på-knappen for å avslutte."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1508
@@ -73,9 +72,8 @@ msgstr " Fuser-skriptet mislyktes."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1588
-#, fuzzy
 msgid " Could not run the fuser script!"
-msgstr " Klarte ikke å kjøpe fuser-skriptet."
+msgstr " Klarte ikke å kjøre fuser-skriptet."
 
 #: usbms.c:1594
 msgid "Press the power button to exit."
