@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-28 20:36+0200\n"
-"PO-Revision-Date: 2025-07-07 21:01+0000\n"
+"PO-Revision-Date: 2025-07-14 17:01+0000\n"
 "Last-Translator: L-M-H <lars.magnus@herland.priv.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
 "koreader/kobousbms/nb_NO/>\n"
@@ -81,9 +81,8 @@ msgstr "Trykk på av/på-knappen for å avslutte."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1657 usbms.c:1780
-#, fuzzy
 msgid " The device will shut down in 90 sec."
-msgstr " Enheten vll slås av om 90 sek."
+msgstr " Enheten vll bli slått av om 90 sek."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1662 usbms.c:1785
