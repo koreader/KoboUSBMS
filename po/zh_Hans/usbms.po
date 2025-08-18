@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-28 20:36+0200\n"
-"PO-Revision-Date: 2025-08-11 13:14+0000\n"
+"PO-Revision-Date: 2025-08-19 09:02+0000\n"
 "Last-Translator: Boyuan Xu <xbywhiteboat@gmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/koreader/kobousbms/zh_Hans/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.13\n"
 
 #: usbms.c:1367
 msgid "USB Mass Storage"
@@ -47,7 +47,7 @@ msgid ""
 " Please disable your custom USB gadget manually!\n"
 "Press the power button to exit."
 msgstr ""
-" 请手动禁用自定义 USB 小工具！\n"
+" 请手动禁用自定义 USB 工具！\n"
 "按开机键退出。"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -62,7 +62,7 @@ msgstr ""
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1543
 msgid " Filesystem is busy! Offending processes:"
-msgstr " 文件系统正忙！以下进程正在使用："
+msgstr " 文件系统正忙！以下进程正在占用："
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
 #: usbms.c:1578
