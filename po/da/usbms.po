@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-28 20:36+0200\n"
-"PO-Revision-Date: 2024-07-10 01:13+0000\n"
-"Last-Translator: NiLuJe <ninuje@gmail.com>\n"
+"PO-Revision-Date: 2025-09-08 14:06+0000\n"
+"Last-Translator: Karl F <karlfritjof@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/da/>\n"
 "Language: da\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: usbms.c:1367
 msgid "USB Mass Storage"
@@ -43,22 +43,20 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1468 usbms.c:1488
-#, fuzzy
 msgid ""
 " Please disable your custom USB gadget manually!\n"
 "Press the power button to exit."
 msgstr ""
-" Deaktiver venligst USBNet manuelt!\n"
+" Deaktiver venligst USB-dims manuelt!\n"
 "Tryk på tænd/sluk-knappen for at afslutte."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1508
-#, fuzzy
 msgid ""
 " Please take the device out of the PowerCover!\n"
 "Press the power button to exit."
 msgstr ""
-" Deaktiver venligst USBNet manuelt!\n"
+" Tag venligst enheden ud af PowerCoveret !\n"
 "Tryk på tænd/sluk-knappen for at afslutte."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
