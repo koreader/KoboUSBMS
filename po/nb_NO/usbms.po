@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-28 20:36+0200\n"
-"PO-Revision-Date: 2025-07-15 21:01+0000\n"
-"Last-Translator: L-M-H <lars.magnus@herland.priv.no>\n"
+"PO-Revision-Date: 2025-11-02 23:51+0000\n"
+"Last-Translator: Fredrik <weblate.org@greebles.eu>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
 "koreader/kobousbms/nb_NO/>\n"
 "Language: nb_NO\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 
 #: usbms.c:1367
 msgid "USB Mass Storage"
@@ -52,13 +52,12 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1508
-#, fuzzy
 msgid ""
 " Please take the device out of the PowerCover!\n"
 "Press the power button to exit."
 msgstr ""
-" Skru av USBNet manuelt.\n"
-"Bruk på/av-knappen for å avslutte."
+" Ta enheten ut av PowerCover!\n"
+"Trykk på av/på-knappen for å avslutte."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1543
@@ -68,12 +67,12 @@ msgstr " Filsystemet er opptatt. Disse prosessene krangler:"
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
 #: usbms.c:1578
 msgid " The fuser script failed!"
-msgstr " Fuser-skriptet mislyktes."
+msgstr " Fuser-skriptet mislyktes!"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1588
 msgid " Could not run the fuser script!"
-msgstr " Klarte ikke å kjøre fuser-skriptet."
+msgstr " Klarte ikke å kjøre fuser-skriptet!"
 
 #: usbms.c:1594
 msgid "Press the power button to exit."
@@ -91,7 +90,6 @@ msgstr " KOReader vil nå starte på ny …"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1704
-#, fuzzy
 msgid ""
 " Gave up after 30 sec.\n"
 "The device will shut down in 90 sec."
@@ -118,7 +116,6 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1809
-#, fuzzy
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 90 sec."
@@ -137,7 +134,6 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1906
-#, fuzzy
 msgid ""
 " Gave up after 60 sec.\n"
 "The device will shut down in 90 sec."
@@ -156,12 +152,11 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2048
-#, fuzzy
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 90 sec."
 msgstr ""
-" Enheten er nå plugget inn i en vanlig ladekilde, ikke en USB-vert.\n"
+" Enheten er plugget inn i en vanlig ladekilde, ikke en USB-vert!\n"
 "Enheten vil nå slås av om 90 sek."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -209,12 +204,11 @@ msgstr "Sluttfører USBMS-økt …"
 
 #. @translators: First Unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2276
-#, fuzzy
 msgid ""
 " Could not end the USBMS session!\n"
 "The device will shut down in 90 sec."
 msgstr ""
-" Klarte ikke å sluttføre USBMS-økt.\n"
+" Klarte ikke å sluttføre USBMS-økt!\n"
 "Enheten vil slås av om 90 sek."
 
 #: usbms.c:2416
