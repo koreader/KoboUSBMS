@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-28 20:36+0200\n"
-"PO-Revision-Date: 2024-07-10 01:13+0000\n"
-"Last-Translator: NiLuJe <ninuje@gmail.com>\n"
+"PO-Revision-Date: 2026-02-16 21:48+0000\n"
+"Last-Translator: Mihai Vasiliu <mihai.vasiliu.93@gmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/ro/>\n"
 "Language: ro\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.16\n"
 
 #: usbms.c:1367
 msgid "USB Mass Storage"
@@ -87,7 +87,7 @@ msgstr " Dispozitivul se va închide în 90 sec."
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1662 usbms.c:1785
 msgid " KOReader will now restart…"
-msgstr " KOReader va reporni acum…"
+msgstr " KOReader se va reporni acum…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1704
@@ -105,7 +105,7 @@ msgid ""
 "KOReader will now restart…"
 msgstr ""
 "S-a renunțat după 30 sec.\n"
-"KOReader va reporni acum…"
+"KOReader se va reporni acum…"
 
 #: usbms.c:1732
 msgid ""
@@ -113,7 +113,7 @@ msgid ""
 "Or, press the power button to exit."
 msgstr ""
 "Se așteaptă conectarea cablului…\n"
-"Apasă butonul de pornire pentru a ieși."
+"Sau apasă butonul de pornire pentru a ieși."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1809
