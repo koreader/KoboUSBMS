@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-28 20:36+0200\n"
-"PO-Revision-Date: 2022-10-10 18:46+0000\n"
-"Last-Translator: MerzaShishani <shishani.merza@gmail.com>\n"
+"PO-Revision-Date: 2026-03-05 04:09+0000\n"
+"Last-Translator: Muataz Abbas <muataz_saif@hotmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/ar/>\n"
 "Language: ar\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 4.14.1\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 #: usbms.c:1367
 msgid "USB Mass Storage"
@@ -82,9 +82,8 @@ msgstr "اضغط زرّ التشغيل للخروج."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1657 usbms.c:1780
-#, fuzzy
 msgid " The device will shut down in 90 sec."
-msgstr "□ سيتم إيقاف تشغيل الجهاز في 30 ثانية."
+msgstr "□ سيتم إطفاء الجهاز خلال30 ثانية."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1662 usbms.c:1785
