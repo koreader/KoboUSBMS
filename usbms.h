@@ -204,6 +204,7 @@ typedef struct
 
 // For the "checking for custom usb gadget" scandir
 #define DEFAULT_NICKEL_USB_GADGET "g1"
+#define DEFAULT_NICKEL_USB_GADGET2 "kobo"
 static int
     is_custom_gadget(const struct dirent* dir)
 {
@@ -216,7 +217,7 @@ static int
 	if (dir->d_name[0] == '.') {
 		return 0;
 	} else {
-		return strcmp(DEFAULT_NICKEL_USB_GADGET, dir->d_name) != 0;
+		return (strcmp(DEFAULT_NICKEL_USB_GADGET, dir->d_name) != 0) && (strcmp(DEFAULT_NICKEL_USB_GADGET2, dir->d_name) != 0);
 	}
 }
 
