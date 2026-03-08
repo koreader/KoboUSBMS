@@ -86,6 +86,7 @@ mtk_usb() {
 	rmdir "/sys/kernel/config/usb_gadget/${GADGET_NAME}"
 
 	# Modern Kobo V5 Firmware has this init script which preconfigures the usb gadget for usb mass storage so nickel USB works again.
+	# Nickel expects the usb gadget to be set up, otherwise mass storage does not work, that's why we call the init script here.
 	# The init script _always_ checks for existance of the kobo usb gadget and creates/configures it if not existing, no parameters needed.
 	if [ -e "/etc/init.d/usb-gadget" ]; then
 	  /etc/init.d/usb-gadget
