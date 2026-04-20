@@ -1413,6 +1413,7 @@ int
 	// And now, on to the fun stuff!
 	bool need_early_abort = false;
 	bool early_unmount    = false;
+	bool had_swap         = false;
 	// If we're in USBNet mode, abort!
 	// (tearing it down properly is out of our scope, since we can't really know how the user enabled it in the first place).
 	if (is_module_loaded("g_ether ")) {
@@ -1521,6 +1522,36 @@ int
 		if (mount_points[i].id != PARTITION_INTERNAL && access(mount_points[i].device, F_OK) != 0) {
 			LOG(LOG_INFO, "%s storage device not available.", mount_points[i].name);
 			continue;
+		}
+
+		// Check if any swap is active on this mountpoint, because it'd make our umount2 test fail…
+		if (!had_swap) {
+			FILE* swaps = fopen("/proc/swaps", "re");
+			if (swaps) {
+				char swap_line[PATH_MAX];
+				// Skip header line
+				if (fgets(swap_line, sizeof(swap_line), swaps)) {
+					const size_t mp_len = strlen(mount_points[i].mountpoint);
+					while (fgets(swap_line, sizeof(swap_line), swaps)) {
+						if (strncmp(swap_line,
+						            mount_points[i].mountpoint,
+						            mp_len) == 0) {
+							LOG(LOG_INFO,
+							    "Swap is active on %s storage, disabling…",
+							    mount_points[i].name);
+							had_swap = true;
+							break;
+						}
+					}
+				}
+				fclose(swaps);
+				if (had_swap) {
+					rc = system("swapoff -a");
+					if (rc != EXIT_SUCCESS) {
+						LOG(LOG_WARNING, "Failed to disable swap (rc: %d)!", rc);
+					}
+				}
+			}
 		}
 
 		// Wee bit of trickery with an obscure umount2 feature, to see if the mountpoint is currently busy,
@@ -2278,6 +2309,15 @@ int
 
 		rv = EXIT_FAILURE;
 		goto cleanup;
+	}
+
+	// Restore swap if we had disabled it earlier
+	if (had_swap) {
+		LOG(LOG_INFO, "Re-enabling swap…");
+		rc = system("swapon -a");
+		if (rc != EXIT_SUCCESS) {
+			LOG(LOG_WARNING, "Failed to re-enable swap (rc: %d)!", rc);
+		}
 	}
 
 	// Handle date/time synchronization, like Nickel
