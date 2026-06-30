@@ -57,27 +57,40 @@ legacy_usb() {
 
 # MTK SoCs, via configfs
 mtk_usb() {
+	# Modern Kobo V5 Firmware uses usb_gadget name kobo, older V5 and v4 uses g1
+	if [ -e "/etc/init.d/usb-gadget" ]; then
+	  GADGET_NAME=kobo
+	else
+	  GADGET_NAME=g1
+	fi
 	# If we're NOT in the middle of an USBMS session, something went wrong...
-	if [ "$(cat /sys/kernel/config/usb_gadget/g1/UDC)" != "11211000.usb" ] ; then
+	if [ "$(cat /sys/kernel/config/usb_gadget/${GADGET_NAME}/UDC)" != "11211000.usb" ] ; then
 		logger -p "DAEMON.ERR" -t "${SCRIPT_NAME}[$$]" "Not in an USBMS session?!"
 		exit 1
 	fi
 
 	# Disable the gadget
-	echo "" > /sys/kernel/config/usb_gadget/g1/UDC
+	echo "" > "/sys/kernel/config/usb_gadget/${GADGET_NAME}/UDC"
 
 	# Unbind function from config
-	rm /sys/kernel/config/usb_gadget/g1/configs/c.1/mass_storage.0
+	rm "/sys/kernel/config/usb_gadget/${GADGET_NAME}/configs/c.1/mass_storage.0"
 	# Remove the config's strings
-	rmdir /sys/kernel/config/usb_gadget/g1/configs/c.1/strings/0x409
+	rmdir "/sys/kernel/config/usb_gadget/${GADGET_NAME}/configs/c.1/strings/0x409"
 	# Remove the config
-	rmdir /sys/kernel/config/usb_gadget/g1/configs/c.1
+	rmdir "/sys/kernel/config/usb_gadget/${GADGET_NAME}/configs/c.1"
 	# Remove the function
-	rmdir /sys/kernel/config/usb_gadget/g1/functions/mass_storage.0
+	rmdir "/sys/kernel/config/usb_gadget/${GADGET_NAME}/functions/mass_storage.0"
 	# Remove the gadget's strings
-	rmdir /sys/kernel/config/usb_gadget/g1/strings/0x409
+	rmdir "/sys/kernel/config/usb_gadget/${GADGET_NAME}/strings/0x409"
 	# And remove the gadget
-	rmdir /sys/kernel/config/usb_gadget/g1
+	rmdir "/sys/kernel/config/usb_gadget/${GADGET_NAME}"
+
+	# Modern Kobo V5 Firmware has this init script which preconfigures the usb gadget for usb mass storage so nickel USB works again.
+	# Nickel expects the usb gadget to be set up, otherwise mass storage does not work, that's why we call the init script here.
+	# The init script _always_ checks for existance of the kobo usb gadget and creates/configures it if not existing, no parameters needed.
+	if [ -e "/etc/init.d/usb-gadget" ]; then
+	  /etc/init.d/usb-gadget
+	fi
 
 	PARTITION="${DISK}0p12"
 }
