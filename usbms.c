@@ -138,6 +138,7 @@ static void
 			pid = 0x5237;
 			break;
 		case DEVICE_KOBO_CLARA_BW:          // Kobo Clara B&W (spa)
+		case DEVICE_KOBO_CLARA_BW_TPV:
 			pid = 0x4239;
 			break;
 		case DEVICE_TOLINO_SHINE_BW:        // Tolino Shine B&W (spa)
