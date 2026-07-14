@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-28 20:36+0200\n"
-"PO-Revision-Date: 2026-01-04 05:01+0000\n"
-"Last-Translator: Tushar Bakshi <tusharbakshi6@gmail.com>\n"
+"PO-Revision-Date: 2026-07-15 14:01+0000\n"
+"Last-Translator: Anamul Haque <anamul.h.nayeem@gmail.com>\n"
 "Language-Team: Bengali <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/bn/>\n"
 "Language: bn\n"
@@ -17,9 +17,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 2026.8.dev0\n"
 
 #: usbms.c:1367
+#, fuzzy
 msgid "USB Mass Storage"
 msgstr "ইউএসবি মাস স্টোরেজ"
 
@@ -29,8 +30,8 @@ msgid ""
 " Please disable USBNet manually!\n"
 "Press the power button to exit."
 msgstr ""
-" ইউএসবি নেট ম্যানুয়ালি অক্ষম করুন!\n"
-"প্রস্থান করতে পাওয়ার বোতাম টিপুন।"
+" ইউএসবি নেট ম্যানুয়ালি বন্ধ করুন!\n"
+"প্রস্থান করতে পাওয়ার বাটন চাপুন।"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1436
