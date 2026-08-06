@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-28 20:36+0200\n"
-"PO-Revision-Date: 2025-03-27 17:50+0000\n"
-"Last-Translator: jafar <qxc6699@gmail.com>\n"
+"PO-Revision-Date: 2026-08-07 09:51+0000\n"
+"Last-Translator: Monirzadeh <Monirzadeh@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Persian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/fa/>\n"
 "Language: fa\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.11-dev\n"
+"X-Generator: Weblate 2026.8.1.dev0\n"
 
 #: usbms.c:1367
 msgid "USB Mass Storage"
@@ -80,9 +80,8 @@ msgstr "دکمه روشن/خاموش را برای خروج فشار دهید."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1657 usbms.c:1780
-#, fuzzy
 msgid " The device will shut down in 90 sec."
-msgstr " دستگاه در ۳۰ ثانیه آینده خاموش خواهد شد."
+msgstr " دستگاه در ۹۰ ثانیه آینده خاموش خواهد شد."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1662 usbms.c:1785
@@ -117,13 +116,12 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1809
-#, fuzzy
 msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 90 sec."
 msgstr ""
 " دستگاه به یک منبع برق معمولی وصل شده است، نه یک میزبان USB!\n"
-"دستگاه بعد از ۳۰ ثانیه خاموش می شود."
+"دستگاه بعد از ۹۰ ثانیه خاموش می شود."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1814
@@ -154,13 +152,12 @@ msgstr ""
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2048
-#, fuzzy
 msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 90 sec."
 msgstr ""
 " دستگاه به یک منبع برق معمولی وصل شده است، نه یک میزبان USB!\n"
-"دستگاه بعد از ۳۰ ثانیه خاموش می‌شود."
+"دستگاه بعد از ۹۰ ثانیه خاموش می‌شود."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2053
