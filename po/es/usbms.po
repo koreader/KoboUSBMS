@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-28 20:36+0200\n"
-"PO-Revision-Date: 2024-07-10 01:13+0000\n"
-"Last-Translator: NiLuJe <ninuje@gmail.com>\n"
+"PO-Revision-Date: 2026-08-09 14:51+0000\n"
+"Last-Translator: Sipnicc <angelacenarguez@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/es/>\n"
 "Language: es\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 
 #: usbms.c:1367
 msgid "USB Mass Storage"
@@ -56,23 +56,24 @@ msgid ""
 " Please take the device out of the PowerCover!\n"
 "Press the power button to exit."
 msgstr ""
-" Extraiga el dispositivo de la funda PowerCover.\n"
+" Por favor, extraiga el dispositivo de la funda PowerCover!\n"
 "Presione el botón de encendido para salir."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1543
+#, fuzzy
 msgid " Filesystem is busy! Offending processes:"
-msgstr " El sistema de archivos está ocupado. Procesos infractores:"
+msgstr " El sistema de archivos está ocupado. Procesos en curso:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
 #: usbms.c:1578
 msgid " The fuser script failed!"
-msgstr " La utilidad «fuser» ha fallado."
+msgstr " El script «fuser» ha fallado."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1588
 msgid " Could not run the fuser script!"
-msgstr " No se ha podido ejecutar la utilidad «fuser»."
+msgstr " No se ha podido ejecutar el script «fuser»."
 
 #: usbms.c:1594
 msgid "Press the power button to exit."
@@ -86,7 +87,7 @@ msgstr " El dispositivo se apagará en 90 segundos."
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1662 usbms.c:1785
 msgid " KOReader will now restart…"
-msgstr " Ahora KOReader se reiniciará…"
+msgstr " KOReader se reiniciará ahora…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1704
@@ -150,7 +151,7 @@ msgid ""
 "KOReader will now restart…"
 msgstr ""
 " Se ha desistido tras 60 segundos.\n"
-"Ahora KOReader se reiniciará…"
+"KOReader se reiniciará ahora…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2048
@@ -170,7 +171,7 @@ msgid ""
 msgstr ""
 " El dispositivo se ha enchufado a una fuente de alimentación, no a un "
 "anfitrión USB.\n"
-"Ahora KOReader se reiniciará…"
+"KOReader se reiniciará ahora…"
 
 #: usbms.c:2074
 msgid "Starting USBMS session…"
@@ -191,7 +192,7 @@ msgid ""
 "Please eject your device safely before unplugging it."
 msgstr ""
 "Sesión de USBMS en curso.\n"
-"Es necesario expulsar el dispositivo de forma segura antes de desconectarlo."
+"Por favor, expulse el dispositivo de forma segura antes de desconectarlo."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2241
