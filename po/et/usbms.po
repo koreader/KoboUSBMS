@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-28 20:36+0200\n"
-"PO-Revision-Date: 2026-02-02 10:01+0000\n"
+"PO-Revision-Date: 2026-11-03 17:51+0000\n"
 "Last-Translator: Priit Jõerüüt <jrthwlate@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/et/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 2026.11.1.dev0\n"
 
 #: usbms.c:1367
 msgid "USB Mass Storage"
@@ -47,6 +47,8 @@ msgid ""
 " Please disable your custom USB gadget manually!\n"
 "Press the power button to exit."
 msgstr ""
+" Palun lülita on USB-vidin välja käsitsi!\n"
+"Väljumiseks vajuta toitenuppu."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1508
@@ -54,30 +56,32 @@ msgid ""
 " Please take the device out of the PowerCover!\n"
 "Press the power button to exit."
 msgstr ""
+" Palun see seade Power-Coverist välja!\n"
+"Väljumiseks vajuta toitenuppu."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1543
 msgid " Filesystem is busy! Offending processes:"
-msgstr ""
+msgstr " Failisüsteem on hõivatud! Sellega seotud protsess:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
 #: usbms.c:1578
 msgid " The fuser script failed!"
-msgstr ""
+msgstr " Fuseri skripti töö ei õnnestunud!"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1588
 msgid " Could not run the fuser script!"
-msgstr ""
+msgstr " Fuseri skripti käivitamine ei õnnestunud!"
 
 #: usbms.c:1594
 msgid "Press the power button to exit."
-msgstr ""
+msgstr "Väljumiseks vajuta toitenuppu."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1657 usbms.c:1780
 msgid " The device will shut down in 90 sec."
-msgstr ""
+msgstr " See seade seiskub 90 sekundi möödumisel."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1662 usbms.c:1785
@@ -90,6 +94,8 @@ msgid ""
 " Gave up after 30 sec.\n"
 "The device will shut down in 90 sec."
 msgstr ""
+" Loobusime 30 sekundi möödumisel.\n"
+"See seade seiskub 90 sekundi möödumisel."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1709
@@ -97,12 +103,16 @@ msgid ""
 " Gave up after 30 sec.\n"
 "KOReader will now restart…"
 msgstr ""
+" Loobusime 30 sekundi möödumisel.\n"
+"KOReader käivitub nüüd uuesti…"
 
 #: usbms.c:1732
 msgid ""
 "Waiting to be plugged in…\n"
 "Or, press the power button to exit."
 msgstr ""
+"Ootan ühendamist…\n"
+"Või vajuta väljumiseks toitenuppu."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1809
@@ -110,6 +120,8 @@ msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 90 sec."
 msgstr ""
+" See seade on ühendatud tavalise toiteallikaga, aga mitte USB hostiga!\n"
+"See seade seiskub 90 sekundi möödumisel."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1814
@@ -117,6 +129,8 @@ msgid ""
 " The device was plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
+" See seade on ühendatud tavalise toiteallikaga, aga mitte USB hostiga!\n"
+"KOReader käivitub nüüd uuesti…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1906
@@ -124,6 +138,8 @@ msgid ""
 " Gave up after 60 sec.\n"
 "The device will shut down in 90 sec."
 msgstr ""
+" Loobusime 60 sekundi möödumisel.\n"
+"See seade seiskub 90 sekundi möödumisel."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1911
@@ -131,6 +147,8 @@ msgid ""
 " Gave up after 60 sec.\n"
 "KOReader will now restart…"
 msgstr ""
+" Loobusime 60 sekundi möödumisel.\n"
+"KOReader käivitub nüüd uuesti…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2048
@@ -138,6 +156,8 @@ msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "The device will shut down in 90 sec."
 msgstr ""
+" See seade on ühendatud tavalise toiteallikaga, aga mitte USB hostiga!\n"
+"See seade seiskub 90 sekundi möödumisel."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2053
@@ -145,6 +165,8 @@ msgid ""
 " The device is plugged into a plain power source, not a USB host!\n"
 "KOReader will now restart…"
 msgstr ""
+" See seade on ühendatud tavalise toiteallikaga, aga mitte USB hostiga!\n"
+"KOReader käivitub nüüd uuesti…"
 
 #: usbms.c:2074
 msgid "Starting USBMS session…"
@@ -156,12 +178,16 @@ msgid ""
 " Could not start the USBMS session!\n"
 "The device will shut down in 90 sec."
 msgstr ""
+" USBMS-sessiooni käivitamine ei õnnestunus!\n"
+"See seade seiskub 90 sekundi möödumisel."
 
 #: usbms.c:2124
 msgid ""
 "USBMS session in progress.\n"
 "Please eject your device safely before unplugging it."
 msgstr ""
+"USBMS-sessioon on töös.\n"
+"Enne ühenduse katkestamist väljasta seade turvaliselt."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2241
@@ -169,10 +195,12 @@ msgid ""
 " Could not detect an unplug event!\n"
 "The device will shut down in 90 sec."
 msgstr ""
+" Lahtiühendamise tuvastamine ei õnnestunud!\n"
+"See seade seiskub 90 sekundi möödumisel."
 
 #: usbms.c:2251
 msgid "Ending USBMS session…"
-msgstr ""
+msgstr "Lõpetan USBMS-sessiooni…"
 
 #. @translators: First Unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2276
@@ -180,9 +208,13 @@ msgid ""
 " Could not end the USBMS session!\n"
 "The device will shut down in 90 sec."
 msgstr ""
+" USBMS-sessiooni lõpetamine ei õnnestunus!\n"
+"See seade seiskub 90 sekundi möödumisel."
 
 #: usbms.c:2416
 msgid ""
 "Done!\n"
 "KOReader will now restart…"
 msgstr ""
+"Valmis!\n"
+"KOReader käivitub nüüd uuesti…"
