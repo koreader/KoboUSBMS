@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-28 20:36+0200\n"
-"PO-Revision-Date: 2026-11-12 03:39+0000\n"
+"PO-Revision-Date: 2026-11-12 16:42+0000\n"
 "Last-Translator: Massimo Pissarello <mapi68@users.noreply.hosted.weblate.org>"
 "\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/koreader/"
@@ -68,12 +68,12 @@ msgstr " Il file system è occupato! Processi responsabili:"
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
 #: usbms.c:1578
 msgid " The fuser script failed!"
-msgstr " Lo script di fusione non è riuscito!"
+msgstr " Lo script fuser non è riuscito!"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1588
 msgid " Could not run the fuser script!"
-msgstr " Impossibile eseguire lo script di fusione!"
+msgstr " Impossibile eseguire lo script fuser!"
 
 #: usbms.c:1594
 msgid "Press the power button to exit."
