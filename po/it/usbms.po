@@ -8,8 +8,9 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-28 20:36+0200\n"
-"PO-Revision-Date: 2026-06-08 10:01+0000\n"
-"Last-Translator: Nicola Bortoletto <nicola.bortoletto@live.com>\n"
+"PO-Revision-Date: 2026-11-12 03:29+0000\n"
+"Last-Translator: Massimo Pissarello <mapi68@users.noreply.hosted.weblate.org>"
+"\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/koreader/"
 "kobousbms/it/>\n"
 "Language: it\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6\n"
+"X-Generator: Weblate 2026.11.2.dev0\n"
 
 #: usbms.c:1367
 msgid "USB Mass Storage"
@@ -38,7 +39,7 @@ msgid ""
 " Please disable USBSerial manually!\n"
 "Press the power button to exit."
 msgstr ""
-" Disattiva manualmente USBSerial!\n"
+" Disabilita manualmente USBSerial!\n"
 "Premi il pulsante di accensione per uscire."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -47,7 +48,7 @@ msgid ""
 " Please disable your custom USB gadget manually!\n"
 "Press the power button to exit."
 msgstr ""
-" Disattiva manualmente il tuo gadget USB personalizzato!\n"
+" Disabilita manualmente il tuo gadget USB personalizzato!\n"
 "Premi il pulsante di accensione per uscire."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
@@ -56,23 +57,23 @@ msgid ""
 " Please take the device out of the PowerCover!\n"
 "Press the power button to exit."
 msgstr ""
-" Togli il dispositivo dalla PowerCover!\n"
+" Estrai il dispositivo dalla PowerCover!\n"
 "Premi il pulsante di accensione per uscire."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1543
 msgid " Filesystem is busy! Offending processes:"
-msgstr " Il file system è occupato! Processi che interferiscono:"
+msgstr " Il file system è occupato! Processi responsabili:"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is. fuser is a program name, leave it as-is.
 #: usbms.c:1578
 msgid " The fuser script failed!"
-msgstr " Lo script fusore è fallito!"
+msgstr " Lo script di fusione non è riuscito!"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1588
 msgid " Could not run the fuser script!"
-msgstr " Impossibile eseguire lo script di unione!"
+msgstr " Impossibile eseguire lo script di fusione!"
 
 #: usbms.c:1594
 msgid "Press the power button to exit."
@@ -81,7 +82,7 @@ msgstr "Premi il pulsante di accensione per uscire."
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1657 usbms.c:1780
 msgid " The device will shut down in 90 sec."
-msgstr " Il dispositivo si spegnerà in 90 secondi."
+msgstr " Il dispositivo si spegnerà tra 90 secondi."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1662 usbms.c:1785
@@ -181,7 +182,7 @@ msgid ""
 "The device will shut down in 90 sec."
 msgstr ""
 " Impossibile avviare la sessione USBMS!\n"
-"Il dispositivo si spegnerà entro 90 secondi."
+"Il dispositivo si spegnerà tra 90 secondi."
 
 #: usbms.c:2124
 msgid ""
@@ -198,7 +199,7 @@ msgid ""
 "The device will shut down in 90 sec."
 msgstr ""
 " Impossibile rilevare l'evento di scollegamento!\n"
-"Il dispositivo si spegnerà entro 90 secondi."
+"Il dispositivo si spegnerà tra 90 secondi."
 
 #: usbms.c:2251
 msgid "Ending USBMS session…"
@@ -211,7 +212,7 @@ msgid ""
 "The device will shut down in 90 sec."
 msgstr ""
 " Impossibile terminare la sessione USBMS!\n"
-"Il dispositivo si spegnerà entro 90 secondi."
+"Il dispositivo si spegnerà tra 90 secondi."
 
 #: usbms.c:2416
 msgid ""
