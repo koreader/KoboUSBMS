@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-28 20:36+0200\n"
-"PO-Revision-Date: 2026-11-12 03:29+0000\n"
+"PO-Revision-Date: 2026-11-12 03:39+0000\n"
 "Last-Translator: Massimo Pissarello <mapi68@users.noreply.hosted.weblate.org>"
 "\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/koreader/"
@@ -112,8 +112,8 @@ msgid ""
 "Waiting to be plugged in…\n"
 "Or, press the power button to exit."
 msgstr ""
-"In attesa di essere collegato...\n"
-"In alternativa, premi il pulsante di alimentazione per uscire."
+"In attesa di essere collegato…\n"
+"Oppure, premi il pulsante di accensione per uscire."
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:1809
@@ -173,7 +173,7 @@ msgstr ""
 
 #: usbms.c:2074
 msgid "Starting USBMS session…"
-msgstr "Avvio sessione USBMS…"
+msgstr "Avvio della sessione USBMS in corso…"
 
 #. @translators: First unicode codepoint is an icon, leave it as-is.
 #: usbms.c:2106
@@ -220,7 +220,7 @@ msgid ""
 "KOReader will now restart…"
 msgstr ""
 "Fatto!\n"
-"KOReader ora verrà riavviato…"
+"KOReader verrà riavviato ora…"
 
 #~ msgid ""
 #~ " Gave up after 90 sec.\n"
